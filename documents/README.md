@@ -5,3 +5,4 @@
 - 디자인
 - ERD
 - event storming
+- mock up
