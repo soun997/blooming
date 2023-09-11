@@ -6,3 +6,6 @@
 - ERD
 - event storming
 - mock up
+
+# Schedule
+- 0911 : 서비스의 상세페이지 구체화
