@@ -32,11 +32,11 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
 const EachFrame = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   cursor: pointer;
   img {
     width: 300px;
-    height: 250px;
+    height: 200px;
     border-radius: 6px;
   }
 `;
@@ -47,7 +47,7 @@ const Info = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     line-height: 25px; /* 125% */
 
