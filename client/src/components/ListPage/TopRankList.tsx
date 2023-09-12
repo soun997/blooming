@@ -62,7 +62,7 @@ const TopRankList = () => {
 };
 
 const RankBox = styled.div`
-  margin-top: 80px;
+  margin-top: 70px;
 `;
 
 const Subtitle = styled.div`

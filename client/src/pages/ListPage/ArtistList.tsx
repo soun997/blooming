@@ -106,7 +106,7 @@ const ArtistList = () => {
 };
 
 const TopFrame = styled.div`
-  margin-top: 103px;
+  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
