@@ -9,19 +9,43 @@ interface Props {
 }
 const ResultList: React.FC<Props> = ({ datas }) => {
   const [isToggled, setIsToggled] = useState(false);
+  const [selectedSort, setSelectedSort] = useState<'popular' | 'recent'>(
+    'popular',
+  );
 
   const handleToggleChange = (checked: boolean) => {
     setIsToggled(checked);
   };
 
+  const handleSortChange = (sort: 'popular' | 'recent') => {
+    setSelectedSort(sort);
+  };
+
   return (
     <ResultFrame>
       <NowToggle>
-        <div className="toggleTitle">모집중인 NFT 만 보기</div>
-        <ToggleButton
-          defaultChecked={isToggled}
-          onChange={handleToggleChange}
-        />
+        <LeftSection>
+          <div className="toggleTitle">모집중인 NFT 만 보기</div>
+          <ToggleButton
+            defaultChecked={isToggled}
+            onChange={handleToggleChange}
+          />
+        </LeftSection>
+        <RightSection>
+          <SortOption
+            onClick={() => handleSortChange('popular')}
+            isSelected={selectedSort === 'popular'}
+          >
+            인기순
+          </SortOption>
+          |
+          <SortOption
+            onClick={() => handleSortChange('recent')}
+            isSelected={selectedSort === 'recent'}
+          >
+            최신순
+          </SortOption>
+        </RightSection>
       </NowToggle>
       <BoxFrame>
         {datas.map((data) => (
@@ -38,13 +62,37 @@ const ResultFrame = styled.div`
   margin-top: 100px;
 `;
 
+const LeftSection = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+const RightSection = styled.div`
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 17px;
+  color: var(--gray-color);
+`;
+
+const SortOption = styled.div<{ isSelected: boolean }>`
+  cursor: pointer;
+  color: ${(props) =>
+    props.isSelected ? 'var(--main1-color)' : 'var(--gray-color)'};
+
+  &:hover {
+    color: var(--main1-color);
+  }
+`;
+
 const NowToggle = styled.div`
   .toggleTitle {
     font-size: 25px;
     font-weight: 700;
   }
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
 `;
 
