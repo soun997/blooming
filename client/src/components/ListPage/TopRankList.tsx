@@ -44,17 +44,21 @@ const dummyData: Data = {
   ],
 };
 
-const TopRankList = () => {
+interface Props {
+  nowStat: string;
+}
+
+const TopRankList: React.FC<Props> = ({ nowStat }) => {
   return (
     <RankBox>
       <Subtitle>NOW BEST 🏆</Subtitle>
       <BoxFrame>
         <LeftFrame>
-          <FirstBox data={dummyData.nowBest[0]} />
+          <FirstBox data={dummyData.nowBest[0]} nowStat={nowStat} />
         </LeftFrame>
         <RightFrame>
-          <SecondBox data={dummyData.nowBest[1]} />
-          <SecondBox data={dummyData.nowBest[2]} />
+          <SecondBox data={dummyData.nowBest[1]} nowStat={nowStat} />
+          <SecondBox data={dummyData.nowBest[2]} nowStat={nowStat} />
         </RightFrame>
       </BoxFrame>
     </RankBox>

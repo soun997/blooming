@@ -99,8 +99,8 @@ const ActiveList = () => {
         </MainTitle>
         <SearchBar nowStat="active" />
       </TopFrame>
-      <TopRankList />
-      <ResultList datas={dummyData.results} />
+      <TopRankList nowStat="active" />
+      <ResultList datas={dummyData.results} nowStat="active" />
     </div>
   );
 };

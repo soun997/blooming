@@ -99,8 +99,8 @@ const ConcertList = () => {
         </MainTitle>
         <SearchBar nowStat="concert" />
       </TopFrame>
-      <TopRankList />
-      <ResultList datas={dummyData.results} />
+      <TopRankList nowStat="concert" />
+      <ResultList datas={dummyData.results} nowStat="concert" />
     </div>
   );
 };

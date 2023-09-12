@@ -6,6 +6,7 @@ import { ReactComponent as RightArrowSvg } from '@assets/icons/angle-right.svg';
 
 interface FirstBoxProps {
   data: ProcessInfo;
+  nowStat: string;
 }
 
 // 남은 일자 계산
@@ -32,7 +33,7 @@ const calculateCntDifference = (now: number, end: number): string => {
   return ((now / end) * 100).toFixed(1);
 };
 
-const FirstBox: React.FC<FirstBoxProps> = ({ data }) => {
+const FirstBox: React.FC<FirstBoxProps> = ({ data, nowStat }) => {
   return (
     <CardBox>
       <img src={data.profile_img}></img>
@@ -62,7 +63,9 @@ const FirstBox: React.FC<FirstBoxProps> = ({ data }) => {
           </ProgressBox>
           <ProgressBox>
             <div className="title">
-              <div className="subtitle">NFT 판매량</div>
+              <div className="subtitle">
+                {nowStat === 'artist' ? 'NFT 판매량' : '펀딩 판매량'}
+              </div>
               <div className="remainDate">
                 {calculateCntDifference(data.nowProcess, data.totalProcess)} %
                 달성
@@ -76,12 +79,14 @@ const FirstBox: React.FC<FirstBoxProps> = ({ data }) => {
           </ProgressBox>
         </RateBox>
       </InfoBox>
-      <ConfirmButton>발행하기</ConfirmButton>
+      <ConfirmButton>
+        {nowStat === 'artist' ? '발행하기' : '펀딩하기'}
+      </ConfirmButton>
     </CardBox>
   );
 };
 
-const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
+const SecondBox: React.FC<FirstBoxProps> = ({ data, nowStat }) => {
   return (
     <CardBoxMedium>
       <img src={data.profile_img}></img>
@@ -111,7 +116,9 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
           </ProgressBox>
           <ProgressBox>
             <div className="title">
-              <div className="subtitle">NFT 판매량</div>
+              <div className="subtitle">
+                {nowStat === 'artist' ? 'NFT 판매량' : '펀딩 판매량'}
+              </div>
               <div className="remainDate">
                 {calculateCntDifference(data.nowProcess, data.totalProcess)} %
                 달성
@@ -125,7 +132,7 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
           </ProgressBox>
         </RateBox>
         <div className="button">
-          <div>발행하기</div>
+          <div>{nowStat === 'artist' ? '발행하기' : '펀딩하기'}</div>
           <RightArrowSvg />
         </div>
       </InfoBoxMedium>

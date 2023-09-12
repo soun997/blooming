@@ -6,8 +6,9 @@ import ThumbnailEach from './ThumbnailEach';
 
 interface Props {
   datas: ProcessInfo[];
+  nowStat: string;
 }
-const ResultList: React.FC<Props> = ({ datas }) => {
+const ResultList: React.FC<Props> = ({ datas, nowStat }) => {
   const [isToggled, setIsToggled] = useState(false);
   const [selectedSort, setSelectedSort] = useState<'popular' | 'recent'>(
     'popular',
@@ -25,7 +26,9 @@ const ResultList: React.FC<Props> = ({ datas }) => {
     <ResultFrame>
       <NowToggle>
         <LeftSection>
-          <div className="toggleTitle">모집중인 NFT 만 보기</div>
+          <div className="toggleTitle">
+            모집중인 {nowStat === 'artist' ? 'NFT' : '펀딩'}만 보기
+          </div>
           <ToggleButton
             defaultChecked={isToggled}
             onChange={handleToggleChange}
