@@ -9,7 +9,7 @@ interface FirstBoxProps {
 }
 
 // 남은 일자 계산
-const calculateDateDifference = (
+export const calculateDateDifference = (
   startDate: string,
   endDate: string,
 ): number => {
@@ -44,7 +44,8 @@ const FirstBox: React.FC<FirstBoxProps> = ({ data }) => {
             <div className="title">
               <div className="subtitle">발행일</div>
               <div className="remainDate">
-                {calculateDateDifference(data.startDate, data.endDate)} 일 남음
+                {calculateDateDifference(new Date().toString(), data.endDate)}{' '}
+                일 남음
               </div>
             </div>
             <ProgressBar>
@@ -91,7 +92,8 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
             <div className="title">
               <div className="subtitle">발행일</div>
               <div className="remainDate">
-                {calculateDateDifference(data.startDate, data.endDate)} 일 남음
+                {calculateDateDifference(new Date().toString(), data.endDate)}{' '}
+                일 남음
               </div>
             </div>
             <ProgressBar>
