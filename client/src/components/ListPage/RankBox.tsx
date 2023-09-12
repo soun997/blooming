@@ -83,9 +83,9 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
   return (
     <CardBoxMedium>
       <img src={data.profile_img}></img>
-      <InfoBox>
+      <InfoBoxMedium>
         <div className="artist_name">{data.name}</div>
-        <div className="artist_desc">{data.desc.slice(0, 200) + '...'}</div>
+        <div className="artist_desc"></div>
         <RateBox>
           <ProgressBox>
             <div className="title">
@@ -124,7 +124,7 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
           <div>발행하기</div>
           <RightArrowSvg />
         </div>
-      </InfoBox>
+      </InfoBoxMedium>
     </CardBoxMedium>
   );
 };
@@ -133,10 +133,13 @@ const CardBoxMedium = styled.div`
   display: flex;
   box-shadow: 0px 0px 10px 0px rgba(48, 97, 185, 0.1);
   img {
-    width: 320px;
-    height: 100%;
+    width: 50%;
     flex-shrink: 0;
     border-radius: 6px 0 0 6px;
+  }
+
+  > div {
+    width: 50%;
   }
 
   .button {
@@ -145,21 +148,26 @@ const CardBoxMedium = styled.div`
     align-items: center;
     margin-top: 50px;
     margin-bottom: -18px;
-    font-size: 16px;
+    margin-right: -10px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 25px; /* 156.25% */
     color: var(--main1-color);
     cursor: pointer;
   }
+
+  .title {
+    font-size: 14px !important;
+  }
 `;
 
 const CardBox = styled.div`
-display : flex;
-flex-direction : column;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0px 0px 10px 0px rgba(48, 97, 185, 0.1);
   img {
-    width: 100%
-    height: 445px;
+    width: 100%;
+    height: 350px;
     flex-shrink: 0;
     border-radius: 6px 6px 0 0;
   }
@@ -169,7 +177,7 @@ const RateBox = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
 `;
 
 const ProgressBox = styled.div`
@@ -177,11 +185,26 @@ const ProgressBox = styled.div`
   flex-direction: column;
 
   .title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 17px; /* 121.429% */
     display: flex;
     justify-content: space-between;
+  }
+`;
+
+const InfoBoxMedium = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 40px 25px;
+  .artist_name {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 25px; /* 100% */
+    margin-top: 20px;
+  }
+  .artist_desc {
+    min-height: 38px;
   }
 `;
 
@@ -194,11 +217,9 @@ const InfoBox = styled.div`
     font-weight: 700;
     line-height: 25px; /* 100% */
   }
-
   .artist_desc {
     margin-top: 30px;
-    height: 130px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     line-height: 22px;
   }
@@ -209,11 +230,11 @@ const ConfirmButton = styled.div`
   width: fit-content;
   margin-bottom: 30px;
   margin-right: 30px;
-  padding: 10px 27px;
+  padding: 7px 21px;
   border-radius: 6px;
   background: var(--main1-color);
   color: var(--white-color);
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 25px; /* 125% */
   cursor: pointer;

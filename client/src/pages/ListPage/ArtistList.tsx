@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
+import ResultList from '@components/ListPage/ResultList';
 
 const ArtistList = () => {
   return (
@@ -13,6 +14,7 @@ const ArtistList = () => {
         <SearchBar />
       </TopFrame>
       <TopRankList />
+      <ResultList />
     </div>
   );
 };

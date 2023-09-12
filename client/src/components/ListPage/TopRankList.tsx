@@ -72,18 +72,19 @@ const Subtitle = styled.div`
 
 const BoxFrame = styled.div`
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-top: 40px;
-  gap: 20px;
 `;
 
 const LeftFrame = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 48%;
 `;
 
 const RightFrame = styled.div`
-  width: 100%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 20px;
