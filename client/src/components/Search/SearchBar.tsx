@@ -1,6 +1,6 @@
-import React from 'react';
-import { ReactComponent as SearchSvg } from '../../assets/icons/search.svg';
+import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
 import styled from 'styled-components';
+
 const SearchBar = () => {
   return (
     <BarFrame>
@@ -32,7 +32,7 @@ const Input = styled.input`
     font-weight: 500;
     line-height: 130%;
     letter-spacing: -0.014px;
-    color: var(--main4-color);
+    color: var(--main1-color);
   }
 
   &:focus {

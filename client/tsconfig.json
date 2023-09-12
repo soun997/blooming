@@ -26,7 +26,8 @@
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@pages/*": ["./src/pages/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@type/*": ["./src/types/*"]
     }
   },
   "include": ["src", "src/custom.d.ts"],

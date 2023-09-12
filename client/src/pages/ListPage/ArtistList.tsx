@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import SearchBar from '../../components/Search/SearchBar';
-import { MainTitle } from '../../style/common';
+import SearchBar from '@components/Search/SearchBar';
+import { MainTitle } from '@style/common';
+import TopRankList from '@components/ListPage/TopRankList';
 
-const ArtistPage = () => {
+const ArtistList = () => {
   return (
     <div>
       <TopFrame>
@@ -11,6 +12,7 @@ const ArtistPage = () => {
         </MainTitle>
         <SearchBar />
       </TopFrame>
+      <TopRankList />
     </div>
   );
 };
@@ -22,4 +24,4 @@ const TopFrame = styled.div`
   justify-content: space-between;
 `;
 
-export default ArtistPage;
+export default ArtistList;
