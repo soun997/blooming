@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Bar, Progress, ProgressBar } from '@style/common';
-import { ArtistInfo } from '@type/Artist';
+import { ProcessInfo } from '@type/ProcessInfo';
 import { ReactComponent as RightArrowSvg } from '@assets/icons/angle-right.svg';
 
 interface FirstBoxProps {
-  data: ArtistInfo;
+  data: ProcessInfo;
 }
 
 // 남은 일자 계산
@@ -64,11 +64,12 @@ const FirstBox: React.FC<FirstBoxProps> = ({ data }) => {
             <div className="title">
               <div className="subtitle">NFT 판매량</div>
               <div className="remainDate">
-                {calculateCntDifference(data.nowNft, data.totalNft)} % 달성
+                {calculateCntDifference(data.nowProcess, data.totalProcess)} %
+                달성
               </div>
             </div>
             <ProgressBar>
-              <Progress score={data.nowNft} total={data.totalNft}>
+              <Progress score={data.nowProcess} total={data.totalProcess}>
                 <Bar></Bar>
               </Progress>
             </ProgressBar>
@@ -112,11 +113,12 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data }) => {
             <div className="title">
               <div className="subtitle">NFT 판매량</div>
               <div className="remainDate">
-                {calculateCntDifference(data.nowNft, data.totalNft)} % 달성
+                {calculateCntDifference(data.nowProcess, data.totalProcess)} %
+                달성
               </div>
             </div>
             <ProgressBar>
-              <Progress score={data.nowNft} total={data.totalNft}>
+              <Progress score={data.nowProcess} total={data.totalProcess}>
                 <Bar></Bar>
               </Progress>
             </ProgressBar>

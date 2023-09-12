@@ -1,11 +1,11 @@
-import { ArtistInfo } from '@type/Artist';
+import { ProcessInfo } from '@type/ProcessInfo';
 import React from 'react';
 import styled from 'styled-components';
 import { calculateDateDifference } from './RankBox';
 import { Bar, Progress, ProgressBar } from '@style/common';
 
 interface Props {
-  data: ArtistInfo;
+  data: ProcessInfo;
 }
 const ThumbnailEach: React.FC<Props> = ({ data }) => {
   return (
@@ -20,7 +20,7 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
           </div>
         </div>
         <ProgressBar>
-          <Progress score={data.nowNft} total={data.totalNft}>
+          <Progress score={data.nowProcess} total={data.totalProcess}>
             <Bar></Bar>
           </Progress>
         </ProgressBar>

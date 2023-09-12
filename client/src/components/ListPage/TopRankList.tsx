@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { ArtistInfo } from '@type/Artist';
+import { ProcessInfo } from '@type/ProcessInfo';
 import { FirstBox, SecondBox } from './RankBox';
 
-interface Props {
-  nowBest: ArtistInfo[];
+interface Data {
+  nowBest: ProcessInfo[];
 }
 
-const dummyData: Props = {
+const dummyData: Data = {
   nowBest: [
     {
       name: '아이유 (IU)',
@@ -16,8 +16,8 @@ const dummyData: Props = {
       profile_img: 'src/assets/images/iu-profile.jpg',
       startDate: '2023-09-01',
       endDate: '2023-10-12',
-      nowNft: 124,
-      totalNft: 300,
+      nowProcess: 124,
+      totalProcess: 300,
     },
     {
       name: '아이유 (IU)',
@@ -27,8 +27,8 @@ const dummyData: Props = {
       profile_img: 'src/assets/images/ive.jpg',
       startDate: '2023-09-01',
       endDate: '2023-10-12',
-      nowNft: 224,
-      totalNft: 300,
+      nowProcess: 224,
+      totalProcess: 300,
     },
     {
       name: '아이유 (IU)',
@@ -38,8 +38,8 @@ const dummyData: Props = {
       profile_img: 'src/assets/images/newjeans.jpg',
       startDate: '2023-09-01',
       endDate: '2023-10-12',
-      nowNft: 124,
-      totalNft: 200,
+      nowProcess: 124,
+      totalProcess: 200,
     },
   ],
 };

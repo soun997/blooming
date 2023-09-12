@@ -90,14 +90,14 @@ const dummyData: Props = {
   ],
 };
 
-const ArtistList = () => {
+const ActiveList = () => {
   return (
     <div>
       <TopFrame>
         <MainTitle>
-          아티스트<div className="dot"></div>
+          활동<div className="dot"></div>
         </MainTitle>
-        <SearchBar nowStat="artist" />
+        <SearchBar nowStat="active" />
       </TopFrame>
       <TopRankList />
       <ResultList datas={dummyData.results} />
@@ -112,4 +112,4 @@ const TopFrame = styled.div`
   justify-content: space-between;
 `;
 
-export default ArtistList;
+export default ActiveList;

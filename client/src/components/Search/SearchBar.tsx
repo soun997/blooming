@@ -1,7 +1,11 @@
 import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
 import styled from 'styled-components';
 
-const SearchBar = () => {
+interface Props {
+  nowStat: string;
+}
+
+const SearchBar: React.FC<Props> = ({ nowStat }) => {
   return (
     <BarFrame>
       <Input placeholder="검색어를 입력해주세요." />

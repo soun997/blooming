@@ -1,11 +1,11 @@
 import ToggleButton from '@components/Button/ToggleButton';
-import { ArtistInfo } from '@type/Artist';
+import { ProcessInfo } from '@type/ProcessInfo';
 import { useState } from 'react';
 import styled from 'styled-components';
 import ThumbnailEach from './ThumbnailEach';
 
 interface Props {
-  datas: ArtistInfo[];
+  datas: ProcessInfo[];
 }
 const ResultList: React.FC<Props> = ({ datas }) => {
   const [isToggled, setIsToggled] = useState(false);
