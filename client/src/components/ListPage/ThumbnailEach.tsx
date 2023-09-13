@@ -38,24 +38,24 @@ const EachFrame = styled.div`
   img {
     width: 300px;
     height: 200px;
-    border-radius: 6px;
+    border-radius: 3px;
   }
 `;
 const Info = styled.div`
-  margin-top: 16px;
+  margin-top: 12px;
 
   .txtInfo {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     line-height: 25px; /* 125% */
 
     .leftDate {
       color: var(--main1-color);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 25px; /* 178.571% */
     }
   }
