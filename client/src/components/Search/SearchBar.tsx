@@ -1,5 +1,6 @@
 import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
 import { ARTIST } from '@components/common/constant';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -7,11 +8,26 @@ interface Props {
 }
 
 const SearchBar: React.FC<Props> = ({ nowStat }) => {
+  const [isArtist, setIsArtist] = useState(false);
+  const handleSearchConditions = () => {
+    setIsArtist(!isArtist);
+  };
+
   return (
     <BarFrame>
-      {nowStat !== ARTIST && <CheckBox>아티스트로 검색하기</CheckBox>}
+      {nowStat !== ARTIST && (
+        <CheckBox onClick={handleSearchConditions}>
+          {isArtist
+            ? '키워드로 검색하시겠습니까?'
+            : '아티스트로 검색하시겠습니까?'}
+        </CheckBox>
+      )}
       <SearchFrame>
-        <Input placeholder="검색어를 입력해주세요." />
+        <Input
+          placeholder={
+            isArtist ? '아티스트 명을 입력해주세요' : '키워드를 입력해주세요.'
+          }
+        />
         <SearchSvg />
       </SearchFrame>
     </BarFrame>
@@ -27,9 +43,10 @@ const SearchFrame = styled.div`
 `;
 const CheckBox = styled.div`
   color: var(--main1-color);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   margin-bottom: 10px;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
