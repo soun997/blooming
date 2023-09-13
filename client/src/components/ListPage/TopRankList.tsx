@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ProcessInfo } from '@type/ProcessInfo';
-import { FirstBox, SecondBox } from './RankBox';
+import MainSwiper from './MainSwiper';
 
 interface Data {
   nowBest: ProcessInfo[];
@@ -20,7 +20,7 @@ const dummyData: Data = {
       totalProcess: 300,
     },
     {
-      name: '아이유 (IU)',
+      name: '아이브 (IVE)',
       desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
                 사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
                 '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
@@ -31,7 +31,7 @@ const dummyData: Data = {
       totalProcess: 300,
     },
     {
-      name: '아이유 (IU)',
+      name: '뉴진스 (New Jeans)',
       desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
                 사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
                 '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
@@ -53,13 +53,7 @@ const TopRankList: React.FC<Props> = ({ nowStat }) => {
     <RankBox>
       <Subtitle>NOW BEST 🏆</Subtitle>
       <BoxFrame>
-        <LeftFrame>
-          <FirstBox data={dummyData.nowBest[0]} nowStat={nowStat} />
-        </LeftFrame>
-        <RightFrame>
-          <SecondBox data={dummyData.nowBest[1]} nowStat={nowStat} />
-          <SecondBox data={dummyData.nowBest[2]} nowStat={nowStat} />
-        </RightFrame>
+        <MainSwiper nowRank={dummyData.nowBest} nowStat={nowStat} />
       </BoxFrame>
     </RankBox>
   );
@@ -79,19 +73,6 @@ const BoxFrame = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   margin-top: 40px;
-`;
-
-const LeftFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 48%;
-`;
-
-const RightFrame = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 `;
 
 export default TopRankList;

@@ -4,6 +4,7 @@ import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
 import { ProcessInfo } from '@type/ProcessInfo';
+import { ARTIST } from '@components/common/constant';
 
 interface Props {
   results: ProcessInfo[];
@@ -97,10 +98,10 @@ const ArtistList = () => {
         <MainTitle>
           아티스트<div className="dot"></div>
         </MainTitle>
-        <SearchBar nowStat="artist" />
+        <SearchBar nowStat={ARTIST} />
       </TopFrame>
-      <TopRankList nowStat="artist" />
-      <ResultList datas={dummyData.results} nowStat="artist" />
+      <TopRankList nowStat={ARTIST} />
+      <ResultList datas={dummyData.results} nowStat={ARTIST} />
     </div>
   );
 };

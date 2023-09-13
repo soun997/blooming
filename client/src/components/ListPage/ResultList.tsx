@@ -16,7 +16,7 @@ interface Props {
   nowStat: string;
 }
 const ResultList: React.FC<Props> = ({ datas, nowStat }) => {
-  const [isToggled, setIsToggled] = useState(false);
+  const [isToggled, setIsToggled] = useState(true);
   const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
 
   const handleToggleChange = (checked: boolean) => {

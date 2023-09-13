@@ -1,8 +1,8 @@
 import { ProcessInfo } from '@type/ProcessInfo';
 import React from 'react';
 import styled from 'styled-components';
-import { calculateDateDifference } from './RankBox';
-import { Bar, Progress, ProgressBar } from '@style/common';
+import { calculateDateDifference } from './EachRankBox';
+import ProgressBarFrame from '@components/Button/ProgressBar';
 
 interface Props {
   data: ProcessInfo;
@@ -19,11 +19,12 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
             남음
           </div>
         </div>
-        <ProgressBar>
-          <Progress score={data.nowProcess} total={data.totalProcess}>
-            <Bar></Bar>
-          </Progress>
-        </ProgressBar>
+        <ProgressBarFrame
+          score={data.nowProcess}
+          total={data.totalProcess}
+          background="var(--main1-color)"
+          height={'6px'}
+        />
       </Info>
     </EachFrame>
   );

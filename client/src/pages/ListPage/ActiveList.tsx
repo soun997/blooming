@@ -4,6 +4,7 @@ import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
 import { ProcessInfo } from '@type/ProcessInfo';
+import { ACTIVE } from '@components/common/constant';
 
 interface Props {
   results: ProcessInfo[];
@@ -97,10 +98,10 @@ const ActiveList = () => {
         <MainTitle>
           활동<div className="dot"></div>
         </MainTitle>
-        <SearchBar nowStat="active" />
+        <SearchBar nowStat={ACTIVE} />
       </TopFrame>
-      <TopRankList nowStat="active" />
-      <ResultList datas={dummyData.results} nowStat="active" />
+      <TopRankList nowStat={ACTIVE} />
+      <ResultList datas={dummyData.results} nowStat={ACTIVE} />
     </div>
   );
 };
