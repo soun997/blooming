@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { Bar, Progress, ProgressBar } from '@style/common';
 import { ProcessInfo } from '@type/ProcessInfo';
 import { ReactComponent as RightArrowSvg } from '@assets/icons/angle-right.svg';
+import {
+  ARTIST,
+  FUNDING_PHRASES,
+  NFT_PHRASES,
+} from '@components/common/constant';
 
 interface FirstBoxProps {
   data: ProcessInfo;
@@ -64,7 +69,7 @@ const FirstBox: React.FC<FirstBoxProps> = ({ data, nowStat }) => {
           <ProgressBox>
             <div className="title">
               <div className="subtitle">
-                {nowStat === 'artist' ? 'NFT 판매량' : '펀딩 판매량'}
+                {nowStat === ARTIST ? NFT_PHRASES.rate : FUNDING_PHRASES.rate}
               </div>
               <div className="remainDate">
                 {calculateCntDifference(data.nowProcess, data.totalProcess)} %
@@ -80,7 +85,7 @@ const FirstBox: React.FC<FirstBoxProps> = ({ data, nowStat }) => {
         </RateBox>
       </InfoBox>
       <ConfirmButton>
-        {nowStat === 'artist' ? '발행하기' : '펀딩하기'}
+        {nowStat === ARTIST ? NFT_PHRASES.buy : FUNDING_PHRASES.buy}
       </ConfirmButton>
     </CardBox>
   );
@@ -117,7 +122,7 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data, nowStat }) => {
           <ProgressBox>
             <div className="title">
               <div className="subtitle">
-                {nowStat === 'artist' ? 'NFT 판매량' : '펀딩 판매량'}
+                {nowStat === ARTIST ? NFT_PHRASES.rate : FUNDING_PHRASES.rate}
               </div>
               <div className="remainDate">
                 {calculateCntDifference(data.nowProcess, data.totalProcess)} %
@@ -132,7 +137,9 @@ const SecondBox: React.FC<FirstBoxProps> = ({ data, nowStat }) => {
           </ProgressBox>
         </RateBox>
         <div className="button">
-          <div>{nowStat === 'artist' ? '발행하기' : '펀딩하기'}</div>
+          <div>
+            {nowStat === ARTIST ? NFT_PHRASES.buy : FUNDING_PHRASES.buy}
+          </div>
           <RightArrowSvg />
         </div>
       </InfoBoxMedium>

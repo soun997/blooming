@@ -3,6 +3,11 @@ import { ProcessInfo } from '@type/ProcessInfo';
 import { useState } from 'react';
 import styled from 'styled-components';
 import ThumbnailEach from './ThumbnailEach';
+import {
+  ARTIST,
+  FUNDING_PHRASES,
+  NFT_PHRASES,
+} from '@components/common/constant';
 
 interface Props {
   datas: ProcessInfo[];
@@ -27,7 +32,9 @@ const ResultList: React.FC<Props> = ({ datas, nowStat }) => {
       <NowToggle>
         <LeftSection>
           <div className="toggleTitle">
-            모집중인 {nowStat === 'artist' ? 'NFT' : '펀딩'}만 보기
+            모집중인{' '}
+            {nowStat === ARTIST ? NFT_PHRASES.name : FUNDING_PHRASES.name}만
+            보기
           </div>
           <ToggleButton
             defaultChecked={isToggled}
