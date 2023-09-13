@@ -7,6 +7,8 @@ import {
   ARTIST,
   FUNDING_PHRASES,
   NFT_PHRASES,
+  POPULAR,
+  RECENTLY,
 } from '@components/common/constant';
 
 interface Props {
@@ -15,15 +17,13 @@ interface Props {
 }
 const ResultList: React.FC<Props> = ({ datas, nowStat }) => {
   const [isToggled, setIsToggled] = useState(false);
-  const [selectedSort, setSelectedSort] = useState<'popular' | 'recent'>(
-    'popular',
-  );
+  const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
 
   const handleToggleChange = (checked: boolean) => {
     setIsToggled(checked);
   };
 
-  const handleSortChange = (sort: 'popular' | 'recent') => {
+  const handleSortChange = (sort: string) => {
     setSelectedSort(sort);
   };
 
@@ -43,15 +43,15 @@ const ResultList: React.FC<Props> = ({ datas, nowStat }) => {
         </LeftSection>
         <RightSection>
           <SortOption
-            onClick={() => handleSortChange('popular')}
-            isSelected={selectedSort === 'popular'}
+            onClick={() => handleSortChange(POPULAR)}
+            isSelected={selectedSort === POPULAR}
           >
             인기순
           </SortOption>
           |
           <SortOption
-            onClick={() => handleSortChange('recent')}
-            isSelected={selectedSort === 'recent'}
+            onClick={() => handleSortChange(RECENTLY)}
+            isSelected={selectedSort === RECENTLY}
           >
             최신순
           </SortOption>

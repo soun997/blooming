@@ -11,3 +11,5 @@ export const FUNDING_PHRASES = {
   buy: '펀딩하기',
   rate: '펀딩 판매량',
 };
+export const POPULAR = 'popular';
+export const RECENTLY = 'recently';
