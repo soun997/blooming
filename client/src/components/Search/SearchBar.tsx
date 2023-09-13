@@ -59,14 +59,15 @@ const Input = styled.input`
   flex: 1 0 0;
   align-self: stretch;
   border-radius: 8px;
-  background: rgba(168, 190, 225, 0.22);
+  background: rgba(179, 180, 181, 0.22);
+  /* background: rgba(168, 190, 225, 0.22); */
 
   &::placeholder {
     font-size: 14px;
     font-weight: 500;
     line-height: 130%;
     letter-spacing: -0.014px;
-    color: var(--main1-color);
+    color: var(--gray-color);
   }
 
   &:focus {
