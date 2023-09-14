@@ -7,6 +7,8 @@ import RepresentInfo from '@components/AddPage/RepresentInfo';
 import Reward from '@components/AddPage/Reward';
 import StoryWrite from '@components/AddPage/StoryWrite';
 import { ReactComponent as LogoutSvg } from '@assets/icons/logout.svg';
+import { FundAddInfo } from '@type/ProcessInfo';
+import { CONCERT } from '@components/common/constant';
 
 const subtitleData = [
   '프로젝트 정보',
@@ -17,18 +19,60 @@ const subtitleData = [
   '대표자 및 정산 정보',
 ];
 
-const components = [
-  <ProjectInfo />,
-  <DefaultInfo />,
-  <StoryWrite />,
-  <Reward />,
-  <Policy />,
-  <RepresentInfo />,
-];
+const InitInfo: FundAddInfo = {
+  projectInfo: {
+    category: CONCERT,
+    makerInfo: {
+      makerName: '',
+      makerAddFile: '',
+      makerNum: '',
+      sealCertificate: '',
+    },
+    targetAmount: 1500000,
+  },
+  defaultInfo: {
+    title: '',
+    image: '',
+    endDate: '',
+    startDate: '',
+  },
+  policyInfo: {
+    service: false,
+    refund: false,
+  },
+  refresentInfo: {
+    refresentor: '',
+    calculateInfo: {
+      email: '',
+      deposit: '',
+      bankbookImage: '',
+    },
+  },
+  storyInfo: {
+    budget: 15000000,
+    image: '',
+    moreInfo: {
+      album_desc: '',
+      album_img: '',
+      track_list: '',
+    },
+    summary: '',
+    teaser: '',
+  },
+};
 
 const AddFund = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
+  const [totalInfo, setTotalInfo] = useState<FundAddInfo>(InitInfo);
+  console.log('상위페이지 데이터 체크 > ', totalInfo);
+  const components = [
+    <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
+    <DefaultInfo />,
+    <StoryWrite />,
+    <Reward />,
+    <Policy />,
+    <RepresentInfo />,
+  ];
   const handleSubtitleClick = (index: number) => {
     setActiveIndex(index);
   };
@@ -103,7 +147,6 @@ const ContextFrame = styled.div`
   display: flex;
 `;
 const LeftContext = styled.div`
-  background-color: #ffffff69;
   width: 20%;
   height: 100vh;
   padding: 50px 0 0 40px;
@@ -118,7 +161,7 @@ interface Props {
 
 const Subtitle = styled.div<Props>`
   color: ${(props) =>
-    props.active ? 'var(--main1-color)' : 'var(--black-color)'};
+    props.active ? 'var(--main1-color)' : 'var(--main2-color)'};
   font-size: 16px;
   font-weight: ${(props) => (props.active ? '700' : '600')};
   margin-bottom: 10px;
@@ -134,6 +177,8 @@ const RightContext = styled.div`
   width: 80%;
   overflow-x: hidden;
   overflow-y: scroll;
+  padding: 40px;
+  background-color: #ffffff69;
 `;
 const Exit = styled.div`
   display: flex;

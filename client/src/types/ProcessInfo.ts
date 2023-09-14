@@ -13,6 +13,7 @@ export interface FundAddInfo {
   defaultInfo: DefaultInfoInAdd;
   storyInfo: StoryInfoInAdd;
   policyInfo: PolicyInAdd;
+  refresentInfo: RepresentInfo;
 }
 
 export type ProjectInfoInAdd = {
