@@ -5,9 +5,11 @@ import com.fivengers.blooming.artist.domain.Artist;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ArtistPersistenceAdapter implements ArtistPort {
 
     private final ArtistMapper artistMapper;
