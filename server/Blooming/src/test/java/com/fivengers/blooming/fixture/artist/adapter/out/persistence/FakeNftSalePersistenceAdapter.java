@@ -42,7 +42,6 @@ public class FakeNftSalePersistenceAdapter implements NftSalePort {
                 .issuesAmount(nftSale.getIssuesAmount())
                 .createdAt(now)
                 .modifiedAt(now)
-                .deleted(nftSale.getDeleted())
                 .artist(nftSale.getArtist())
                 .build();
         store.put(autoIncrementId, persistedNftSale);

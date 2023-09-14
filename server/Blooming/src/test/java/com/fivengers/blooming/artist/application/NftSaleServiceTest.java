@@ -44,7 +44,6 @@ class NftSaleServiceTest {
                 .salesAmount(10000L)
                 .createdAt(now)
                 .modifiedAt(now)
-                .deleted(false)
                 .artist(this.artist)
                 .build();
         nftSalePersistenceAdapter.save(nftSale);
