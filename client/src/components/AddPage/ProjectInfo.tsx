@@ -4,7 +4,10 @@ import { FundAddInfo, ProjectInfoInAdd } from '@type/ProcessInfo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormForText } from './FormComponent';
-import { validCompanyRegistrationNumber } from '@utils/validation/AddProjectInfoValid';
+import {
+  validCompanyName,
+  validCompanyRegistrationNumber,
+} from '@utils/validation/AddProjectInfoValid';
 
 interface Props {
   data: ProjectInfoInAdd;
@@ -43,15 +46,25 @@ const ProjectInfo = ({ data, setData }: Props) => {
   }, []);
 
   useEffect(() => {
-    switch (validInputCheck.validIdx) {
-      case 0:
-        //사업자 등록 번호
-        projectInfo.makerInfo.makerNum = validInputCheck.validValue;
-        setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
-        break;
+    if (validInputCheck.isValid) {
+      switch (validInputCheck.validIdx) {
+        case 0:
+          //사업자 등록 번호
+          projectInfo.makerInfo.makerNum = validInputCheck.validValue;
+          setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
+          break;
 
-      default:
-        break;
+        case 1:
+          //사업자 이름
+          projectInfo.makerInfo.makerName = validInputCheck.validValue;
+          setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
+          break;
+
+        case 2:
+        //사
+        default:
+          break;
+      }
     }
   }, [validInputCheck]);
 
@@ -95,9 +108,9 @@ const ProjectInfo = ({ data, setData }: Props) => {
           <FormForText
             title="상호 법인명"
             placeholder="상호 또는 법인명을 입력해주세요"
-            validIdx={0}
+            validIdx={1}
             setValid={setValidInputCheck}
-            errorCheck={validCompanyRegistrationNumber}
+            errorCheck={validCompanyName}
           ></FormForText>
         </Contents>
       </QuestionFrame>

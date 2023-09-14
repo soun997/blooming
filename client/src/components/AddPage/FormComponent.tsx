@@ -79,11 +79,11 @@ const FormWithValid = styled.div`
   gap: 10px;
 `;
 const FormBox = styled.input<StyleProps>`
-  padding: 5px 10px;
+  padding: 10px 5px 10px;
   border: none;
   width: 300px;
   background: none;
-  border-bottom: 1px solid var(--main1-color);
+  border-bottom: 1px solid var(--main2-color);
   &::placeholder {
     color: var(--gray-color);
     font-weight: 300;
@@ -100,7 +100,7 @@ const CorrectCheck = styled.div`
   color: var(--success-color);
   gap: 5px;
   font-size: 13px;
-  padding: 5px 10px;
+  padding: 10px 5px 10px;
   border: none;
   width: fit-content;
 `;
@@ -110,7 +110,7 @@ const ErrorCheck = styled.div`
   color: var(--error-color);
   gap: 5px;
   font-size: 13px;
-  padding: 5px 10px;
+  padding: 10px 5px 10px;
   border: none;
   width: fit-content;
   /* border-bottom: 1px solid var(--main1-color); */
