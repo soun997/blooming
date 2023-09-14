@@ -173,13 +173,24 @@ const Subtitle = styled.div<Props>`
 `;
 
 const RightContext = styled.div`
-  height: 100vh;
+  height: 500px;
   width: 80%;
-  overflow-x: hidden;
   overflow-y: scroll;
   padding: 40px;
   background-color: #ffffff69;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 100vh;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 3px;
+    background-color: var(--main2-color);
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--main3-color);
+  }
 `;
+
 const Exit = styled.div`
   display: flex;
   align-items: center;
@@ -218,13 +229,5 @@ export default AddFund;
   scroll 바 custom
 
   /* 
-  &::-webkit-scrollbar {
-    width: 14px;
-    height: 100vh;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    height: 100dvh;
-    background-color: #131212;
-  } 
+  
 */

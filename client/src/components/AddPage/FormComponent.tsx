@@ -4,20 +4,28 @@ import { ReactComponent as SuccessSvg } from '@assets/icons/success-check.svg';
 import { ReactComponent as ErrorSvg } from '@assets/icons/error-check.svg';
 import { ValidCheck } from './ProjectInfo';
 
-interface Props {
+interface TextProps {
   title: string;
   placeholder: string;
   validIdx: number;
   setValid: React.Dispatch<React.SetStateAction<ValidCheck>>;
   errorCheck: (keyword: string) => boolean;
 }
+
+interface UploadProps {
+  title: string;
+  subInfo: string[];
+  validIdx: number;
+  setValid: React.Dispatch<React.SetStateAction<ValidCheck>>;
+}
+
 export const FormForText = ({
   title,
   placeholder,
   errorCheck,
   setValid,
   validIdx,
-}: Props) => {
+}: TextProps) => {
   const [keyword, setKeyword] = useState('');
   const [validCheck, setValidCheck] = useState(false);
 
@@ -54,8 +62,28 @@ export const FormForText = ({
   );
 };
 
-export const FormForUpload = () => {
-  return <></>;
+export const FormForUpload = ({
+  title,
+  subInfo,
+  setValid,
+  validIdx,
+}: UploadProps) => {
+  return (
+    <EachFormForText>
+      <ContentTitle>{title}</ContentTitle>
+      <div>
+        <UploadCondition>
+          {subInfo.map((info) => (
+            <div>💁‍♀️ {info}</div>
+          ))}
+        </UploadCondition>
+        <UploadSection>
+          <UploadFileName>첨부 파일을 업로드 해주세요</UploadFileName>
+          <UploadButton>업로드</UploadButton>
+        </UploadSection>
+      </div>
+    </EachFormForText>
+  );
 };
 
 interface StyleProps {
@@ -114,4 +142,34 @@ const ErrorCheck = styled.div`
   border: none;
   width: fit-content;
   /* border-bottom: 1px solid var(--main1-color); */
+`;
+
+const UploadCondition = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  gap: 5px;
+  margin-left: 10px;
+  font-weight: 300;
+`;
+
+const UploadSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  margin-left: 5px;
+  font-size: 14px;
+  color: var(--main1-color);
+`;
+
+const UploadFileName = styled.div`
+  width: 50%;
+`;
+const UploadButton = styled.div`
+  width: fit-content;
+  color: var(--white-color);
+  background-color: var(--main2-color);
+  padding: 7px 15px;
+  border-radius: 6px;
+  cursor: pointer;
 `;

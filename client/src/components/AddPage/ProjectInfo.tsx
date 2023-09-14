@@ -3,7 +3,7 @@ import { MainTitle } from '@style/common';
 import { FundAddInfo, ProjectInfoInAdd } from '@type/ProcessInfo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FormForText } from './FormComponent';
+import { FormForText, FormForUpload } from './FormComponent';
 import {
   validCompanyName,
   validCompanyRegistrationNumber,
@@ -104,14 +104,23 @@ const ProjectInfo = ({ data, setData }: Props) => {
             validIdx={0}
             setValid={setValidInputCheck}
             errorCheck={validCompanyRegistrationNumber}
-          ></FormForText>
+          />
           <FormForText
             title="상호 법인명"
             placeholder="상호 또는 법인명을 입력해주세요"
             validIdx={1}
             setValid={setValidInputCheck}
             errorCheck={validCompanyName}
-          ></FormForText>
+          />
+          <FormForUpload
+            title="사업자 등록증"
+            subInfo={[
+              '가장 최근에 발급한 사업자 등록증을 업로드 해주세요.',
+              'JPG, JPEG, PNG, PDF / 10MB 이하 파일 1개만 업로드 가능해요.',
+            ]}
+            setValid={setValidInputCheck}
+            validIdx={2}
+          />
         </Contents>
       </QuestionFrame>
     </div>
