@@ -1,5 +1,6 @@
-package com.fivengers.blooming.artist.adapter.out.persistence;
+package com.fivengers.blooming.artist.adapter.out.persistence.repository;
 
+import com.fivengers.blooming.artist.adapter.out.persistence.mapper.NftSaleMapper;
 import com.fivengers.blooming.artist.application.port.out.NftSalePort;
 import com.fivengers.blooming.artist.domain.NftSale;
 import com.fivengers.blooming.global.exception.nftsale.NftSaleNotFoundException;

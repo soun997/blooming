@@ -1,5 +1,6 @@
-package com.fivengers.blooming.artist.adapter.out.persistence;
+package com.fivengers.blooming.artist.adapter.out.persistence.repository;
 
+import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
 import com.fivengers.blooming.artist.application.port.out.ArtistPort;
 import com.fivengers.blooming.artist.domain.Artist;
 import java.util.List;

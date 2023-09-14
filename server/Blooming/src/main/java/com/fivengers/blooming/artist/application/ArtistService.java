@@ -1,6 +1,5 @@
 package com.fivengers.blooming.artist.application;
 
-import com.fivengers.blooming.artist.adapter.out.persistence.ArtistPersistenceAdapter;
 import com.fivengers.blooming.artist.application.port.in.ArtistUseCase;
 import com.fivengers.blooming.artist.application.port.out.ArtistPort;
 import com.fivengers.blooming.artist.domain.Artist;

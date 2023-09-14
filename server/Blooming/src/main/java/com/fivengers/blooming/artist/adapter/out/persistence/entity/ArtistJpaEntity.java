@@ -1,4 +1,4 @@
-package com.fivengers.blooming.artist.adapter.out.persistence;
+package com.fivengers.blooming.artist.adapter.out.persistence.entity;
 
 import com.fivengers.blooming.global.audit.BaseTime;
 import jakarta.persistence.Column;
