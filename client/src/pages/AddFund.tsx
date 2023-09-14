@@ -50,7 +50,6 @@ const InitInfo: FundAddInfo = {
   },
   storyInfo: {
     budget: 15000000,
-    image: '',
     moreInfo: {
       album_desc: '',
       album_img: '',
@@ -68,7 +67,7 @@ const AddFund = () => {
   const components = [
     <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
     <DefaultInfo data={totalInfo.defaultInfo} setData={setTotalInfo} />,
-    <StoryWrite />,
+    <StoryWrite data={totalInfo.storyInfo} setData={setTotalInfo} />,
     <Reward />,
     <Policy />,
     <RepresentInfo />,
@@ -145,6 +144,7 @@ const Title = styled.div`
 
 const ContextFrame = styled.div`
   display: flex;
+  overflow-y: hidden;
 `;
 const LeftContext = styled.div`
   width: 20%;
@@ -173,9 +173,10 @@ const Subtitle = styled.div<Props>`
 `;
 
 const RightContext = styled.div`
-  height: 500px;
+  flex-grow: 1; /* 이 부분을 추가합니다. */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤이 생기도록 합니다. */
   width: 80%;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   padding: 40px;
   background-color: #ffffff69;
   &::-webkit-scrollbar {

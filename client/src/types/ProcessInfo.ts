@@ -37,7 +37,6 @@ export type DefaultInfoInAdd = {
 };
 
 export type StoryInfoInAdd = {
-  image: string;
   summary: string;
   teaser: string;
   moreInfo: MoreInfo;

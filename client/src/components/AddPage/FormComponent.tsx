@@ -71,6 +71,58 @@ export const FormForText = ({
   );
 };
 
+export const FormForLongText = ({
+  title,
+  placeholder,
+  errorCheck,
+  setValid,
+  validIdx,
+  initKeyword,
+}: TextProps) => {
+  const [keyword, setKeyword] = useState(initKeyword);
+  const [validCheck, setValidCheck] = useState(false);
+
+  useEffect(() => {
+    setKeyword(initKeyword);
+    const isValid = errorCheck(initKeyword); // 검증 결과 저장
+    setValidCheck(isValid);
+    setValid({ validIdx, validValue: initKeyword, isValid }); //상위 페이지에 결과 전달
+  }, []);
+
+  const handleLongErrorCheck = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setKeyword(value);
+    const isValid = errorCheck(value); // 검증 결과 저장
+    setValidCheck(isValid);
+    setValid({ validIdx, validValue: value, isValid }); //상위 페이지에 결과 전달
+  };
+
+  return (
+    <EachFormForText>
+      <ContentTitle>{title}</ContentTitle>
+      <FormWithValid>
+        <LongFormBox
+          placeholder={placeholder}
+          value={keyword}
+          onChange={handleLongErrorCheck}
+          isLong={true}
+        ></LongFormBox>
+      </FormWithValid>
+      {validCheck ? (
+        <CorrectCheck>
+          <SuccessSvg />
+          확인되었습니다
+        </CorrectCheck>
+      ) : (
+        <ErrorCheck>
+          <ErrorSvg />
+          입력을 확인해주세요
+        </ErrorCheck>
+      )}
+    </EachFormForText>
+  );
+};
+
 export const FormForUpload = ({
   title,
   subInfo,
@@ -103,6 +155,7 @@ export const FormForUpload = ({
 
 interface StyleProps {
   placeholder?: string;
+  isLong?: boolean;
 }
 
 const EachFormForText = styled.div`
@@ -126,12 +179,30 @@ const FormBox = styled.input<StyleProps>`
   border: none;
   width: 300px;
   background: none;
+  height: ${(props) => props.isLong && '400px'};
   border-bottom: 1px solid var(--main2-color);
   &::placeholder {
     color: var(--gray-color);
     font-weight: 300;
   }
 
+  &:focus {
+    outline: none !important;
+  }
+`;
+const LongFormBox = styled.textarea<StyleProps>`
+  padding: 10px 5px 30px;
+  border: none;
+  width: 800px;
+  background: none;
+  height: max-content;
+  border: none;
+  resize: none;
+  border-bottom: 1px solid var(--main2-color);
+  &::placeholder {
+    color: var(--gray-color);
+    font-weight: 300;
+  }
   &:focus {
     outline: none !important;
   }
@@ -187,4 +258,8 @@ const UploadButton = styled.div`
   padding: 7px 15px;
   border-radius: 6px;
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--main1-color);
+  }
 `;
