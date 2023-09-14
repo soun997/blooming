@@ -3,11 +3,11 @@ import { MainTitle } from '@style/common';
 import { useEffect, useState } from 'react';
 import { FundAddInfo, RepresentInfo } from '@type/ProcessInfo';
 import { FormForText, FormForUpload } from './FormComponent';
-import { validCompanyName } from '@utils/validation/AddProjectInfoValid';
 import {
+  validCompanyName,
   validDepositCheck,
   validEmailCheck,
-} from '@utils/validation/AddDefaultInfoValid';
+} from '@utils/validation/AddFundInfoCheck';
 
 interface Props {
   data: RepresentInfo;

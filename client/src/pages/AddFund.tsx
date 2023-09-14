@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DefaultInfo from '@components/AddPage/DefaultInfo';
 import Policy from '@components/AddPage/Policy';
@@ -26,7 +26,7 @@ const InitInfo: FundAddInfo = {
       makerNum: '',
       sealCertificate: '',
     },
-    targetAmount: 1500000,
+    targetAmount: 0,
   },
   defaultInfo: {
     title: '',
@@ -47,7 +47,7 @@ const InitInfo: FundAddInfo = {
     },
   },
   storyInfo: {
-    budget: 15000000,
+    budget: 0,
     moreInfo: {
       album_desc: '',
       album_img: '',
@@ -61,7 +61,7 @@ const InitInfo: FundAddInfo = {
 const AddFund = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [totalInfo, setTotalInfo] = useState<FundAddInfo>(InitInfo);
-  console.log('상위페이지 데이터 체크 > ', totalInfo);
+
   const components = [
     <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
     <DefaultInfo data={totalInfo.defaultInfo} setData={setTotalInfo} />,
@@ -72,6 +72,10 @@ const AddFund = () => {
   const handleSubtitleClick = (index: number) => {
     setActiveIndex(index);
   };
+
+  useEffect(() => {
+    console.log('상위페이지 데이터 체크 > ', totalInfo);
+  }, [totalInfo]);
 
   return (
     <BackgroundGrad>

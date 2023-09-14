@@ -6,7 +6,7 @@ import { MainTitle } from '@style/common';
 import { useEffect, useState } from 'react';
 import { DefaultInfoInAdd, FundAddInfo } from '@type/ProcessInfo';
 import { FormForText, FormForUpload } from './FormComponent';
-import { validFundingTitleCheck } from '@utils/validation/AddDefaultInfoValid';
+import { validFundingTitleCheck } from '@utils/validation/AddFundInfoCheck';
 import { ReactComponent as DateSvg } from '@assets/icons/date.svg';
 import { ReactComponent as ArrowSvg } from '@assets/icons/arrow-right.svg';
 

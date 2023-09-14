@@ -8,7 +8,7 @@ import {
   validCompanyName,
   validCompanyRegistrationNumber,
   validTargetAmount,
-} from '@utils/validation/AddProjectInfoValid';
+} from '@utils/validation/AddFundInfoCheck';
 
 interface Props {
   data: ProjectInfoInAdd;

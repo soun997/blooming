@@ -6,7 +6,7 @@ import { FormForLongText, FormForText, FormForUpload } from './FormComponent';
 import {
   validIntroduce,
   validTotalAmount,
-} from '@utils/validation/AddStoryInfoValid';
+} from '@utils/validation/AddFundInfoCheck';
 
 interface Props {
   data: StoryInfoInAdd;
