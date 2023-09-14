@@ -7,6 +7,7 @@ import { FormForText, FormForUpload } from './FormComponent';
 import {
   validCompanyName,
   validCompanyRegistrationNumber,
+  validTargetAmount,
 } from '@utils/validation/AddProjectInfoValid';
 
 interface Props {
@@ -61,7 +62,22 @@ const ProjectInfo = ({ data, setData }: Props) => {
           break;
 
         case 2:
-        //사
+          //사업자 등록증
+          projectInfo.makerInfo.makerAddFile = validInputCheck.validValue;
+          setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
+          break;
+
+        case 3:
+          //법인인감증명서
+          projectInfo.makerInfo.sealCertificate = validInputCheck.validValue;
+          setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
+          break;
+        case 4:
+          //목표금액
+          projectInfo.targetAmount = parseInt(validInputCheck.validValue, 10);
+          setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
+          break;
+
         default:
           break;
       }
@@ -120,6 +136,29 @@ const ProjectInfo = ({ data, setData }: Props) => {
             ]}
             setValid={setValidInputCheck}
             validIdx={2}
+          />
+          <FormForUpload
+            title="법인 인감 증명서"
+            subInfo={[
+              '발급 후 3개월이 지나지 않은 법인 인감증명서만 업로드할 수 있어요.',
+              '공동 대표라면 모든 공동 대표자의 법인 인감증명서를 업로드해야해요.',
+              '주민등록번호 뒷자리는 노출되지 않도록 가려주세요.',
+              'JPG, JPEG, PNG, PDF / 10MB 이하 파일 1개만 업로드 가능해요.',
+            ]}
+            setValid={setValidInputCheck}
+            validIdx={3}
+          />
+        </Contents>
+      </QuestionFrame>
+      <QuestionFrame>
+        <Subtitle>목표금액을 설정해주세요!</Subtitle>
+        <Contents>
+          <FormForText
+            title="최소 50만원 ~ 최대 1억원 사이에서 설정해주세요"
+            placeholder="목표 금액을 입력해주세요."
+            validIdx={4}
+            setValid={setValidInputCheck}
+            errorCheck={validTargetAmount}
           />
         </Contents>
       </QuestionFrame>

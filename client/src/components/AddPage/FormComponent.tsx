@@ -68,6 +68,12 @@ export const FormForUpload = ({
   setValid,
   validIdx,
 }: UploadProps) => {
+  const handleUpload = () => {
+    const value = 'url-upload';
+    const isValid = true; //업로드 성공시
+    setValid({ validIdx, validValue: value, isValid }); //상위 페이지에 결과 전달
+  };
+
   return (
     <EachFormForText>
       <ContentTitle>{title}</ContentTitle>
@@ -79,7 +85,7 @@ export const FormForUpload = ({
         </UploadCondition>
         <UploadSection>
           <UploadFileName>첨부 파일을 업로드 해주세요</UploadFileName>
-          <UploadButton>업로드</UploadButton>
+          <UploadButton onClick={handleUpload}>업로드</UploadButton>
         </UploadSection>
       </div>
     </EachFormForText>

@@ -7,4 +7,17 @@ const validCompanyName = (keyword: string) => {
   return keyword.length >= 1;
 };
 
-export { validCompanyRegistrationNumber, validCompanyName };
+const validTargetAmount = (keyword: string) => {
+  const numericPart = keyword.replace(/\D/g, '');
+  if (keyword.length !== numericPart.length) {
+    return false;
+  }
+  const amount = parseInt(numericPart, 10);
+  if (isNaN(amount) || amount < 500000 || amount > 100000000) {
+    return false;
+  }
+
+  return true;
+};
+
+export { validCompanyRegistrationNumber, validCompanyName, validTargetAmount };
