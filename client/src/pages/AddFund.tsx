@@ -71,9 +71,23 @@ const AddFund = () => {
     <Policy data={totalInfo.policyInfo} setData={setTotalInfo} />,
     <RepresentInfo data={totalInfo.refresentInfo} setData={setTotalInfo} />,
   ];
+
   const handleSubtitleClick = (index: number) => {
     setActiveIndex(index);
   };
+
+  const handleTemporarySave = () => {
+    sessionStorage.setItem('add-fund', JSON.stringify(totalInfo));
+  };
+
+  useEffect(() => {
+    const temporaryData = sessionStorage.getItem('add-fund');
+    if (temporaryData) {
+      if (confirm('임시 저장된 데이터가 있습니다')) {
+        setTotalInfo(JSON.parse(temporaryData));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     console.log('상위페이지 데이터 체크 > ', totalInfo);
@@ -87,7 +101,12 @@ const AddFund = () => {
       <AddFrame>
         <TopInfoFrame>
           <Title>내 펀딩 등록</Title>
-          <AddButton isSubmit={canSubmit}>등록하기</AddButton>
+          <div className="button">
+            <TemporaryButton onClick={handleTemporarySave}>
+              임시저장
+            </TemporaryButton>
+            <AddButton isSubmit={canSubmit}>등록하기</AddButton>
+          </div>
         </TopInfoFrame>
         <ContextFrame>
           <LeftContext>
@@ -215,6 +234,11 @@ const TopInfoFrame = styled.div`
   justify-content: space-between;
 
   border-bottom: 0.1px solid var(--white-color);
+
+  .button {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 interface StyleProps {
@@ -235,11 +259,17 @@ const AddButton = styled.div<StyleProps>`
   cursor: pointer;
 `;
 
+const TemporaryButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 30px;
+  /* background-color: var(--white-color); */
+  color: var(--main1-color);
+  font-weight: 700;
+  margin-right: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+`;
+
 export default AddFund;
-
-/*
-  scroll 바 custom
-
-  /* 
-  
-*/
