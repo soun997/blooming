@@ -1,4 +1,4 @@
-package com.fivengers.blooming.artist.application.port;
+package com.fivengers.blooming.artist.application;
 
 import com.fivengers.blooming.artist.application.port.in.NftSaleUseCase;
 import com.fivengers.blooming.artist.application.port.out.NftSalePort;
