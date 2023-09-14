@@ -1,5 +1,6 @@
 package com.fivengers.blooming.artist.domain;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,6 +12,8 @@ public class NftSale {
     private Integer saleCount;
     private Long issuesAmount;
     private Long salesAmount;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     private Boolean deleted;
     private Artist artist;
 
@@ -20,6 +23,8 @@ public class NftSale {
             Integer saleCount,
             Long issuesAmount,
             Long salesAmount,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt,
             Boolean deleted,
             Artist artist) {
         this.id = id;
@@ -27,6 +32,8 @@ public class NftSale {
         this.saleCount = saleCount;
         this.issuesAmount = issuesAmount;
         this.salesAmount = salesAmount;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
         this.deleted = deleted;
         this.artist = artist;
     }

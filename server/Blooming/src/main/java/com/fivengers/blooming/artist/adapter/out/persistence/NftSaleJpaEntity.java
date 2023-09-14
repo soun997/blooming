@@ -1,5 +1,6 @@
 package com.fivengers.blooming.artist.adapter.out.persistence;
 
+import com.fivengers.blooming.global.audit.BaseTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "nft_sale")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NftSaleJpaEntity {
+public class NftSaleJpaEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
