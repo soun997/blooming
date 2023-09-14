@@ -2,6 +2,7 @@ package com.fivengers.blooming.artist.application;
 
 import com.fivengers.blooming.artist.adapter.out.persistence.ArtistPersistenceAdapter;
 import com.fivengers.blooming.artist.application.port.in.ArtistUseCase;
+import com.fivengers.blooming.artist.application.port.out.ArtistPort;
 import com.fivengers.blooming.artist.domain.Artist;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ArtistService implements ArtistUseCase {
 
-    private final ArtistPersistenceAdapter artistPersistenceAdapter;
+    private final ArtistPort artistPort;
 
     @Override
     public List<Artist> searchAll() {
-        return artistPersistenceAdapter.findAll();
+        return artistPort.findAll();
     }
 }
