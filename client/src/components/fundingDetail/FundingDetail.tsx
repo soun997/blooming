@@ -1,62 +1,127 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { Navigation } from 'swiper/modules';
+import { FreeMode, Pagination } from 'swiper/modules';
 
 const MainPage = () => {
-  const albumInfoRef = useRef(null);
-  const revenueAnalysisRef = useRef(null);
-  const otherActionRef = useRef(null);
-  const artistPortfolioRef = useRef(null);
-  const investmentInfoRef = useRef(null);
-  const handleScrollToInvestmentInfo = (ref) => {
-    ref.current.scrollIntoView({ behavior: 'smooth' });
+  const albumInfoRef = useRef<HTMLDivElement>(null);
+  const revenueAnalysisRef = useRef<HTMLDivElement>(null);
+  const otherActionRef = useRef<HTMLDivElement>(null);
+  const artistPortfolioRef = useRef<HTMLDivElement>(null);
+  const investmentInfoRef = useRef<HTMLDivElement>(null);
+
+  const [activeSection, setActiveSection] =
+    useState<React.RefObject<HTMLDivElement> | null>(null);
+
+  const handleScrollToInvestmentInfo = (
+    ref: React.RefObject<HTMLDivElement>,
+  ) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+      // setActiveSection(ref);
+    }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const sections = [
+        albumInfoRef,
+        revenueAnalysisRef,
+        otherActionRef,
+        artistPortfolioRef,
+        investmentInfoRef,
+      ];
+
+      // Find the first section that is currently in the viewport
+      for (const sectionRef of sections) {
+        if (sectionRef.current) {
+          const sectionTop = sectionRef.current.offsetTop;
+          const sectionHeight = sectionRef.current.offsetHeight;
+
+          if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionTop + sectionHeight
+          ) {
+            setActiveSection(sectionRef);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <FundingDetailBox>
       <div className="funding_detail">투자 상품 상세</div>
       <TabBox>
-        <button
-          className="tab_btn"
-          onClick={() => {
-            handleScrollToInvestmentInfo(albumInfoRef);
-          }}
-        >
-          앨범 정보
-        </button>
-        <button
-          className="tab_btn"
-          onClick={() => {
-            handleScrollToInvestmentInfo(revenueAnalysisRef);
-          }}
-        >
-          지난 활동 수익 분석
-        </button>
-        <button
-          className="tab_btn"
-          onClick={() => {
-            handleScrollToInvestmentInfo(otherActionRef);
-          }}
-        >
-          기타 활동
-        </button>
-        <button
-          className="tab_btn"
-          onClick={() => {
-            handleScrollToInvestmentInfo(artistPortfolioRef);
-          }}
-        >
-          아티스트 포트폴리오
-        </button>
-        <button
-          className="tab_btn"
-          onClick={() => {
-            handleScrollToInvestmentInfo(investmentInfoRef);
-          }}
-        >
-          투자 위험 안내
-        </button>
+        <ButtonBox>
+          <button
+            className={`tab_btn ${
+              activeSection === albumInfoRef ? 'active' : ''
+            }`}
+            onClick={() => {
+              handleScrollToInvestmentInfo(albumInfoRef);
+            }}
+          >
+            앨범 정보
+          </button>
+          <button
+            className={`tab_btn ${
+              activeSection === revenueAnalysisRef ? 'active' : ''
+            }`}
+            onClick={() => {
+              handleScrollToInvestmentInfo(revenueAnalysisRef);
+            }}
+          >
+            지난 활동 수익 분석
+          </button>
+          <button
+            className={`tab_btn ${
+              activeSection === otherActionRef ? 'active' : ''
+            }`}
+            onClick={() => {
+              handleScrollToInvestmentInfo(otherActionRef);
+            }}
+          >
+            기타 활동
+          </button>
+          <button
+            className={`tab_btn ${
+              activeSection === artistPortfolioRef ? 'active' : ''
+            }`}
+            onClick={() => {
+              handleScrollToInvestmentInfo(artistPortfolioRef);
+            }}
+          >
+            아티스트 포트폴리오
+          </button>
+          <button
+            className={`tab_btn ${
+              activeSection === investmentInfoRef ? 'active' : ''
+            }`}
+            onClick={() => {
+              handleScrollToInvestmentInfo(investmentInfoRef);
+            }}
+          >
+            투자 위험 안내
+          </button>
+        </ButtonBox>
       </TabBox>
-
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <DetailBox>
         <AlbumInfoBox ref={albumInfoRef}>
           <div className="detail_title">앨범 정보</div>
@@ -170,62 +235,198 @@ const MainPage = () => {
                 alt="메인 앨범 이미지"
                 className="main_album_img"
               />
-              <MainAlbumTextBox>
-                <div className="main_album_title">
-                  KIM JAEHWAN Single Album 봄바람
-                </div>
-                <div className="main_album_soldout">마감</div>
-              </MainAlbumTextBox>
-              <AlbumListBox>
-                <img
-                  src="src/assets/images/sub_album_img1.png"
-                  alt="서브 앨범 이미지 1"
-                  className="album_list_img"
-                />
-                <img
-                  src="src/assets/images/sub_album_img2.png"
-                  alt="서브 앨범 이미지 2"
-                  className="album_list_img"
-                />
-                <img
-                  src="src/assets/images/sub_album_img3.png"
-                  alt="서브 앨범 이미지 3"
-                  className="album_list_img"
-                />
-                <img
-                  src="src/assets/images/sub_album_img4.png"
-                  alt="서브 앨범 이미지 4"
-                  className="album_list_img"
-                />
-              </AlbumListBox>
             </RevenueAlbumBox>
+
             <RevenueGraphBox>
               <img
                 src="src/assets/images/graph.png"
                 alt="수익분석그래프"
                 className="revenue_graph"
               />
-
-              <RevenueBarBox>
-                <RevenueBarTextBox>
-                  <div className="bar_title">달성액</div>
-                  <div className="bar_info">223,000,000 원</div>
-                </RevenueBarTextBox>
-                <div className="bar"></div>
-                <RevenueBarTextBox2>
-                  <div className="revenue_bar_title">증권 발행일</div>
-                  <div className="revenue_bar_content">2023.09.22</div>
-                </RevenueBarTextBox2>
-                <RevenueBarTextBox2>
-                  <div className="revenue_bar_title">수익률</div>
-                  <div className="revenue_bar_content">+12%</div>
-                </RevenueBarTextBox2>
-              </RevenueBarBox>
             </RevenueGraphBox>
+            <MainAlbumTextBox>
+              <div className="main_album_title">
+                KIM JAEHWAN Single Album 봄바람
+              </div>
+              <div className="main_album_soldout">마감</div>
+            </MainAlbumTextBox>
+            <RevenueBarBox>
+              <RevenueBarTextBox>
+                <div className="bar_title">달성액</div>
+                <div className="bar_info">223,000,000 원</div>
+              </RevenueBarTextBox>
+              <div className="bar"></div>
+            </RevenueBarBox>
+
+            <AlbumListBox>
+              <img
+                src="src/assets/images/sub_album_img1.png"
+                alt="서브 앨범 이미지 1"
+                className="album_list_img"
+              />
+              <img
+                src="src/assets/images/sub_album_img2.png"
+                alt="서브 앨범 이미지 2"
+                className="album_list_img"
+              />
+              <img
+                src="src/assets/images/sub_album_img3.png"
+                alt="서브 앨범 이미지 3"
+                className="album_list_img"
+              />
+              <img
+                src="src/assets/images/sub_album_img4.png"
+                alt="서브 앨범 이미지 4"
+                className="album_list_img"
+              />
+            </AlbumListBox>
+
+            <RevenueBarInfoBox>
+              <RevenueBarInfoTextBox>
+                <div className="revenue_bar_title">증권 발행일</div>
+                <div className="revenue_bar_content">2023.09.22</div>
+              </RevenueBarInfoTextBox>
+              <RevenueBarInfoTextBox>
+                <div className="revenue_bar_title">수익률</div>
+                <div className="revenue_bar_content">+12%</div>
+              </RevenueBarInfoTextBox>
+            </RevenueBarInfoBox>
           </RevenueBox>
         </RevenueAnalysisBox>
         <OtherActionBox ref={otherActionRef}>
           <div className="detail_title">기타 활동</div>
+          <ActionVideoBox>
+            <Swiper
+              slidesPerView={2}
+              centeredSlides={true}
+              spaceBetween={30}
+              grabCursor={true}
+              // pagination={{
+              //   clickable: true,
+              // }}
+              modules={[Navigation]}
+              className="mySwiper"
+            >
+              <SwiperSlide className="swiper-slide">
+                <iframe
+                  width="100%"
+                  height="261px"
+                  src="https://www.youtube.com/embed/NPyS5VSgxyw?si=Wtg0LZc8aaxdKqom"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <iframe
+                  width="100%"
+                  height="261px"
+                  src="https://www.youtube.com/embed/kmbMEZq8tIg?si=lt_HvN8A5tKB77TZ"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <iframe
+                  width="100%"
+                  height="261px"
+                  src="https://www.youtube.com/embed/aMsuBUtUQzQ?si=ITt-nRcURgVLCNae"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <iframe
+                  width="100%"
+                  height="261px"
+                  src="https://www.youtube.com/embed/Q6NieNXfLB8?si=RaeI-eSO2AYNJgsb"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <iframe
+                  width="100%"
+                  height="261px"
+                  src="https://www.youtube.com/embed/F_g-W7fqmhI?si=1uI5NW20QEAhd9bK"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </SwiperSlide>
+            </Swiper>
+          </ActionVideoBox>
+          <BroadPosterBox>
+            <Swiper
+              slidesPerView={2}
+              centeredSlides={true}
+              spaceBetween={30}
+              grabCursor={true}
+              // pagination={{
+              //   clickable: true,
+              // }}
+              modules={[Navigation]}
+              className="mySwiper"
+            >
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster1.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster2.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster3.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster4.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster5.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster6.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="swiper-slide">
+                <img
+                  src="src/assets/images/broad_poster7.jfif"
+                  alt=""
+                  className="borad_poster"
+                />
+              </SwiperSlide>
+            </Swiper>
+          </BroadPosterBox>
         </OtherActionBox>
         <PortfolioBox ref={artistPortfolioRef}>
           <div className="detail_title">아티스트 포트폴리오</div>
@@ -369,12 +570,59 @@ const Portfolio = styled.div`
 const PortfolioBox = styled.div``;
 
 // 기타 활동
+const BroadPosterBox = styled.div`
+  display: flex;
+  /* flex-wrap: wrap; */
+  overflow: hidden;
+  justify-content: space-around;
+  height: 270px;
+
+  .borad_poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 부모 요소에 맞게 조절되도록 */
+  }
+
+  .swiper {
+    width: 40%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    width: 20%;
+  }
+  .swiper-wrapper {
+    display: -webkit-inline-box;
+  }
+`;
+
+const ActionVideoBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  justify-content: space-around;
+  align-items: center;
+  height: 300px;
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-slide {
+    width: 40%;
+  }
+  .swiper-wrapper {
+    display: -webkit-inline-box;
+  }
+`;
+
 const OtherActionBox = styled.div``;
 
 // 지난 활동 수익 분석
 
-const RevenueBarTextBox2 = styled.div`
+const RevenueBarInfoTextBox = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-right: 35px;
 
   .revenue_bar_title {
     font-size: 16px;
@@ -391,6 +639,7 @@ const RevenueBarTextBox2 = styled.div`
 `;
 const RevenueBarTextBox = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   .bar_title {
     font-size: 18px;
@@ -406,7 +655,17 @@ const RevenueBarTextBox = styled.div`
     margin-right: 35px;
   }
 `;
+
+const RevenueBarInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 const RevenueBarBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   .bar {
     height: 11px;
     background-color: #c7c7c7;
@@ -419,7 +678,7 @@ const RevenueBarBox = styled.div`
 
 const AlbumListBox = styled.div`
   display: flex;
-
+  object-fit: cover;
   .album_list_img {
     padding: 10px;
   }
@@ -427,7 +686,8 @@ const AlbumListBox = styled.div`
 const MainAlbumTextBox = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 15px 0;
+  align-items: center;
+
   .main_album_title {
     font-size: 14px;
     font-weight: 600;
@@ -444,19 +704,23 @@ const MainAlbumTextBox = styled.div`
 `;
 
 const RevenueGraphBox = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+
+  .revenue_graph {
+    width: 100%;
+  }
 `;
 
 const RevenueAlbumBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  margin-left: 14px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 const RevenueBox = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 300px 25px 120px; /* 각 행의 높이를 개별적으로 설정 */
+  grid-gap: 15px;
 `;
 
 const RevenueAnalysisBox = styled.div``;
@@ -546,21 +810,34 @@ const DetailBox = styled.div`
     margin-bottom: 36px;
   }
 `;
-const TabBox = styled.div`
+const ButtonBox = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 100%;
-  height: 100%;
+`;
+const TabBox = styled.div`
+  padding-top: 10px;
+  z-index: 999;
+  position: fixed;
+  top: 30px;
+  /* 반응형 나중에 수정 */
+  width: 960px;
+  height: auto;
 
-  border-bottom: 3px #c7c7c7;
+  border-bottom: 3px #c7c7c7 solid;
+  background-color: #fcfcfc;
 
   .tab_btn {
+    &.active {
+      color: black;
+    }
+
     border: none;
     background: none;
     padding: 15px;
+    width: 10;
 
-    color: var(--Black, var(--black-color, #000));
-    font-size: 20px;
+    color: #a8bee1;
+    font-size: 19px;
     font-weight: 700;
     line-height: 25px;
 
@@ -570,11 +847,18 @@ const TabBox = styled.div`
 
 const FundingDetailBox = styled.div`
   .funding_detail {
+    z-index: 999;
+    position: fixed;
+    background-color: #fcfcfc;
+    display: block;
+    width: 960px;
+
     font-size: 25px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     color: #000000;
+    margin-bottom: 70px;
   }
 `;
 
