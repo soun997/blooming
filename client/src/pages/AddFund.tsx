@@ -4,7 +4,6 @@ import DefaultInfo from '@components/AddPage/DefaultInfo';
 import Policy from '@components/AddPage/Policy';
 import ProjectInfo from '@components/AddPage/ProjectInfo';
 import RepresentInfo from '@components/AddPage/RepresentInfo';
-import Reward from '@components/AddPage/Reward';
 import StoryWrite from '@components/AddPage/StoryWrite';
 import { ReactComponent as LogoutSvg } from '@assets/icons/logout.svg';
 import { FundAddInfo } from '@type/ProcessInfo';
@@ -14,7 +13,6 @@ const subtitleData = [
   '프로젝트 정보',
   '기본 정보',
   '스토리 작성',
-  '리워드 설계',
   '정책',
   '대표자 및 정산 정보',
 ];
@@ -68,8 +66,7 @@ const AddFund = () => {
     <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
     <DefaultInfo data={totalInfo.defaultInfo} setData={setTotalInfo} />,
     <StoryWrite data={totalInfo.storyInfo} setData={setTotalInfo} />,
-    <Reward />,
-    <Policy />,
+    <Policy data={totalInfo.policyInfo} setData={setTotalInfo} />,
     <RepresentInfo />,
   ];
   const handleSubtitleClick = (index: number) => {
@@ -196,7 +193,7 @@ const Exit = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 60px;
+  margin-top: 55%;
   color: var(--error-color);
   font-size: 14px;
   font-weight: 700;
