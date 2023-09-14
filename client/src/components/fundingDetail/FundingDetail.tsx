@@ -259,26 +259,44 @@ const MainPage = () => {
             </RevenueBarBox>
 
             <AlbumListBox>
-              <img
-                src="src/assets/images/sub_album_img1.png"
-                alt="서브 앨범 이미지 1"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img2.png"
-                alt="서브 앨범 이미지 2"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img3.png"
-                alt="서브 앨범 이미지 3"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img4.png"
-                alt="서브 앨범 이미지 4"
-                className="album_list_img"
-              />
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={15}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+              >
+                <SwiperSlide className="swiper-slide">
+                  <img
+                    src="src/assets/images/sub_album_img1.png"
+                    alt="서브 앨범 이미지 1"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="swiper-slide">
+                  <img
+                    src="src/assets/images/sub_album_img2.png"
+                    alt="서브 앨범 이미지 2"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="swiper-slide">
+                  <img
+                    src="src/assets/images/sub_album_img3.png"
+                    alt="서브 앨범 이미지 3"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="swiper-slide">
+                  <img
+                    src="src/assets/images/sub_album_img4.png"
+                    alt="서브 앨범 이미지 4"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+              </Swiper>
             </AlbumListBox>
 
             <RevenueBarInfoBox>
@@ -678,8 +696,27 @@ const RevenueBarBox = styled.div`
 
 const AlbumListBox = styled.div`
   display: flex;
-  object-fit: cover;
+  flex-wrap: wrap;
+  overflow: hidden;
+  justify-content: space-around;
+  align-items: center;
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-slide {
+    width: 40%;
+  }
+  .swiper-wrapper {
+    display: -webkit-inline-box;
+  }
+
   .album_list_img {
+    display: flex;
+    flex-direction: row;
+    /* width: 100%; */
+    /* height: 100%; */
+    /* object-fit: cover; */
     padding: 10px;
   }
 `;
@@ -691,14 +728,14 @@ const MainAlbumTextBox = styled.div`
   .main_album_title {
     font-size: 14px;
     font-weight: 600;
-    line-height: 25px;
+    /* line-height: 25px; */
   }
 
   .main_album_soldout {
     color: var(--Error, #e30f0f);
     font-size: 14px;
     font-weight: 600;
-    line-height: 25px;
+    /* line-height: 25px; */
     margin-right: 5px;
   }
 `;
@@ -712,14 +749,17 @@ const RevenueGraphBox = styled.div`
 `;
 
 const RevenueAlbumBox = styled.div`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  .main_album_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 const RevenueBox = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 300px 25px 120px; /* 각 행의 높이를 개별적으로 설정 */
+  grid-template-columns: 2fr 3fr;
+  /* grid-template-rows: 300px 25px 120px;  */
+  grid-template-rows: auto auto auto;
   grid-gap: 15px;
 `;
 
@@ -734,7 +774,7 @@ const Tablecolumn2 = styled.td`
   font-size: 14px;
   font-weight: 500;
   line-height: 30px;
-  padding: 15px 30px;
+  padding: 7px 30px;
 `;
 const Tablecolumn1 = styled.th`
   font-size: 14px;
@@ -743,7 +783,7 @@ const Tablecolumn1 = styled.th`
   text-align: center;
   width: 22%;
   background-color: #ebf7f2;
-  padding: 15px 30px;
+  padding: 7px 30px;
 `;
 
 const TableContainer = styled.table`
@@ -817,7 +857,7 @@ const ButtonBox = styled.div`
 const TabBox = styled.div`
   padding-top: 10px;
   z-index: 999;
-  position: fixed;
+  position: sticky;
   top: 30px;
   /* 반응형 나중에 수정 */
   width: 960px;
