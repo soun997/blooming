@@ -1,9 +1,14 @@
-import { MainTitle } from '@style/common';
-import { DefaultInfoInAdd, FundAddInfo } from '@type/ProcessInfo';
-import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/esm/locale'; //한국어 설정
 import styled from 'styled-components';
+import { MainTitle } from '@style/common';
+import { useEffect, useState } from 'react';
+import { DefaultInfoInAdd, FundAddInfo } from '@type/ProcessInfo';
 import { FormForText, FormForUpload } from './FormComponent';
 import { validFundingTitleCheck } from '@utils/validation/AddDefaultInfoValid';
+import { ReactComponent as DateSvg } from '@assets/icons/date.svg';
+import { ReactComponent as ArrowSvg } from '@assets/icons/arrow-right.svg';
 
 interface Props {
   data: DefaultInfoInAdd;
@@ -26,6 +31,7 @@ const updatedefaultInfo = (
   };
 };
 
+const today = new Date();
 const DefaultInfo = ({ data, setData }: Props) => {
   const [defaultInfo, setDefaultInfo] = useState<DefaultInfoInAdd>(data);
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
@@ -33,6 +39,14 @@ const DefaultInfo = ({ data, setData }: Props) => {
     validValue: '',
     isValid: false,
   });
+  const [startDate, setStartDate] = useState<Date>(
+    defaultInfo.startDate.length === 0
+      ? today
+      : new Date(defaultInfo.startDate),
+  );
+  const [endDate, setEndDate] = useState<Date>(
+    defaultInfo.endDate.length === 0 ? today : new Date(defaultInfo.endDate),
+  );
 
   useEffect(() => {
     if (validInputCheck.isValid) {
@@ -47,19 +61,19 @@ const DefaultInfo = ({ data, setData }: Props) => {
           defaultInfo.title = validInputCheck.validValue;
           setData((prevInfo) => updatedefaultInfo(prevInfo, defaultInfo));
           break;
-        case 2:
-          // 프로젝트 시작일, 종료일
-          const startDate = validInputCheck.validValue.split(',')[0];
-          const endDate = validInputCheck.validValue.split(',')[1];
-          defaultInfo.startDate = startDate;
-          defaultInfo.endDate = endDate;
-          setData((prevInfo) => updatedefaultInfo(prevInfo, defaultInfo));
-          break;
         default:
           break;
       }
     }
   }, [validInputCheck]);
+
+  useEffect(() => {
+    if (startDate < endDate) {
+      defaultInfo.startDate = startDate.toString();
+      defaultInfo.endDate = endDate.toString();
+      setData((prevInfo) => updatedefaultInfo(prevInfo, defaultInfo));
+    }
+  }, [startDate, endDate]);
 
   return (
     <div>
@@ -95,16 +109,29 @@ const DefaultInfo = ({ data, setData }: Props) => {
       </QuestionFrame>
       <QuestionFrame>
         <Subtitle>펀딩 시작일과 종료일을 알려주세요</Subtitle>
-        <Contents>
-          <FormForText
-            title="최대 30글자만 가능합니다"
-            placeholder="펀딩 타이틀을 입력해주세요."
-            validIdx={1}
-            setValid={setValidInputCheck}
-            errorCheck={validFundingTitleCheck}
-            initKeyword={defaultInfo.title}
-          />
-        </Contents>
+        <DateFrame>
+          <DateBox1>
+            <DateSvg />
+            <StyledDatePicker // DatePicker의 styled-component명
+              locale={ko} //한글
+              dateFormat="yyyy.MM.dd"
+              selected={startDate}
+              closeOnScroll={true} // 스크롤을 움직였을 때 자동으로 닫히도록 설정 기본값 false
+              onChange={(date: Date) => setStartDate(date)}
+            />
+          </DateBox1>
+          <ArrowSvg />
+          <DateBox2>
+            <DateSvg />
+            <StyledDatePicker
+              locale={ko} //한글
+              dateFormat="yyyy.MM.dd"
+              selected={endDate}
+              closeOnScroll={true} // 스크롤을 움직였을 때 자동으로 닫히도록 설정 기본값 false
+              onChange={(date: Date) => setEndDate(date)}
+            />
+          </DateBox2>
+        </DateFrame>
       </QuestionFrame>
     </div>
   );
@@ -147,4 +174,36 @@ const Contents = styled.div`
   }
 `;
 
+const DateBox1 = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const DateBox2 = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+`;
+
+const DateFrame = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: -20px;
+  margin-left: 10px;
+`;
+
+const StyledDatePicker = styled(DatePicker)`
+  width: 100px;
+  height: fit-content;
+  border: none;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 100%;
+  padding: 20px 15px;
+  background-color: transparent;
+
+  &:focus {
+    outline: none !important;
+  }
+`;
 export default DefaultInfo;
