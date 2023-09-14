@@ -1,6 +1,6 @@
-package com.fivengers.blooming.artist.adapter.out.persistence;
+package com.fivengers.blooming.artist.adapter.out.persistence.mapper;
 
-import com.fivengers.blooming.artist.domain.Artist;
+import com.fivengers.blooming.artist.adapter.out.persistence.entity.NftSaleJpaEntity;
 import com.fivengers.blooming.artist.domain.NftSale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ public class NftSaleMapper {
 
     private final ArtistMapper artistMapper;
 
-    NftSale toDomain(NftSaleJpaEntity nftSaleJpaEntity) {
+    public NftSale toDomain(NftSaleJpaEntity nftSaleJpaEntity) {
         return NftSale.builder()
                 .id(nftSaleJpaEntity.getId())
                 .issueCount(nftSaleJpaEntity.getIssueCount())
@@ -22,7 +22,7 @@ public class NftSaleMapper {
                 .build();
     }
 
-    NftSaleJpaEntity toEntity(NftSale nftSale) {
+    public NftSaleJpaEntity toEntity(NftSale nftSale) {
         return NftSaleJpaEntity.builder()
                 .issueCount(nftSale.getIssueCount())
                 .saleCount(nftSale.getSaleCount())
