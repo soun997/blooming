@@ -8,6 +8,7 @@ import StoryWrite from '@components/AddPage/StoryWrite';
 import { ReactComponent as LogoutSvg } from '@assets/icons/logout.svg';
 import { FundAddInfo } from '@type/ProcessInfo';
 import { CONCERT } from '@components/common/constant';
+import { validateFundAddInfo } from '@utils/validation/AddFundInfoCheck';
 
 const subtitleData = [
   '프로젝트 정보',
@@ -61,6 +62,7 @@ const InitInfo: FundAddInfo = {
 const AddFund = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [totalInfo, setTotalInfo] = useState<FundAddInfo>(InitInfo);
+  const [canSubmit, setIsSubmit] = useState<boolean>(false);
 
   const components = [
     <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
@@ -75,6 +77,9 @@ const AddFund = () => {
 
   useEffect(() => {
     console.log('상위페이지 데이터 체크 > ', totalInfo);
+    if (validateFundAddInfo(totalInfo)) {
+      setIsSubmit(true);
+    }
   }, [totalInfo]);
 
   return (
@@ -82,7 +87,7 @@ const AddFund = () => {
       <AddFrame>
         <TopInfoFrame>
           <Title>내 펀딩 등록</Title>
-          <AddButton>등록하기</AddButton>
+          <AddButton isSubmit={canSubmit}>등록하기</AddButton>
         </TopInfoFrame>
         <ContextFrame>
           <LeftContext>
@@ -212,13 +217,18 @@ const TopInfoFrame = styled.div`
   border-bottom: 0.1px solid var(--white-color);
 `;
 
-const AddButton = styled.div`
+interface StyleProps {
+  isSubmit: boolean;
+}
+const AddButton = styled.div<StyleProps>`
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px 30px;
-  background-color: var(--white-color);
-  color: var(--main1-color);
+  background-color: ${(props) =>
+    props.isSubmit ? `var(--main1-color)` : `var(--white-color)`};
+  color: ${(props) =>
+    props.isSubmit ? `var(--white-color)` : `var(--main1-color)`};
   font-weight: 700;
   margin-right: 30px;
   border-radius: 6px;

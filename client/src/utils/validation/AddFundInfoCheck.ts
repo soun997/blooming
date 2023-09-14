@@ -1,3 +1,5 @@
+import { FundAddInfo } from '@type/ProcessInfo';
+
 const validFundingTitleCheck = (keyword: string) => {
   return 0 < keyword.length && keyword.length <= 30;
 };
@@ -48,6 +50,47 @@ const validTotalAmount = (keyword: string) => {
   return true;
 };
 
+// 문자열 필드의 검증 함수
+const isNonEmptyString = (value: string): boolean => {
+  return value.length > 0;
+};
+
+// 숫자 필드의 검증 함수
+const isPositiveNumber = (value: number): boolean => {
+  return value > 0;
+};
+
+// FundAddInfo 객체의 필드 검증 함수
+const validateFundAddInfo = (info: FundAddInfo): boolean => {
+  const { projectInfo, defaultInfo, policyInfo, refresentInfo, storyInfo } =
+    info;
+
+  return (
+    isNonEmptyString(projectInfo.category) &&
+    isNonEmptyString(projectInfo.makerInfo.makerName) &&
+    isNonEmptyString(projectInfo.makerInfo.makerAddFile) &&
+    isNonEmptyString(projectInfo.makerInfo.makerNum) &&
+    isNonEmptyString(projectInfo.makerInfo.sealCertificate) &&
+    isPositiveNumber(projectInfo.targetAmount) &&
+    isNonEmptyString(defaultInfo.title) &&
+    isNonEmptyString(defaultInfo.image) &&
+    isNonEmptyString(defaultInfo.endDate) &&
+    isNonEmptyString(defaultInfo.startDate) &&
+    policyInfo.service &&
+    policyInfo.refund &&
+    isNonEmptyString(refresentInfo.refresentor) &&
+    isNonEmptyString(refresentInfo.calculateInfo.email) &&
+    isNonEmptyString(refresentInfo.calculateInfo.deposit) &&
+    isNonEmptyString(refresentInfo.calculateInfo.bankbookImage) &&
+    isPositiveNumber(storyInfo.budget) &&
+    isNonEmptyString(storyInfo.moreInfo.album_desc) &&
+    isNonEmptyString(storyInfo.moreInfo.album_img) &&
+    isNonEmptyString(storyInfo.moreInfo.track_list) &&
+    isNonEmptyString(storyInfo.summary) &&
+    isNonEmptyString(storyInfo.teaser)
+  );
+};
+
 export {
   validFundingTitleCheck,
   validEmailCheck,
@@ -57,4 +100,5 @@ export {
   validTargetAmount,
   validIntroduce,
   validTotalAmount,
+  validateFundAddInfo,
 };
