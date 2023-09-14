@@ -14,7 +14,6 @@ public class NftSale {
     private Long salesAmount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Boolean deleted;
     private Artist artist;
 
     @Builder
@@ -25,7 +24,6 @@ public class NftSale {
             Long salesAmount,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt,
-            Boolean deleted,
             Artist artist) {
         this.id = id;
         this.issueCount = issueCount;
@@ -34,7 +32,6 @@ public class NftSale {
         this.salesAmount = salesAmount;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.deleted = deleted;
         this.artist = artist;
     }
 }

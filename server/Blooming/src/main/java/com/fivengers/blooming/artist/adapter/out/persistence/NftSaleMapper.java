@@ -18,7 +18,6 @@ public class NftSaleMapper {
                 .saleCount(nftSaleJpaEntity.getSaleCount())
                 .issuesAmount(nftSaleJpaEntity.getIssuesAmount())
                 .salesAmount(nftSaleJpaEntity.getSalesAmount())
-                .deleted(nftSaleJpaEntity.getDeleted())
                 .artist(artistMapper.toDomain(nftSaleJpaEntity.getArtist()))
                 .build();
     }
@@ -29,7 +28,7 @@ public class NftSaleMapper {
                 .saleCount(nftSale.getSaleCount())
                 .issuesAmount(nftSale.getIssuesAmount())
                 .salesAmount(nftSale.getSalesAmount())
-                .deleted(nftSale.getDeleted())
+                .deleted(false)
                 .artist(artistMapper.toJpaEntity(nftSale.getArtist()))
                 .build();
     }
