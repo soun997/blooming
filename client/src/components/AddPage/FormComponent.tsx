@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as SuccessSvg } from '@assets/icons/success-check.svg';
 import { ReactComponent as ErrorSvg } from '@assets/icons/error-check.svg';
@@ -10,6 +10,7 @@ interface TextProps {
   validIdx: number;
   setValid: React.Dispatch<React.SetStateAction<ValidCheck>>;
   errorCheck: (keyword: string) => boolean;
+  initKeyword: string;
 }
 
 interface UploadProps {
@@ -25,9 +26,17 @@ export const FormForText = ({
   errorCheck,
   setValid,
   validIdx,
+  initKeyword,
 }: TextProps) => {
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState(initKeyword);
   const [validCheck, setValidCheck] = useState(false);
+
+  useEffect(() => {
+    setKeyword(initKeyword);
+    const isValid = errorCheck(initKeyword); // 검증 결과 저장
+    setValidCheck(isValid);
+    setValid({ validIdx, validValue: initKeyword, isValid }); //상위 페이지에 결과 전달
+  }, []);
 
   const handleErrorCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

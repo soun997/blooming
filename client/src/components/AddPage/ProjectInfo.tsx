@@ -120,6 +120,7 @@ const ProjectInfo = ({ data, setData }: Props) => {
             validIdx={0}
             setValid={setValidInputCheck}
             errorCheck={validCompanyRegistrationNumber}
+            initKeyword={projectInfo.makerInfo.makerNum}
           />
           <FormForText
             title="상호 법인명"
@@ -127,6 +128,7 @@ const ProjectInfo = ({ data, setData }: Props) => {
             validIdx={1}
             setValid={setValidInputCheck}
             errorCheck={validCompanyName}
+            initKeyword={projectInfo.makerInfo.makerName}
           />
           <FormForUpload
             title="사업자 등록증"
@@ -159,6 +161,7 @@ const ProjectInfo = ({ data, setData }: Props) => {
             validIdx={4}
             setValid={setValidInputCheck}
             errorCheck={validTargetAmount}
+            initKeyword={projectInfo.targetAmount.toString()}
           />
         </Contents>
       </QuestionFrame>
