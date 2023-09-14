@@ -29,4 +29,12 @@ public class Artist {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
+
+    public static Artist from(String stageName, String agency, String description) {
+        return Artist.builder()
+                .stageName(stageName)
+                .agency(agency)
+                .description(description)
+                .build();
+    }
 }
