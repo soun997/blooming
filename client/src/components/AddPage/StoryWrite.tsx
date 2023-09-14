@@ -195,25 +195,4 @@ const Contents = styled.div`
   }
 `;
 
-interface styleProps {
-  active?: boolean;
-}
-
-const Chip = styled.div<styleProps>`
-  cursor: pointer;
-  width: fit-content;
-  height: fit-content;
-  padding: 10px 20px;
-  background-color: ${(props) =>
-    props.active ? 'var(--main1-color)' : 'var(--gray-color)'};
-  color: var(--white-color);
-  font-size: 14px;
-  font-weight: 400;
-  border-radius: 6px;
-
-  &:hover {
-    background-color: var(--main1-color);
-  }
-`;
-
 export default StoryWrite;
