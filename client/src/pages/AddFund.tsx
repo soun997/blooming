@@ -67,7 +67,7 @@ const AddFund = () => {
     <DefaultInfo data={totalInfo.defaultInfo} setData={setTotalInfo} />,
     <StoryWrite data={totalInfo.storyInfo} setData={setTotalInfo} />,
     <Policy data={totalInfo.policyInfo} setData={setTotalInfo} />,
-    <RepresentInfo />,
+    <RepresentInfo data={totalInfo.refresentInfo} setData={setTotalInfo} />,
   ];
   const handleSubtitleClick = (index: number) => {
     setActiveIndex(index);

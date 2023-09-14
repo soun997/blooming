@@ -140,8 +140,8 @@ export const FormForUpload = ({
       <ContentTitle>{title}</ContentTitle>
       <div>
         <UploadCondition>
-          {subInfo.map((info) => (
-            <div>💁‍♀️ {info}</div>
+          {subInfo.map((info, idx) => (
+            <div key={idx}>💁‍♀️ {info}</div>
           ))}
         </UploadCondition>
         <UploadSection>
