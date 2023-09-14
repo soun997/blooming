@@ -67,7 +67,7 @@ const AddFund = () => {
   console.log('상위페이지 데이터 체크 > ', totalInfo);
   const components = [
     <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
-    <DefaultInfo />,
+    <DefaultInfo data={totalInfo.defaultInfo} setData={setTotalInfo} />,
     <StoryWrite />,
     <Reward />,
     <Policy />,
