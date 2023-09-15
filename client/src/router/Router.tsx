@@ -5,7 +5,7 @@ import ConcertList from '@pages/ListPage/ConcertList';
 import ActiveList from '@pages/ListPage/ActiveList';
 import AddFund from '@pages/AddFund';
 import ActiveDetail from '@pages/DetailPage/ActiveDetail';
-import Test from '@components/artistDetail/ArtistNFT';
+import Test from '@components/artistDetail/ArtistGraph';
 
 export default function Router() {
   return (
