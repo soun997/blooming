@@ -3,7 +3,7 @@ import ArtistInfo from '@components/fundingDetail/ArtistInfo';
 import Funding from '@components/fundingDetail/Funding';
 import FundingDetail from '@components/fundingDetail/FundingDetail';
 
-const MainPage = () => {
+const ActiveDetailPage = () => {
   return (
     <>
       <br />
@@ -21,4 +21,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default ActiveDetailPage;
