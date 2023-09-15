@@ -1,8 +1,7 @@
 package com.fivengers.blooming.fixture.artist.adapter.out.persistence;
 
-import com.fivengers.blooming.artist.application.port.out.NftSalePort;
-import com.fivengers.blooming.artist.domain.NftSale;
-import com.fivengers.blooming.global.exception.nftsale.NftSaleNotFoundException;
+import com.fivengers.blooming.membership.application.port.out.NftSalePort;
+import com.fivengers.blooming.membership.domain.NftSale;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
