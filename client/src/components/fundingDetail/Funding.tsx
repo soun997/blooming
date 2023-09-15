@@ -118,8 +118,11 @@ const FundingBox = styled.div`
   display: flex;
 
   .album_img {
-    width: 35%;
     margin-right: 53px;
+    align-self: center;
+    width: 35%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
