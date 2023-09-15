@@ -20,14 +20,6 @@ public class FakeNftSalePersistenceAdapter implements NftSalePort {
         return persist(nftSale);
     }
 
-    @Override
-    public NftSale findByArtistId(Long artistId) {
-        return store.values().stream()
-                .filter(nftSale -> nftSale.getArtist().getId().equals(artistId))
-                .findFirst()
-                .orElseThrow(NftSaleNotFoundException::new);
-    }
-
     private static boolean isPersistenceObject(NftSale nftSale) {
         return nftSale.getId() != null;
     }
@@ -42,7 +34,6 @@ public class FakeNftSalePersistenceAdapter implements NftSalePort {
                 .soldNftAmount(nftSale.getSoldNftAmount())
                 .createdAt(now)
                 .modifiedAt(now)
-                .artist(nftSale.getArtist())
                 .build();
         store.put(autoIncrementId, persistedNftSale);
         autoIncrementId++;

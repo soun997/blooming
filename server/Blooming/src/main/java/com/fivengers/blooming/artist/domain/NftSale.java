@@ -14,7 +14,6 @@ public class NftSale {
     private Long soldNftAmount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Artist artist;
 
     @Builder
     public NftSale(Long id,
@@ -23,8 +22,7 @@ public class NftSale {
             Long totalNftAmount,
             Long soldNftAmount,
             LocalDateTime createdAt,
-            LocalDateTime modifiedAt,
-            Artist artist) {
+            LocalDateTime modifiedAt) {
         this.id = id;
         this.totalNftCount = totalNftCount;
         this.soldNftCount = soldNftCount;
@@ -32,6 +30,5 @@ public class NftSale {
         this.soldNftAmount = soldNftAmount;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.artist = artist;
     }
 }

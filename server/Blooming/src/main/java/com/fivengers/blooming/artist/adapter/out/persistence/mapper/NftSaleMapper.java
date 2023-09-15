@@ -18,7 +18,6 @@ public class NftSaleMapper {
                 .soldNftCount(nftSaleJpaEntity.getSoldNftCount())
                 .totalNftAmount(nftSaleJpaEntity.getTotalNftAmount())
                 .soldNftAmount(nftSaleJpaEntity.getSoldNftAmount())
-                .artist(artistMapper.toDomain(nftSaleJpaEntity.getArtist()))
                 .build();
     }
 
@@ -29,7 +28,6 @@ public class NftSaleMapper {
                 .totalNftAmount(nftSale.getTotalNftAmount())
                 .soldNftAmount(nftSale.getSoldNftAmount())
                 .deleted(false)
-                .artist(artistMapper.toJpaEntity(nftSale.getArtist()))
                 .build();
     }
 
