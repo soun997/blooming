@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/live")
 @RequiredArgsConstructor
 public class LiveController {
-    
+
 }
