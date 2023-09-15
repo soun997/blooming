@@ -26,16 +26,16 @@ public class NftSaleJpaEntity extends BaseTime {
     private Long id;
 
     @Column(nullable = false)
-    private Integer issueCount;
+    private Integer totalNftCount;
 
     @Column(nullable = false)
-    private Integer saleCount;
+    private Integer soldNftCount;
 
     @Column(nullable = false)
-    private Long issuesAmount;
+    private Long totalNftAmount;
 
     @Column(nullable = false)
-    private Long salesAmount;
+    private Long soldNftAmount;
 
     @Column(nullable = false)
     private Boolean deleted;
@@ -45,13 +45,13 @@ public class NftSaleJpaEntity extends BaseTime {
     private ArtistJpaEntity artist;
 
     @Builder
-    public NftSaleJpaEntity(Integer issueCount, Integer saleCount, Long issuesAmount,
-            Long salesAmount,
+    public NftSaleJpaEntity(Integer totalNftCount, Integer soldNftCount, Long totalNftAmount,
+            Long soldNftAmount,
             Boolean deleted, ArtistJpaEntity artist) {
-        this.issueCount = issueCount;
-        this.saleCount = saleCount;
-        this.issuesAmount = issuesAmount;
-        this.salesAmount = salesAmount;
+        this.totalNftCount = totalNftCount;
+        this.soldNftCount = soldNftCount;
+        this.totalNftAmount = totalNftAmount;
+        this.soldNftAmount = soldNftAmount;
         this.deleted = deleted;
         this.artist = artist;
     }

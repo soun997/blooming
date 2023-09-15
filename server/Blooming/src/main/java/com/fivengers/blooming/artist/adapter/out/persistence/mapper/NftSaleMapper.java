@@ -14,20 +14,20 @@ public class NftSaleMapper {
     public NftSale toDomain(NftSaleJpaEntity nftSaleJpaEntity) {
         return NftSale.builder()
                 .id(nftSaleJpaEntity.getId())
-                .issueCount(nftSaleJpaEntity.getIssueCount())
-                .saleCount(nftSaleJpaEntity.getSaleCount())
-                .issuesAmount(nftSaleJpaEntity.getIssuesAmount())
-                .salesAmount(nftSaleJpaEntity.getSalesAmount())
+                .totalNftCount(nftSaleJpaEntity.getTotalNftCount())
+                .soldNftCount(nftSaleJpaEntity.getSoldNftCount())
+                .totalNftAmount(nftSaleJpaEntity.getTotalNftAmount())
+                .soldNftAmount(nftSaleJpaEntity.getSoldNftAmount())
                 .artist(artistMapper.toDomain(nftSaleJpaEntity.getArtist()))
                 .build();
     }
 
     public NftSaleJpaEntity toEntity(NftSale nftSale) {
         return NftSaleJpaEntity.builder()
-                .issueCount(nftSale.getIssueCount())
-                .saleCount(nftSale.getSaleCount())
-                .issuesAmount(nftSale.getIssuesAmount())
-                .salesAmount(nftSale.getSalesAmount())
+                .totalNftCount(nftSale.getTotalNftCount())
+                .soldNftCount(nftSale.getSoldNftCount())
+                .totalNftAmount(nftSale.getTotalNftAmount())
+                .soldNftAmount(nftSale.getSoldNftAmount())
                 .deleted(false)
                 .artist(artistMapper.toJpaEntity(nftSale.getArtist()))
                 .build();
