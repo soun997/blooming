@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MembershipSpringDataRepository extends JpaRepository<MembershipJpaEntity, Long> {
 
-    @Query("select m1 "
+    @Query(value = "select m1 "
             + "from MembershipJpaEntity m1,"
             + " (select max(m.season) as latest_season, m.artist "
             + "from MembershipJpaEntity m "
             + "group by m.artist) m2 "
-            + "where m1.artist = m2.artist and m1.season = m2.latest_season")
+            + "where m1.artist = m2.artist and m1.season = m2.latest_season", nativeQuery = true)
     List<MembershipJpaEntity> findLatestSeasonsGroupByArtist();
 }
