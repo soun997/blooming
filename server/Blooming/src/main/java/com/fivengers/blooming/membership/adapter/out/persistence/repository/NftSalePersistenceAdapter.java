@@ -1,7 +1,7 @@
-package com.fivengers.blooming.artist.adapter.out.persistence.repository;
+package com.fivengers.blooming.membership.adapter.out.persistence.repository;
 
-import com.fivengers.blooming.artist.adapter.out.persistence.mapper.NftSaleMapper;
-import com.fivengers.blooming.artist.application.port.out.NftSalePort;
+import com.fivengers.blooming.membership.adapter.out.persistence.mapper.NftSaleMapper;
+import com.fivengers.blooming.membership.application.port.out.NftSalePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

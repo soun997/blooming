@@ -1,4 +1,4 @@
-package com.fivengers.blooming.artist.domain;
+package com.fivengers.blooming.membership.domain;
 
 import java.time.LocalDateTime;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.fivengers.blooming.artist.adapter.in.web.dto;
+package com.fivengers.blooming.membership.adapter.in.web.dto;
 
-import com.fivengers.blooming.artist.domain.NftSale;
+import com.fivengers.blooming.membership.domain.NftSale;
 import lombok.Builder;
 
 @Builder
