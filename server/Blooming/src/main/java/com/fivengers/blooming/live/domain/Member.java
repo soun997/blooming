@@ -7,9 +7,11 @@ import lombok.Getter;
 @Getter
 public class Member {
 
+    private Long id;
     private String profileImageUrl;
 
-    public Member(String profileImageUrl) {
+    public Member(Long id, String profileImageUrl) {
+        this.id = id;
         this.profileImageUrl = profileImageUrl;
     }
 }
