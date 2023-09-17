@@ -20,7 +20,7 @@ public class LivePersistenceAdapter implements LivePort {
 
     @Override
     public List<Live> findByKeyword(String keyword, Pageable pageable) {
-        return liveSpringDataRepository.findByTitleContaining(keyword, pageable)
+        return liveSpringDataRepository.findByTitleContainingAndEndedAtIsNull(keyword, pageable)
                 .stream().map(liveMapper::toDomain)
                 .toList();
     }

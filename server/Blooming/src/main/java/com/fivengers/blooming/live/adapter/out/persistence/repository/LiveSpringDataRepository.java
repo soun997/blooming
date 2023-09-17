@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LiveSpringDataRepository extends JpaRepository<LiveJpaEntity, Long> {
-    List<LiveJpaEntity> findByTitleContaining(String title, Pageable pageable);
+    List<LiveJpaEntity> findByTitleContainingAndEndedAtIsNull(String title, Pageable pageable);
 }
