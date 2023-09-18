@@ -3,17 +3,16 @@ import styled from 'styled-components';
 import { ReactComponent as LikeIcon } from '../../assets/icons/LikeIcon.svg';
 import { ReactComponent as LiveIcon } from '../../assets/icons/LiveIcon.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-import { Navigation, Pagination } from 'swiper/modules';
+import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 const ArtistDetailInfo = () => {
   return (
-    <>
+    <ArtistDetailInfoBox>
       <LiveInfoBox>
         <LiveIcon></LiveIcon>
         <div className="live_info">현재 LIVE 중입니다</div>
       </LiveInfoBox>
-      {/*  그리드 구조 시작 */}
+
       <ArtistInfoBox>
         <ImgBox>
           <img
@@ -42,57 +41,111 @@ const ArtistDetailInfo = () => {
           <ActiveListBox>
             <div className="recent_actions">최근 활동 내역</div>
             <AlbumListBox>
-              <img
-                src="src/assets/images/sub_album_img1.png"
-                alt="서브 앨범 이미지 1"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img2.png"
-                alt="서브 앨범 이미지 2"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img3.png"
-                alt="서브 앨범 이미지 3"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img4.png"
-                alt="서브 앨범 이미지 4"
-                className="album_list_img"
-              />
-              <img
-                src="src/assets/images/sub_album_img2.png"
-                alt="서브 앨범 이미지 2"
-                className="album_list_img"
-              />
+              <Swiper
+                effect={'coverflow'}
+                grabCursor={true}
+                // centeredSlides={true}
+                slidesPerView={'auto'}
+                spaceBetween={15}
+                coverflowEffect={{
+                  rotate: 50,
+                  stretch: 0,
+                  depth: 100,
+                  modifier: 1,
+                  slideShadows: true,
+                }}
+                pagination={true}
+                modules={[Pagination]}
+                className="swiper"
+              >
+                <SwiperSlide>
+                  <img
+                    src="src/assets/images/sub_album_img1.png"
+                    alt="서브 앨범 이미지 1"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src="src/assets/images/sub_album_img2.png"
+                    alt="서브 앨범 이미지 2"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src="src/assets/images/sub_album_img3.png"
+                    alt="서브 앨범 이미지 3"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src="src/assets/images/sub_album_img4.png"
+                    alt="서브 앨범 이미지 4"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src="src/assets/images/sub_album_img2.png"
+                    alt="서브 앨범 이미지 2"
+                    className="album_list_img"
+                  />
+                </SwiperSlide>
+              </Swiper>
             </AlbumListBox>
           </ActiveListBox>
         </ArtistInfo>
       </ArtistInfoBox>
-    </>
+    </ArtistDetailInfoBox>
   );
 };
 
 const AlbumListBox = styled.div`
-  /* display: -webkit-inline-box; */
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   overflow: hidden;
   justify-content: space-around;
-  /* align-items: center; */
   width: 100%;
 
   .album_list_img {
-    /* display: flex;
-    justify-content: center; */
-    /* flex-direction: row; */
-    /* width: 100%; */
-    /* height: 100%; */
-    /* object-fit: cover; */
+ 
     padding: 10px;
+  } */
+
+  overflow: hidden;
+
+  .swiper-wrapper {
+    display: -webkit-inline-box;
+  }
+
+  .swiper {
+    /* width: 60%; */
+    /* padding-top: 50px; */
+    /* padding-bottom: 50px; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    /* height: 250px; */
+    /* width: 400px; */
+    /* width: auto; */
+    /* padding: 15px; */
+  }
+
+  .album_list_img {
+    display: block;
+    /* width: 350px; */
+    height: 90px;
+    /* object-fit: cover; */
+    /* margin: 15px; */
   }
 `;
 
@@ -171,6 +224,7 @@ const ArtistInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 35px;
+  width: 90%;
 `;
 const ArtistInfoBox = styled.div`
   display: flex;
@@ -189,6 +243,10 @@ const LiveInfoBox = styled.div`
 
     margin-left: 7px;
   }
+`;
+
+const ArtistDetailInfoBox = styled.div`
+  width: 66%;
 `;
 
 export default ArtistDetailInfo;

@@ -15,16 +15,16 @@ const ArtistNFT = () => {
         <div className="nft_name">The Golden Hour: Under the Or..</div>
       </NFTInfo>
       <BuyNFT>
-        <div className="buying_number">125 명이 구매한 상품입니다.</div>
+        <div className="buying_number">125명 구매 중</div>
         <BuyNFTBtn>구매하기</BuyNFTBtn>
       </BuyNFT>
     </NFTInfoBox>
   );
 };
 const BuyNFTBtn = styled.button`
-  width: 127px;
+  /* width: 127px; */
+  width: 50%;
   height: 38px;
-  flex-shrink: 0;
 
   border-radius: 6px;
   border: none;
@@ -42,8 +42,10 @@ const BuyNFTBtn = styled.button`
 const BuyNFT = styled.div`
   display: flex;
   flex-direction: column;
+  float: right;
   align-items: flex-end;
-  width: 285px;
+  /* width: 285px; */
+  width: 50%;
   .buying_number {
     color: var(--Black, var(--black-color, #000));
     font-size: 14px;
@@ -56,6 +58,7 @@ const BuyNFT = styled.div`
 const NFTInfo = styled.div`
   .nft_img {
     margin-bottom: 6px;
+    width: 100%;
   }
   .nft_name {
     color: var(--Black, var(--black-color, #000));
@@ -63,12 +66,14 @@ const NFTInfo = styled.div`
     font-weight: 600;
     line-height: 25px;
 
-    margin-bottom: 55px;
-    width: 285px;
+    margin-bottom: 30px;
+    /* width: 285px; */
+    width: 100%;
     text-align: center;
   }
   .now_nft {
-    width: 127px;
+    /* width: 127px;*/
+    width: 50%;
     height: 30px;
     flex-shrink: 0;
     margin-bottom: 17px;
