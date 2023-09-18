@@ -4,6 +4,7 @@ import com.fivengers.blooming.global.response.ApiResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.LiveListResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.SearchRequest;
 import com.fivengers.blooming.live.application.port.in.LiveSearchUseCase;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,8 +23,7 @@ public class LiveController {
     private final LiveSearchUseCase liveSearchUseCase;
 
     @GetMapping("/search/keyword")
-    public ApiResponse<List<LiveListResponse>> LiveListByKeyword(@RequestParam String query, Pageable pageable) {
-        // TODO : searchRequest Validation
+    public ApiResponse<List<LiveListResponse>> LiveListByKeyword(@RequestParam @NotNull String query, Pageable pageable) {
         List<LiveListResponse> liveResponseList = liveSearchUseCase.searchByKeyword(query, pageable)
                 .stream().map(LiveListResponse::from)
                 .toList();
