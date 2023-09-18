@@ -21,14 +21,22 @@ public class ConcertMapper {
                 .startedAt(concertJpaEntity.getStartedAt())
                 .endedAt(concertJpaEntity.getEndedAt())
                 .description(concertJpaEntity.getDescription())
-                .deleted(concertJpaEntity.getDeleted())
                 .createdAt(concertJpaEntity.getCreatedAt())
-                .lastUpdated(concertJpaEntity.getLastUpdated())
+                .modifiedAt(concertJpaEntity.getModifiedAt())
                 .artist(artistMapper.toDomain(concertJpaEntity.getArtist()))
                 .build();
     }
 
     public ConcertJpaEntity toJpaEntity(Concert concert) {
-        return ConcertJpaEntity.builder().build();
+        return ConcertJpaEntity.builder()
+                .id(concert.getId())
+                .fundingAmount(concert.getFundingAmount())
+                .startedAt(concert.getStartedAt())
+                .endedAt(concert.getEndedAt())
+                .description(concert.getDescription())
+                .createdAt(concert.getCreatedAt())
+                .modifiedAt(concert.getModifiedAt())
+                .artist(artistMapper.toJpaEntity(concert.getArtist()))
+                .build();
     }
 }
