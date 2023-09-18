@@ -1,15 +1,15 @@
 package com.fivengers.blooming.project.domain;
 
 import com.fivengers.blooming.artist.domain.Artist;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.math.BigInteger;
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED) // 상속 관계가 아닌 외부에서 호출할 수 없음
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Project {
 
     private Long id;
@@ -18,9 +18,8 @@ public class Project {
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
     private String description;
-    private Boolean deleted;
     private LocalDateTime createdAt;
-    private LocalDateTime lastUpdated;
+    private LocalDateTime modifiedAt;
 
     private Artist artist;
 }

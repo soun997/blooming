@@ -1,11 +1,9 @@
 package com.fivengers.blooming.project.domain;
 
 import com.fivengers.blooming.artist.domain.Artist;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.math.BigInteger;
-import java.time.LocalDateTime;
 
 @Getter
 public class Concert extends Project {
@@ -17,10 +15,9 @@ public class Concert extends Project {
                    LocalDateTime startedAt,
                    LocalDateTime endedAt,
                    String description,
-                   Boolean deleted,
                    LocalDateTime createdAt,
-                   LocalDateTime lastUpdated,
+                   LocalDateTime modifiedAt,
                    Artist artist) {
-        super(id, name, fundingAmount, startedAt, endedAt, description, deleted, createdAt, lastUpdated, artist);
+        super(id, name, fundingAmount, startedAt, endedAt, description, createdAt, modifiedAt, artist);
     }
 }
