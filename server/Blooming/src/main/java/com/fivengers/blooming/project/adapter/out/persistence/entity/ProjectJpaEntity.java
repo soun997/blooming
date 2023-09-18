@@ -1,17 +1,28 @@
 package com.fivengers.blooming.project.adapter.out.persistence.entity;
 
+
 import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
 import com.fivengers.blooming.global.audit.BaseTime;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "project")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,8 +50,7 @@ public class ProjectJpaEntity extends BaseTime {
     @Column
     private LocalDateTime lastUpdated;
 
-    @Column
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "artist_id")
     private ArtistJpaEntity artist;
 }

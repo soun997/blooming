@@ -1,23 +1,32 @@
 package com.fivengers.blooming.project.adapter.out.persistence.entity;
 
+import com.fivengers.blooming.global.audit.BaseTime;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "investment_overview")
 @Getter
-public class InvestmentOverviewJpaEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class InvestmentOverviewJpaEntity extends BaseTime {
 
     @Id
+    @Column(name = "project_id")
+    private Long id;
+
     @OneToOne
     @JoinColumn(name = "project_id")
+    @MapsId
     private ProjectJpaEntity project;
 
     private String publisher;
@@ -34,19 +43,22 @@ public class InvestmentOverviewJpaEntity {
     private LocalDateTime investmentMaturedAt;
 
     @Builder
-    public InvestmentOverviewJpaEntity(ProjectJpaEntity project,
-                                       String publisher,
-                                       String type,
-                                       String redemptionType,
-                                       String financingPurpose,
-                                       Long pricePerAccount,
-                                       Long minimumPrice,
-                                       Long minimumFundingAmount,
-                                       Long maximumFundingAmount,
-                                       LocalDateTime fundingStartedAt,
-                                       LocalDateTime fundingEndedAt,
-                                       LocalDateTime investmentPublishedAt,
-                                       LocalDateTime investmentMaturedAt) {
+    public InvestmentOverviewJpaEntity(
+            Long id,
+            ProjectJpaEntity project,
+            String publisher,
+            String type,
+            String redemptionType,
+            String financingPurpose,
+            Long pricePerAccount,
+            Long minimumPrice,
+            Long minimumFundingAmount,
+            Long maximumFundingAmount,
+            LocalDateTime fundingStartedAt,
+            LocalDateTime fundingEndedAt,
+            LocalDateTime investmentPublishedAt,
+            LocalDateTime investmentMaturedAt) {
+        this.id = id;
         this.project = project;
         this.publisher = publisher;
         this.type = type;
