@@ -13,7 +13,7 @@ public class MemberMapper {
         return new Member(memberJpaEntity.getId(), memberJpaEntity.getProfileImageUrl());
     }
 
-    public MemberJpaEntity toEntity(Member member) {
+    public MemberJpaEntity toJpaEntity(Member member) {
         return new MemberJpaEntity(member.getId(), member.getProfileImageUrl());
 
     }

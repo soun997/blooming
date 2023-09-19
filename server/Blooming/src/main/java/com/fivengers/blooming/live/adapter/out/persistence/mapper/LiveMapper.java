@@ -1,7 +1,6 @@
 package com.fivengers.blooming.live.adapter.out.persistence.mapper;
 
 import com.fivengers.blooming.live.adapter.out.persistence.entity.LiveJpaEntity;
-import com.fivengers.blooming.live.domain.Artist;
 import com.fivengers.blooming.live.domain.Live;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +25,7 @@ public class LiveMapper {
         return LiveJpaEntity.builder()
                 .id(live.getId())
                 .title(live.getTitle())
-                .artistJpaEntity(artistMapper.toEntity(live.getArtist()))
+                .artistJpaEntity(artistMapper.toJpaEntity(live.getArtist()))
                 .endedAt(live.getEndedAt())
                 .build();
     }

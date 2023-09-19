@@ -19,9 +19,9 @@ public class ArtistMapper {
                 memberMapper.toDomain(artistJpaEntity.getMemberJpaEntity()));
     }
 
-    public ArtistJpaEntity toEntity(Artist artist) {
+    public ArtistJpaEntity toJpaEntity(Artist artist) {
         return new ArtistJpaEntity(artist.getId(),
                 artist.getStageName(),
-                memberMapper.toEntity(artist.getMember()));
+                memberMapper.toJpaEntity(artist.getMember()));
     }
 }
