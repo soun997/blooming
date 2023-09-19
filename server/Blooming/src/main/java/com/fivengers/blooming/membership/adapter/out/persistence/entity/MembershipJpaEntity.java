@@ -49,7 +49,7 @@ public class MembershipJpaEntity extends BaseTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id")
-    private ArtistJpaEntity artist;
+    private ArtistJpaEntity artistJpaEntity;
 
     @Builder
     public MembershipJpaEntity(
@@ -60,7 +60,7 @@ public class MembershipJpaEntity extends BaseTime {
             LocalDateTime seasonEnd,
             Boolean deleted,
             NftJpaEntity nft,
-            ArtistJpaEntity artist) {
+            ArtistJpaEntity artistJpaEntity) {
         this.id = id;
         this.description = description;
         this.season = season;
@@ -68,6 +68,6 @@ public class MembershipJpaEntity extends BaseTime {
         this.seasonEnd = seasonEnd;
         this.deleted = deleted;
         this.nft = nft;
-        this.artist = artist;
+        this.artistJpaEntity = artistJpaEntity;
     }
 }

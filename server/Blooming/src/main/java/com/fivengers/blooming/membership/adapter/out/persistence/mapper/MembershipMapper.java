@@ -24,7 +24,7 @@ public class MembershipMapper {
                 .createdAt(membershipJpaEntity.getCreatedAt())
                 .modifiedAt(membershipJpaEntity.getModifiedAt())
                 .nft(nftMapper.toDomain(membershipJpaEntity.getNft()))
-                .artist(artistMapper.toDomain(membershipJpaEntity.getArtist()))
+                .artist(artistMapper.toDomain(membershipJpaEntity.getArtistJpaEntity()))
                 .build();
     }
 
@@ -37,7 +37,7 @@ public class MembershipMapper {
                 .seasonEnd(membership.getSeasonEnd())
                 .deleted(false)
                 .nft(nftMapper.toJpaEntity(membership.getNft()))
-                .artist(artistMapper.toJpaEntity(membership.getArtist()))
+                .artistJpaEntity(artistMapper.toJpaEntity(membership.getArtist()))
                 .build();
     }
 
