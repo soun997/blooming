@@ -23,7 +23,9 @@ public class FakeLivePersistenceAdapter implements LivePort {
 
     @Override
     public List<Live> findByKeyword(String keyword, Pageable pageable) {
-        return null;
+        return store.values().stream()
+                .filter(live -> live.getTitle().contains(keyword))
+                .toList();
     }
 
     private static boolean isPersistenceObject(Live live) {
