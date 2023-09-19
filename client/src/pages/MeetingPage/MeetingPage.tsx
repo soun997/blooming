@@ -192,6 +192,7 @@ const MeetingFrame = styled.div`
   margin: 0px -280px -100px;
   display: flex;
   justify-content: center;
+  min-height: 100dvh;
   background-color: var(--black-color);
 
   .navigateBtn {
