@@ -19,7 +19,7 @@ public class ArtistController {
 
     @GetMapping
     public ApiResponse<List<ArtistListResponse>> artistList() {
-        return new ApiResponse<>(HttpStatus.OK.value(), artistUseCase.searchAll().stream()
+        return ApiResponse.ok(artistUseCase.searchAll().stream()
                 .map(ArtistListResponse::from)
                 .toList());
     }
