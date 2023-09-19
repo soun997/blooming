@@ -20,14 +20,13 @@ public class ConcertJpaEntity extends ProjectJpaEntity {
     public ConcertJpaEntity(Long id,
             String name,
             Long fundingAmount,
+            Long targetAmount,
             LocalDateTime startedAt,
             LocalDateTime endedAt,
             String description,
             Boolean deleted,
-            LocalDateTime createdAt,
-            LocalDateTime modifiedAt,
             ArtistJpaEntity artist) {
-        super(id, name, fundingAmount, startedAt, endedAt, description, deleted, createdAt,
-                modifiedAt, artist);
+        super(id, name, fundingAmount, targetAmount, startedAt, endedAt, description, deleted,
+                artist);
     }
 }

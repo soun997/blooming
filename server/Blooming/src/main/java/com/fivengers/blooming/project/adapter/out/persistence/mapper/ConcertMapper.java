@@ -18,6 +18,7 @@ public class ConcertMapper {
                 .id(concertJpaEntity.getId())
                 .name(concertJpaEntity.getName())
                 .fundingAmount(concertJpaEntity.getFundingAmount())
+                .targetAmount(concertJpaEntity.getTargetAmount())
                 .startedAt(concertJpaEntity.getStartedAt())
                 .endedAt(concertJpaEntity.getEndedAt())
                 .description(concertJpaEntity.getDescription())
@@ -31,11 +32,10 @@ public class ConcertMapper {
         return ConcertJpaEntity.builder()
                 .id(concert.getId())
                 .fundingAmount(concert.getFundingAmount())
+                .targetAmount(concert.getTargetAmount())
                 .startedAt(concert.getStartedAt())
                 .endedAt(concert.getEndedAt())
                 .description(concert.getDescription())
-                .createdAt(concert.getCreatedAt())
-                .modifiedAt(concert.getModifiedAt())
                 .artist(artistMapper.toJpaEntity(concert.getArtist()))
                 .build();
     }
