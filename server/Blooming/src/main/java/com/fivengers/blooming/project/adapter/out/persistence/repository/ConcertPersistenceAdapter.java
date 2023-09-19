@@ -25,4 +25,11 @@ public class ConcertPersistenceAdapter implements ConcertPort {
                 .map(concertMapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public List<Concert> findAllOngoingProject() {
+        return concertSpringDataRepository.findAllOngoingProject().stream()
+                .map(concertMapper::toDomain)
+                .toList();
+    }
 }
