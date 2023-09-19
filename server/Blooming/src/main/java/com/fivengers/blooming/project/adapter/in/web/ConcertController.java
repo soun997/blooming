@@ -7,6 +7,7 @@ import com.fivengers.blooming.project.application.port.in.ConcertUseCase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,4 +27,14 @@ public class ConcertController {
                         .map(ConcertListResponse::from)
                         .toList());
     }
+
+    @GetMapping("/ongoing")
+    public ApiResponse<List<ConcertListResponse>> ongoingConcertList() {
+
+        return new ApiResponse<>(HttpStatus.OK.value(),
+                concertUseCase.searchAllOngoingProject().stream()
+                        .map(ConcertListResponse::from)
+                        .toList());
+    }
+
 }
