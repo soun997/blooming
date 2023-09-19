@@ -26,11 +26,12 @@ public class MembershipQueryRepository {
         return queryFactory
                 .select(membershipJpaEntity)
                 .from(membershipJpaEntity)
-                .where(membershipJpaEntity.artist.in(
-                        select(sub.artist)
-                                .from(sub)
-                                .groupBy(sub.artist)
-                                .having(membershipJpaEntity.season.eq(sub.season.max()))))
+                .where(membershipJpaEntity.deleted.eq(false)
+                        .and(membershipJpaEntity.artist.in(
+                                select(sub.artist)
+                                        .from(sub)
+                                        .groupBy(sub.artist)
+                                        .having(membershipJpaEntity.season.eq(sub.season.max())))))
                 .fetch();
     }
 }
