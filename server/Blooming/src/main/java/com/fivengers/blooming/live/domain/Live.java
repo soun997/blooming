@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Live {
 
-    private static String SESSION_PREFIX = "blooming";
+    private static final String SESSION_PREFIX = "blooming";
 
     private Long id;
     private Artist artist;
