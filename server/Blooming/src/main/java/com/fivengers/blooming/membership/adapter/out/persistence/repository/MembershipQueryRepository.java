@@ -27,10 +27,10 @@ public class MembershipQueryRepository {
                 .select(membershipJpaEntity)
                 .from(membershipJpaEntity)
                 .where(membershipJpaEntity.deleted.eq(false)
-                        .and(membershipJpaEntity.artist.in(
-                                select(sub.artist)
+                        .and(membershipJpaEntity.artistJpaEntity.in(
+                                select(sub.artistJpaEntity)
                                         .from(sub)
-                                        .groupBy(sub.artist)
+                                        .groupBy(sub.artistJpaEntity)
                                         .having(membershipJpaEntity.season.eq(sub.season.max())))))
                 .fetch();
     }
