@@ -29,6 +29,9 @@ public class MembershipJpaEntity extends BaseTime {
     private Long id;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
@@ -63,6 +66,7 @@ public class MembershipJpaEntity extends BaseTime {
     @Builder
     public MembershipJpaEntity(
             Long id,
+            String title,
             String description,
             Integer season,
             LocalDateTime seasonStart,
@@ -74,6 +78,7 @@ public class MembershipJpaEntity extends BaseTime {
             NftJpaEntity nft,
             ArtistJpaEntity artistJpaEntity) {
         this.id = id;
+        this.title = title;
         this.description = description;
         this.season = season;
         this.seasonStart = seasonStart;

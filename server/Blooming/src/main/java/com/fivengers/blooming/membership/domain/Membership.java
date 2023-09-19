@@ -10,6 +10,7 @@ import lombok.Getter;
 public class Membership {
 
     private Long id;
+    private String title;
     private String description;
     private Integer season;
     private LocalDateTime seasonStart;
@@ -24,6 +25,7 @@ public class Membership {
 
     @Builder
     public Membership(Long id,
+            String title,
             String description,
             Integer season,
             LocalDateTime seasonStart,
@@ -36,6 +38,7 @@ public class Membership {
             Nft nft,
             Artist artist) {
         this.id = id;
+        this.title = title;
         this.description = description;
         this.season = season;
         this.seasonStart = seasonStart;

@@ -17,6 +17,7 @@ public class MembershipMapper {
     public Membership toDomain(MembershipJpaEntity membershipJpaEntity) {
         return Membership.builder()
                 .id(membershipJpaEntity.getId())
+                .title(membershipJpaEntity.getTitle())
                 .description(membershipJpaEntity.getDescription())
                 .season(membershipJpaEntity.getSeason())
                 .seasonStart(membershipJpaEntity.getSeasonStart())
@@ -32,6 +33,7 @@ public class MembershipMapper {
     public MembershipJpaEntity toJpaEntity(Membership membership) {
         return MembershipJpaEntity.builder()
                 .id(membership.getId())
+                .title(membership.getTitle())
                 .description(membership.getDescription())
                 .season(membership.getSeason())
                 .seasonStart(membership.getSeasonStart())
