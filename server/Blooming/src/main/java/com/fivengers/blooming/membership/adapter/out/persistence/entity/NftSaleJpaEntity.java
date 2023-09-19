@@ -1,15 +1,7 @@
 package com.fivengers.blooming.membership.adapter.out.persistence.entity;
 
 import com.fivengers.blooming.global.audit.BaseTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +15,7 @@ public class NftSaleJpaEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "nft_sale_id")
     private Long id;
 
     @Column(nullable = false)
@@ -40,23 +33,26 @@ public class NftSaleJpaEntity extends BaseTime {
     @Column(nullable = false)
     private Boolean deleted;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "membership_id")
     private MembershipJpaEntity membershipJpaEntity;
 
     @Builder
-    public NftSaleJpaEntity(
-            Integer totalNftCount,
-            Integer soldNftCount,
-            Long totalNftAmount,
-            Long soldNftAmount,
-            Boolean deleted,
-            MembershipJpaEntity membershipJpaEntity) {
+    public NftSaleJpaEntity(Long id,
+                            Integer totalNftCount,
+                            Integer soldNftCount,
+                            Long totalNftAmount,
+                            Long soldNftAmount,
+                            Boolean deleted) {
+        this.id = id;
         this.totalNftCount = totalNftCount;
         this.soldNftCount = soldNftCount;
         this.totalNftAmount = totalNftAmount;
         this.soldNftAmount = soldNftAmount;
         this.deleted = deleted;
+    }
+
+    public void setMembershipJpaEntity(MembershipJpaEntity membershipJpaEntity) {
         this.membershipJpaEntity = membershipJpaEntity;
     }
 }

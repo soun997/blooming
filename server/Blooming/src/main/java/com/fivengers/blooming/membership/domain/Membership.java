@@ -23,22 +23,24 @@ public class Membership {
     private LocalDateTime modifiedAt;
     private Nft nft;
     private Artist artist;
+    private NftSale nftSale;
 
     @Builder
     public Membership(Long id,
-            String title,
-            String description,
-            Integer season,
-            LocalDateTime seasonStart,
-            LocalDateTime seasonEnd,
-            LocalDateTime purchaseStart,
-            LocalDateTime purchaseEnd,
-            Integer saleCount,
-            String thumbnailUrl,
-            LocalDateTime createdAt,
-            LocalDateTime modifiedAt,
-            Nft nft,
-            Artist artist) {
+                      String title,
+                      String description,
+                      Integer season,
+                      LocalDateTime seasonStart,
+                      LocalDateTime seasonEnd,
+                      LocalDateTime purchaseStart,
+                      LocalDateTime purchaseEnd,
+                      Integer saleCount,
+                      String thumbnailUrl,
+                      LocalDateTime createdAt,
+                      LocalDateTime modifiedAt,
+                      Nft nft,
+                      Artist artist,
+                      NftSale nftSale) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -53,5 +55,6 @@ public class Membership {
         this.modifiedAt = modifiedAt;
         this.nft = nft;
         this.artist = artist;
+        this.nftSale = nftSale;
     }
 }

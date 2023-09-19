@@ -3,15 +3,8 @@ package com.fivengers.blooming.membership.adapter.out.persistence.entity;
 import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
 import com.fivengers.blooming.global.audit.BaseTime;
 import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftJpaEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,6 +19,7 @@ public class MembershipJpaEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "membership_id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -60,27 +54,30 @@ public class MembershipJpaEntity extends BaseTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nft_id")
-    private NftJpaEntity nft;
+    private NftJpaEntity nftJpaEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id")
     private ArtistJpaEntity artistJpaEntity;
 
+    @OneToOne(mappedBy = "membershipJpaEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private NftSaleJpaEntity nftSaleJpaEntity;
+
     @Builder
-    public MembershipJpaEntity(
-            Long id,
-            String title,
-            String description,
-            Integer season,
-            LocalDateTime seasonStart,
-            LocalDateTime seasonEnd,
-            LocalDateTime purchaseStart,
-            LocalDateTime purchaseEnd,
-            Integer saleCount,
-            String thumbnailUrl,
-            Boolean deleted,
-            NftJpaEntity nft,
-            ArtistJpaEntity artistJpaEntity) {
+    public MembershipJpaEntity(Long id,
+                               String title,
+                               String description,
+                               Integer season,
+                               LocalDateTime seasonStart,
+                               LocalDateTime seasonEnd,
+                               LocalDateTime purchaseStart,
+                               LocalDateTime purchaseEnd,
+                               Integer saleCount,
+                               String thumbnailUrl,
+                               Boolean deleted,
+                               NftJpaEntity nftJpaEntity,
+                               ArtistJpaEntity artistJpaEntity,
+                               NftSaleJpaEntity nftSaleJpaEntity) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -92,7 +89,13 @@ public class MembershipJpaEntity extends BaseTime {
         this.saleCount = saleCount;
         this.thumbnailUrl = thumbnailUrl;
         this.deleted = deleted;
-        this.nft = nft;
+        this.nftJpaEntity = nftJpaEntity;
         this.artistJpaEntity = artistJpaEntity;
+        setNftSaleJpaEntity(nftSaleJpaEntity);
+    }
+
+    private void setNftSaleJpaEntity(NftSaleJpaEntity nftSaleJpaEntity) {
+        this.nftSaleJpaEntity = nftSaleJpaEntity;
+        nftSaleJpaEntity.setMembershipJpaEntity(this);
     }
 }
