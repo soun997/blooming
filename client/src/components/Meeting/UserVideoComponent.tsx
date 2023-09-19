@@ -6,11 +6,13 @@ import { Publisher, Subscriber } from 'openvidu-browser'; // Import the Publishe
 interface UserVideoComponentProps {
   nickname: string;
   streamManager?: Subscriber | Publisher | null; // Define the streamManager as optional
+  isMain?: boolean;
 }
 
 const UserVideoComponent: React.FC<UserVideoComponentProps> = ({
   nickname,
   streamManager,
+  isMain,
 }) => {
   /**
    * Get the nickname from the streamManager's connection data.
@@ -29,7 +31,7 @@ const UserVideoComponent: React.FC<UserVideoComponentProps> = ({
   return (
     <div>
       {streamManager !== undefined ? (
-        <MainVideoContainer>
+        <MainVideoContainer isMain={isMain ? isMain : false}>
           <OpenViduVideoComponent streamManager={streamManager} />
           <NicknameBox>{getNicknameTag()}</NicknameBox>
         </MainVideoContainer>
@@ -38,25 +40,29 @@ const UserVideoComponent: React.FC<UserVideoComponentProps> = ({
   );
 };
 
-const MainVideoContainer = styled.div`
+interface StyleProps {
+  isMain: boolean;
+}
+
+const MainVideoContainer = styled.div<StyleProps>`
   position: relative;
   margin: 0 auto;
 
   video {
     width: 100%;
-    height: auto;
+    height: ${(props) => (props.isMain ? '100vh' : 'auto')};
     cursor: pointer;
+    background-color: var(--black-color);
   }
 `;
 
 const NicknameBox = styled.div`
   position: absolute;
-  background: #f8f8f8;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #777777;
-  font-weight: bold;
-  border-bottom-right-radius: 4px;
+  background: #00000064;
+  padding: 6px 15px;
+  color: var(--white-color);
+  font-weight: 400;
+  border-radius: 2px;
   top: 0;
   left: 0;
 `;
