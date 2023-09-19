@@ -38,6 +38,7 @@ public class ArtistJpaEntity extends BaseTime {
             String stageName,
             String agency,
             String description) {
+        this.id = id;
         this.stageName = stageName;
         this.agency = agency;
         this.description = description;
