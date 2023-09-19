@@ -5,7 +5,6 @@ import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipListRespon
 import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -15,13 +15,12 @@ public class Artist {
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Artist(
-            Long id,
-            String stageName,
-            String agency,
-            String description,
-            LocalDateTime createdAt,
-            LocalDateTime modifiedAt) {
+    public Artist(Long id,
+                  String stageName,
+                  String agency,
+                  String description,
+                  LocalDateTime createdAt,
+                  LocalDateTime modifiedAt) {
         this.id = id;
         this.stageName = stageName;
         this.agency = agency;
