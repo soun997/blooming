@@ -10,14 +10,16 @@ public class Concert extends Project {
 
     @Builder
     public Concert(Long id,
-                   String name,
-                   Long fundingAmount,
-                   LocalDateTime startedAt,
-                   LocalDateTime endedAt,
-                   String description,
-                   LocalDateTime createdAt,
-                   LocalDateTime modifiedAt,
-                   Artist artist) {
-        super(id, name, fundingAmount, startedAt, endedAt, description, createdAt, modifiedAt, artist);
+            String name,
+            Long fundingAmount,
+            Long targetAmount,
+            LocalDateTime startedAt,
+            LocalDateTime endedAt,
+            String description,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt,
+            Artist artist) {
+        super(id, name, fundingAmount, targetAmount, startedAt, endedAt,
+                description, createdAt, modifiedAt, artist);
     }
 }
