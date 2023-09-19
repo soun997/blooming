@@ -7,23 +7,34 @@ import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
 import { ARTIST } from '@components/common/constant';
+import { useState } from 'react';
 
 const ArtistList = () => {
   const { data: artistData } = useArtistQuery();
   const { data: bestArtistData } = useArtistBestQuery();
+  const [keyword, setKeyword] = useState<string>('');
+  const [showResult, setShowResult] = useState(false);
 
   if (!artistData || !bestArtistData) {
     //!oading 페이지
     return <></>;
   }
 
+  const handleSearch = () => {
+    setShowResult(true);
+  };
   return (
     <div>
       <TopFrame>
         <MainTitle>
           아티스트<div className="dot"></div>
         </MainTitle>
-        <SearchBar nowStat={ARTIST} />
+        <SearchBar
+          nowStat={ARTIST}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          onSearch={handleSearch}
+        />
       </TopFrame>
       <TopRankList bestData={bestArtistData} nowStat={ARTIST} />
       <ResultList datas={artistData} nowStat={ARTIST} />

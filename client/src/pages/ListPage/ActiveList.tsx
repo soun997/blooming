@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import { useState } from 'react';
 
 import axios from '@api/apiController';
 
@@ -11,6 +12,9 @@ import { ProcessInfo } from '@type/ProcessInfo';
 import { ACTIVE } from '@components/common/constant';
 
 const ActiveList = () => {
+  const [keyword, setKeyword] = useState<string>('');
+  const [showResult, setShowResult] = useState(false);
+
   const { data: activeData } = useQuery<ProcessInfo[]>(
     ['active-list'],
     fetchConcertList,
@@ -19,6 +23,9 @@ const ActiveList = () => {
     ['active-best'],
     fetchBestConcert,
   );
+  const handleSearch = () => {
+    setShowResult(true);
+  };
 
   if (!activeData || !bestActiveData) {
     return <></>;
@@ -30,7 +37,12 @@ const ActiveList = () => {
         <MainTitle>
           활동<div className="dot"></div>
         </MainTitle>
-        <SearchBar nowStat={ACTIVE} />
+        <SearchBar
+          nowStat={ACTIVE}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          onSearch={handleSearch}
+        />
       </TopFrame>
       <TopRankList nowStat={ACTIVE} bestData={bestActiveData} />
       <ResultList datas={activeData} nowStat={ACTIVE} />

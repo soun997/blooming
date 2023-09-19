@@ -1,18 +1,45 @@
+import styled from 'styled-components';
+import { useState } from 'react';
+
+import axios from '@api/apiController';
+import { useQuery } from 'react-query';
 import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
 import { ARTIST } from '@components/common/constant';
-import { useState } from 'react';
-import styled from 'styled-components';
 
 interface Props {
   nowStat: string;
+  keyword: string;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  onSearch: () => void;
 }
 
-const SearchBar: React.FC<Props> = ({ nowStat }) => {
+const SearchBar: React.FC<Props> = ({
+  nowStat,
+  keyword,
+  setKeyword,
+  onSearch,
+}) => {
   const [isArtist, setIsArtist] = useState(false);
+
+  const { isLoading, data: autoSearchData } = useQuery(
+    ['auto-search', keyword],
+    () => fetchAutoSearchData(keyword),
+  );
+
   const handleSearchConditions = () => {
     setIsArtist(!isArtist);
   };
 
+  const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
+    setKeyword(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onSearch();
+    }
+  };
   return (
     <BarFrame>
       {nowStat !== ARTIST && (
@@ -27,12 +54,57 @@ const SearchBar: React.FC<Props> = ({ nowStat }) => {
           placeholder={
             isArtist ? '아티스트 명을 입력해주세요' : '키워드를 입력해주세요.'
           }
+          value={keyword}
+          onKeyDown={handleKeyPress}
+          onChange={onChangeData}
         />
         <SearchSvg />
+        <AutoSearch isArtist={nowStat === ARTIST}>
+          <div className="autolist">
+            {autoSearchData &&
+              keyword.length > 0 &&
+              autoSearchData.map((data: string) => (
+                <div className="eachData">{data}</div>
+              ))}
+          </div>
+        </AutoSearch>
       </SearchFrame>
     </BarFrame>
   );
 };
+
+const fetchAutoSearchData = async (keyword: string) => {
+  try {
+    const response = await axios.get('/auto-search');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('자동완성 리스트 요청 실패');
+  }
+};
+
+interface StyleProps {
+  isArtist: boolean;
+}
+const AutoSearch = styled.div<StyleProps>`
+  background-color: var(--white-color);
+  z-index: 1;
+  width: 330px;
+  height: max-content;
+  position: absolute;
+  top: ${(props) => (props.isArtist ? '150px' : '180px')};
+  border-radius: 6px;
+
+  .autolist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 20px;
+  }
+`;
+
 const BarFrame = styled.div`
   text-align: right;
 `;

@@ -14,8 +14,6 @@ const MainSwiper = ({ nowRank, nowStat }: Props) => {
     navigate(`/${nowStat}-detail/${id}`);
   };
 
-  console.log(nowRank);
-
   return (
     <>
       <SwiperContainer>

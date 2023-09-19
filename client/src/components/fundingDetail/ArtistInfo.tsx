@@ -6,7 +6,7 @@ const MainPage = () => {
   return (
     <ArtistInfoBox>
       <img
-        className="profile_img"
+        className="profileImg"
         src="src/assets/images/kimjaehwan_profile.jfif"
       ></img>
       <ArtistInfo>
@@ -56,7 +56,7 @@ const ArtistInfo = styled.div``;
 const ArtistInfoBox = styled.div`
   display: flex;
 
-  .profile_img {
+  .profileImg {
     width: 165px;
     height: 165px;
     border-radius: 500px;

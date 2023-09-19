@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-
+import { useState } from 'react';
 import axios from '@api/apiController';
 
 import SearchBar from '@components/Search/SearchBar';
@@ -11,6 +11,9 @@ import { CONCERT } from '@components/common/constant';
 import { ProcessInfo } from '@type/ProcessInfo';
 
 const ConcertList = () => {
+  const [keyword, setKeyword] = useState<string>('');
+  const [showResult, setShowResult] = useState(false);
+
   const { isLoading: isLoadingList, data: concertData } = useQuery<
     ProcessInfo[]
   >(['concert-list'], fetchConcertList);
@@ -22,13 +25,22 @@ const ConcertList = () => {
     return <></>;
   }
 
+  const handleSearch = () => {
+    setShowResult(true);
+  };
+
   return (
     <div>
       <TopFrame>
         <MainTitle>
           콘서트<div className="dot"></div>
         </MainTitle>
-        <SearchBar nowStat={CONCERT} />
+        <SearchBar
+          nowStat={CONCERT}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          onSearch={handleSearch}
+        />
       </TopFrame>
       <TopRankList nowStat={CONCERT} bestData={bestConcertData} />
       <ResultList datas={concertData} nowStat={CONCERT} />
@@ -37,7 +49,6 @@ const ConcertList = () => {
 };
 
 const fetchConcertList = async () => {
-  console.log('fetch 까지 들어옴');
   try {
     const response = await axios.get('/concert');
     return response.data;
