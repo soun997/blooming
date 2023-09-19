@@ -44,7 +44,10 @@ public class MembershipJpaEntity extends BaseTime {
     private LocalDateTime seasonEnd;
 
     @Column(nullable = false)
-    private LocalDateTime purchaseDeadline;
+    private LocalDateTime purchaseStart;
+
+    @Column(nullable = false)
+    private LocalDateTime purchaseEnd;
 
     @Column(nullable = false)
     private Integer saleCount;
@@ -71,7 +74,8 @@ public class MembershipJpaEntity extends BaseTime {
             Integer season,
             LocalDateTime seasonStart,
             LocalDateTime seasonEnd,
-            LocalDateTime purchaseDeadline,
+            LocalDateTime purchaseStart,
+            LocalDateTime purchaseEnd,
             Integer saleCount,
             String thumbnailUrl,
             Boolean deleted,
@@ -83,7 +87,8 @@ public class MembershipJpaEntity extends BaseTime {
         this.season = season;
         this.seasonStart = seasonStart;
         this.seasonEnd = seasonEnd;
-        this.purchaseDeadline = purchaseDeadline;
+        this.purchaseStart = purchaseStart;
+        this.purchaseEnd = purchaseEnd;
         this.saleCount = saleCount;
         this.thumbnailUrl = thumbnailUrl;
         this.deleted = deleted;

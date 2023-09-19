@@ -15,7 +15,8 @@ public class Membership {
     private Integer season;
     private LocalDateTime seasonStart;
     private LocalDateTime seasonEnd;
-    private LocalDateTime purchaseDeadline;
+    private LocalDateTime purchaseStart;
+    private LocalDateTime purchaseEnd;
     private Integer saleCount;
     private String thumbnailUrl;
     private LocalDateTime createdAt;
@@ -30,7 +31,8 @@ public class Membership {
             Integer season,
             LocalDateTime seasonStart,
             LocalDateTime seasonEnd,
-            LocalDateTime purchaseDeadline,
+            LocalDateTime purchaseStart,
+            LocalDateTime purchaseEnd,
             Integer saleCount,
             String thumbnailUrl,
             LocalDateTime createdAt,
@@ -43,7 +45,8 @@ public class Membership {
         this.season = season;
         this.seasonStart = seasonStart;
         this.seasonEnd = seasonEnd;
-        this.purchaseDeadline = purchaseDeadline;
+        this.purchaseStart = purchaseStart;
+        this.purchaseEnd = purchaseEnd;
         this.saleCount = saleCount;
         this.thumbnailUrl = thumbnailUrl;
         this.createdAt = createdAt;
