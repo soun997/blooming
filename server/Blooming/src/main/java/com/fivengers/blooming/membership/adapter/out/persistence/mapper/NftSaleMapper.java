@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NftSaleMapper {
 
-    private final ArtistMapper artistMapper;
+    private final MembershipMapper membershipMapper;
 
     public NftSale toDomain(NftSaleJpaEntity nftSaleJpaEntity) {
         return NftSale.builder()
@@ -19,6 +19,7 @@ public class NftSaleMapper {
                 .soldNftCount(nftSaleJpaEntity.getSoldNftCount())
                 .totalNftAmount(nftSaleJpaEntity.getTotalNftAmount())
                 .soldNftAmount(nftSaleJpaEntity.getSoldNftAmount())
+                .membership(membershipMapper.toDomain(nftSaleJpaEntity.getMembershipJpaEntity()))
                 .build();
     }
 
@@ -28,8 +29,8 @@ public class NftSaleMapper {
                 .soldNftCount(nftSale.getSoldNftCount())
                 .totalNftAmount(nftSale.getTotalNftAmount())
                 .soldNftAmount(nftSale.getSoldNftAmount())
+                .membershipJpaEntity(membershipMapper.toJpaEntity(nftSale.getMembership()))
                 .deleted(false)
                 .build();
     }
-
 }
