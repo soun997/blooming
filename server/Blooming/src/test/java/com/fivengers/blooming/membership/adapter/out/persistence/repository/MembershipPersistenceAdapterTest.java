@@ -60,22 +60,32 @@ class MembershipPersistenceAdapterTest {
     void findLatestSeasonsMembership() {
         LocalDateTime now = LocalDateTime.now();
         MembershipJpaEntity membership1 = MembershipJpaEntity.builder()
+                .title("아이유 멤버십 시즌1")
                 .description("아이유 멤버십1")
                 .season(1)
                 .seasonStart(now)
                 .seasonEnd(now.plusMonths(1L))
+                .purchaseStart(now)
+                .purchaseEnd(now.plusMonths(1L))
+                .saleCount(0)
+                .thumbnailUrl("https://image.com")
                 .deleted(false)
                 .nft(nft1)
-                .artist(artist)
+                .artistJpaEntity(artist)
                 .build();
         MembershipJpaEntity membership2 = MembershipJpaEntity.builder()
+                .title("아이유 멤버십 시즌2")
                 .description("아이유 멤버십2")
                 .season(2)
                 .seasonStart(now)
                 .seasonEnd(now.plusMonths(1L))
+                .purchaseStart(now)
+                .purchaseEnd(now.plusMonths(1L))
+                .saleCount(0)
+                .thumbnailUrl("https://image.com")
                 .deleted(false)
                 .nft(nft1)
-                .artist(artist)
+                .artistJpaEntity(artist)
                 .build();
         membershipSpringDataRepository.save(membership1);
         membershipSpringDataRepository.save(membership2);
