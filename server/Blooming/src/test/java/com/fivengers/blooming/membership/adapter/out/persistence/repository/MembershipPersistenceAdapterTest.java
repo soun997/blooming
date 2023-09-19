@@ -34,6 +34,7 @@ class MembershipPersistenceAdapterTest {
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
+                .deleted(false)
                 .build();
         artistSpringDataRepository.save(artist);
         nft1 = NftJpaEntity.builder()

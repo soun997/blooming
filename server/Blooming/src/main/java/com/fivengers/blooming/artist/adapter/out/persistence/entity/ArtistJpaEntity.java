@@ -32,16 +32,21 @@ public class ArtistJpaEntity extends BaseTime {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private Boolean deleted;
+
     @Builder
     public ArtistJpaEntity(
             Long id,
             String stageName,
             String agency,
-            String description) {
+            String description,
+            Boolean deleted) {
         this.id = id;
         this.stageName = stageName;
         this.agency = agency;
         this.description = description;
+        this.deleted = deleted;
     }
 
 }

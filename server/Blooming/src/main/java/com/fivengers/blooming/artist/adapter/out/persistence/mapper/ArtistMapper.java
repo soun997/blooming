@@ -24,6 +24,7 @@ public class ArtistMapper {
                 .stageName(artist.getStageName())
                 .agency(artist.getAgency())
                 .description(artist.getDescription())
+                .deleted(false)
                 .build();
     }
 
