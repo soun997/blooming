@@ -18,7 +18,7 @@ public class ArtistPersistenceAdapter implements ArtistPort {
 
     @Override
     public List<Artist> findAll() {
-        return artistSpringDataRepository.findAll().stream()
+        return artistSpringDataRepository.findByDeletedFalse().stream()
                 .map(artistMapper::toDomain)
                 .toList();
     }
