@@ -4,9 +4,13 @@ import { ARTIST } from '@components/common/constant';
 import UserVideoComponent from '@components/Meeting/UserVideoComponent';
 import { useMeeting } from '@hooks/useMeeting';
 import { ReactComponent as CameraOff } from '@assets/icons/camera-off.svg';
+import { ReactComponent as CameraOn } from '@assets/icons/camera-on.svg';
 import { ReactComponent as HideCamera } from '@assets/icons/eye-slash.svg';
 import { ReactComponent as ShowCamera } from '@assets/icons/eye.svg';
 import { ReactComponent as Setting } from '@assets/icons/setting.svg';
+import { ReactComponent as ArrowLeft } from '@assets/icons/arrow-left.svg';
+import { ReactComponent as ExitSvg } from '@assets/icons/sign-out.svg';
+import { useNavigate } from 'react-router-dom';
 
 const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   const {
@@ -21,21 +25,23 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   } = useMeeting(isArtist);
 
   const [notArtistCamera, setNotArtistCamera] = useState<boolean>(false);
-  const [isSettingVisible, setIsSettingVisible] = useState<boolean>(false);
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const handleVisibleMyCamera = () => {
     setNotArtistCamera(!notArtistCamera);
-    setIsSettingVisible(false);
-  };
-
-  const handleSettingBtn = () => {
-    setIsSettingVisible(!isSettingVisible); // 설정 버튼 클릭시 설정 메뉴 보이기/숨기기
   };
 
   const handleCamera = () => {
     handleCameraOnOff({ onMyCamera: !onMyCamera });
     setMyCamera(!onMyCamera);
+  };
+  const handlePageOut = () => {
+    navigate(-1);
+  };
+
+  const handleExit = () => {
+    //나가기 처리
   };
 
   // 아티스트일 경우!!
@@ -47,6 +53,12 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
           streamManager={meetingInfo.publisher}
           isMain={true}
         />
+        <Buttons>
+          <Button className="exit" onClick={handleExit}>
+            <ExitSvg />
+            종료하기
+          </Button>
+        </Buttons>
       </MeetingFrame>
     );
   }
@@ -54,6 +66,9 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   //일반 사용자의 경우
   return (
     <MeetingFrame>
+      <div className="navigateBtn" onClick={handlePageOut}>
+        <ArrowLeft />
+      </div>
       {/* 아티스트만 띄우기 */}
       {meetingInfo.subscribers
         .filter((sub) => {
@@ -98,21 +113,18 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         </MyCamera>
       ) : (
         <Buttons>
-          {isSettingVisible && (
-            <div className="isNotShow">
-              <Button className="hideCamera" onClick={handleCamera}>
-                <CameraOff />
-                {onMyCamera ? '카메라 끄기' : '카메라 키기'}
-              </Button>
-              <Button className="offCamera" onClick={handleVisibleMyCamera}>
-                <ShowCamera />내 카메라 보기
-              </Button>
-            </div>
-          )}
-
-          <div className="settingBtn" onClick={handleSettingBtn}>
+          <div className="settingBtn" onClick={handleVisibleMyCamera}>
+            <span className="text">내 화면 보기</span>
             <div className="settingBackgroud">
-              <Setting />
+              <ShowCamera />
+            </div>
+          </div>
+          <div className="settingBtn" onClick={handleCamera}>
+            <span className="text">
+              {onMyCamera ? '카메라 끄기' : '카메라 키기'}
+            </span>
+            <div className="settingBackgroud">
+              {onMyCamera ? <CameraOff /> : <CameraOn />}
             </div>
           </div>
         </Buttons>
@@ -126,6 +138,12 @@ const MeetingFrame = styled.div`
   display: flex;
   justify-content: center;
   background-color: var(--black-color);
+
+  .navigateBtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
 `;
 const Buttons = styled.div`
   display: flex;
@@ -135,8 +153,8 @@ const Buttons = styled.div`
   gap: 10px;
   z-index: 1;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 20px;
+  right: 20px;
 
   .settingBackgroud {
     background-color: var(--main3-color);
@@ -153,12 +171,27 @@ const Buttons = styled.div`
     gap: 6px;
     flex-direction: column;
   }
+
+  .settingBtn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white-color);
+    font-size: 12px;
+  }
+
+  .exit {
+    background-color: var(--error-color);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+  }
 `;
 const Button = styled.button`
   cursor: pointer;
   border: none;
-  background-color: var(--main4-color);
-  color: var(--white-color);
+  background-color: var(--main3-color);
   padding: 10px 10px;
   width: 160px;
   border-radius: 6px;
@@ -166,6 +199,7 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-weight: 600;
 `;
 
 const MyCamera = styled.div`
