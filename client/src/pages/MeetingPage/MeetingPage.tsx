@@ -7,12 +7,15 @@ import { ReactComponent as CameraOff } from '@assets/icons/camera-off.svg';
 import { ReactComponent as CameraOn } from '@assets/icons/camera-on.svg';
 import { ReactComponent as HideCamera } from '@assets/icons/eye-slash.svg';
 import { ReactComponent as ShowCamera } from '@assets/icons/eye.svg';
-import { ReactComponent as Setting } from '@assets/icons/setting.svg';
+import { ReactComponent as NoticeSvg } from '@assets/icons/megaphone.svg';
+import { ReactComponent as LiveSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ArrowLeft } from '@assets/icons/arrow-left.svg';
 import { ReactComponent as ExitSvg } from '@assets/icons/sign-out.svg';
 import { useNavigate } from 'react-router-dom';
 
+const MeetingName = '나 김아무개 아티스트가 여는 콘서트다!';
 const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
+  const navigate = useNavigate();
   const {
     meetingInfo,
     videoOption,
@@ -26,7 +29,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
 
   const [notArtistCamera, setNotArtistCamera] = useState<boolean>(false);
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
-  const navigate = useNavigate();
+  const [showNotice, setShowNotice] = useState<boolean>(true);
 
   const handleVisibleMyCamera = () => {
     setNotArtistCamera(!notArtistCamera);
@@ -38,6 +41,10 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   };
   const handlePageOut = () => {
     navigate(-1);
+  };
+
+  const handleNoticeInfo = () => {
+    setShowNotice(!showNotice);
   };
 
   const handleExit = () => {
@@ -59,6 +66,17 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
             종료하기
           </Button>
         </Buttons>
+        <NoticeBoard>
+          {showNotice ? (
+            <span>
+              <LiveSvg />
+              {MeetingName}
+            </span>
+          ) : (
+            `현재 ${meetingInfo.subscribers.length}명이 시청 중입니다`
+          )}
+          <NoticeSvg onClick={handleNoticeInfo} />
+        </NoticeBoard>
       </MeetingFrame>
     );
   }
@@ -93,7 +111,17 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
             />
           </div>
         ))}
-
+      <NoticeBoard>
+        {showNotice ? (
+          <span>
+            <LiveSvg />
+            {MeetingName}
+          </span>
+        ) : (
+          `현재 ${meetingInfo.subscribers.length}명이 시청 중입니다`
+        )}
+        <NoticeSvg onClick={handleNoticeInfo} />
+      </NoticeBoard>
       {notArtistCamera ? (
         <MyCamera>
           <div className="buttons">
@@ -133,6 +161,33 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   );
 };
 
+const NoticeBoard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: var(--white-color);
+  font-size: 15px;
+  span {
+    width: 280px;
+    height: fit-content;
+    padding: 5px 14px;
+    background-color: #ffffffba;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-weight: 600;
+    color: var(--black-color);
+  }
+
+  svg {
+    cursor: pointer;
+  }
+`;
 const MeetingFrame = styled.div`
   margin: 0px -280px -100px;
   display: flex;
@@ -140,6 +195,7 @@ const MeetingFrame = styled.div`
   background-color: var(--black-color);
 
   .navigateBtn {
+    cursor: pointer;
     position: absolute;
     top: 10px;
     left: 10px;
