@@ -6,6 +6,7 @@ import com.fivengers.blooming.live.application.port.in.LiveSearchUseCase;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +26,14 @@ public class LiveController {
     @GetMapping("/search/keyword")
     public ApiResponse<List<LiveListResponse>> LiveListByKeyword(@RequestParam @NotBlank String query, Pageable pageable) {
         List<LiveListResponse> liveResponseList = liveSearchUseCase.searchByKeyword(query, pageable)
+                .stream().map(LiveListResponse::from)
+                .toList();
+        return new ApiResponse<>(HttpStatus.OK.value(), liveResponseList);
+    }
+
+    @GetMapping("/search/artist")
+    public ApiResponse<List<LiveListResponse>> liveListByArtist(@RequestParam @NotBlank String query, Pageable pageable) {
+        List<LiveListResponse> liveResponseList = liveSearchUseCase.searchByArtist(query, pageable)
                 .stream().map(LiveListResponse::from)
                 .toList();
         return new ApiResponse<>(HttpStatus.OK.value(), liveResponseList);
