@@ -1,97 +1,27 @@
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
+
+import axios from '@api/apiController';
+
 import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
-import { ProcessInfo } from '@type/ProcessInfo';
 import { CONCERT } from '@components/common/constant';
-
-interface Props {
-  results: ProcessInfo[];
-}
-const dummyData: Props = {
-  results: [
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/cyr-concert.jpg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 124,
-      totalProcess: 300,
-    },
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/seventeens.jpeg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 224,
-      totalProcess: 300,
-    },
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/newjeans.jpg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 124,
-      totalProcess: 200,
-    },
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/cyr-concert.jpg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 124,
-      totalProcess: 200,
-    },
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/cyr-concert.jpg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 124,
-      totalProcess: 200,
-    },
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/cyr-concert.jpg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 124,
-      totalProcess: 200,
-    },
-    {
-      name: '아이유 (IU)',
-      desc: `대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을
-                사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로
-                '너와 내가 음악으로 하나가 된다'라는 의미이다.`,
-      profile_img: 'src/assets/images/cyr-concert.jpg',
-      startDate: '2023-09-01',
-      endDate: '2023-10-12',
-      nowProcess: 124,
-      totalProcess: 200,
-    },
-  ],
-};
+import { ProcessInfo } from '@type/ProcessInfo';
 
 const ConcertList = () => {
+  const { isLoading: isLoadingList, data: concertData } = useQuery<
+    ProcessInfo[]
+  >(['concert-list'], fetchConcertList);
+  const { isLoading: isLoadingBest, data: bestConcertData } = useQuery<
+    ProcessInfo[]
+  >(['concert-best'], fetchBestConcert);
+
+  if (!concertData || !bestConcertData || isLoadingBest || isLoadingList) {
+    return <></>;
+  }
+
   return (
     <div>
       <TopFrame>
@@ -100,10 +30,31 @@ const ConcertList = () => {
         </MainTitle>
         <SearchBar nowStat={CONCERT} />
       </TopFrame>
-      <TopRankList nowStat={CONCERT} />
-      <ResultList datas={dummyData.results} nowStat={CONCERT} />
+      <TopRankList nowStat={CONCERT} bestData={bestConcertData} />
+      <ResultList datas={concertData} nowStat={CONCERT} />
     </div>
   );
+};
+
+const fetchConcertList = async () => {
+  console.log('fetch 까지 들어옴');
+  try {
+    const response = await axios.get('/concert');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('콘서트 리스트 요청 실패');
+  }
+};
+
+const fetchBestConcert = async () => {
+  try {
+    const response = await axios.get('/concert-best');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('콘서트 베스트 리스트 요청 실패');
+  }
 };
 
 const TopFrame = styled.div`
