@@ -21,6 +21,7 @@ public class MembershipMapper {
                 .season(membershipJpaEntity.getSeason())
                 .seasonStart(membershipJpaEntity.getSeasonStart())
                 .seasonEnd(membershipJpaEntity.getSeasonEnd())
+                .thumbnailUrl(membershipJpaEntity.getThumbnailUrl())
                 .createdAt(membershipJpaEntity.getCreatedAt())
                 .modifiedAt(membershipJpaEntity.getModifiedAt())
                 .nft(nftMapper.toDomain(membershipJpaEntity.getNft()))
@@ -35,10 +36,10 @@ public class MembershipMapper {
                 .season(membership.getSeason())
                 .seasonStart(membership.getSeasonStart())
                 .seasonEnd(membership.getSeasonEnd())
+                .thumbnailUrl(membership.getThumbnailUrl())
                 .deleted(false)
                 .nft(nftMapper.toJpaEntity(membership.getNft()))
                 .artistJpaEntity(artistMapper.toJpaEntity(membership.getArtist()))
                 .build();
     }
-
 }
