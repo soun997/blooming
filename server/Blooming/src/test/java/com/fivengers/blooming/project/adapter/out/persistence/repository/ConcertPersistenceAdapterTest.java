@@ -4,33 +4,21 @@ package com.fivengers.blooming.project.adapter.out.persistence.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
-import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
 import com.fivengers.blooming.artist.adapter.out.persistence.repository.ArtistSpringDataRepository;
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ConcertJpaEntity;
-import com.fivengers.blooming.project.adapter.out.persistence.entity.ProjectJpaEntity;
-import com.fivengers.blooming.project.adapter.out.persistence.mapper.ConcertMapper;
 import com.fivengers.blooming.project.domain.Concert;
-import com.fivengers.blooming.project.domain.Project;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@DataJpaTest
-@ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({ConcertPersistenceAdapter.class, ConcertMapper.class, ArtistMapper.class})
+@SpringBootTest
 public class ConcertPersistenceAdapterTest {
 
     @Autowired
     private ConcertPersistenceAdapter concertPersistenceAdapter;
-    @Autowired
-    private ConcertMapper concertMapper;
     @Autowired
     private ConcertSpringDataRepository concertSpringDataRepository;
     @Autowired
@@ -62,7 +50,7 @@ public class ConcertPersistenceAdapterTest {
                 .artist(artist)
                 .build();
         concertSpringDataRepository.save(concert2);
-        List<Concert> concerts =  concertPersistenceAdapter.findAll();
-        assertThat(concerts).containsAll(concerts);
+        List<Concert> concerts = concertPersistenceAdapter.findAll();
+        assertThat(concerts).hasSize(2);
     }
 }

@@ -1,18 +1,16 @@
 package com.fivengers.blooming.project.application;
 
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fivengers.blooming.artist.domain.Artist;
-import com.fivengers.blooming.project.application.service.ConcertSevice;
+import com.fivengers.blooming.project.application.service.ConcertService;
 import com.fivengers.blooming.project.domain.Concert;
-import com.fivengers.blooming.project.domain.Project;
 import com.fivengers.blooming.project.fixture.project.adapter.out.persistence.FakeConcertPersistenceAdapter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,12 +19,12 @@ import org.junit.jupiter.api.Test;
 public class ConcertServiceTest {
 
     FakeConcertPersistenceAdapter concertPersistenceAdapter;
-    ConcertSevice concertSevice;
+    ConcertService concertService;
 
     @BeforeEach
     void beforeEach() {
         this.concertPersistenceAdapter = new FakeConcertPersistenceAdapter();
-        this.concertSevice = new ConcertSevice(concertPersistenceAdapter);
+        this.concertService = new ConcertService(concertPersistenceAdapter);
     }
 
     @Test
@@ -34,7 +32,7 @@ public class ConcertServiceTest {
     void searchAllConcert() {
         // given
         LocalDateTime now = LocalDateTime.now();
-        List<Concert> examples = new ArrayList<>();
+        List<Concert> concerts = new ArrayList<>();
         LongStream.range(0, 2).forEach(idx -> {
             Concert concert = Concert.builder()
                     .id(idx)
@@ -47,16 +45,14 @@ public class ConcertServiceTest {
                     .artist(new Artist())
                     .build();
             concertPersistenceAdapter.save(concert);
-            examples.add(concert);
+            concerts.add(concert);
         });
 
         // when
-        List<Concert> concerts = concertSevice.searchAll();
+        List<Concert> found = concertService.searchAll();
 
         //then
-        assertThat(concerts).hasSize(2);
-        examples.forEach(ex -> {
-            assertThat(concerts).contains(ex);
-        });
+        assertThat(found).hasSize(2);
+        concerts.forEach(concert -> assertThat(found).contains(concert));
     }
 }
