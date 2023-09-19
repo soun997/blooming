@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +32,12 @@ public class ArtistJpaEntity extends BaseTime {
     @Column(nullable = false)
     private String description;
 
-    public ArtistJpaEntity(String stageName, String agency, String description) {
+    @Builder
+    public ArtistJpaEntity(
+            Long id,
+            String stageName,
+            String agency,
+            String description) {
         this.stageName = stageName;
         this.agency = agency;
         this.description = description;

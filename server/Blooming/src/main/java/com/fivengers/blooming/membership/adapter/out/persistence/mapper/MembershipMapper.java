@@ -30,6 +30,7 @@ public class MembershipMapper {
 
     public MembershipJpaEntity toJpaEntity(Membership membership) {
         return MembershipJpaEntity.builder()
+                .id(membership.getId())
                 .description(membership.getDescription())
                 .season(membership.getSeason())
                 .seasonStart(membership.getSeasonStart())

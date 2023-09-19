@@ -26,6 +26,7 @@ public class NftMapper {
 
     public NftJpaEntity toJpaEntity(Nft nft) {
         return NftJpaEntity.builder()
+                .id(nft.getId())
                 .tokenId(nft.getTokenId())
                 .contractAddress(nft.getContractAddress())
                 .symbol(nft.getSymbol())

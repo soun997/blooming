@@ -53,6 +53,7 @@ public class MembershipJpaEntity extends BaseTime {
 
     @Builder
     public MembershipJpaEntity(
+            Long id,
             String description,
             Integer season,
             LocalDateTime seasonStart,
@@ -60,6 +61,7 @@ public class MembershipJpaEntity extends BaseTime {
             Boolean deleted,
             NftJpaEntity nft,
             ArtistJpaEntity artist) {
+        this.id = id;
         this.description = description;
         this.season = season;
         this.seasonStart = seasonStart;

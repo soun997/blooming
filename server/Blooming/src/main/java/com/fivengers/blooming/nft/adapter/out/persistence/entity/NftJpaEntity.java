@@ -45,11 +45,13 @@ public class NftJpaEntity extends BaseTime {
 
     @Builder
     public NftJpaEntity(
+            Long id,
             String tokenId,
             String contractAddress,
             String symbol,
             Boolean deleted,
             ArtistJpaEntity artist) {
+        this.id = id;
         this.tokenId = tokenId;
         this.contractAddress = contractAddress;
         this.symbol = symbol;

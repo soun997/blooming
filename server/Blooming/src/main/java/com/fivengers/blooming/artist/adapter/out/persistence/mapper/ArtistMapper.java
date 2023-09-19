@@ -19,8 +19,12 @@ public class ArtistMapper {
     }
 
     public ArtistJpaEntity toJpaEntity(Artist artist) {
-        return new ArtistJpaEntity(artist.getStageName(), artist.getAgency(),
-                artist.getDescription());
+        return ArtistJpaEntity.builder()
+                .id(artist.getId())
+                .stageName(artist.getStageName())
+                .agency(artist.getAgency())
+                .description(artist.getDescription())
+                .build();
     }
 
 }
