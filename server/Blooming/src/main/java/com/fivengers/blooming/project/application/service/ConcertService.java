@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ConcertSevice implements ConcertUseCase {
+public class ConcertService implements ConcertUseCase {
 
     private final ConcertPort concertPort;
 
