@@ -1,9 +1,10 @@
 package com.fivengers.blooming.membership.application.port.in;
 
 import com.fivengers.blooming.membership.domain.Membership;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface MembershipUseCase {
 
-    List<Membership> searchLatestSeasons();
+    Page<Membership> searchLatestSeasons(Pageable pageable);
 }

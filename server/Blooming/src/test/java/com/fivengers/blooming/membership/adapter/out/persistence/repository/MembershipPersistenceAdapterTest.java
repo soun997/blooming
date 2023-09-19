@@ -3,6 +3,7 @@ package com.fivengers.blooming.membership.adapter.out.persistence.repository;
 import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
 import com.fivengers.blooming.artist.adapter.out.persistence.repository.ArtistSpringDataRepository;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.MembershipJpaEntity;
+import com.fivengers.blooming.membership.adapter.out.persistence.entity.NftSaleJpaEntity;
 import com.fivengers.blooming.membership.domain.Membership;
 import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftJpaEntity;
 import com.fivengers.blooming.nft.adapter.out.persistence.repository.NftSpringDataRepository;
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,6 +64,13 @@ class MembershipPersistenceAdapterTest {
     @DisplayName("저장된 아티스트의 멤버십 중 가장 최근의 멤버십들만 가져온다.")
     void findLatestSeasonsMembership() {
         LocalDateTime now = LocalDateTime.now();
+        NftSaleJpaEntity nftSale = NftSaleJpaEntity.builder()
+                .totalNftCount(1)
+                .soldNftCount(0)
+                .totalNftAmount(10000L)
+                .soldNftAmount(0L)
+                .deleted(false)
+                .build();
         MembershipJpaEntity membership1 = MembershipJpaEntity.builder()
                 .title("아이유 멤버십 시즌1")
                 .description("아이유 멤버십1")
@@ -70,8 +82,9 @@ class MembershipPersistenceAdapterTest {
                 .saleCount(0)
                 .thumbnailUrl("https://image.com")
                 .deleted(false)
-                .nft(nft1)
+                .nftJpaEntity(nft1)
                 .artistJpaEntity(artist)
+                .nftSaleJpaEntity(nftSale)
                 .build();
         MembershipJpaEntity membership2 = MembershipJpaEntity.builder()
                 .title("아이유 멤버십 시즌2")
@@ -84,14 +97,15 @@ class MembershipPersistenceAdapterTest {
                 .saleCount(0)
                 .thumbnailUrl("https://image.com")
                 .deleted(false)
-                .nft(nft1)
+                .nftJpaEntity(nft1)
                 .artistJpaEntity(artist)
+                .nftSaleJpaEntity(nftSale)
                 .build();
         membershipSpringDataRepository.save(membership1);
         membershipSpringDataRepository.save(membership2);
 
-        List<Membership> memberships = membershipPersistenceAdapter.findLatestSeasons();
+        Page<Membership> memberships = membershipPersistenceAdapter.findLatestSeasons(PageRequest.of(0, 10));
         assertThat(memberships).hasSize(1);
-        assertThat(memberships.get(0).getId()).isEqualTo(membership2.getId());
+        assertThat(memberships.getContent().get(0).getId()).isEqualTo(membership2.getId());
     }
 }

@@ -4,6 +4,9 @@ import com.fivengers.blooming.membership.adapter.out.persistence.entity.Membersh
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.QMembershipJpaEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,18 +23,26 @@ public class MembershipQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    List<MembershipJpaEntity> findLatestSeasonsGroupByArtist() {
+    Page<MembershipJpaEntity> findLatestSeasonsGroupByArtist(Pageable pageable) {
         QMembershipJpaEntity sub = new QMembershipJpaEntity("sub");
 
-        return queryFactory
-                .select(membershipJpaEntity)
-                .from(membershipJpaEntity)
+        List<MembershipJpaEntity> memberships = queryFactory
+                .selectFrom(membershipJpaEntity)
+                .innerJoin(membershipJpaEntity.nftSaleJpaEntity).fetchJoin()
                 .where(membershipJpaEntity.deleted.eq(false)
                         .and(membershipJpaEntity.artistJpaEntity.in(
                                 select(sub.artistJpaEntity)
                                         .from(sub)
                                         .groupBy(sub.artistJpaEntity)
                                         .having(membershipJpaEntity.season.eq(sub.season.max())))))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        Long count = queryFactory.select(membershipJpaEntity.count())
+                .from(membershipJpaEntity)
+                .fetchOne();
+
+        return new PageImpl<MembershipJpaEntity>(memberships, pageable, count);
     }
 }
