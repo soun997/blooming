@@ -17,4 +17,9 @@ public class ConcertService implements ConcertUseCase {
     public List<Concert> searchAll() {
         return concertPort.findAll();
     }
+
+    @Override
+    public List<Concert> searchAllOngoingProject() {
+        return concertPort.findAllOngoingProject();
+    }
 }

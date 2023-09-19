@@ -8,4 +8,5 @@ import java.util.List;
 public interface ConcertPort {
 
     List<Concert> findAll();
+    List<Concert> findAllOngoingProject();
 }
