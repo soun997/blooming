@@ -14,6 +14,8 @@ public class Membership {
     private Integer season;
     private LocalDateTime seasonStart;
     private LocalDateTime seasonEnd;
+    private LocalDateTime purchaseDeadline;
+    private Integer saleCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private Nft nft;
@@ -25,6 +27,8 @@ public class Membership {
             Integer season,
             LocalDateTime seasonStart,
             LocalDateTime seasonEnd,
+            LocalDateTime purchaseDeadline,
+            Integer saleCount,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt,
             Nft nft,
@@ -34,6 +38,8 @@ public class Membership {
         this.season = season;
         this.seasonStart = seasonStart;
         this.seasonEnd = seasonEnd;
+        this.purchaseDeadline = purchaseDeadline;
+        this.saleCount = saleCount;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.nft = nft;

@@ -41,6 +41,12 @@ public class MembershipJpaEntity extends BaseTime {
     private LocalDateTime seasonEnd;
 
     @Column(nullable = false)
+    private LocalDateTime purchaseDeadline;
+
+    @Column(nullable = false)
+    private Integer saleCount;
+
+    @Column(nullable = false)
     private Boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,6 +64,8 @@ public class MembershipJpaEntity extends BaseTime {
             Integer season,
             LocalDateTime seasonStart,
             LocalDateTime seasonEnd,
+            LocalDateTime purchaseDeadline,
+            Integer saleCount,
             Boolean deleted,
             NftJpaEntity nft,
             ArtistJpaEntity artistJpaEntity) {
@@ -66,6 +74,8 @@ public class MembershipJpaEntity extends BaseTime {
         this.season = season;
         this.seasonStart = seasonStart;
         this.seasonEnd = seasonEnd;
+        this.purchaseDeadline = purchaseDeadline;
+        this.saleCount = saleCount;
         this.deleted = deleted;
         this.nft = nft;
         this.artistJpaEntity = artistJpaEntity;
