@@ -5,7 +5,7 @@ import {
   Publisher,
   Subscriber,
   StreamManager,
-} from 'openvidu-browser'; // Import Session, Publisher, Subscriber
+} from 'openvidu-browser';
 import CONSOLE from '@utils/consoleColors';
 import axios from '@api/openViduController';
 import UserVideoComponent from '@components/Meeting/UserVideoComponent';
@@ -13,7 +13,7 @@ import { MeetingInfo } from '@type/MeetingInfo';
 
 const OV = new OpenVidu();
 
-let mySession: Session | null;
+let mySession: Session;
 
 const sessionId = 'SessionA';
 const loggedInUserNickname = 'ksm';
@@ -35,33 +35,34 @@ async function createToken(sessionId: string) {
   return response.data;
 }
 
-const MeetingPage = () => {
-  const initialMeetingInfo = {
+const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
+  const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
     mySessionId: sessionId,
-    myUserName: loggedInUserNickname,
-    session: undefined as Session | undefined,
+    myUserName: isArtist ? '아티스트' : loggedInUserNickname,
+    session: null as Session | null,
     mainStreamManager: undefined as Publisher | undefined,
     publisher: undefined as Publisher | undefined,
     prevPublisher: undefined as Publisher | undefined,
-    subscribers: [] as Subscriber[],
-  };
+    subscribers: [],
+    isArtist: isArtist,
+  });
 
-  const [meetingInfo, setMeetingInfo] = useState(initialMeetingInfo);
   const [videoOption, setVideoOption] = useState({
     audioSource: undefined,
     videoSource: undefined,
-    publishAudio: true,
+    publishAudio: isArtist,
     publishVideo: true,
     resolution: '640x480',
     frameRate: 30,
     insertMode: 'APPEND',
-    mirror: false,
+    mirror: true,
   });
 
   const isTokenRequested = useRef(false);
 
   useEffect(() => {
     CONSOLE.info('세션을 시작합니다.');
+
     setMeetingInfo((prevState) => ({
       ...prevState,
       session: OV.initSession(),
@@ -75,16 +76,20 @@ const MeetingPage = () => {
       mySession = meetingInfo.session;
 
       mySession.on('streamCreated', (event) => {
-        CONSOLE.event('누군가 참여했습니다!');
-        if (mySession) {
-          const subscriber = mySession.subscribe(event.stream, undefined);
-          const subscribers = [...meetingInfo.subscribers];
-          subscribers.push(subscriber);
-          setMeetingInfo((prevState) => ({
-            ...prevState,
-            subscribers: subscribers,
-          }));
-        }
+        CONSOLE.event('누군가 참여했습니다!!!!!');
+        console.log('mySession', mySession);
+        const subscriber = mySession.subscribe(event.stream, undefined);
+        console.log('>>> 기존 ', meetingInfo);
+        const subscribers = meetingInfo.subscribers;
+        subscribers.push(subscriber);
+
+        console.log('SUBSCRIBER!!!!!!!!!!');
+        console.log(subscribers);
+
+        setMeetingInfo((prevState) => ({
+          ...prevState,
+          subscribers,
+        }));
       });
 
       mySession.on('streamDestroyed', (event) => {
@@ -102,9 +107,12 @@ const MeetingPage = () => {
       });
 
       getToken(meetingInfo.mySessionId).then((token) => {
+        const mySession = meetingInfo.session;
         mySession &&
           mySession
-            .connect(token, { clientData: loggedInUserNickname })
+            .connect(token, {
+              clientData: isArtist ? '아티스트' : loggedInUserNickname,
+            })
             .then(async () => {
               const publisher = await OV.initPublisherAsync(
                 undefined,
@@ -112,7 +120,6 @@ const MeetingPage = () => {
               );
 
               mySession && mySession.publish(publisher);
-
               setMeetingInfo((prevState) => ({
                 ...prevState,
                 mainStreamManager: publisher,
@@ -130,6 +137,21 @@ const MeetingPage = () => {
         nickname={meetingInfo.myUserName}
         streamManager={meetingInfo.publisher}
       />
+      {meetingInfo.subscribers.map((sub, idx) => (
+        <div
+          key={idx}
+          className=""
+          onClick={() => {
+            console.log('>> print sub, ', sub);
+          }}
+        >
+          <span>{sub.stream.streamId}</span>
+          <UserVideoComponent
+            nickname={sub.stream.streamId}
+            streamManager={sub}
+          />
+        </div>
+      ))}
     </div>
   );
 };
@@ -151,15 +173,12 @@ function processError(error: any, message: string) {
 
 function deleteSubscriber(
   streamManager: StreamManager,
-  subscribers: Subscriber[],
+  subscribers: StreamManager[],
   setMeetingInfo: React.Dispatch<React.SetStateAction<any>>,
 ) {
-  // StreamManager를 Subscriber로 변환
-  const subscriber = subscribers.find(
-    (sub) => sub.stream.streamManager === streamManager,
-  );
-  if (subscriber) {
-    subscribers.splice(subscribers.indexOf(subscriber), 1);
+  const index = subscribers.indexOf(streamManager);
+  if (index > -1) {
+    subscribers.splice(index, 1);
     setMeetingInfo((prevState: MeetingInfo) => ({
       ...prevState,
       subscribers: subscribers,

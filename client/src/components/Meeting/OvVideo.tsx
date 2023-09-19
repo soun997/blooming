@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Publisher } from 'openvidu-browser'; // Import the Publisher type from openvidu-browser
+import { Publisher, Subscriber } from 'openvidu-browser'; // Import the Publisher type from openvidu-browser
 
 interface OpenViduVideoComponentProps {
-  streamManager?: Publisher | null; // Define the streamManager as optional
+  streamManager?: Subscriber | Publisher | null; // Define the streamManager as optional
 }
 
 const OpenViduVideoComponent: React.FC<OpenViduVideoComponentProps> = ({

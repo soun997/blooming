@@ -18,7 +18,14 @@ export default function Router() {
         <Route path="/concert" element={<ConcertList />}></Route>
         <Route path="/active" element={<ActiveList />}></Route>
         <Route path="/add-fund" element={<AddFund />}></Route>
-        <Route path="/meeting" element={<MeetingPage />}></Route>
+        <Route
+          path="/meeting-artist"
+          element={<MeetingPage isArtist={true} />}
+        ></Route>
+        <Route
+          path="/meeting"
+          element={<MeetingPage isArtist={false} />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

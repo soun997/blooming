@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import OpenViduVideoComponent from './OvVideo';
-import { Publisher } from 'openvidu-browser'; // Import the Publisher type from openvidu-browser
+import { Publisher, Subscriber } from 'openvidu-browser'; // Import the Publisher type from openvidu-browser
 
 interface UserVideoComponentProps {
   nickname: string;
-  streamManager?: Publisher | null; // Define the streamManager as optional
+  streamManager?: Subscriber | Publisher | null; // Define the streamManager as optional
 }
 
 const UserVideoComponent: React.FC<UserVideoComponentProps> = ({
