@@ -36,7 +36,7 @@ export function useMeeting(isArtist: boolean) {
     isArtist: isArtist,
   });
 
-  const [videoOption] = useState({
+  const [videoOption, setVideoOption] = useState({
     audioSource: undefined,
     videoSource: undefined,
     publishAudio: false, //!isArtist로 변경할것
@@ -56,6 +56,19 @@ export function useMeeting(isArtist: boolean) {
       session: OV.initSession(),
     }));
   }, []);
+
+  useEffect(() => {
+    CONSOLE.useEffectIn('MeetingPage_videoOption');
+    const newPublisher = OV.initPublisher(undefined, videoOption);
+    CONSOLE.info('newPublisher!');
+    console.log(newPublisher);
+    CONSOLE.setCalled('meetingInfo');
+    setMeetingInfo((prevState) => ({
+      ...prevState,
+      mainStreamManager: newPublisher,
+      publisher: newPublisher,
+    }));
+  }, [videoOption]);
 
   useEffect(() => {
     if (meetingInfo.session && !isTokenRequested.current) {
@@ -89,6 +102,14 @@ export function useMeeting(isArtist: boolean) {
       });
     }
   }, [meetingInfo]);
+
+  const handleCameraOnOff = ({ onMyCamera }: { onMyCamera: boolean }) => {
+    setVideoOption((prevState) => ({
+      ...prevState,
+      publishVideo: onMyCamera,
+    }));
+    console.log('camera!!', videoOption, onMyCamera);
+  };
 
   const handleStreamCreated = (event: any) => {
     CONSOLE.event('누군가 참여했습니다!!!!!');
@@ -152,6 +173,7 @@ export function useMeeting(isArtist: boolean) {
     meetingInfo,
     videoOption,
     isTokenRequested,
+    handleCameraOnOff,
     handleStreamCreated,
     handleStreamDestroyed,
     handleException,
