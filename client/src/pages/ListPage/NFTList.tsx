@@ -17,14 +17,10 @@ import { useMemo, useState } from 'react';
 import Loading from '@components/common/Loading';
 import SearchResultTitle from '@components/ListPage/SearchResultTitle';
 import ToggleButton from '@components/Button/ToggleButton';
-import {
-  getArtistData,
-  getSearchData,
-  useFetchArtistSearch,
-} from '@api/ListQuery/ArtistQuery';
+import { getArtistData, getSearchData } from '@api/ListQuery/ArtistQuery';
 import useIntersect from '@hooks/IntersectionObserverHook';
 
-const ArtistList = () => {
+const NFTList = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -89,7 +85,7 @@ const ArtistList = () => {
     <div>
       <TopFrame>
         <MainTitle>
-          아티스트<div className="dot"></div>
+          NFT<div className="dot"></div>
         </MainTitle>
         <SearchBar
           nowStat={ARTIST}
@@ -209,4 +205,4 @@ export const Target = styled.div`
   height: 1px;
 `;
 
-export default ArtistList;
+export default NFTList;
