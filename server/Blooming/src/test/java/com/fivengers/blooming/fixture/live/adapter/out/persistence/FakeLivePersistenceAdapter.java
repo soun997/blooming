@@ -28,6 +28,13 @@ public class FakeLivePersistenceAdapter implements LivePort {
                 .toList();
     }
 
+    @Override
+    public List<Live> findByArtistStageName(String keyword, Pageable pageable) {
+        return store.values().stream()
+                .filter(live -> live.getArtist().getStageName().contains(keyword))
+                .toList();
+    }
+
     private static boolean isPersistenceObject(Live live) {
         return live.getId() != null;
     }
