@@ -6,21 +6,23 @@ import lombok.Builder;
 
 @Builder
 public record ConcertListResponse(Long id,
-                                  String name,
-                                  Long fundingAmount,
-                                  Long targetAmount,
-                                  LocalDateTime startedAt,
-                                  LocalDateTime endedAt,
-                                  String imageUrl) {
+                                  String title,
+                                  String description,
+                                  String profileImg,
+                                  LocalDateTime startDate,
+                                  LocalDateTime endDate,
+                                  Long totalProcess,
+                                  Long nowProcess) {
 
     public static ConcertListResponse from(Concert concert) {
         return ConcertListResponse.builder()
                 .id(concert.getId())
-                .name(concert.getName())
-                .fundingAmount(concert.getFundingAmount())
-                .targetAmount(concert.getTargetAmount())
-                .startedAt(concert.getStartedAt())
-                .endedAt(concert.getEndedAt())
+                .title(concert.getName())
+                .description(concert.getDescription())
+                .totalProcess(concert.getTargetAmount())
+                .nowProcess(concert.getFundingAmount())
+                .startDate(concert.getStartedAt())
+                .endDate(concert.getEndedAt())
                 .build();
     }
 }
