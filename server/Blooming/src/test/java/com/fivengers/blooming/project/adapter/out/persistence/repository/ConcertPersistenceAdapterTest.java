@@ -29,9 +29,9 @@ public class ConcertPersistenceAdapterTest {
     void findAllConcerts() {
         // given
         LocalDateTime now = LocalDateTime.now();
-        ArtistJpaEntity artist = new ArtistJpaEntity();
+        ArtistJpaEntity artist = ArtistJpaEntity.builder().build();
         artistSpringDataRepository.save(artist);
-        ArtistJpaEntity artist2 = new ArtistJpaEntity();
+        ArtistJpaEntity artist2 = ArtistJpaEntity.builder().build();
         artistSpringDataRepository.save(artist2);
 
         ConcertJpaEntity concert1 = ConcertJpaEntity.builder()
@@ -50,7 +50,7 @@ public class ConcertPersistenceAdapterTest {
                 .artist(artist)
                 .build();
         concertSpringDataRepository.save(concert2);
-        List<Concert> concerts = concertPersistenceAdapter.findAll();
+        List<Concert> concerts = concertPersistenceAdapter.findAll(null);
         assertThat(concerts).hasSize(2);
     }
 }

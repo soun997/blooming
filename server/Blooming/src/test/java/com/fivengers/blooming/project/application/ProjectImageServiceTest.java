@@ -6,7 +6,7 @@ import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.project.application.service.ProjectImageService;
 import com.fivengers.blooming.project.domain.Concert;
 import com.fivengers.blooming.project.domain.ProjectImage;
-import com.fivengers.blooming.project.fixture.project.adapter.out.persistence.FakeProjectImagePersistenceAdapter;
+import com.fivengers.blooming.fixture.project.adapter.out.persistence.FakeProjectImagePersistenceAdapter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class ProjectImageServiceTest {
                 .description("아이유 데뷔 20주년을 기념하는 콘서트")
                 .createdAt(now)
                 .modifiedAt(now)
-                .artist(new Artist())
+                .artist(Artist.builder().build())
                 .build();
         List<ProjectImage> images = new ArrayList<>();
         LongStream.range(1, 11).forEach(idx -> {
