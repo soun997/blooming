@@ -21,6 +21,7 @@ public class ProjectMapper {
                 projectJpaEntity.getTargetAmount(),
                 projectJpaEntity.getStartedAt(),
                 projectJpaEntity.getEndedAt(),
+                projectJpaEntity.getIntroduction(),
                 projectJpaEntity.getDescription(),
                 projectJpaEntity.getCreatedAt(),
                 projectJpaEntity.getModifiedAt(),
@@ -36,6 +37,7 @@ public class ProjectMapper {
                 project.getTargetAmount(),
                 project.getStartedAt(),
                 project.getEndedAt(),
+                project.getIntroduction(),
                 project.getDescription(),
                 false,
                 artistMapper.toJpaEntity(project.getArtist())
