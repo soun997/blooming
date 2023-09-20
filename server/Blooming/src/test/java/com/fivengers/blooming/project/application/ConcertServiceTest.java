@@ -75,8 +75,6 @@ public class ConcertServiceTest {
         //then
         assertThat(found).hasSize(2);
         assertThat(found).containsExactly(concerts.get(2), concerts.get(1));
-        System.out.println(concerts.get(1).getCreatedAt());
-        System.out.println(concerts.get(2).getCreatedAt());
     }
 
     private List<Concert> createConcertList() {
