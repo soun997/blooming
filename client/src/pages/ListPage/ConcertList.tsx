@@ -8,10 +8,8 @@ import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
 import {
-  ARTIST,
   CONCERT,
   FUNDING_PHRASES,
-  NFT_PHRASES,
   POPULAR,
   RECENTLY,
 } from '@components/common/constant';
@@ -24,7 +22,7 @@ import {
   RightSection,
   SortOption,
   Target,
-} from './ArtistList';
+} from './NFTList';
 import ToggleButton from '@components/Button/ToggleButton';
 import useIntersect from '@hooks/IntersectionObserverHook';
 import { getConcertData, getSearchData } from '@api/ListQuery/ConcertQuery';
@@ -55,13 +53,10 @@ const ConcertList = () => {
       scrollInfoForDefault.fetchNextPage();
     }
   });
+
   const { isLoading: isLoadingBest, data: bestConcertData } = useQuery<
     ProcessInfo[]
   >(['concert-best'], fetchBestConcert);
-
-  if (!bestConcertData) {
-    return <Loading />;
-  }
 
   const handleSearch = (data?: string, isArtistSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
@@ -89,6 +84,10 @@ const ConcertList = () => {
     setSelectedSort(sort);
     scrollInfoForDefault.remove();
   };
+
+  if (!bestConcertData || isLoadingBest) {
+    return <Loading />;
+  }
 
   return (
     <div>

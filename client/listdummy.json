@@ -272,8 +272,8 @@
         "title": "아이유 (IU)",
         "description": "대한민국의 가수이자 배우이다. 배우로 활동할 때도 예명을 사용한다. '아이유(IU)'라는 예명은 'I'와 'You'를 합친 합성어로 '너와 내가 음악으로 하나가 된다'라는 의미이다.",
         "profileImg": "src/assets/images/cyr-concert.jpg",
-        "startDate": "2023-09-01",
-        "endDate": "2023-10-12",
+        "startDate": "2023-09-20T16:47:25.0625692",
+        "endDate": "2023-10-20T16:47:25.0625692",
         "nowProcess": 124,
         "totalProcess": 300
       },
