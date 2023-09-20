@@ -10,7 +10,7 @@ interface Props {
   nowStat: string;
   keyword: string;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
-  onSearch: () => void;
+  onSearch: (data?: string) => void;
 }
 
 const SearchBar: React.FC<Props> = ({
@@ -63,8 +63,14 @@ const SearchBar: React.FC<Props> = ({
           <div className="autolist">
             {autoSearchData &&
               keyword.length > 0 &&
-              autoSearchData.map((data: string) => (
-                <div className="eachData">{data}</div>
+              autoSearchData.map((data: string, id: number) => (
+                <div
+                  key={id}
+                  className="eachData"
+                  onClick={() => onSearch(data)}
+                >
+                  {data}
+                </div>
               ))}
           </div>
         </AutoSearch>
@@ -86,6 +92,7 @@ const fetchAutoSearchData = async (keyword: string) => {
 interface StyleProps {
   isArtist: boolean;
 }
+
 const AutoSearch = styled.div<StyleProps>`
   background-color: var(--white-color);
   z-index: 1;

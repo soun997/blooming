@@ -20,7 +20,12 @@ const ArtistList = () => {
     return <></>;
   }
 
-  const handleSearch = () => {
+  const handleSearch = (data?: string) => {
+    if (data) {
+      console.log(`검색할게 ${data}`);
+    } else {
+      console.log(`검색할게 ${keyword}`);
+    }
     setShowResult(true);
   };
   return (
