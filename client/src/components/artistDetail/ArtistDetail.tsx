@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 const ArtistDetail = () => {
+  const googleTrends = require('google-trends-api');
+
   return (
     <ArtistDetailBox>
       <ActiveFundingBox>
@@ -149,11 +151,16 @@ const ArtistDetail = () => {
       </YoutubeBox>
       <SearchGraphBox>
         <div className="detail_title">검색결과 분석</div>
-        <img
+        {/* <img
           src="src/assets/images/search_analysis_graph.png"
           alt=""
           className="search_graph"
-        />
+        /> */}
+        <script
+          type="text/javascript"
+          src="https://ssl.gstatic.com/trends_nrtr/3461_RC01/embed_loader.js"
+        ></script>
+        {/* <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"김재환","geo":"KR","time":"today 1-m"}],"category":0,"property":""}, {"exploreQuery":"date=today%201-m&geo=KR&q=%EA%B9%80%EC%9E%AC%ED%99%98&hl=ko","guestPath":"https://trends.google.co.kr:443/trends/embed/"}) </script> */}
       </SearchGraphBox>
     </ArtistDetailBox>
   );

@@ -1,10 +1,87 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
 import { Navigation, Pagination } from 'swiper/modules';
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+} from 'chart.js';
+import { Bar, Line } from 'react-chartjs-2';
+import faker from 'faker';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+);
+
 const FundingDetail = () => {
+  //그래프 관련
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        display: false,
+      },
+      title: {
+        display: true,
+        // text: 'Chart.js Bar Chart',
+      },
+    },
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+  };
+
+  //조회수 선 그래프
+
+  const data1 = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: '누적 조회수 (회)',
+        data: [123403, 123603, 125079, 126030, 129029, 130294, 135049],
+        borderColor: '#3061B9',
+        backgroundColor: '#3061B9',
+      },
+    ],
+  };
+  //지난 활동 수익율 막대 그래프
+
+  const data2 = {
+    labels: [
+      ['봄바람', '2022-01-01'],
+      ['Empty Dream', '2022-01-01'],
+      ['J.A.M (Journey Above Music)', '2022-01-01'],
+      ['THE LETTER', '2022-01-01'],
+      ['B-Side', '2022-01-01'],
+    ],
+    datasets: [
+      {
+        label: '수익률 (%)',
+        data: [1, 2, -3, 5, 6],
+        backgroundColor: '#A8BEE1',
+      },
+    ],
+  };
+
+  // 스크롤 관련
   const albumInfoRef = useRef<HTMLDivElement>(null);
   const revenueAnalysisRef = useRef<HTMLDivElement>(null);
   const otherActionRef = useRef<HTMLDivElement>(null);
@@ -151,11 +228,12 @@ const FundingDetail = () => {
             </VideoBox>
             <ViewsBox>
               <div className="views_title">조회수</div>
-              <img
+              {/* <img
                 src="src/assets/images/views.png"
                 alt="조회수 이미지"
                 className="views_img"
-              />
+              /> */}
+              <Line options={options} data={data1} />
             </ViewsBox>
           </TeaserVideoBox>
 
@@ -221,7 +299,9 @@ const FundingDetail = () => {
         {/* 지난 활동 수익 분석 */}
         <RevenueAnalysisBox ref={revenueAnalysisRef}>
           <div className="detail_title">지난 활동 수익 분석</div>
-          <RevenueBox>
+
+          <Bar options={options} data={data2} />
+          {/* <RevenueBox>
             <RevenueAlbumBox>
               <img
                 src="src/assets/images/main_album_img.png"
@@ -302,7 +382,7 @@ const FundingDetail = () => {
                 <div className="revenue_bar_content">+12%</div>
               </RevenueBarInfoTextBox>
             </RevenueBarInfoBox>
-          </RevenueBox>
+          </RevenueBox> */}
         </RevenueAnalysisBox>
         <OtherActionBox ref={otherActionRef}>
           <div className="detail_title">기타 활동</div>
@@ -806,11 +886,13 @@ const ViewsBox = styled.div`
 
 const VideoBox = styled.div`
   margin: 0 26px;
-  width: 56.6%;
+  width: 100%;
+  height: 'auto';
 `;
 
 const TeaserVideoBox = styled.div`
   display: flex;
+  height: 350px;
 `;
 
 const AlbumInfoBox = styled.div`
