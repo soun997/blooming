@@ -18,8 +18,16 @@ import {
 import { ProcessInfo } from '@type/ProcessInfo';
 import Loading from '@components/common/Loading';
 import SearchResultTitle from '@components/ListPage/SearchResultTitle';
-import { LeftSection, NowToggle, RightSection, SortOption } from './ArtistList';
+import {
+  LeftSection,
+  NowToggle,
+  RightSection,
+  SortOption,
+  Target,
+} from './ArtistList';
 import ToggleButton from '@components/Button/ToggleButton';
+import useIntersect from '@hooks/IntersectionObserverHook';
+import { getConcertData, getSearchData } from '@api/ListQuery/ConcertQuery';
 
 const ConcertList = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -28,24 +36,30 @@ const ConcertList = () => {
   const [isToggled, setIsToggled] = useState(true);
   const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
 
-  const { isLoading: isLoadingList, data: concertData } = useQuery<
-    ProcessInfo[]
-  >(['concert-list'], fetchConcertList);
+  const scrollInfoForSearch = getSearchData({ searchKeyword });
+  const scrollInfoForDefault = getConcertData({
+    sort: selectedSort,
+    ongoing: false,
+    // isToggled 로 바꿀것
+  });
+
+  const refForSearch = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (scrollInfoForSearch.hasNextPage && !scrollInfoForSearch.isFetching) {
+      scrollInfoForSearch.fetchNextPage();
+    }
+  });
+  const refForDefault = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (scrollInfoForDefault.hasNextPage && !scrollInfoForDefault.isFetching) {
+      scrollInfoForDefault.fetchNextPage();
+    }
+  });
   const { isLoading: isLoadingBest, data: bestConcertData } = useQuery<
     ProcessInfo[]
   >(['concert-best'], fetchBestConcert);
-  const { isLoading, data: searchData } = useQuery(
-    ['search-result-concert', searchKeyword],
-    () => fetchSearchResult(),
-  );
 
-  if (
-    !concertData ||
-    !bestConcertData ||
-    !searchData ||
-    isLoadingBest ||
-    isLoadingList
-  ) {
+  if (!bestConcertData) {
     return <Loading />;
   }
 
@@ -68,10 +82,12 @@ const ConcertList = () => {
 
   const handleToggleChange = (checked: boolean) => {
     setIsToggled(checked);
+    scrollInfoForDefault.remove();
   };
 
   const handleSortChange = (sort: string) => {
     setSelectedSort(sort);
+    scrollInfoForDefault.remove();
   };
 
   return (
@@ -90,7 +106,14 @@ const ConcertList = () => {
       {showResult ? (
         <>
           <SearchResultTitle title={searchKeyword} />
-          <ResultList datas={searchData} nowStat={CONCERT} />
+          <ResultList
+            datas={scrollInfoForSearch.searchData}
+            nowStat={CONCERT}
+          />
+          {scrollInfoForSearch.isFetching && scrollInfoForSearch.isLoading && (
+            <Loading />
+          )}
+          <Target ref={refForSearch} />
         </>
       ) : (
         <>
@@ -121,21 +144,17 @@ const ConcertList = () => {
               </SortOption>
             </RightSection>
           </NowToggle>
-          <ResultList datas={concertData} nowStat={CONCERT} />
+          <ResultList
+            datas={scrollInfoForDefault.searchData}
+            nowStat={CONCERT}
+          />
+          {scrollInfoForDefault.isFetching &&
+            scrollInfoForDefault.isLoading && <Loading />}
+          <Target ref={refForDefault} />
         </>
       )}
     </div>
   );
-};
-
-const fetchConcertList = async () => {
-  try {
-    const response = await axios.get('/concert');
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw new Error('콘서트 리스트 요청 실패');
-  }
 };
 
 const fetchBestConcert = async () => {
@@ -145,15 +164,6 @@ const fetchBestConcert = async () => {
   } catch (error) {
     console.log(error);
     throw new Error('콘서트 베스트 리스트 요청 실패');
-  }
-};
-
-const fetchSearchResult = async () => {
-  try {
-    const response = await axios.get('/search-result');
-    return response.data;
-  } catch (error) {
-    console.log(error);
   }
 };
 

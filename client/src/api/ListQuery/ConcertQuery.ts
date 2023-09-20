@@ -4,18 +4,18 @@ import { useMemo } from 'react';
 import { POPULAR } from '@components/common/constant';
 
 const userKeys = {
-  search: 'search-result-artist',
-  default: 'default-result-artist',
+  search: 'search-result-concert',
+  default: 'default-result-concert',
 };
 
-const ARTIST_BASE_URL = '/search-result';
+const CONCERT_BASE_URL = '/search-result';
 const SEARCH_QUERY_SIZE = 10;
 
-export const useFetchArtistSearch = ({ query }: { query: string }) =>
+export const useFetchConcertSearch = ({ query }: { query: string }) =>
   useInfiniteQuery(
     userKeys.search,
     ({ pageParam = 0 }: QueryFunctionContext) =>
-      axios.get(ARTIST_BASE_URL, {
+      axios.get(CONCERT_BASE_URL, {
         params: {
           q: query,
           page: pageParam,
@@ -31,7 +31,7 @@ export const useFetchArtistSearch = ({ query }: { query: string }) =>
 
 export const getSearchData = ({ searchKeyword }: { searchKeyword: string }) => {
   const { data, hasNextPage, isFetching, fetchNextPage, isLoading } =
-    useFetchArtistSearch({
+    useFetchConcertSearch({
       query: searchKeyword,
     });
 
@@ -43,7 +43,7 @@ export const getSearchData = ({ searchKeyword }: { searchKeyword: string }) => {
   return { searchData, hasNextPage, isFetching, fetchNextPage, isLoading };
 };
 
-export const useFetchArtistDefault = ({
+export const useFetchConcertDefault = ({
   url,
   sort,
 }: {
@@ -53,7 +53,7 @@ export const useFetchArtistDefault = ({
   useInfiniteQuery(
     userKeys.default,
     ({ pageParam = 0 }: QueryFunctionContext) =>
-      axios.get(`${ARTIST_BASE_URL}${url}`, {
+      axios.get(`${CONCERT_BASE_URL}${url}`, {
         params: {
           page: pageParam,
           size: SEARCH_QUERY_SIZE,
@@ -66,7 +66,7 @@ export const useFetchArtistDefault = ({
     },
   );
 
-export const getArtistData = ({
+export const getConcertData = ({
   sort,
   ongoing,
 }: {
@@ -74,7 +74,7 @@ export const getArtistData = ({
   ongoing: boolean;
 }) => {
   const { data, hasNextPage, isFetching, fetchNextPage, isLoading, remove } =
-    useFetchArtistDefault({
+    useFetchConcertDefault({
       url: ongoing ? '/ongoing' : '',
       sort: sort === POPULAR ? 'nftAmount,desc' : 'createdAt,desc',
     });

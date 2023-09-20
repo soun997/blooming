@@ -150,16 +150,6 @@ const ArtistList = () => {
   );
 };
 
-const fetchArtistList = async () => {
-  try {
-    const response = await axios.get('/artist');
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw new Error('아티스트 리스트 요청 실패');
-  }
-};
-
 const fetchBestArtist = async () => {
   try {
     const response = await axios.get('/artist-best');
@@ -170,9 +160,6 @@ const fetchBestArtist = async () => {
   }
 };
 
-const useArtistQuery = () => {
-  return useQuery(['artist-list'], () => fetchArtistList(), {});
-};
 const useArtistBestQuery = () => {
   return useQuery(['artist-best'], () => fetchBestArtist(), {});
 };
@@ -218,7 +205,7 @@ export const NowToggle = styled.div`
   align-items: center;
   margin-top: 100px;
 `;
-const Target = styled.div`
+export const Target = styled.div`
   height: 1px;
 `;
 
