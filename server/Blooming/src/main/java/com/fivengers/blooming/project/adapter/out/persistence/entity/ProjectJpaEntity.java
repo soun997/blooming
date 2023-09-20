@@ -17,11 +17,13 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "project")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectJpaEntity extends BaseTime {
 
@@ -40,6 +42,8 @@ public class ProjectJpaEntity extends BaseTime {
     @Column
     private LocalDateTime endedAt;
     @Column
+    private String introduction;
+    @Column
     private String description;
     @Column
     private Boolean deleted;
@@ -48,8 +52,15 @@ public class ProjectJpaEntity extends BaseTime {
     @JoinColumn(name = "artist_id")
     private ArtistJpaEntity artist;
 
-    public ProjectJpaEntity(Long id, String name, Long fundingAmount, Long targetAmount,
-            LocalDateTime startedAt, LocalDateTime endedAt, String description, Boolean deleted,
+    public ProjectJpaEntity(Long id,
+            String name,
+            Long fundingAmount,
+            Long targetAmount,
+            LocalDateTime startedAt,
+            LocalDateTime endedAt,
+            String introduction,
+            String description,
+            Boolean deleted,
             ArtistJpaEntity artist) {
         this.id = id;
         this.name = name;
@@ -57,6 +68,7 @@ public class ProjectJpaEntity extends BaseTime {
         this.targetAmount = targetAmount;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
+        this.introduction = introduction;
         this.description = description;
         this.deleted = deleted;
         this.artist = artist;
