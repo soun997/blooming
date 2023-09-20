@@ -30,11 +30,8 @@ public class ConcertController {
     @GetMapping("/ongoing")
     public ApiResponse<List<ConcertListResponse>> ongoingConcertList(Pageable pageable) {
 
-        return new ApiResponse<>(HttpStatus.OK.value(),
-                concertUseCase.searchAllOngoingProject(pageable).stream()
-                        .map(ConcertListResponse::from)
-                        .toList());
+        return ApiResponse.ok(concertUseCase.searchAllOngoingProject(pageable).stream()
+                .map(ConcertListResponse::from)
+                .toList());
     }
-
-
 }
