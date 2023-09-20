@@ -2,6 +2,10 @@ package com.fivengers.blooming.membership.adapter.out.persistence.repository;
 
 import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
 import com.fivengers.blooming.artist.adapter.out.persistence.repository.ArtistSpringDataRepository;
+import com.fivengers.blooming.member.adapter.out.persistence.entity.MemberJpaEntity;
+import com.fivengers.blooming.member.adapter.out.persistence.entity.Oauth;
+import com.fivengers.blooming.member.adapter.out.persistence.repository.MemberSpringDataRepository;
+import com.fivengers.blooming.member.domain.AuthProvider;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.MembershipJpaEntity;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.NftSaleJpaEntity;
 import com.fivengers.blooming.membership.domain.Membership;
@@ -28,17 +32,29 @@ class MembershipPersistenceAdapterTest {
     @Autowired MembershipSpringDataRepository membershipSpringDataRepository;
     @Autowired ArtistSpringDataRepository artistSpringDataRepository;
     @Autowired NftSpringDataRepository nftSpringDataRepository;
+    @Autowired MemberSpringDataRepository memberSpringDataRepository;
     @Autowired MembershipPersistenceAdapter membershipPersistenceAdapter;
+    MemberJpaEntity member;
     ArtistJpaEntity artist;
     NftJpaEntity nft1;
     NftJpaEntity nft2;
 
     @BeforeEach
     void initObjects() {
+        member = MemberJpaEntity.builder()
+                .oauth(new Oauth(AuthProvider.KAKAO, "1234567"))
+                .name("이지은")
+                .nickname("아이유")
+                .account("12345678")
+                .deleted(false)
+                .build();
+        memberSpringDataRepository.save(member);
         artist = ArtistJpaEntity.builder()
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
+                .profileImageUrl("https://image.com")
+                .memberJpaEntity(member)
                 .deleted(false)
                 .build();
         artistSpringDataRepository.save(artist);

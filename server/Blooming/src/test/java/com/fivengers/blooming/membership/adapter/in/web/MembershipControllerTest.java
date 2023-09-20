@@ -92,7 +92,7 @@ class MembershipControllerTest extends RestDocsTest {
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isOk())
-                .andExpect(jsonPath("$.results[0].title").value(membership.getTitle()));
+                .andExpect(jsonPath("$.results.content[0].title").value(membership.getTitle()));
 
         perform.andDo(print())
                 .andDo(document("membership-list",
