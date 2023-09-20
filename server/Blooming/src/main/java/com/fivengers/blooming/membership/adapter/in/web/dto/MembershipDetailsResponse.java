@@ -1,6 +1,8 @@
 package com.fivengers.blooming.membership.adapter.in.web.dto;
 
+import com.fivengers.blooming.artist.adapter.in.web.dto.ArtistOfMembershipResponse;
 import com.fivengers.blooming.membership.domain.Membership;
+import com.fivengers.blooming.nft.adapter.in.web.dto.NftDetailsResponse;
 import java.time.LocalDateTime;
 import lombok.Builder;
 
@@ -15,7 +17,10 @@ public record MembershipDetailsResponse(String title,
                                         Integer saleCount,
                                         String thumbnailUri,
                                         LocalDateTime createdAt,
-                                        LocalDateTime modifiedAt) {
+                                        LocalDateTime modifiedAt,
+                                        ArtistOfMembershipResponse artist,
+                                        NftDetailsResponse nft,
+                                        NftSaleResponse nftSale) {
 
     public static MembershipDetailsResponse from(Membership membership) {
         return MembershipDetailsResponse.builder()
@@ -30,6 +35,9 @@ public record MembershipDetailsResponse(String title,
                 .thumbnailUri(membership.getThumbnailUrl())
                 .createdAt(membership.getCreatedAt())
                 .modifiedAt(membership.getModifiedAt())
+                .artist(ArtistOfMembershipResponse.from(membership.getArtist()))
+                .nft(NftDetailsResponse.from(membership.getNft()))
+                .nftSale(NftSaleResponse.from(membership.getNftSale()))
                 .build();
     }
 }
