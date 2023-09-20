@@ -13,10 +13,16 @@ import {
   POPULAR,
   RECENTLY,
 } from '@components/common/constant';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Loading from '@components/common/Loading';
 import SearchResultTitle from '@components/ListPage/SearchResultTitle';
 import ToggleButton from '@components/Button/ToggleButton';
+import {
+  getArtistData,
+  getSearchData,
+  useFetchArtistSearch,
+} from '@api/ListQuery/ArtistQuery';
+import useIntersect from '@hooks/IntersectionObserverHook';
 
 const ArtistList = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -26,14 +32,29 @@ const ArtistList = () => {
   const [isToggled, setIsToggled] = useState(true);
   const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
 
-  const { data: artistData } = useArtistQuery();
   const { data: bestArtistData } = useArtistBestQuery();
-  const { isLoading, data: searchData } = useQuery(
-    ['search-result-artist', searchKeyword],
-    () => fetchSearchResult(),
-  );
 
-  if (!artistData || !bestArtistData || !searchData) {
+  const scrollInfoForSearch = getSearchData({ searchKeyword });
+  const scrollInfoForDefault = getArtistData({
+    sort: selectedSort,
+    ongoing: false,
+    // isToggled 로 바꿀것
+  });
+
+  const refForSearch = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (scrollInfoForSearch.hasNextPage && !scrollInfoForSearch.isFetching) {
+      scrollInfoForSearch.fetchNextPage();
+    }
+  });
+  const refForDefault = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (scrollInfoForDefault.hasNextPage && !scrollInfoForDefault.isFetching) {
+      scrollInfoForDefault.fetchNextPage();
+    }
+  });
+
+  if (!bestArtistData) {
     return <Loading />;
   }
 
@@ -56,10 +77,12 @@ const ArtistList = () => {
 
   const handleToggleChange = (checked: boolean) => {
     setIsToggled(checked);
+    scrollInfoForDefault.remove();
   };
 
   const handleSortChange = (sort: string) => {
     setSelectedSort(sort);
+    scrollInfoForDefault.remove();
   };
 
   return (
@@ -78,7 +101,11 @@ const ArtistList = () => {
       {showResult ? (
         <>
           <SearchResultTitle title={searchKeyword} />
-          <ResultList datas={searchData} nowStat={ARTIST} />
+          <ResultList datas={scrollInfoForSearch.searchData} nowStat={ARTIST} />
+          {scrollInfoForSearch.isFetching && scrollInfoForSearch.isLoading && (
+            <Loading />
+          )}
+          <Target ref={refForSearch} />
         </>
       ) : (
         <>
@@ -110,7 +137,13 @@ const ArtistList = () => {
               </SortOption>
             </RightSection>
           </NowToggle>
-          <ResultList datas={artistData} nowStat={ARTIST} />
+          <ResultList
+            datas={scrollInfoForDefault.searchData}
+            nowStat={ARTIST}
+          />
+          {scrollInfoForDefault.isFetching &&
+            scrollInfoForDefault.isLoading && <Loading />}
+          <Target ref={refForDefault} />
         </>
       )}
     </div>
@@ -134,15 +167,6 @@ const fetchBestArtist = async () => {
   } catch (error) {
     console.log(error);
     throw new Error('아티스트 베스트 리스트 요청 실패');
-  }
-};
-
-const fetchSearchResult = async () => {
-  try {
-    const response = await axios.get('/search-result');
-    return response.data;
-  } catch (error) {
-    console.log(error);
   }
 };
 
@@ -194,4 +218,8 @@ export const NowToggle = styled.div`
   align-items: center;
   margin-top: 100px;
 `;
+const Target = styled.div`
+  height: 1px;
+`;
+
 export default ArtistList;

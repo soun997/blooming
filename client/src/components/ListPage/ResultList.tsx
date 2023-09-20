@@ -7,6 +7,7 @@ interface Props {
   nowStat: string;
 }
 const ResultList: React.FC<Props> = ({ datas, nowStat }) => {
+  console.log(datas);
   return (
     <ResultFrame>
       <BoxFrame>

@@ -1,4 +1,5 @@
 export interface ProcessInfo {
+  id: number;
   title: string;
   description: string;
   profileImg: string;
