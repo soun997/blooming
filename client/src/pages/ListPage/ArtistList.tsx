@@ -6,28 +6,62 @@ import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
-import { ARTIST } from '@components/common/constant';
+import {
+  ARTIST,
+  FUNDING_PHRASES,
+  NFT_PHRASES,
+  POPULAR,
+  RECENTLY,
+} from '@components/common/constant';
 import { useState } from 'react';
+import Loading from '@components/common/Loading';
+import SearchResultTitle from '@components/ListPage/SearchResultTitle';
+import ToggleButton from '@components/Button/ToggleButton';
 
 const ArtistList = () => {
-  const { data: artistData } = useArtistQuery();
-  const { data: bestArtistData } = useArtistBestQuery();
   const [keyword, setKeyword] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-  if (!artistData || !bestArtistData) {
-    //!oading 페이지
-    return <></>;
+  const [isToggled, setIsToggled] = useState(true);
+  const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
+
+  const { data: artistData } = useArtistQuery();
+  const { data: bestArtistData } = useArtistBestQuery();
+  const { isLoading, data: searchData } = useQuery(
+    ['search-result-artist', searchKeyword],
+    () => fetchSearchResult(),
+  );
+
+  if (!artistData || !bestArtistData || !searchData) {
+    return <Loading />;
   }
 
-  const handleSearch = (data?: string) => {
-    if (data) {
-      console.log(`검색할게 ${data}`);
-    } else {
-      console.log(`검색할게 ${keyword}`);
-    }
+  const handleSearch = (data?: string, isArtistSearch?: boolean) => {
+    setSearchKeyword(data ? data : keyword);
     setShowResult(true);
+    if (isArtistSearch === undefined) {
+      //아티스트 NFT 검색
+      console.log('i am nft');
+    } else {
+      if (isArtistSearch) {
+        //아티스트로 검색
+        console.log('artist');
+      } else {
+        //콘서트나 활동명으로 검색
+        console.log('concert or activity');
+      }
+    }
   };
+
+  const handleToggleChange = (checked: boolean) => {
+    setIsToggled(checked);
+  };
+
+  const handleSortChange = (sort: string) => {
+    setSelectedSort(sort);
+  };
+
   return (
     <div>
       <TopFrame>
@@ -41,8 +75,44 @@ const ArtistList = () => {
           onSearch={handleSearch}
         />
       </TopFrame>
-      <TopRankList bestData={bestArtistData} nowStat={ARTIST} />
-      <ResultList datas={artistData} nowStat={ARTIST} />
+      {showResult ? (
+        <>
+          <SearchResultTitle title={searchKeyword} />
+          <ResultList datas={searchData} nowStat={ARTIST} />
+        </>
+      ) : (
+        <>
+          <TopRankList bestData={bestArtistData} nowStat={ARTIST} />
+          <NowToggle>
+            <LeftSection>
+              <div className="toggleTitle">
+                모집중인 {ARTIST ? NFT_PHRASES.name : FUNDING_PHRASES.name}만
+                보기
+              </div>
+              <ToggleButton
+                defaultChecked={isToggled}
+                onChange={handleToggleChange}
+              />
+            </LeftSection>
+            <RightSection>
+              <SortOption
+                onClick={() => handleSortChange(POPULAR)}
+                isSelected={selectedSort === POPULAR}
+              >
+                인기순
+              </SortOption>
+              |
+              <SortOption
+                onClick={() => handleSortChange(RECENTLY)}
+                isSelected={selectedSort === RECENTLY}
+              >
+                최신순
+              </SortOption>
+            </RightSection>
+          </NowToggle>
+          <ResultList datas={artistData} nowStat={ARTIST} />
+        </>
+      )}
     </div>
   );
 };
@@ -67,6 +137,15 @@ const fetchBestArtist = async () => {
   }
 };
 
+const fetchSearchResult = async () => {
+  try {
+    const response = await axios.get('/search-result');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const useArtistQuery = () => {
   return useQuery(['artist-list'], () => fetchArtistList(), {});
 };
@@ -81,4 +160,38 @@ const TopFrame = styled.div`
   justify-content: space-between;
 `;
 
+export const LeftSection = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+export const RightSection = styled.div`
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 17px;
+  color: var(--gray-color);
+`;
+
+export const SortOption = styled.div<{ isSelected: boolean }>`
+  cursor: pointer;
+  color: ${(props) =>
+    props.isSelected ? 'var(--main1-color)' : 'var(--gray-color)'};
+
+  &:hover {
+    color: var(--main1-color);
+  }
+`;
+
+export const NowToggle = styled.div`
+  .toggleTitle {
+    font-size: 25px;
+    font-weight: 700;
+  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 100px;
+`;
 export default ArtistList;

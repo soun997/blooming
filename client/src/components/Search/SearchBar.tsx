@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from '@api/apiController';
 import { useQuery } from 'react-query';
@@ -10,7 +10,7 @@ interface Props {
   nowStat: string;
   keyword: string;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
-  onSearch: (data?: string) => void;
+  onSearch: (data?: string, isArtistSearch?: boolean) => void;
 }
 
 const SearchBar: React.FC<Props> = ({
@@ -20,6 +20,8 @@ const SearchBar: React.FC<Props> = ({
   onSearch,
 }) => {
   const [isArtist, setIsArtist] = useState(false);
+  const [isAutoBox, setIsAutoBox] = useState(true);
+  const [nowInput, setNowInput] = useState('');
 
   const { isLoading, data: autoSearchData } = useQuery(
     ['auto-search', keyword],
@@ -32,14 +34,17 @@ const SearchBar: React.FC<Props> = ({
 
   const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
-    console.log(e.currentTarget.value);
+    setNowInput(e.currentTarget.value);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      onSearch();
+      setIsAutoBox(false);
+      setNowInput('');
+      onSearch(undefined, isArtist);
     }
   };
+
   return (
     <BarFrame>
       {nowStat !== ARTIST && (
@@ -63,11 +68,15 @@ const SearchBar: React.FC<Props> = ({
           <div className="autolist">
             {autoSearchData &&
               keyword.length > 0 &&
+              nowInput.length > 0 &&
               autoSearchData.map((data: string, id: number) => (
                 <div
                   key={id}
                   className="eachData"
-                  onClick={() => onSearch(data)}
+                  onClick={() => {
+                    onSearch(data, nowStat === ARTIST ? undefined : isArtist);
+                    setNowInput('');
+                  }}
                 >
                   {data}
                 </div>
@@ -109,6 +118,10 @@ const AutoSearch = styled.div<StyleProps>`
     align-items: flex-start;
     gap: 20px;
     margin: 20px;
+  }
+
+  .eachData {
+    cursor: pointer;
   }
 `;
 

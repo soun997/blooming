@@ -9,11 +9,22 @@ import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
 import ResultList from '@components/ListPage/ResultList';
 import { ProcessInfo } from '@type/ProcessInfo';
-import { ACTIVE } from '@components/common/constant';
+import {
+  ACTIVE,
+  FUNDING_PHRASES,
+  POPULAR,
+  RECENTLY,
+} from '@components/common/constant';
+import SearchResultTitle from '@components/ListPage/SearchResultTitle';
+import { LeftSection, NowToggle, RightSection, SortOption } from './ArtistList';
+import ToggleButton from '@components/Button/ToggleButton';
 
 const ActiveList = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [isToggled, setIsToggled] = useState(true);
+  const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
 
   const { data: activeData } = useQuery<ProcessInfo[]>(
     ['active-list'],
@@ -23,16 +34,37 @@ const ActiveList = () => {
     ['active-best'],
     fetchBestConcert,
   );
-  const handleSearch = (data?: string) => {
-    if (data) {
-      console.log(`검색할게 ${data}`);
-    } else {
-      console.log(`검색할게 ${keyword}`);
-    }
+  const { isLoading, data: searchData } = useQuery(
+    ['search-result-active', searchKeyword],
+    () => fetchSearchResult(),
+  );
+
+  const handleSearch = (data?: string, isArtistSearch?: boolean) => {
+    setSearchKeyword(data ? data : keyword);
     setShowResult(true);
+    if (isArtistSearch === undefined) {
+      //아티스트 NFT 검색
+      console.log('i am nft');
+    } else {
+      if (isArtistSearch) {
+        //아티스트로 검색
+        console.log('artist');
+      } else {
+        //콘서트나 활동명으로 검색
+        console.log('concert or activity');
+      }
+    }
   };
 
-  if (!activeData || !bestActiveData) {
+  const handleToggleChange = (checked: boolean) => {
+    setIsToggled(checked);
+  };
+
+  const handleSortChange = (sort: string) => {
+    setSelectedSort(sort);
+  };
+
+  if (!activeData || !bestActiveData || !searchData) {
     return <></>;
   }
 
@@ -49,8 +81,43 @@ const ActiveList = () => {
           onSearch={handleSearch}
         />
       </TopFrame>
-      <TopRankList nowStat={ACTIVE} bestData={bestActiveData} />
-      <ResultList datas={activeData} nowStat={ACTIVE} />
+      {showResult ? (
+        <>
+          <SearchResultTitle title={searchKeyword} />
+          <ResultList datas={searchData} nowStat={ACTIVE} />
+        </>
+      ) : (
+        <>
+          <TopRankList bestData={bestActiveData} nowStat={ACTIVE} />
+          <NowToggle>
+            <LeftSection>
+              <div className="toggleTitle">
+                모집중인 {FUNDING_PHRASES.name}만 보기
+              </div>
+              <ToggleButton
+                defaultChecked={isToggled}
+                onChange={handleToggleChange}
+              />
+            </LeftSection>
+            <RightSection>
+              <SortOption
+                onClick={() => handleSortChange(POPULAR)}
+                isSelected={selectedSort === POPULAR}
+              >
+                인기순
+              </SortOption>
+              |
+              <SortOption
+                onClick={() => handleSortChange(RECENTLY)}
+                isSelected={selectedSort === RECENTLY}
+              >
+                최신순
+              </SortOption>
+            </RightSection>
+          </NowToggle>
+          <ResultList datas={activeData} nowStat={ACTIVE} />
+        </>
+      )}
     </div>
   );
 };
@@ -73,6 +140,14 @@ const fetchBestConcert = async () => {
   } catch (error) {
     console.log(error);
     throw new Error('활동 베스트 리스트 요청 실패');
+  }
+};
+const fetchSearchResult = async () => {
+  try {
+    const response = await axios.get('/search-result');
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 };
 
