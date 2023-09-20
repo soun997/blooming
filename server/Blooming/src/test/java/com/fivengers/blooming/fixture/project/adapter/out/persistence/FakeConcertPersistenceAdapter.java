@@ -1,4 +1,4 @@
-package com.fivengers.blooming.project.fixture.project.adapter.out.persistence;
+package com.fivengers.blooming.fixture.project.adapter.out.persistence;
 
 import com.fivengers.blooming.project.application.port.out.ConcertPort;
 import com.fivengers.blooming.project.domain.Concert;
