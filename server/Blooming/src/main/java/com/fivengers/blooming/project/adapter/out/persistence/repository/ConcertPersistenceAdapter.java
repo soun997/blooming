@@ -4,10 +4,9 @@ package com.fivengers.blooming.project.adapter.out.persistence.repository;
 import com.fivengers.blooming.project.adapter.out.persistence.mapper.ConcertMapper;
 import com.fivengers.blooming.project.application.port.out.ConcertPort;
 import com.fivengers.blooming.project.domain.Concert;
-import com.fivengers.blooming.project.domain.Project;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,15 +19,15 @@ public class ConcertPersistenceAdapter implements ConcertPort {
     private final ConcertSpringDataRepository concertSpringDataRepository;
 
     @Override
-    public List<Concert> findAll() {
-        return concertSpringDataRepository.findAll().stream()
+    public List<Concert> findAll(Pageable pageable) {
+        return concertSpringDataRepository.findAll(pageable).stream()
                 .map(concertMapper::toDomain)
                 .toList();
     }
 
     @Override
-    public List<Concert> findAllOngoingProject() {
-        return concertSpringDataRepository.findAllOngoingProject().stream()
+    public List<Concert> findAllOngoingProject(Pageable pageable) {
+        return concertSpringDataRepository.findAllOngoingProject(pageable).stream()
                 .map(concertMapper::toDomain)
                 .toList();
     }

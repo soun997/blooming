@@ -5,6 +5,7 @@ import com.fivengers.blooming.project.application.port.out.ConcertPort;
 import com.fivengers.blooming.project.domain.Concert;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,12 +15,12 @@ public class ConcertService implements ConcertUseCase {
     private final ConcertPort concertPort;
 
     @Override
-    public List<Concert> searchAll() {
-        return concertPort.findAll();
+    public List<Concert> searchAll(Pageable pageable) {
+        return concertPort.findAll(pageable);
     }
 
     @Override
-    public List<Concert> searchAllOngoingProject() {
-        return concertPort.findAllOngoingProject();
+    public List<Concert> searchAllOngoingProject(Pageable pageable) {
+        return concertPort.findAllOngoingProject(pageable);
     }
 }

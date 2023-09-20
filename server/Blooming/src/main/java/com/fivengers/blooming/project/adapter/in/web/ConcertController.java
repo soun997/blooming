@@ -6,8 +6,8 @@ import com.fivengers.blooming.project.adapter.in.web.dto.ConcertListResponse;
 import com.fivengers.blooming.project.application.port.in.ConcertUseCase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,21 +20,21 @@ public class ConcertController {
     private final ConcertUseCase concertUseCase;
 
     @GetMapping
-    public ApiResponse<List<ConcertListResponse>> concertList() {
+    public ApiResponse<List<ConcertListResponse>> concertList(Pageable pageable) {
 
-        return new ApiResponse<>(HttpStatus.OK.value(),
-                concertUseCase.searchAll().stream()
-                        .map(ConcertListResponse::from)
-                        .toList());
+        return ApiResponse.ok(concertUseCase.searchAll(pageable).stream()
+                .map(ConcertListResponse::from)
+                .toList());
     }
 
     @GetMapping("/ongoing")
-    public ApiResponse<List<ConcertListResponse>> ongoingConcertList() {
+    public ApiResponse<List<ConcertListResponse>> ongoingConcertList(Pageable pageable) {
 
         return new ApiResponse<>(HttpStatus.OK.value(),
-                concertUseCase.searchAllOngoingProject().stream()
+                concertUseCase.searchAllOngoingProject(pageable).stream()
                         .map(ConcertListResponse::from)
                         .toList());
     }
+
 
 }
