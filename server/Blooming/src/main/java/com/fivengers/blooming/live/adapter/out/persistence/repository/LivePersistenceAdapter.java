@@ -16,18 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class LivePersistenceAdapter implements LivePort {
 
     private final LiveMapper liveMapper;
-    private final LiveSpringDataRepository liveSpringDataRepository;
+    private final LiveQueryRepository liveQueryRepository;
 
     @Override
     public List<Live> findByKeyword(String keyword, Pageable pageable) {
-        return liveSpringDataRepository.findByTitleContainingAndEndedAtIsNull(keyword, pageable)
+        return liveQueryRepository.findActiveLiveByTitleKeyword(keyword, pageable)
                 .stream().map(liveMapper::toDomain)
                 .toList();
     }
 
     @Override
     public List<Live> findByArtistStageName(String keyword, Pageable pageable) {
-        return liveSpringDataRepository.findByArtistJpaEntityStageNameContainingAndEndedAtIsNull(keyword, pageable)
+        return liveQueryRepository.findActiveLiveByArtist(keyword, pageable)
                 .stream().map(liveMapper::toDomain)
                 .toList();
     }
