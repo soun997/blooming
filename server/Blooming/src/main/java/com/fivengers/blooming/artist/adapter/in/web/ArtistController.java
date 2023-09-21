@@ -26,7 +26,7 @@ public class ArtistController {
                 .toList());
     }
 
-    @GetMapping("{artistId}")
+    @GetMapping("/{artistId}")
     public ApiResponse<ArtistDetailsResponse> artistDetails(@PathVariable Long artistId) {
         return ApiResponse.ok(ArtistDetailsResponse.from(artistUseCase.searchById(artistId)));
     }
