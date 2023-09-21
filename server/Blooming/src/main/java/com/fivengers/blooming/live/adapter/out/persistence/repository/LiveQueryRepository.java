@@ -5,7 +5,6 @@ import com.fivengers.blooming.live.adapter.out.persistence.entity.LiveJpaEntity;
 import com.fivengers.blooming.live.adapter.out.persistence.entity.QLiveJpaEntity;
 import com.fivengers.blooming.member.adapter.out.persistence.entity.QMemberJpaEntity;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

@@ -3,9 +3,7 @@ package com.fivengers.blooming.live.adapter.out.persistence.repository;
 import com.fivengers.blooming.live.adapter.out.persistence.entity.LiveJpaEntity;
 import com.fivengers.blooming.live.adapter.out.persistence.mapper.LiveMapper;
 import com.fivengers.blooming.live.application.port.out.LivePort;
-
 import com.fivengers.blooming.live.domain.Live;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
