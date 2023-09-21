@@ -44,6 +44,9 @@ class MembershipControllerTest extends RestDocsTest {
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
+                .youtubeUrl("https://youtube.com/ui")
+                .fanCafeUrl("https://cafe.daum.net/ui")
+                .snsUrl("https://instagram.com/ui")
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
@@ -98,6 +101,9 @@ class MembershipControllerTest extends RestDocsTest {
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
+                .youtubeUrl("https://youtube.com/ui")
+                .fanCafeUrl("https://cafe.daum.net/ui")
+                .snsUrl("https://instagram.com/ui")
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
