@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ArtistScrapRecordMapper {
 
-    ArtistScrapRecord toDomain(ArtistScrapRecordJpaEntity artistScrapRecordJpaEntity) {
+    public ArtistScrapRecord toDomain(ArtistScrapRecordJpaEntity artistScrapRecordJpaEntity) {
         return ArtistScrapRecord.builder()
                 .id(artistScrapRecordJpaEntity.getId())
                 .scrapCount(artistScrapRecordJpaEntity.getScrapCount())
@@ -18,7 +18,7 @@ public class ArtistScrapRecordMapper {
                 .build();
     }
 
-    ArtistScrapRecordJpaEntity toJpaEntity(ArtistScrapRecord artistScrapRecord) {
+    public ArtistScrapRecordJpaEntity toJpaEntity(ArtistScrapRecord artistScrapRecord) {
         return ArtistScrapRecordJpaEntity.builder()
                 .id(artistScrapRecord.getId())
                 .scrapCount(artistScrapRecord.getScrapCount())
