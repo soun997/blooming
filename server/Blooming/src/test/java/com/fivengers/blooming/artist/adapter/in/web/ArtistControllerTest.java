@@ -38,6 +38,10 @@ class ArtistControllerTest extends RestDocsTest {
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
+                .profileImageUrl("https://image.com")
+                .youtubeUrl("https://youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/ui")
+                .snsUrl("https://instagram.com/ui")
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
@@ -46,6 +50,10 @@ class ArtistControllerTest extends RestDocsTest {
                 .stageName("박효신")
                 .agency("허비그하로")
                 .description("박효신입니다.")
+                .profileImageUrl("https://image.com")
+                .youtubeUrl("https://youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/ui")
+                .snsUrl("https://instagram.com/ui")
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
@@ -73,6 +81,10 @@ class ArtistControllerTest extends RestDocsTest {
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
+                .profileImageUrl("https://image.com")
+                .youtubeUrl("https://youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/ui")
+                .snsUrl("https://instagram.com/ui")
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
@@ -107,11 +119,12 @@ class ArtistControllerTest extends RestDocsTest {
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
-                .createdAt(now)
-                .modifiedAt(now)
+                .profileImageUrl("https://image.com")
                 .youtubeUrl("https://youtube.com/iu")
                 .fanCafeUrl("https://cafe.daum.net/ui")
                 .snsUrl("https://instagram.com/ui")
+                .createdAt(now)
+                .modifiedAt(now)
                 .build();
 
         given(artistUseCase.add(any(ArtistCreateRequest.class), any(Long.class))).willReturn(artist);
