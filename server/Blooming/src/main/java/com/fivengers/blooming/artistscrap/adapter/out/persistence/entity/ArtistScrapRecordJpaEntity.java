@@ -1,5 +1,6 @@
 package com.fivengers.blooming.artistscrap.adapter.out.persistence.entity;
 
+import com.fivengers.blooming.artistscrap.domain.ArtistScrapRecord;
 import com.fivengers.blooming.global.audit.BaseTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,5 +47,9 @@ public class ArtistScrapRecordJpaEntity extends BaseTime {
         this.startDateOnWeek = startDateOnWeek;
         this.endDateOnWeek = endDateOnWeek;
         this.deleted = deleted;
+    }
+
+    public void update(ArtistScrapRecord artistScrapRecord) {
+        this.scrapCount = artistScrapRecord.getScrapCount();
     }
 }
