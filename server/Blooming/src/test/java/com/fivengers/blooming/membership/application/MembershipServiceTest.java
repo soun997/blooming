@@ -22,19 +22,14 @@ class MembershipServiceTest {
 
     FakeMembershipPersistenceAdapter membershipPersistenceAdapter;
     FakeArtistPersistenceAdapter artistPersistenceAdapter;
-    FakeNftPersistenceAdapter nftPersistenceAdapter;
     MembershipService membershipService;
     Artist artist;
-    Nft nft1;
-    Nft nft2;
 
     @BeforeEach
     void initObjects() {
         this.membershipPersistenceAdapter = new FakeMembershipPersistenceAdapter();
-        this.nftPersistenceAdapter = new FakeNftPersistenceAdapter();
         membershipService = new MembershipService(this.membershipPersistenceAdapter,
-                                                  this.artistPersistenceAdapter,
-                                                  this.nftPersistenceAdapter);
+                                                  this.artistPersistenceAdapter);
         LocalDateTime now = LocalDateTime.now();
         this.artist = Artist.builder()
                 .id(1L)
@@ -44,25 +39,6 @@ class MembershipServiceTest {
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
-        this.nft1 = Nft.builder()
-                .id(1L)
-                .tokenId("abcdefghijklmnopqrstuvwxyz1234567890")
-                .contractAddress("1234567890abcdefghijklmnopqrstuvwxyz")
-                .symbol("IU")
-                .createdAt(now)
-                .modifiedAt(now)
-                .artist(artist)
-                .build();
-        this.nft2 = Nft.builder()
-                .id(2L)
-                .tokenId("abcdefghijklmnopqrstuvwxyz1234567890")
-                .contractAddress("1234567890abcdefghijklmnopqrstuvwxyz")
-                .symbol("IU")
-                .createdAt(now)
-                .modifiedAt(now)
-                .artist(artist)
-                .build();
-
     }
 
     @Test
@@ -90,7 +66,6 @@ class MembershipServiceTest {
                 .thumbnailUrl("https://image.com")
                 .createdAt(now)
                 .modifiedAt(now)
-                .nft(nft1)
                 .artist(artist)
                 .nftSale(nftSale)
                 .build();
@@ -106,7 +81,6 @@ class MembershipServiceTest {
                 .thumbnailUrl("https://image.com")
                 .createdAt(now)
                 .modifiedAt(now)
-                .nft(nft1)
                 .artist(artist)
                 .nftSale(nftSale)
                 .build();

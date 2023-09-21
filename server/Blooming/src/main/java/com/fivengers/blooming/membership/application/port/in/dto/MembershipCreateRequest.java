@@ -14,10 +14,9 @@ public record MembershipCreateRequest(String title,
                                       LocalDateTime purchaseStart,
                                       LocalDateTime purchaseEnd,
                                       String thumbnailUrl,
-                                      Long artistId,
-                                      Long nftId) {
+                                      Long artistId) {
 
-    public Membership toDomain(Artist artist, Nft nft) {
+    public Membership toDomain(Artist artist) {
         return Membership.builder()
                 .title(title)
                 .description(description)
@@ -28,7 +27,6 @@ public record MembershipCreateRequest(String title,
                 .purchaseEnd(purchaseEnd)
                 .thumbnailUrl(thumbnailUrl)
                 .artist(artist)
-                .nft(nft)
                 .nftSale(NftSale.builder()
                         .totalNftCount(0)
                         .soldNftCount(0)

@@ -36,8 +36,6 @@ class MembershipPersistenceAdapterTest {
     @Autowired MembershipPersistenceAdapter membershipPersistenceAdapter;
     MemberJpaEntity member;
     ArtistJpaEntity artist;
-    NftJpaEntity nft1;
-    NftJpaEntity nft2;
 
     @BeforeEach
     void initObjects() {
@@ -58,22 +56,6 @@ class MembershipPersistenceAdapterTest {
                 .deleted(false)
                 .build();
         artistSpringDataRepository.save(artist);
-        nft1 = NftJpaEntity.builder()
-                .tokenId("abcdefghijklmnopqrstuvwxyz1234567890")
-                .contractAddress("1234567890abcdefghijklmnopqrstuvwxyz")
-                .symbol("IU")
-                .deleted(false)
-                .artist(artist)
-                .build();
-        nft2 = NftJpaEntity.builder()
-                .tokenId("aaa1234567890")
-                .contractAddress("1234567890aaa")
-                .symbol("IU")
-                .deleted(false)
-                .artist(artist)
-                .build();
-        nftSpringDataRepository.save(nft1);
-        nftSpringDataRepository.save(nft2);
     }
 
     @Test
@@ -98,7 +80,6 @@ class MembershipPersistenceAdapterTest {
                 .saleCount(0)
                 .thumbnailUrl("https://image.com")
                 .deleted(false)
-                .nftJpaEntity(nft1)
                 .artistJpaEntity(artist)
                 .nftSaleJpaEntity(nftSale)
                 .build();
@@ -113,7 +94,6 @@ class MembershipPersistenceAdapterTest {
                 .saleCount(0)
                 .thumbnailUrl("https://image.com")
                 .deleted(false)
-                .nftJpaEntity(nft1)
                 .artistJpaEntity(artist)
                 .nftSaleJpaEntity(nftSale)
                 .build();

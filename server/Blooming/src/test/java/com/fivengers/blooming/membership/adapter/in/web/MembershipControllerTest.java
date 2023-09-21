@@ -16,7 +16,6 @@ import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipCreateRequest;
 import com.fivengers.blooming.membership.domain.Membership;
 import com.fivengers.blooming.membership.domain.NftSale;
-import com.fivengers.blooming.nft.domain.Nft;
 import com.fivengers.blooming.support.RestDocsTest;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,15 +47,6 @@ class MembershipControllerTest extends RestDocsTest {
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
-        Nft nft = Nft.builder()
-                .id(1L)
-                .tokenId("abcdefghijklmnopqrstuvwxyz1234567890")
-                .contractAddress("1234567890abcdefghijklmnopqrstuvwxyz")
-                .symbol("IU")
-                .createdAt(now)
-                .modifiedAt(now)
-                .artist(artist)
-                .build();
         NftSale nftSale = NftSale.builder()
                 .id(1L)
                 .totalNftCount(1)
@@ -79,7 +69,6 @@ class MembershipControllerTest extends RestDocsTest {
                 .thumbnailUrl("https://image.com")
                 .createdAt(now)
                 .modifiedAt(now)
-                .nft(nft)
                 .artist(artist)
                 .nftSale(nftSale)
                 .build();
@@ -112,15 +101,6 @@ class MembershipControllerTest extends RestDocsTest {
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
-        Nft nft = Nft.builder()
-                .id(1L)
-                .tokenId("abcdefghijklmnopqrstuvwxyz1234567890")
-                .contractAddress("1234567890abcdefghijklmnopqrstuvwxyz")
-                .symbol("IU")
-                .createdAt(now)
-                .modifiedAt(now)
-                .artist(artist)
-                .build();
         NftSale nftSale = NftSale.builder()
                 .id(1L)
                 .totalNftCount(1)
@@ -143,10 +123,10 @@ class MembershipControllerTest extends RestDocsTest {
                 .thumbnailUrl("https://image.com")
                 .createdAt(now)
                 .modifiedAt(now)
-                .nft(nft)
                 .artist(artist)
                 .nftSale(nftSale)
                 .build();
+
         MembershipCreateRequest request = new MembershipCreateRequest("아이유 (IU)",
                 "아이유입니다.",
                 1,
@@ -155,7 +135,6 @@ class MembershipControllerTest extends RestDocsTest {
                 now,
                 now.plusMonths(1),
                 "https://image.com",
-                1L,
                 1L);
 
         given(membershipUseCase.add(any(MembershipCreateRequest.class)))

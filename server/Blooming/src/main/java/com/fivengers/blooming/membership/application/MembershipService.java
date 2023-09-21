@@ -5,7 +5,6 @@ import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipCreateRequest;
 import com.fivengers.blooming.membership.application.port.out.MembershipPort;
 import com.fivengers.blooming.membership.domain.Membership;
-import com.fivengers.blooming.nft.port.out.NftPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,13 +16,10 @@ public class MembershipService implements MembershipUseCase {
 
     private final MembershipPort membershipPort;
     private final ArtistPort artistPort;
-    private final NftPort nftPort;
 
     @Override
     public Membership add(MembershipCreateRequest request) {
-        return membershipPort.save(request.toDomain(
-                artistPort.findById(request.artistId()),
-                nftPort.findById(request.nftId())));
+        return membershipPort.save(request.toDomain(artistPort.findById(request.artistId())));
     }
 
     @Override

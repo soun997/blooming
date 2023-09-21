@@ -19,7 +19,6 @@ public record MembershipDetailsResponse(String title,
                                         LocalDateTime createdAt,
                                         LocalDateTime modifiedAt,
                                         ArtistOfMembershipResponse artist,
-                                        NftDetailsResponse nft,
                                         NftSaleResponse nftSale) {
 
     public static MembershipDetailsResponse from(Membership membership) {
@@ -36,7 +35,6 @@ public record MembershipDetailsResponse(String title,
                 .createdAt(membership.getCreatedAt())
                 .modifiedAt(membership.getModifiedAt())
                 .artist(ArtistOfMembershipResponse.from(membership.getArtist()))
-                .nft(NftDetailsResponse.from(membership.getNft()))
                 .nftSale(NftSaleResponse.from(membership.getNftSale()))
                 .build();
     }
