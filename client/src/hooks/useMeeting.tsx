@@ -1,13 +1,25 @@
 import { useEffect, useState, useRef } from 'react';
-import { OpenVidu, Session, Publisher, StreamManager } from 'openvidu-browser';
+import {
+  OpenVidu,
+  Session,
+  Publisher,
+  StreamManager,
+  PublisherProperties,
+} from 'openvidu-browser';
 import CONSOLE from '@utils/consoleColors';
 import axios from '@api/openViduController';
 import { MeetingInfo } from '@type/MeetingInfo';
 import { ARTIST } from '@components/common/constant';
 
+const tmPose = window.tmPose;
+import * as tmtype from '@teachablemachine/pose';
+
 const OV = new OpenVidu();
 const sessionId = 'SessionA';
 const loggedInUserNickname = 'ksm';
+const baseURL = 'https://teachablemachine.withgoogle.com/models/HwtR6uvJk/';
+const modelURL = baseURL + 'model.json';
+const metadataURL = baseURL + 'metadata.json';
 
 async function createSession(sessionId: string) {
   const response = await axios.post(`/api/sessions/`, {
@@ -25,6 +37,11 @@ async function createToken(sessionId: string) {
 }
 
 export function useMeeting(isArtist: boolean) {
+  const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
+  const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
+  const [prediction, setPrediction] = useState<string[]>([]);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
     mySessionId: sessionId,
     myUserName: isArtist ? ARTIST : loggedInUserNickname,
@@ -36,10 +53,10 @@ export function useMeeting(isArtist: boolean) {
     isArtist: isArtist,
   });
 
-  const [videoOption, setVideoOption] = useState({
+  const [videoOption, setVideoOption] = useState<PublisherProperties>({
     audioSource: undefined,
     videoSource: undefined,
-    publishAudio: false, //!isArtist로 변경할것
+    publishAudio: false, // Set to !isArtist as needed
     publishVideo: true,
     resolution: '640x480',
     frameRate: 30,
@@ -49,13 +66,76 @@ export function useMeeting(isArtist: boolean) {
 
   const isTokenRequested = useRef(false);
 
+  async function initWebcam() {
+    // Convenience function to setup a webcam
+    const size = 200;
+    const flip = true; // whether to flip the webcam
+    const newWebcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+    await newWebcam.setup(); // request access to the webcam
+    await newWebcam.play();
+    setWebcam(newWebcam);
+  }
+
+  async function loop() {
+    if (webcam) {
+      CONSOLE.info('loop 실행#)(*(');
+      webcam.update();
+      await predict();
+      window.requestAnimationFrame(loop);
+    }
+  }
+
+  async function predict() {
+    if (model && webcam) {
+      CONSOLE.info('predict- model 출력');
+      const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+      CONSOLE.info('포즈확인!!!');
+      console.log(pose, posenetOutput);
+      const prediction = await model.predict(posenetOutput);
+      const maxPredictions = model.getTotalClasses();
+      CONSOLE.info(`maxPred : ${maxPredictions}`);
+      const predicts = [];
+      for (let i = 0; i < maxPredictions; i++) {
+        predicts[i] =
+          prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+      }
+      console.log(predicts);
+      setPrediction(predicts);
+    }
+  }
+
   useEffect(() => {
     CONSOLE.info('세션을 시작합니다.');
     setMeetingInfo((prevState) => ({
       ...prevState,
       session: OV.initSession(),
     }));
+
+    tmPose
+      .load(modelURL, metadataURL)
+      .then((model: tmtype.CustomPoseNet) => {
+        CONSOLE.info('load 완료');
+        console.log(model);
+        setModel(model);
+      })
+      .catch((error: Error) => {
+        CONSOLE.error('로드중 에러발생');
+        console.log(error);
+      });
   }, []);
+
+  useEffect(() => {
+    if (model) {
+      CONSOLE.useEffectIn('model!!!!!!!');
+      initWebcam();
+    }
+  }, [model]);
+
+  useEffect(() => {
+    if (webcam) {
+      loop();
+    }
+  }, [webcam]);
 
   useEffect(() => {
     CONSOLE.useEffectIn('MeetingPage_videoOption');
