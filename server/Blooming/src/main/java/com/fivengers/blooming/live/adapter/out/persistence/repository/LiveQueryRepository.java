@@ -18,9 +18,9 @@ import org.springframework.stereotype.Repository;
 public class LiveQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    private QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
-    private QArtistJpaEntity artist = QArtistJpaEntity.artistJpaEntity;
-    private QLiveJpaEntity live = QLiveJpaEntity.liveJpaEntity;
+    private final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
+    private final QArtistJpaEntity artist = QArtistJpaEntity.artistJpaEntity;
+    private final QLiveJpaEntity live = QLiveJpaEntity.liveJpaEntity;
 
     public LiveQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
