@@ -1,5 +1,6 @@
 package com.fivengers.blooming.project.adapter.out.persistence.repository;
 
+import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ConcertJpaEntity;
 import java.util.List;
@@ -15,8 +16,8 @@ public interface ConcertSpringDataRepository extends JpaRepository<ConcertJpaEnt
     Page<ConcertJpaEntity> findAllOngoingProject(Pageable pageable);
 
     @Query("select c from ConcertJpaEntity c where c.artist = :artist")
-    Page<ConcertJpaEntity> findAllByArtist(@Param("artist") Artist artist, Pageable pageable);
+    Page<ConcertJpaEntity> findAllByArtist(@Param("artist") ArtistJpaEntity artist, Pageable pageable);
 
     @Query("select c from ConcertJpaEntity c where c.artist = :artist and c.endedAt < current date ")
-    List<ConcertJpaEntity> findAllFinishedProjectByArtist(@Param("artist") Artist artist, Pageable pageable);
+    List<ConcertJpaEntity> findAllFinishedProjectByArtist(@Param("artist") ArtistJpaEntity artist, Pageable pageable);
 }

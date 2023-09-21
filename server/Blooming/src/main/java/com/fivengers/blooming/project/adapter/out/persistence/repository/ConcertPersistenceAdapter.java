@@ -1,6 +1,7 @@
 package com.fivengers.blooming.project.adapter.out.persistence.repository;
 
 
+import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.global.exception.project.ProjectNotFoundException;
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ConcertJpaEntity;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConcertPersistenceAdapter implements ConcertPort {
 
     private final ConcertMapper concertMapper;
+    private final ArtistMapper artistMapper;
     private final ConcertSpringDataRepository concertSpringDataRepository;
 
     @Override
@@ -41,7 +43,7 @@ public class ConcertPersistenceAdapter implements ConcertPort {
 
     @Override
     public Page<Concert> findAllByArtist(Artist artist, Pageable pageable) {
-        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllByArtist(artist, pageable);
+        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllByArtist(artistMapper.toJpaEntity(artist), pageable);
         return new PageImpl<>(concerts.stream()
                 .map(concertMapper::toDomain)
                 .toList(), pageable, concerts.getTotalElements());
@@ -49,7 +51,7 @@ public class ConcertPersistenceAdapter implements ConcertPort {
 
     @Override
     public List<Concert> findAllFinishedProjectByArtist(Artist artist, Pageable pageable) {
-        return concertSpringDataRepository.findAllFinishedProjectByArtist(artist, pageable).stream()
+        return concertSpringDataRepository.findAllFinishedProjectByArtist(artistMapper.toJpaEntity(artist), pageable).stream()
                 .map(concertMapper::toDomain)
                 .toList();
     }

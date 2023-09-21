@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InvestmentOverviewMapper {
 
-    private ProjectMapper projectMapper;
+    private final ProjectMapper projectMapper;
 
     public InvestmentOverview toDomain(InvestmentOverviewJpaEntity investmentOverview) {
 
