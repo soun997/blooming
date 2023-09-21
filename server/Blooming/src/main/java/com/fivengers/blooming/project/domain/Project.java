@@ -18,6 +18,8 @@ public class Project {
     private LocalDateTime endedAt;
     private String introduction;
     private String description;
+    private String teaserVideoUrl;
+    private Integer revenuePercent;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -31,6 +33,8 @@ public class Project {
             LocalDateTime endedAt,
             String introduction,
             String description,
+            String teaserVideoUrl,
+            Integer revenuePercent,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt,
             Artist artist) {
@@ -42,6 +46,8 @@ public class Project {
         this.endedAt = endedAt;
         this.introduction = introduction;
         this.description = description;
+        this.revenuePercent = revenuePercent;
+        this.teaserVideoUrl = teaserVideoUrl;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.artist = artist;

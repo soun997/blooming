@@ -22,6 +22,8 @@ public class Concert extends Project {
             LocalDateTime endedAt,
             String introduction,
             String description,
+            String teaserVideoUrl,
+            Integer revenuePercent,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt,
             Artist artist,
@@ -29,7 +31,8 @@ public class Concert extends Project {
             String setlistImgUrl,
             String goodsImgUrl) {
         super(id, name, fundingAmount, targetAmount, startedAt, endedAt,
-                introduction, description, createdAt, modifiedAt, artist);
+                introduction, description, teaserVideoUrl, revenuePercent,
+                createdAt, modifiedAt, artist);
         this.posterImgUrl = posterImgUrl;
         this.setlistImgUrl = setlistImgUrl;
         this.goodsImgUrl = goodsImgUrl;
