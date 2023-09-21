@@ -19,7 +19,7 @@ public record ActivityListResponse(Long id,
                 .id(activity.getId())
                 .title(activity.getName())
                 .description(activity.getDescription())
-                .profileImg(activity.getAlbumImgUrl())
+                .profileImg(activity.getProfileImg())
                 .startDate(activity.getStartedAt())
                 .endDate(activity.getEndedAt())
                 .totalProcess(activity.getTargetAmount())

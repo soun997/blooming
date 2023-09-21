@@ -19,7 +19,7 @@ public record ConcertListResponse(Long id,
                 .id(concert.getId())
                 .title(concert.getName())
                 .description(concert.getDescription())
-                .profileImg(concert.getPosterImgUrl())
+                .profileImg(concert.getProfileImg())
                 .startDate(concert.getStartedAt())
                 .endDate(concert.getEndedAt())
                 .totalProcess(concert.getTargetAmount())
