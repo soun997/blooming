@@ -73,6 +73,7 @@ export function useMeeting(isArtist: boolean) {
     const newWebcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await newWebcam.setup(); // request access to the webcam
     await newWebcam.play();
+
     setWebcam(newWebcam);
   }
 
@@ -286,5 +287,8 @@ export function useMeeting(isArtist: boolean) {
     handleException,
     getToken,
     prediction,
+    webcam,
+    setWebcam,
+    initWebcam,
   };
 }

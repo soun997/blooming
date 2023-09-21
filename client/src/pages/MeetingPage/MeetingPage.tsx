@@ -21,6 +21,9 @@ const MAX_EMOTIONS_COUNT = 20; // 최대 Emotion 갯수
 const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   const navigate = useNavigate();
   const {
+    webcam,
+    setWebcam,
+    initWebcam,
     meetingInfo,
     videoOption,
     isTokenRequested,
@@ -86,6 +89,13 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   };
 
   const handleCamera = () => {
+    // if (onMyCamera) {
+    //   //끄는거
+    //   setWebcam(null);
+    // } else {
+    //   console.log(webcam);
+    //   initWebcam();
+    // }
     handleCameraOnOff({ onMyCamera: !onMyCamera });
     setMyCamera(!onMyCamera);
   };
@@ -127,6 +137,32 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
           )}
           <NoticeSvg onClick={handleNoticeInfo} />
         </NoticeBoard>
+        {/* 애니메이션을 적용한 이미지 */}
+        {showEmotions.map((emotion, index) => (
+          <FloatingImage
+            key={index}
+            left={Math.random() * 80} // 랜덤한 가로 위치 설정
+          >
+            <img
+              src={emotion}
+              alt="Emotion"
+              style={{ width: '50px', height: '50px' }}
+            />
+          </FloatingImage>
+        ))}
+
+        {/* 현재 Emotion 표시 */}
+        {nowEmotion && (
+          <FloatingImage
+            left={Math.random() * 70} // 랜덤한 가로 위치 설정
+          >
+            <img
+              src={nowEmotion}
+              alt="Emotion"
+              style={{ width: '40px', height: '40px' }}
+            />
+          </FloatingImage>
+        )}
       </MeetingFrame>
     );
   }
