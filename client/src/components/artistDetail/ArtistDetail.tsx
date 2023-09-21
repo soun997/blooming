@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as LikeIcon } from '../../assets/icons/LikeIcon.svg';
 import { ReactComponent as LiveIcon } from '../../assets/icons/LiveIcon.svg';
@@ -7,7 +7,24 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 const ArtistDetail = () => {
-  const googleTrends = require('google-trends-api');
+  // useEffect(() => {
+  //   // Google Trends 스크립트를 동적으로 추가
+  //   const script = document.createElement('script');
+  //   script.src =
+  //     'https://ssl.gstatic.com/trends_nrtr/3461_RC01/embed_loader.js';
+  //   script.async = true;
+  //   document.head.appendChild(script);
+
+  //   script.onload = () => {
+  //     // Google Trends 그래프를 그리기 위한 스크립트
+  //     const trendsScript = document.createElement('script');
+  //     trendsScript.type = 'text/javascript';
+  //     trendsScript.innerHTML = `
+  //       trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"김재환","geo":"KR","time":"now 1-d"}],"category":0,"property":""}, {"exploreQuery":"date=now%201-d&geo=KR&q=%EA%B9%80%EC%9E%AC%ED%99%98&hl=ko","guestPath":"https://trends.google.co.kr:443/trends/embed/"});
+  //     `;
+  //     document.body.appendChild(trendsScript);
+  //   };
+  // }, []);
 
   return (
     <ArtistDetailBox>
@@ -151,16 +168,7 @@ const ArtistDetail = () => {
       </YoutubeBox>
       <SearchGraphBox>
         <div className="detail_title">검색결과 분석</div>
-        {/* <img
-          src="src/assets/images/search_analysis_graph.png"
-          alt=""
-          className="search_graph"
-        /> */}
-        <script
-          type="text/javascript"
-          src="https://ssl.gstatic.com/trends_nrtr/3461_RC01/embed_loader.js"
-        ></script>
-        {/* <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"김재환","geo":"KR","time":"today 1-m"}],"category":0,"property":""}, {"exploreQuery":"date=today%201-m&geo=KR&q=%EA%B9%80%EC%9E%AC%ED%99%98&hl=ko","guestPath":"https://trends.google.co.kr:443/trends/embed/"}) </script> */}
+        <div id="trends-widget"></div>
       </SearchGraphBox>
     </ArtistDetailBox>
   );

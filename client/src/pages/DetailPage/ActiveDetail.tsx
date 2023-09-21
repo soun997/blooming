@@ -6,17 +6,17 @@ import Funding from '@components/fundingDetail/Funding';
 import FundingDetail from '@components/fundingDetail/FundingDetail';
 
 const ActiveDetailPage = () => {
-  const activityId = 'your_activity_id_here'; // 나중에 수정
+  const activityId = 1; // 나중에 수정
 
   // get 요청으로 전체 정보 불러옴
   axios
-    .get('/activities/{activityId}', {
+    .get(`/activities/1`, {
       params: {
         activityId: activityId,
       },
     })
     .then((response) => {
-      console.log('요청 성공:', response.data);
+      console.log('요청 성공:', response.results);
     })
     .catch((error) => {
       console.error('요청 실패:', error);

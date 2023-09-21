@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import { ReactComponent as LinkIcon } from '@assets/icons/LinkIcon.svg';
 
 import {
   Chart as ChartJS,
@@ -386,7 +387,25 @@ const FundingDetail = () => {
         </RevenueAnalysisBox>
         <OtherActionBox ref={otherActionRef}>
           <div className="detail_title">기타 활동</div>
-          <ActionVideoBox>
+          <div className="video_active_div">
+            <LinkIcon />
+            <a
+              href="https://www.youtube.com/results?search_query=%EA%B9%80%EC%9E%AC%ED%99%98"
+              className="video_active_link"
+            >
+              아티스트의 영상활동 더 보러가기↗
+            </a>
+          </div>
+          <div className="broad_active_div">
+            <LinkIcon />
+            <a
+              href="https://namu.wiki/w/%EA%B9%80%EC%9E%AC%ED%99%98"
+              className="broad_active_link"
+            >
+              아티스트의 방송활동 더 보러가기↗
+            </a>
+          </div>
+          {/* <ActionVideoBox>
             <Swiper
               slidesPerView={2}
               centeredSlides={true}
@@ -517,7 +536,7 @@ const FundingDetail = () => {
                 />
               </SwiperSlide>
             </Swiper>
-          </BroadPosterBox>
+          </BroadPosterBox> */}
         </OtherActionBox>
         <PortfolioBox ref={artistPortfolioRef}>
           <div className="detail_title">아티스트 포트폴리오</div>
@@ -708,7 +727,27 @@ const ActionVideoBox = styled.div`
   }
 `;
 
-const OtherActionBox = styled.div``;
+const OtherActionBox = styled.div`
+  .video_active_div {
+    margin-left: 26px;
+  }
+  .broad_active_div {
+    margin: 20px 0 0 26px;
+  }
+
+  .broad_active_link {
+    color: var(--Main, #3061b9);
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 10px;
+  }
+  .video_active_link {
+    color: var(--Main, #3061b9);
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 10px;
+  }
+`;
 
 // 지난 활동 수익 분석
 
