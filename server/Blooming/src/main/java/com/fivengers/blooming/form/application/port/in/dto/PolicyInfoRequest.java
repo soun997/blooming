@@ -6,6 +6,6 @@ public record PolicyInfoRequest(Boolean service,
                                 Boolean refund) {
 
     public PolicyInfo toDomain() {
-        return new PolicyInfo(service, refund)
+        return new PolicyInfo(service, refund);
     }
 }
