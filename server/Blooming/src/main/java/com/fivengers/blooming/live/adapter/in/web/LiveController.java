@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/live")
+@RequestMapping("/api/v1/lives")
 @RequiredArgsConstructor
 public class LiveController {
 
