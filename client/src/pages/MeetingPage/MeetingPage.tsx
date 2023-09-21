@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import { ARTIST } from '@components/common/constant';
+import { useEffect, useRef, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
+import { ARTIST, EMOTION_LIST } from '@components/common/constant';
 import UserVideoComponent from '@components/Meeting/UserVideoComponent';
 import { useMeeting } from '@hooks/useMeeting';
+import { Emotion } from '@type/MeetingInfo';
 import { ReactComponent as CameraOff } from '@assets/icons/camera-off.svg';
 import { ReactComponent as CameraOn } from '@assets/icons/camera-on.svg';
 import { ReactComponent as HideCamera } from '@assets/icons/eye-slash.svg';
@@ -11,9 +14,10 @@ import { ReactComponent as NoticeSvg } from '@assets/icons/megaphone.svg';
 import { ReactComponent as LiveSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ArrowLeft } from '@assets/icons/arrow-left.svg';
 import { ReactComponent as ExitSvg } from '@assets/icons/sign-out.svg';
-import { useNavigate } from 'react-router-dom';
 
 const MeetingName = '나 김아무개 아티스트가 여는 콘서트다!';
+const MAX_EMOTIONS_COUNT = 20; // 최대 Emotion 갯수
+
 const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   const navigate = useNavigate();
   const {
@@ -25,11 +29,57 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
     handleStreamDestroyed,
     handleException,
     getToken,
+    prediction,
   } = useMeeting(isArtist);
 
   const [notArtistCamera, setNotArtistCamera] = useState<boolean>(false);
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
   const [showNotice, setShowNotice] = useState<boolean>(true);
+  const [nowEmotion, setNowEmotion] = useState<string>('');
+
+  const prevEmotionRef = useRef<string[]>([]);
+  const [showEmotions, setShowEmotions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (prediction.length !== 0) {
+      console.log('PREDICTION👩👩👩 : ', prediction);
+
+      const max = findMaxEmotion(prediction);
+      let newEmotion = '';
+      if (max.key === EMOTION_LIST.SHAKE) {
+        newEmotion = 'src/assets/reaction/heart.png';
+      } else {
+        newEmotion = 'src/assets/reaction/thumb.png';
+      }
+      // showEmotions 리스트에 현재 Emotion 추가
+      setShowEmotions((prevEmotions) => {
+        const updatedEmotions = [...prevEmotions, newEmotion].slice(
+          -MAX_EMOTIONS_COUNT,
+        );
+        // 이전 Emotion 저장 업데이트
+        prevEmotionRef.current = updatedEmotions;
+        return updatedEmotions;
+      });
+
+      setNowEmotion(newEmotion);
+    }
+  }, [prediction]);
+
+  // 이전 Emotion 중 가장 오래된 것을 삭제
+  useEffect(() => {
+    if (prevEmotionRef.current.length > MAX_EMOTIONS_COUNT) {
+      prevEmotionRef.current.shift();
+    }
+  }, [nowEmotion]);
+
+  const findMaxEmotion = (
+    arr: Array<Emotion>,
+  ): {
+    key: string;
+    value: number;
+  } => {
+    return arr.reduce((prev, curr) => (curr.value > prev.value ? curr : prev));
+  };
 
   const handleVisibleMyCamera = () => {
     setNotArtistCamera(!notArtistCamera);
@@ -156,6 +206,32 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
             </div>
           </div>
         </Buttons>
+      )}
+      {/* 애니메이션을 적용한 이미지 */}
+      {showEmotions.map((emotion, index) => (
+        <FloatingImage
+          key={index}
+          left={Math.random() * 80} // 랜덤한 가로 위치 설정
+        >
+          <img
+            src={emotion}
+            alt="Emotion"
+            style={{ width: '50px', height: '50px' }}
+          />
+        </FloatingImage>
+      ))}
+
+      {/* 현재 Emotion 표시 */}
+      {nowEmotion && (
+        <FloatingImage
+          left={Math.random() * 70} // 랜덤한 가로 위치 설정
+        >
+          <img
+            src={nowEmotion}
+            alt="Emotion"
+            style={{ width: '40px', height: '40px' }}
+          />
+        </FloatingImage>
       )}
     </MeetingFrame>
   );
@@ -284,4 +360,38 @@ const MyCamera = styled.div`
     z-index: 2;
   }
 `;
+const moveUp = keyframes`
+  0% {
+    transform: translateY(0%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+`;
+
+interface FloatingImageProps {
+  left: number;
+}
+
+const FloatingImage = styled.div<FloatingImageProps>`
+  position: absolute;
+  bottom: 80px;
+  left: ${({ left }) => `${left}%`};
+  transform: translateY(100%);
+  opacity: 0;
+  animation: ${moveUp} 3s ease-in-out forwards;
+
+  & + & {
+    animation-delay: 3s; // 애니메이션 딜레이 추가
+  }
+`;
+
 export default MeetingPage;

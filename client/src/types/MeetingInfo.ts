@@ -15,3 +15,8 @@ export interface MeetingInfo {
   subscribers: Subscriber[];
   isArtist: boolean;
 }
+
+export interface Emotion {
+  key: string;
+  value: number;
+}

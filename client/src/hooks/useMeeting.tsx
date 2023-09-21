@@ -8,7 +8,7 @@ import {
 } from 'openvidu-browser';
 import CONSOLE from '@utils/consoleColors';
 import axios from '@api/openViduController';
-import { MeetingInfo } from '@type/MeetingInfo';
+import { Emotion, MeetingInfo } from '@type/MeetingInfo';
 import { ARTIST } from '@components/common/constant';
 
 const tmPose = window.tmPose;
@@ -39,7 +39,7 @@ async function createToken(sessionId: string) {
 export function useMeeting(isArtist: boolean) {
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
-  const [prediction, setPrediction] = useState<string[]>([]);
+  const [prediction, setPrediction] = useState<Emotion[]>([]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
@@ -88,21 +88,48 @@ export function useMeeting(isArtist: boolean) {
   async function predict() {
     if (model && webcam) {
       CONSOLE.info('predict- model 출력');
-      const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
-      CONSOLE.info('포즈확인!!!');
-      console.log(pose, posenetOutput);
-      const prediction = await model.predict(posenetOutput);
+
       const maxPredictions = model.getTotalClasses();
-      CONSOLE.info(`maxPred : ${maxPredictions}`);
-      const predicts = [];
-      for (let i = 0; i < maxPredictions; i++) {
-        predicts[i] =
-          prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+      const accumulatedPredictions: { [key: string]: number[] } = {};
+
+      // 3초 동안 예측값을 누적
+      const startTime = Date.now();
+      while (Date.now() - startTime < 3000) {
+        const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+        const prediction = await model.predict(posenetOutput);
+
+        for (let i = 0; i < maxPredictions; i++) {
+          const key = prediction[i].className;
+          const probability = prediction[i].probability;
+
+          if (!accumulatedPredictions[key]) {
+            accumulatedPredictions[key] = [];
+          }
+          accumulatedPredictions[key].push(probability);
+        }
       }
-      console.log(predicts);
-      setPrediction(predicts);
+
+      // 누적된 예측값을 평균 계산
+      const averagedPredictions: Emotion[] = [];
+      for (const key in accumulatedPredictions) {
+        const values = accumulatedPredictions[key];
+        const average =
+          values.reduce((sum, value) => sum + value, 0) / values.length;
+
+        averagedPredictions.push({
+          key,
+          value: average,
+        });
+      }
+
+      // 예측 결과 저장
+      setPrediction(averagedPredictions);
     }
   }
+
+  useEffect(() => {
+    // CONSOLE.info('나 업데이트중@!!!!');
+  }, [prediction]);
 
   useEffect(() => {
     CONSOLE.info('세션을 시작합니다.');
@@ -258,5 +285,6 @@ export function useMeeting(isArtist: boolean) {
     handleStreamDestroyed,
     handleException,
     getToken,
+    prediction,
   };
 }
