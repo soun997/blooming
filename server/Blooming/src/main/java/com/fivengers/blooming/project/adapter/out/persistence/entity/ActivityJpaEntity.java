@@ -37,13 +37,14 @@ public class ActivityJpaEntity extends ProjectJpaEntity {
             String description,
             String teaserVideoUrl,
             Integer revenuePercent,
+            String profileImg,
             Boolean deleted,
             ArtistJpaEntity artist,
             String albumImgUrl,
             String tracklistImgUrl,
             String compositionImgUrl) {
         super(id, name, fundingAmount, targetAmount, startedAt, endedAt,
-                introduction, description, teaserVideoUrl, revenuePercent, deleted, artist);
+                introduction, description, teaserVideoUrl, revenuePercent, profileImg, deleted, artist);
         this.albumImgUrl = albumImgUrl;
         this.tracklistImgUrl = tracklistImgUrl;
         this.compositionImgUrl = compositionImgUrl;

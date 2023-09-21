@@ -52,6 +52,8 @@ public class ProjectJpaEntity extends BaseTime {
     @Column
     private Integer revenuePercent;
     @Column
+    private String profileImg;
+    @Column
     private Boolean deleted;
 
     @ManyToOne
@@ -68,6 +70,7 @@ public class ProjectJpaEntity extends BaseTime {
             String description,
             String teaserVideoUrl,
             Integer revenuePercent,
+            String profileImg,
             Boolean deleted,
             ArtistJpaEntity artist) {
         this.id = id;
@@ -78,8 +81,9 @@ public class ProjectJpaEntity extends BaseTime {
         this.endedAt = endedAt;
         this.introduction = introduction;
         this.description = description;
-        this.revenuePercent = revenuePercent;
         this.teaserVideoUrl = teaserVideoUrl;
+        this.revenuePercent = revenuePercent;
+        this.profileImg = profileImg;
         this.deleted = deleted;
         this.artist = artist;
     }

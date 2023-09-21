@@ -23,6 +23,7 @@ public class Activity extends Project {
             String description,
             String teaserVideoUrl,
             Integer revenuePercent,
+            String profileImg,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt,
             Artist artist,
@@ -31,7 +32,7 @@ public class Activity extends Project {
             String compositionImgUrl) {
         super(id, name, fundingAmount, targetAmount, startedAt, endedAt,
                 introduction, description, teaserVideoUrl, revenuePercent,
-                createdAt, modifiedAt, artist);
+                profileImg, createdAt, modifiedAt, artist);
         this.albumImgUrl = albumImgUrl;
         this.tracklistImgUrl = tracklistImgUrl;
         this.compositionImgUrl = compositionImgUrl;
