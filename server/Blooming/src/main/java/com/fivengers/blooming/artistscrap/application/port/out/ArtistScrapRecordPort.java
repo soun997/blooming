@@ -1,6 +1,5 @@
 package com.fivengers.blooming.artistscrap.application.port.out;
 
-public interface ArtistScrapRecordPort
-{
+public interface ArtistScrapRecordPort {
 
 }

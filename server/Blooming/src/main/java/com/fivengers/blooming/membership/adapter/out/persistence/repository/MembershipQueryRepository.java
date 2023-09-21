@@ -43,6 +43,6 @@ public class MembershipQueryRepository {
                 .from(membershipJpaEntity)
                 .fetchOne();
 
-        return new PageImpl<MembershipJpaEntity>(memberships, pageable, count);
+        return new PageImpl<>(memberships, pageable, count);
     }
 }

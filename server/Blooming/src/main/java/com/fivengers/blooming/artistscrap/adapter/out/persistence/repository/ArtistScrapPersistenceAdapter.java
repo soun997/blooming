@@ -21,6 +21,7 @@ public class ArtistScrapPersistenceAdapter implements ArtistScrapPort {
     }
 
     @Override
+    @Transactional
     public void deleteScrap(Long memberId, Long artistId) {
         artistScrapSpringDataRepository.deleteByMemberJpaEntityIdAndArtistJpaEntityId(memberId, artistId);
     }
