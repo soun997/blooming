@@ -20,7 +20,7 @@ include::{snippets}/membership-create/http-request.adoc[]
 
 include::{snippets}/membership-create/http-response.adoc[]
 
-== Membership 단일 조회
+== Membership 다중 조회
 
 === Request
 
