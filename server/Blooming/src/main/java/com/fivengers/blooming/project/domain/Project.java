@@ -16,22 +16,41 @@ public class Project {
     private Long targetAmount;
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
+    private String introduction;
     private String description;
+    private String teaserVideoUrl;
+    private Integer revenuePercent;
+    private String profileImg;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     private Artist artist;
 
-    public Project(Long id, String name, Long fundingAmount, Long targetAmount,
-            LocalDateTime startedAt, LocalDateTime endedAt, String description,
-            LocalDateTime createdAt, LocalDateTime modifiedAt, Artist artist) {
+    public Project(Long id,
+            String name,
+            Long fundingAmount,
+            Long targetAmount,
+            LocalDateTime startedAt,
+            LocalDateTime endedAt,
+            String introduction,
+            String description,
+            String teaserVideoUrl,
+            Integer revenuePercent,
+            String profileImg,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt,
+            Artist artist) {
         this.id = id;
         this.name = name;
         this.fundingAmount = fundingAmount;
         this.targetAmount = targetAmount;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
+        this.introduction = introduction;
         this.description = description;
+        this.teaserVideoUrl = teaserVideoUrl;
+        this.revenuePercent = revenuePercent;
+        this.profileImg = profileImg;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.artist = artist;
