@@ -15,11 +15,29 @@ const MyPage = () => {
 
   return (
     <div>
-      <button onClick={openModal}>아티스트 등록 신청</button>
+      <ArtistRegist>
+        <span>혹시 아티스트 이신가요?</span>
+        <ArtistRegistButton onClick={openModal}>
+          아티스트 등록하기
+        </ArtistRegistButton>
+      </ArtistRegist>
 
       <ArtistRegistModal isOpen={isModalOpen} closeModal={closeModal} />
     </div>
   );
 };
+
+const ArtistRegist = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 50px;
+`;
+const ArtistRegistButton = styled.div`
+  display: flex;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--main1-color);
+`;
 
 export default MyPage;
