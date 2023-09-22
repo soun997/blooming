@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { LiveInfo, ProcessInfo } from '@type/ProcessInfo';
 import { calculateDateDifference } from './EachRankBox';
 import ProgressBarFrame from '@components/Button/ProgressBar';
-import { ReactComponent as LiveSvg } from '@assets/icons/LiveIcon.svg';
+import { ReactComponent as LiveSvg } from '@assets/icons/broadcast.svg';
 
 interface Props {
   data: ProcessInfo;
@@ -42,7 +42,7 @@ const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
             <LiveSvg />
             <span className="liveinfo">
               <div className="title">{data.title}</div>
-              <div className="artist"> By {data.artist.stageName}</div>
+              <div className="artist"> @ {data.artist.stageName}</div>
             </span>
           </div>
         </div>
