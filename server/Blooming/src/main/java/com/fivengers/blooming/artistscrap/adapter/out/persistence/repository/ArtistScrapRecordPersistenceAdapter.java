@@ -1,5 +1,7 @@
 package com.fivengers.blooming.artistscrap.adapter.out.persistence.repository;
 
+import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
+import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artistscrap.adapter.out.persistence.entity.ArtistScrapRecordJpaEntity;
 import com.fivengers.blooming.artistscrap.adapter.out.persistence.mapper.ArtistScrapRecordMapper;
 import com.fivengers.blooming.artistscrap.application.port.out.ArtistScrapRecordPort;
@@ -18,6 +20,7 @@ public class ArtistScrapRecordPersistenceAdapter implements ArtistScrapRecordPor
 
     private final ArtistScrapRecordSpringDataRepository artistScrapRecordSpringDataRepository;
     private final ArtistScrapRecordMapper artistScrapRecordMapper;
+    private final ArtistMapper artistMapper;
 
     @Override
     public ArtistScrapRecord save(ArtistScrapRecord artistScrapRecord) {
@@ -27,10 +30,11 @@ public class ArtistScrapRecordPersistenceAdapter implements ArtistScrapRecordPor
     }
 
     @Override
-    public Optional<ArtistScrapRecord> findByStartDateAndEndData(LocalDateTime startDate,
-            LocalDateTime endDate) {
+    public Optional<ArtistScrapRecord> findOnWeek(LocalDateTime startDate,
+            LocalDateTime endDate, Artist artist) {
         return artistScrapRecordSpringDataRepository
-                .findByStartDateOnWeekAndEndDateOnWeek(startDate, endDate)
+                .findByStartDateOnWeekAndEndDateOnWeekAndArtistJpaEntity(startDate, endDate,
+                        artistMapper.toJpaEntity(artist))
                 .map(artistScrapRecordMapper::toDomain);
     }
 

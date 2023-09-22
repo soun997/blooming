@@ -1,5 +1,6 @@
 package com.fivengers.blooming.artistscrap.adapter.out.persistence.repository;
 
+import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistJpaEntity;
 import com.fivengers.blooming.artistscrap.adapter.out.persistence.entity.ArtistScrapRecordJpaEntity;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -9,6 +10,6 @@ public interface ArtistScrapRecordSpringDataRepository
         extends JpaRepository<ArtistScrapRecordJpaEntity, Long> {
 
 
-    Optional<ArtistScrapRecordJpaEntity> findByStartDateOnWeekAndEndDateOnWeek(
-            LocalDateTime startDateOnWeek, LocalDateTime endDateOnWeek);
+    Optional<ArtistScrapRecordJpaEntity> findByStartDateOnWeekAndEndDateOnWeekAndArtistJpaEntity(
+            LocalDateTime startDateOnWeek, LocalDateTime endDateOnWeek, ArtistJpaEntity artist);
 }

@@ -4,15 +4,15 @@ import com.fivengers.blooming.global.exception.ExceptionCode;
 import lombok.Getter;
 
 @Getter
-public class ArtistScrapRecordNotFoundException extends RuntimeException {
+public class ArtistScrapNotFoundException extends RuntimeException {
 
     private final ExceptionCode exceptionCode;
 
-    public ArtistScrapRecordNotFoundException(ExceptionCode exceptionCode) {
+    public ArtistScrapNotFoundException(ExceptionCode exceptionCode) {
         this.exceptionCode = exceptionCode;
     }
 
-    public ArtistScrapRecordNotFoundException() {
-        this(ExceptionCode.ARTIST_SCRAP_RECORD_NOT_FOUND);
+    public ArtistScrapNotFoundException() {
+        this(ExceptionCode.ARTIST_SCRAP_NOT_FOUND);
     }
 }
