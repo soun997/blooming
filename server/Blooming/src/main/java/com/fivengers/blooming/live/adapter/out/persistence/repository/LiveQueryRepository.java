@@ -89,16 +89,16 @@ public class LiveQueryRepository {
     private List<OrderSpecifier> getAllOrderSpecifiers(Pageable page) {
 
         List<OrderSpecifier> orders =
-                page.getSort().stream().map(this::getOrderSpecifiers).toList();
+                page.getSort().stream().map(this::getOrderSpecifier).toList();
         return orders;
     }
 
-    private OrderSpecifier getOrderSpecifiers(Sort.Order order) {
+    private OrderSpecifier getOrderSpecifier(Sort.Order order) {
         Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
         OrderSpecifier orderSpecifier = switch (order.getProperty()) {
             case "title" -> new OrderSpecifier(direction, live.title);
             case "createdAt" -> new OrderSpecifier(direction, live.createdAt);
-            case "member" -> new OrderSpecifier(direction, live.endedAt);
+            case "endedAt" -> new OrderSpecifier(direction, live.endedAt);
             default -> throw new InvalidSortOrderException();
         };
         return orderSpecifier;
