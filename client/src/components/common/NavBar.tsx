@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <Nav>
-      <Logo>LOGO</Logo>
+      <Logo onClick={() => navigate('/')}>LOGO</Logo>
       <NavList>
         <NavItem onClick={() => navigate('/nft')}>NFT</NavItem>
         <NavItem onClick={() => navigate('/concert')}>콘서트 펀딩</NavItem>
@@ -59,6 +59,10 @@ const Nav = styled.nav`
   padding: 10px 40px;
   height: 40px;
   box-shadow: 0px 2px 6px rgba(91, 89, 89, 0.1); /* 그림자 추가 */
+
+  * {
+    cursor: pointer;
+  }
 `;
 
 const Logo = styled.div`
