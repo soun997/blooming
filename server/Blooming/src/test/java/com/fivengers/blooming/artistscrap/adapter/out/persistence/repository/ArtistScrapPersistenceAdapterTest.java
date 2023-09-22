@@ -39,7 +39,6 @@ class ArtistScrapPersistenceAdapterTest {
 
     MemberJpaEntity member;
     ArtistJpaEntity artist;
-    ArtistScrapJpaEntity artistScrap;
 
     @BeforeEach
     void initObjects() {
