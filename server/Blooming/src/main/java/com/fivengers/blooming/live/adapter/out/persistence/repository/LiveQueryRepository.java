@@ -58,7 +58,12 @@ public class LiveQueryRepository {
     }
 
     private Long findLiveCountWithActiveMember() {
-        return findLiveWithActiveMember().fetchCount();
+        return queryFactory.select(live.count())
+                .from(live)
+                .leftJoin(live.artistJpaEntity, artist)
+                .leftJoin(artist.memberJpaEntity, member)
+                .where(isActiveArtist().and(isActiveLive()))
+                .fetchOne();
     }
 
     private BooleanExpression isActiveArtist() {
