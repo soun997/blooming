@@ -2,7 +2,6 @@ package com.fivengers.blooming.artistscrap.application;
 
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artistscrap.application.port.out.ArtistScrapRecordPort;
-import com.fivengers.blooming.artistscrap.domain.ArtistScrap;
 import com.fivengers.blooming.artistscrap.domain.ArtistScrapRecord;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -15,7 +14,7 @@ public class ArtistScrapRecordService {
 
     private final ArtistScrapRecordPort artistScrapRecordPort;
 
-    public void recordIfOnWeek(Artist artist) {
+    public void recordIfOnWeek(Artist artist, ChangeCountConsumer<ArtistScrapRecord> consumer) {
         LocalDateTime start = getStartOfWeekDateTime();
         LocalDateTime end = getEndOfWeekDateTime();
 
@@ -23,14 +22,17 @@ public class ArtistScrapRecordService {
             return;
         }
 
-        artistScrapRecordPort.findByStartDateAndEndData(start, end)
-                .ifPresentOrElse(artistScrapRecordPort::update,
-                        () -> artistScrapRecordPort.save(ArtistScrapRecord.builder()
-                                .scrapCount(1)
-                                .startDateOnWeek(start)
-                                .endDateOnWeek(end)
-                                .artist(artist)
-                                .build()));
+        artistScrapRecordPort.findOnWeek(start, end, artist).ifPresentOrElse(
+                record -> {
+                    consumer.changeCount(record);
+                    artistScrapRecordPort.update(record);
+                },
+                () -> artistScrapRecordPort.save(ArtistScrapRecord.builder()
+                        .scrapCount(1)
+                        .startDateOnWeek(start)
+                        .endDateOnWeek(end)
+                        .artist(artist)
+                        .build()));
     }
 
     private boolean isWithinThisWeek(LocalDateTime now, LocalDateTime start, LocalDateTime end) {

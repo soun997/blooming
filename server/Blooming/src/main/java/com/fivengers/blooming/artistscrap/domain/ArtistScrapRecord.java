@@ -32,4 +32,21 @@ public class ArtistScrapRecord {
         this.endDateOnWeek = endDateOnWeek;
         this.artist = artist;
     }
+
+    public void upCount() {
+        this.scrapCount++;
+    }
+
+    public void downCount() {
+        this.scrapCount--;
+    }
+
+    public static ArtistScrapRecord from(LocalDateTime start, LocalDateTime end, Artist artist) {
+        return ArtistScrapRecord.builder()
+                .scrapCount(1)
+                .startDateOnWeek(start)
+                .endDateOnWeek(end)
+                .artist(artist)
+                .build();
+    }
 }
