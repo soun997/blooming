@@ -13,6 +13,8 @@ import {
 import { ValidCheck } from '@components/AddFundPage/ProjectInfo';
 import { ArtistRequestInfo } from '@type/ArtistRequest';
 import axios from '@api/apiController';
+import { useNavigate } from 'react-router';
+import { POST_CATEGORY } from '@components/common/constant';
 
 const ArtistRegistModal = ({
   isOpen,
@@ -21,6 +23,7 @@ const ArtistRegistModal = ({
   isOpen: boolean;
   closeModal: () => void;
 }) => {
+  const navigate = useNavigate();
   const [registInfo, setRegistInfo] = useState<ArtistRequestInfo>({
     stageName: '',
     agency: '',
@@ -98,6 +101,7 @@ const ArtistRegistModal = ({
       //api 호출
       axios.post('/artist-regist', registInfo).then((res) => {
         console.log(res.data);
+        navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
       });
     } else {
       alert('입력이 완성되지 않았어요 😥');

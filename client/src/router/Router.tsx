@@ -8,6 +8,7 @@ import AddFund from '@pages/AddFund';
 import ActiveDetail from '@pages/DetailPage/ActiveDetail';
 import ArtistDetail from '@pages/DetailPage/ArtistDetail';
 import MyPage from '@pages/MyPage/MyPage';
+import PostSuccess from '@pages/common/PostSuccess';
 
 export default function Router() {
   return (
@@ -22,6 +23,7 @@ export default function Router() {
         <Route path="/active-detail" element={<ActiveDetail />}></Route>
         <Route path="/artist-detail" element={<ArtistDetail />}></Route>
         <Route path="/mypage" element={<MyPage />}></Route>
+        <Route path="/post-success/:category" element={<PostSuccess />}></Route>
       </Routes>
     </BrowserRouter>
   );
