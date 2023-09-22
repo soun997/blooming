@@ -10,7 +10,14 @@ const userKeys = {
 const LIVE_BASE_URL = '/lives'; //search/keyword';
 const SEARCH_QUERY_SIZE = 20;
 
-export const useFetchLiveSearch = ({ query }: { query: string }) =>
+//!isArtist 에 따라 /artist, /keyword LIVE_BASE_URL 뒤에 붙이기
+export const useFetchLiveSearch = ({
+  query,
+  isArtist,
+}: {
+  query: string;
+  isArtist: boolean;
+}) =>
   useInfiniteQuery(
     userKeys.search,
     ({ pageParam = 0 }: QueryFunctionContext) =>
@@ -28,10 +35,17 @@ export const useFetchLiveSearch = ({ query }: { query: string }) =>
     },
   );
 
-export const getSearchData = ({ searchKeyword }: { searchKeyword: string }) => {
+export const getSearchData = ({
+  searchKeyword,
+  isForArtistSearch,
+}: {
+  searchKeyword: string;
+  isForArtistSearch?: boolean;
+}) => {
   const { data, hasNextPage, isFetching, fetchNextPage, isLoading } =
     useFetchLiveSearch({
       query: searchKeyword,
+      isArtist: isForArtistSearch ? isForArtistSearch : false,
     });
 
   const searchData = useMemo(

@@ -15,8 +15,12 @@ const LiveList = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [isForArtistSearch, setForArtistSearch] = useState<boolean>(false);
 
-  const scrollInfoForSearch = getSearchData({ searchKeyword });
+  const scrollInfoForSearch = getSearchData({
+    searchKeyword,
+    isForArtistSearch,
+  });
   const scrollInfoForDefault = getSearchData({ searchKeyword: '' });
 
   const refForSearch = useIntersect(async (entry, observer) => {
@@ -35,18 +39,14 @@ const LiveList = () => {
   const handleSearch = (data?: string, isArtistSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
     setShowResult(true);
-    // if (isArtistSearch === undefined) {
-    //   //아티스트 NFT 검색
-    //   console.log('i am nft');
-    // } else {
-    //   if (isArtistSearch) {
-    //     //아티스트로 검색
-    //     console.log('artist');
-    //   } else {
-    //     //콘서트나 활동명으로 검색
-    //     console.log('concert or activity');
-    //   }
-    // }
+    if (isArtistSearch) {
+      //아티스트로 검색
+      console.log('artist');
+      setForArtistSearch(true);
+    } else {
+      //콘서트나 활동명으로 검색
+      console.log('concert or activity');
+    }
   };
 
   return (
