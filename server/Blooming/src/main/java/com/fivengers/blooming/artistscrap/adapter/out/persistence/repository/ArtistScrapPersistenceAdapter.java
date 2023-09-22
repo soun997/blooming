@@ -17,6 +17,7 @@ public class ArtistScrapPersistenceAdapter implements ArtistScrapPort {
     private final ArtistScrapMapper artistScrapMapper;
 
     @Override
+//    @Transactional
     public void saveScrap(ArtistScrap artistScrap) {
         artistScrapSpringDataRepository.save(artistScrapMapper.toJpaEntity(artistScrap));
     }

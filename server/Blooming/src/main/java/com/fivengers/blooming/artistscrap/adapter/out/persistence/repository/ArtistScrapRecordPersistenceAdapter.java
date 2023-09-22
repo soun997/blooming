@@ -23,6 +23,7 @@ public class ArtistScrapRecordPersistenceAdapter implements ArtistScrapRecordPor
     private final ArtistMapper artistMapper;
 
     @Override
+    @Transactional
     public ArtistScrapRecord save(ArtistScrapRecord artistScrapRecord) {
         return artistScrapRecordMapper
                 .toDomain(artistScrapRecordSpringDataRepository
