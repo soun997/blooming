@@ -27,6 +27,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -69,5 +70,25 @@ public class ConcertController {
         return ApiResponse.ok(
                 ConcertDetailsResponse.of(
                         artist, concert, overview, pastConcerts, pastOverviews, viewCounts));
+    }
+
+    @GetMapping("/search/keyword")
+    public ApiResponse<Page<ConcertListResponse>> concertListByLikeKeyword(
+            @RequestParam String query, Pageable pageable) {
+        Page<Concert> concerts = concertUseCase.searchAllByLikeKeyword(query, pageable);
+        return ApiResponse.ok().body(
+                new PageImpl<>(concerts.stream()
+                        .map(ConcertListResponse::from)
+                        .toList(), pageable, concerts.getTotalElements()));
+    }
+
+    @GetMapping("/search/artist")
+    public ApiResponse<Page<ConcertListResponse>> concertListByLikeArtist(
+            @RequestParam String query, Pageable pageable) {
+        Page<Concert> concerts = concertUseCase.searchAllByLikeArtist(query, pageable);
+        return ApiResponse.ok().body(
+                new PageImpl<>(concerts.stream()
+                        .map(ConcertListResponse::from)
+                        .toList(), pageable, concerts.getTotalElements()));
     }
 }
