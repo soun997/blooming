@@ -37,13 +37,14 @@ public class ConcertJpaEntity extends ProjectJpaEntity {
             String description,
             String teaserVideoUrl,
             Integer revenuePercent,
+            String profileImg,
             Boolean deleted,
             ArtistJpaEntity artist,
             String posterImgUrl,
             String setlistImgUrl,
             String goodsImgUrl) {
         super(id, name, fundingAmount, targetAmount, startedAt, endedAt,
-                introduction, description, teaserVideoUrl, revenuePercent, deleted, artist);
+                introduction, description, teaserVideoUrl, revenuePercent, profileImg, deleted, artist);
         this.posterImgUrl = posterImgUrl;
         this.setlistImgUrl = setlistImgUrl;
         this.goodsImgUrl = goodsImgUrl;
