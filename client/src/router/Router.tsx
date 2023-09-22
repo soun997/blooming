@@ -7,6 +7,7 @@ import ActiveList from '@pages/ListPage/ActiveList';
 import AddFund from '@pages/AddFund';
 import ActiveDetail from '@pages/DetailPage/ActiveDetail';
 import ArtistDetail from '@pages/DetailPage/ArtistDetail';
+import MyPage from '@pages/MyPage/MyPage';
 
 export default function Router() {
   return (
@@ -20,6 +21,7 @@ export default function Router() {
         <Route path="/add-fund" element={<AddFund />}></Route>
         <Route path="/active-detail" element={<ActiveDetail />}></Route>
         <Route path="/artist-detail" element={<ArtistDetail />}></Route>
+        <Route path="/mypage" element={<MyPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
