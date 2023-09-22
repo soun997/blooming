@@ -1,6 +1,7 @@
 export const ARTIST = 'artist';
 export const ACTIVE = 'active';
 export const CONCERT = 'concert';
+export const LIVE = 'live';
 export const NFT_PHRASES = {
   name: 'NFT',
   buy: '발행하기',
@@ -14,6 +15,10 @@ export const FUNDING_PHRASES = {
 export const POPULAR = 'popular';
 export const RECENTLY = 'recently';
 export const FUNDING_CAGEGORY = ['콘서트 펀딩', '활동 펀딩'];
+export const POST_CATEGORY = {
+  artistRegister: 'artistRegister',
+  fundRegister: 'fundRegister',
+};
 
 export const EMOTION_LIST = {
   SHAKE: '흔들기',
