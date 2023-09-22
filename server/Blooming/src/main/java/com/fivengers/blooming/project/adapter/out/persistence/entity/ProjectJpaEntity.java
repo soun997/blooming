@@ -51,13 +51,11 @@ public class ProjectJpaEntity extends BaseTime {
     @Column(nullable = false)
     private String teaserVideoUrl;
     @Column
-    @Default
-    private Integer revenuePercent = 0;
+    private Integer revenuePercent;
     @Column(nullable = false)
     private String profileImg;
-    @Column
-    @Default
-    private Boolean deleted = false;
+    @Column(nullable = false)
+    private Boolean deleted;
 
     @ManyToOne
     @JoinColumn(name = "artist_id")
