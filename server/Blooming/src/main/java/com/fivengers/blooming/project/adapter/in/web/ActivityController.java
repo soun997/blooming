@@ -12,6 +12,7 @@ import com.fivengers.blooming.project.application.port.in.ActivityUseCase;
 import com.fivengers.blooming.project.application.port.in.InvestmentOverviewUseCase;
 import com.fivengers.blooming.project.application.port.in.ViewCountUseCase;
 import com.fivengers.blooming.project.domain.Activity;
+import com.fivengers.blooming.project.domain.Concert;
 import com.fivengers.blooming.project.domain.InvestmentOverview;
 import com.fivengers.blooming.project.domain.ViewCount;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -64,5 +66,25 @@ public class ActivityController {
         return ApiResponse.ok(
                 ActivityDetailsResponse.of(
                         artist, activity, overview, pastActivities, pastOverviews, viewCounts));
+    }
+
+    @GetMapping("/search/keyword")
+    public ApiResponse<Page<ActivityListResponse>> activityListByLikeKeyword(
+            @RequestParam String query, Pageable pageable) {
+        Page<Activity> activities = activityUseCase.searchAllByLikeKeyword(query, pageable);
+        return ApiResponse.ok().body(
+                new PageImpl<>(activities.stream()
+                        .map(ActivityListResponse::from)
+                        .toList(), pageable, activities.getTotalElements()));
+    }
+
+    @GetMapping("/search/artist")
+    public ApiResponse<Page<ActivityListResponse>> activityListByLikeArtist(
+            @RequestParam String query, Pageable pageable) {
+        Page<Activity> activities = activityUseCase.searchAllByLikeArtist(query, pageable);
+        return ApiResponse.ok().body(
+                new PageImpl<>(activities.stream()
+                        .map(ActivityListResponse::from)
+                        .toList(), pageable, activities.getTotalElements()));
     }
 }
