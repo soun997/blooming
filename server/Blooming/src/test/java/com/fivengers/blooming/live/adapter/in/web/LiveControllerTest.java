@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.live.application.port.in.LiveSearchUseCase;
+import com.fivengers.blooming.live.application.port.in.LiveSessionUseCase;
 import com.fivengers.blooming.live.domain.Live;
 import com.fivengers.blooming.support.RestDocsTest;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -33,6 +35,8 @@ class LiveControllerTest extends RestDocsTest {
 
     @MockBean
     LiveSearchUseCase liveSearchUseCase;
+    @MockBean
+    LiveSessionUseCase liveSessionUseCase;
 
     Artist[] artists;
     Live[] lives;
@@ -41,7 +45,7 @@ class LiveControllerTest extends RestDocsTest {
     @BeforeEach
     void beforeEach() {
         LocalDateTime now = LocalDateTime.now();
-        pageable = PageRequest.of(0, 10);
+        pageable = PageRequest.of(0, 10, Direction.ASC, "createdAt");
         artists = new Artist[2];
         lives = new Live[2];
 
@@ -78,8 +82,11 @@ class LiveControllerTest extends RestDocsTest {
                 ));
 
         ResultActions perform = mockMvc.perform(get("/api/v1/lives/search/keyword")
-                        .param("query", "keyword")
-                        .contentType(MediaType.APPLICATION_JSON));
+                .queryParam("query", "keyword")
+                .queryParam("page", String.valueOf(pageable.getPageNumber()))
+                .queryParam("size", String.valueOf(pageable.getPageSize()))
+                .queryParam("sort", "title,desc")
+                .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.results.content[0].title").value(lives[0].getTitle()));
@@ -102,7 +109,10 @@ class LiveControllerTest extends RestDocsTest {
                 ));
 
         ResultActions perform = mockMvc.perform(get("/api/v1/lives/search/artist")
-                .param("query", "keyword")
+                .queryParam("query", "keyword")
+                .queryParam("page", String.valueOf(pageable.getPageNumber()))
+                .queryParam("size", String.valueOf(pageable.getPageSize()))
+                .queryParam("sort", "title,desc")
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isOk())
