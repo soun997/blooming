@@ -1,12 +1,10 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import {
   isNonEmptyString,
   validCompanyName,
-  validDepositCheck,
-  validEmailCheck,
   validNoneCheck,
 } from '@utils/validation/AddFundInfoCheck';
-import { useEffect, useState } from 'react';
 import {
   FormForLongText,
   FormForText,
@@ -14,6 +12,7 @@ import {
 } from '@components/AddFundPage/FormComponent';
 import { ValidCheck } from '@components/AddFundPage/ProjectInfo';
 import { ArtistRequestInfo } from '@type/ArtistRequest';
+import axios from '@api/apiController';
 
 const ArtistRegistModal = ({
   isOpen,
@@ -72,7 +71,6 @@ const ArtistRegistModal = ({
         default:
           break;
       }
-      console.log(registInfo);
     } else {
       switch (validInputCheck.validIdx) {
         case 0:
@@ -97,8 +95,10 @@ const ArtistRegistModal = ({
 
   const handleRegister = () => {
     if (validArtistRegistInfo()) {
-      alert('성공');
       //api 호출
+      axios.post('/artist-regist', registInfo).then((res) => {
+        console.log(res.data);
+      });
     } else {
       alert('입력이 완성되지 않았어요 😥');
     }
