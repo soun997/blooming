@@ -11,6 +11,7 @@ import MyPage from '@pages/MyPage/MyPage';
 import PostSuccess from '@pages/common/PostSuccess';
 import PageNotFound from '@pages/common/PageNotFound';
 import MeetingPage from '@pages/MeetingPage/MeetingPage';
+import ActiveDetailPage from '@pages/DetailPage/ActiveDetail';
 
 export default function Router() {
   return (
@@ -22,7 +23,7 @@ export default function Router() {
         <Route path="/active" element={<ActiveList />}></Route>
         <Route path="/live" element={<LiveList />}></Route>
         <Route path="/add-fund" element={<AddFund />}></Route>
-        <Route path="/active-detail" element={<ActiveDetail />}></Route>
+        <Route path="/active-detail" element={<ActiveDetailPage />}></Route>
         <Route path="/artist-detail" element={<ArtistDetail />}></Route>
         <Route
           path="/meeting-artist"
