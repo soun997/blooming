@@ -1,5 +1,6 @@
 package com.fivengers.blooming.live.domain;
 
+import com.fivengers.blooming.global.exception.global.UnknownServerLogicException;
 import com.fivengers.blooming.global.exception.live.InvalidSessionIdException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,5 +21,18 @@ public class SessionId {
         if (!matcher.matches()) {
             throw new InvalidSessionIdException();
         }
+    }
+
+    public Long getLiveId() {
+        SessionId.validate(sessionId);
+
+        Pattern pattern = Pattern.compile(PREFIX);
+        Matcher matcher = pattern.matcher(sessionId);
+
+        if (matcher.find()) {
+            return Long.parseLong(sessionId.substring(matcher.end()));
+        }
+
+        throw new UnknownServerLogicException("알 수 없는 이유로 Session Id에서 Live Id를 찾을 수 없습니다.");
     }
 }
