@@ -12,6 +12,7 @@ import com.fivengers.blooming.live.domain.Live;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -78,7 +79,7 @@ public class LiveController {
     }
 
     @GetMapping("/{liveId}/session-id")
-    public ApiResponse<SessionDetailResponse> sessionDetails(@PathVariable("liveId") Long liveId) {
+    public ApiResponse<SessionDetailResponse> sessionDetails(@Min(1) @PathVariable("liveId") Long liveId) {
         String sessionId = liveSessionUseCase.searchSessionId(liveId);
         return ApiResponse.ok(SessionDetailResponse.from(sessionId));
     }
