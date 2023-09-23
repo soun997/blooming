@@ -1,5 +1,6 @@
 package com.fivengers.blooming.live.application.port;
 
+import com.fivengers.blooming.global.exception.live.LiveNotFoundException;
 import com.fivengers.blooming.global.exception.live.SessionNotFoundException;
 import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailRequest;
 import com.fivengers.blooming.live.adapter.in.web.dto.SessionDetailRequest;
@@ -7,6 +8,7 @@ import com.fivengers.blooming.live.application.port.in.LiveSearchUseCase;
 import com.fivengers.blooming.live.application.port.in.LiveSessionUseCase;
 import com.fivengers.blooming.live.application.port.out.LivePort;
 import com.fivengers.blooming.live.domain.Live;
+import com.fivengers.blooming.live.domain.SessionId;
 import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduHttpException;
@@ -49,14 +51,24 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase {
     }
 
     @Override
-    public String createSession(SessionDetailRequest sessionDetailRequest) throws OpenViduJavaClientException, OpenViduHttpException {
+    public String createSession(SessionDetailRequest sessionDetailRequest)
+            throws OpenViduJavaClientException, OpenViduHttpException {
         // TODO : NFT 가지고 있는지 검증 로직 NFT 구현 후 추가 예정
+        validateLive(sessionDetailRequest);
 
         SessionProperties properties = SessionProperties
                 .fromJson(sessionDetailRequest.toMap())
                 .build();
         Session session = openVidu.createSession(properties);
         return session.getSessionId();
+    }
+
+    private void validateLive(SessionDetailRequest sessionDetailRequest) {
+        SessionId sessionId = new SessionId(sessionDetailRequest.customSessionId());
+        Long liveId = sessionId.getLiveId();
+        if (livePort.isNonExistentLive(liveId)) {
+            throw new LiveNotFoundException();
+        }
     }
 
     @Override
