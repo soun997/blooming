@@ -49,6 +49,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // openvidu
+    implementation 'io.openvidu:openvidu-java-client:2.28.0'
 }
 
 tasks.named('test') {
