@@ -70,11 +70,17 @@ public class LiveController {
     }
 
     @PostMapping("/sessions/{sessionId}/connections")
-    public ApiResponse<ConnectionTokenDetailResponse> createConnection(@PathVariable("sessionId")
+    public ApiResponse<ConnectionTokenDetailResponse> connectionCreate(@PathVariable("sessionId")
             ConnectionTokenDetailRequest connectionTokenDetailRequest)
             throws OpenViduJavaClientException, OpenViduHttpException {
         String connectionToken = liveSessionUseCase.createConnection(connectionTokenDetailRequest);
         return ApiResponse.ok(ConnectionTokenDetailResponse.from(connectionToken));
+    }
+
+    @GetMapping("/{liveId}/session-id")
+    public ApiResponse<SessionDetailResponse> sessionDetails(@PathVariable("liveId") Long liveId) {
+        String sessionId = liveSessionUseCase.searchSessionId(liveId);
+        return ApiResponse.ok(SessionDetailResponse.from(sessionId));
     }
 
 
