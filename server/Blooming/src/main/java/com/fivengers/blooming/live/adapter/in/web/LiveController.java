@@ -1,6 +1,8 @@
 package com.fivengers.blooming.live.adapter.in.web;
 
 import com.fivengers.blooming.global.response.ApiResponse;
+import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailRequest;
+import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.LiveListResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.SessionDetailRequest;
 import com.fivengers.blooming.live.adapter.in.web.dto.SessionDetailResponse;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,4 +68,14 @@ public class LiveController {
         String sessionId = liveSessionUseCase.createSession(sessionDetailRequest);
         return ApiResponse.ok(SessionDetailResponse.from(sessionId));
     }
+
+    @PostMapping("/sessions/{sessionId}/connections")
+    public ApiResponse<ConnectionTokenDetailResponse> createConnection(@PathVariable("sessionId")
+            ConnectionTokenDetailRequest connectionTokenDetailRequest)
+            throws OpenViduJavaClientException, OpenViduHttpException {
+        String connectionToken = liveSessionUseCase.createConnection(connectionTokenDetailRequest);
+        return ApiResponse.ok(ConnectionTokenDetailResponse.from(connectionToken));
+    }
+
+
 }
