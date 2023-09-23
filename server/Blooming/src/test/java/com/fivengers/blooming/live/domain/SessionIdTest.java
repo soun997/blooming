@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.fivengers.blooming.global.exception.live.InvalidSessionIdException;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -54,6 +55,13 @@ class SessionIdTest {
         assertThatThrownBy(() -> sessionId.getLiveId())
                 .isInstanceOf(InvalidSessionIdException.class);
     }
+
+    @Test
+    @DisplayName("LiveId를 통해 SessionId를 만들 수 있다.")
+    public void LiveId를_통해_SessionId를_만들_수_있다() {
+        assertThat(SessionId.makeSessionId(1L)).isEqualTo("blooming1");
+    }
+
 
 
 }
