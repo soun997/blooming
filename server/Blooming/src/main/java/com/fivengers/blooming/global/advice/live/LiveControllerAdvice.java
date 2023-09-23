@@ -1,5 +1,6 @@
 package com.fivengers.blooming.global.advice.live;
 
+import com.fivengers.blooming.global.exception.live.InvalidSessionIdException;
 import com.fivengers.blooming.global.exception.live.SessionNotFoundException;
 import com.fivengers.blooming.global.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -22,4 +23,13 @@ public class LiveControllerAdvice {
         return ApiResponse.notFound(exception.getExceptionCode().getMessage());
     }
 
+    @ExceptionHandler(InvalidSessionIdException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<String> invalidSessionId(InvalidSessionIdException exception) {
+        log.info("[EXCEPTION] {} : {}",
+                exception.getExceptionCode().getErrorCode(),
+                exception.getExceptionCode().getMessage());
+
+        return ApiResponse.badRequest(exception.getExceptionCode().getMessage());
+    }
 }
