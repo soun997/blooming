@@ -7,7 +7,7 @@ import axios from '@api/apiController';
 import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
-import ResultList from '@components/ListPage/ResultList';
+import { ResultList } from '@components/ListPage/ResultList';
 import { ProcessInfo } from '@type/ProcessInfo';
 import {
   ACTIVE,
@@ -26,7 +26,8 @@ import {
 import ToggleButton from '@components/Button/ToggleButton';
 import useIntersect from '@hooks/IntersectionObserverHook';
 import { getActiveData, getSearchData } from '@api/ListQuery/ActiveQuery';
-import Loading from '@components/common/Loading';
+import Loading from '@components/Animation/Loading';
+import Navbar from '@components/common/NavBar';
 
 const ActiveList = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -93,6 +94,7 @@ const ActiveList = () => {
 
   return (
     <div>
+      <Navbar />
       <TopFrame>
         <MainTitle>
           활동<div className="dot"></div>
@@ -164,7 +166,7 @@ const fetchBestConcert = async () => {
   }
 };
 const TopFrame = styled.div`
-  margin-top: 100px;
+  margin-top: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;

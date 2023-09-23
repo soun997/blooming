@@ -5,7 +5,7 @@ import axios from '@api/apiController';
 import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
 import TopRankList from '@components/ListPage/TopRankList';
-import ResultList from '@components/ListPage/ResultList';
+import { ResultList } from '@components/ListPage/ResultList';
 import {
   ARTIST,
   FUNDING_PHRASES,
@@ -14,11 +14,12 @@ import {
   RECENTLY,
 } from '@components/common/constant';
 import { useMemo, useState } from 'react';
-import Loading from '@components/common/Loading';
+import Loading from '@components/Animation/Loading';
 import SearchResultTitle from '@components/ListPage/SearchResultTitle';
 import ToggleButton from '@components/Button/ToggleButton';
 import { getArtistData, getSearchData } from '@api/ListQuery/ArtistQuery';
 import useIntersect from '@hooks/IntersectionObserverHook';
+import Navbar from '@components/common/NavBar';
 
 const NFTList = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -83,6 +84,7 @@ const NFTList = () => {
 
   return (
     <div>
+      <Navbar />
       <TopFrame>
         <MainTitle>
           NFT<div className="dot"></div>
@@ -161,7 +163,7 @@ const useArtistBestQuery = () => {
 };
 
 const TopFrame = styled.div`
-  margin-top: 100px;
+  margin-top: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
