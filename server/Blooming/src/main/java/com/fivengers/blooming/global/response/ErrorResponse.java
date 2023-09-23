@@ -1,7 +1,6 @@
 package com.fivengers.blooming.global.response;
 
-public record ErrorResponse(int status,
-                            String errorCode,
+public record ErrorResponse( String errorCode,
                             String message) {
 
 }
