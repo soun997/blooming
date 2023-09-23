@@ -21,7 +21,9 @@ public enum ExceptionCode {
     INVALID_PAYMENT_REQUEST(HttpStatus.BAD_REQUEST,
             "ERR_PAYMENT_001", "잘못된 결제 요청입니다."),
 
-    INVALID_ORDER(HttpStatus.NOT_FOUND, "ERR_GLOBAL_001", "유효한 정렬이 아닙니다.");
+    INVALID_ORDER(HttpStatus.NOT_FOUND, "ERR_GLOBAL_001", "유효한 정렬이 아닙니다."),
+    SESSION_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_LIVE_001", "존재하지 않는 세션입니다.");
+
 
     private final HttpStatus httpStatus;
     private final String errorCode;

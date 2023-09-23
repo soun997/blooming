@@ -1,10 +1,13 @@
 package com.fivengers.blooming.live.application.port;
 
+import com.fivengers.blooming.global.exception.live.SessionNotFoundException;
+import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailRequest;
 import com.fivengers.blooming.live.adapter.in.web.dto.SessionDetailRequest;
 import com.fivengers.blooming.live.application.port.in.LiveSearchUseCase;
 import com.fivengers.blooming.live.application.port.in.LiveSessionUseCase;
 import com.fivengers.blooming.live.application.port.out.LivePort;
 import com.fivengers.blooming.live.domain.Live;
+import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
@@ -56,4 +59,14 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase {
         return session.getSessionId();
     }
 
+    @Override
+    public String createConnection(ConnectionTokenDetailRequest connectionTokenDetailRequest)
+            throws OpenViduJavaClientException, OpenViduHttpException {
+        Session session = openVidu.getActiveSession(connectionTokenDetailRequest.sessionId());
+        if (session == null) {
+            throw new SessionNotFoundException();
+        }
+        Connection connection = session.createConnection();
+        return connection.getToken();
+    }
 }
