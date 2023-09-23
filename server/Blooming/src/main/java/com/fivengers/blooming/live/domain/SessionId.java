@@ -15,6 +15,10 @@ public class SessionId {
 
     private String sessionId;
 
+    public static String makeSessionId(Long liveId) {
+        return PREFIX + liveId;
+    }
+
     public static void validate(String sessionId) {
         Pattern pattern = Pattern.compile(VALIDATE_REGEX);
         Matcher matcher = pattern.matcher(sessionId);

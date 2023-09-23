@@ -81,4 +81,10 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase {
         Connection connection = session.createConnection();
         return connection.getToken();
     }
+
+    @Override
+    public String searchSessionId(Long liveId) {
+        return SessionId.makeSessionId(liveId);
+    }
+
 }
