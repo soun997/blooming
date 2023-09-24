@@ -22,10 +22,7 @@ public class GlobalControllerAdvice {
                 exception.getExceptionCode().getErrorCode(),
                 exception.getExceptionCode().getMessage());
 
-        return ApiResponse.badRequest(new ErrorResponse(
-                exception.getExceptionCode().getErrorCode(),
-                exception.getExceptionCode().getMessage()
-        ));
+        return ApiResponse.badRequest(ErrorResponse.from(exception.getExceptionCode()));
     }
 
 

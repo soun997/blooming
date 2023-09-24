@@ -22,10 +22,7 @@ public class LiveControllerAdvice {
                 exception.getExceptionCode().getErrorCode(),
                 exception.getExceptionCode().getMessage());
 
-        return ApiResponse.notFound(new ErrorResponse(
-                exception.getExceptionCode().getErrorCode(),
-                exception.getExceptionCode().getMessage()
-        ));
+        return ApiResponse.notFound(ErrorResponse.from(exception.getExceptionCode()));
     }
 
     @ExceptionHandler(InvalidSessionIdException.class)
@@ -35,10 +32,7 @@ public class LiveControllerAdvice {
                 exception.getExceptionCode().getErrorCode(),
                 exception.getExceptionCode().getMessage());
 
-        return ApiResponse.badRequest(new ErrorResponse(
-                exception.getExceptionCode().getErrorCode(),
-                exception.getExceptionCode().getMessage()
-        ));
+        return ApiResponse.badRequest(ErrorResponse.from(exception.getExceptionCode()));
     }
 
     @ExceptionHandler(LiveNotFoundException.class)
@@ -48,9 +42,6 @@ public class LiveControllerAdvice {
                 exception.getExceptionCode().getErrorCode(),
                 exception.getExceptionCode().getMessage());
 
-        return ApiResponse.notFound(new ErrorResponse(
-                exception.getExceptionCode().getErrorCode(),
-                exception.getExceptionCode().getMessage()
-        ));
+        return ApiResponse.notFound(ErrorResponse.from(exception.getExceptionCode()));
     }
 }
