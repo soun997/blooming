@@ -18,7 +18,6 @@ public class ArtistScrapRecordService implements ArtistScrapRecordUseCase {
     private final ArtistScrapRecordPort artistScrapRecordPort;
     public static final long LIMIT_WEEK = 4L;
 
-    @OneToOne
     public List<ArtistScrapRecord> findOnLatestFourWeek(Long artistId) {
         return artistScrapRecordPort.findTopByArtistIdOrderByStartDateDesc(artistId, LIMIT_WEEK);
     }

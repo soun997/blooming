@@ -19,6 +19,7 @@ import com.fivengers.blooming.member.domain.Member;
 import com.fivengers.blooming.member.domain.MemberRole;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,11 +80,12 @@ class ArtistScrapServiceTest {
     void scrap() {
         artistScrapService.scrap(new ArtistScrapRequest(member.getId()), artist.getId());
 
-        ArtistScrap artistScrap = artistScrapPort
+        Optional<ArtistScrap> artistScrap = artistScrapPort
                 .findByMemberIdAndArtistId(member.getId(), artist.getId());
 
-        assertThat(artistScrap.getMember().getId()).isEqualTo(member.getId());
-        assertThat(artistScrap.getArtist().getId()).isEqualTo(artist.getId());
+        assertThat(artistScrap).isNotEmpty();
+        assertThat(artistScrap.get().getMember().getId()).isEqualTo(member.getId());
+        assertThat(artistScrap.get().getArtist().getId()).isEqualTo(artist.getId());
     }
 
     @Test
