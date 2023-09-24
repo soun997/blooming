@@ -5,7 +5,9 @@ import com.fivengers.blooming.artistscrap.application.port.out.ArtistScrapRecord
 import com.fivengers.blooming.artistscrap.domain.ArtistScrapRecord;
 import com.fivengers.blooming.global.exception.artistscrap.ArtistScrapRecordNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,6 +23,15 @@ public class FakeArtistScrapRecordPersistenceAdapter implements ArtistScrapRecor
             return artistScrapRecord;
         }
         return persist(artistScrapRecord);
+    }
+
+    @Override
+    public List<ArtistScrapRecord> findTopByArtistIdOrderByStartDateDesc(Long artistId, Long limit) {
+        return store.values().stream()
+                .filter(record -> record.getArtist().getId().equals(artistId))
+                .sorted(Comparator.comparing(ArtistScrapRecord::getStartDateOnWeek).reversed())
+                .limit(limit)
+                .toList();
     }
 
     @Override
