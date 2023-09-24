@@ -37,6 +37,6 @@ public class SessionId {
             return Long.parseLong(sessionId.substring(matcher.end()));
         }
 
-        throw new UnknownServerLogicException("알 수 없는 이유로 Session Id에서 Live Id를 찾을 수 없습니다.");
+        throw new UnknownServerLogicException();
     }
 }
