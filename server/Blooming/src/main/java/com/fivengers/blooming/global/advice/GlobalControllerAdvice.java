@@ -17,13 +17,17 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(InvalidSortOrderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse<String> invalidSortOrder(InvalidSortOrderException exception) {
+    public ApiResponse<ErrorResponse> invalidSortOrder(InvalidSortOrderException exception) {
         log.info("[EXCEPTION] {} : {}",
                 exception.getExceptionCode().getErrorCode(),
                 exception.getExceptionCode().getMessage());
 
-        return ApiResponse.badRequest(exception.getExceptionCode().getMessage());
+        return ApiResponse.badRequest(new ErrorResponse(
+                exception.getExceptionCode().getErrorCode(),
+                exception.getExceptionCode().getMessage()
+        ));
     }
+
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
