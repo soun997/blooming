@@ -11,7 +11,6 @@ import com.fivengers.blooming.live.application.port.in.LiveSessionUseCase;
 import com.fivengers.blooming.live.domain.Live;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +63,7 @@ public class LiveController {
     }
 
     @PostMapping("/sessions")
-    public ApiResponse<SessionDetailResponse> sessionCreate(@RequestBody @Valid
+    public ApiResponse<SessionDetailResponse> sessionCreate(@RequestBody @Validated
             SessionDetailRequest sessionDetailRequest) throws OpenViduJavaClientException, OpenViduHttpException {
         String sessionId = liveSessionUseCase.createSession(sessionDetailRequest);
         return ApiResponse.ok(SessionDetailResponse.from(sessionId));
