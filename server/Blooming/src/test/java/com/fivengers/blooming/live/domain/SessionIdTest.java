@@ -19,14 +19,15 @@ class SessionIdTest {
     @ParameterizedTest(name = "{index}) sessionId = {0}")
     @ValueSource(strings = {"blooming1", "blooming2", "blooming100"})
     public void 유효한_세션_ID에서_Exception이_발생하지_않는다(String sessionId) {
-        assertThatNoException().isThrownBy(() -> SessionId.validate(sessionId));
+        assertThatNoException().isThrownBy(() -> new SessionId(sessionId));
+
     }
 
     @DisplayName("잘못된 세션 ID에서 InvalidSessionIdException이 발생한다.")
     @ParameterizedTest(name = "{index}) sessionId = {0}")
     @ValueSource(strings = {"", " ", "abc", "blooming", "abcblooming", "bloomingabc", "bloomingasd1", "blooming2sf", "blooming3 "})
     public void 잘못된_세션_ID에서_InvalidSessionIdException이_발생한다(String sessionId) {
-        assertThatThrownBy(() -> SessionId.validate(sessionId))
+        assertThatThrownBy(() -> new SessionId(sessionId))
                 .isInstanceOf(InvalidSessionIdException.class);
     }
 
@@ -45,15 +46,6 @@ class SessionIdTest {
                 Arguments.of("blooming100", 100L)
 
         );
-    }
-
-    @DisplayName("SessionId에서 LiveId를 가져올 때 유효한 SessionId가 아니라면 InvalidSessionIdException이 발생한다.")
-    @ParameterizedTest(name = "{index}) sessionId = {0}")
-    @ValueSource(strings = {"", " ", "abc", "blooming", "abcblooming", "bloomingabc", "bloomingasd1", "blooming2sf", "blooming3 "})
-    public void SessionId에서_LiveId를_가져올_때_유효한_SessionId가_아니라면_InvalidSessionIdException이_발생한다(String sessionIdInput) {
-        SessionId sessionId = new SessionId(sessionIdInput);
-        assertThatThrownBy(() -> sessionId.getLiveId())
-                .isInstanceOf(InvalidSessionIdException.class);
     }
 
     @Test
