@@ -102,7 +102,7 @@ const ActiveDetailPage = () => {
         artistData={data.artist}
         concertData={data.concert}
         investmentData={data.investment}
-        pastConcertsData={data.pastConcerts}
+        pastConcertsData={[data.pastConcerts]}
         viewCountData={data.viewCount}
       />
       <br />

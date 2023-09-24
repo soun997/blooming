@@ -29,7 +29,7 @@ interface Props {
   artistData: artist;
   concertData: concert;
   investmentData: investment;
-  pastConcertsData: pastConcerts;
+  pastConcertsData: pastConcerts[];
   viewCountData: number;
 }
 
@@ -114,7 +114,18 @@ const FundingDetail: React.FC<Props> = ({
   //지난 활동 수익율 막대 그래프
 
   const data2 = {
-    labels: [[], [], [], [], []],
+    // labels: [
+    //   ['봄바람', '2022-01-01'],
+    //   ['Empty Dream', '2022-01-01'],
+    //   ['J.A.M (Journey Above Music)', '2022-01-01'],
+    //   ['THE LETTER', '2022-01-01'],
+    //   ['B-Side', '2022-01-01'],
+    // ],
+    labels: pastConcertsData.map((concert) => [
+      concert.name,
+      concert.publishedDate,
+    ]),
+
     datasets: [
       {
         label: '수익률 (%)',
@@ -177,7 +188,12 @@ const FundingDetail: React.FC<Props> = ({
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+  console.log(
+    `pastConcertData: ${pastConcertsData.map((concert) => [
+      concert.name,
+      concert.publishedDate,
+    ])}`,
+  );
   return (
     <FundingDetailBox>
       <div className="funding_detail">투자 상품 상세</div>
