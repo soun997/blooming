@@ -9,7 +9,9 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "vite",
-    "json": "json-server --watch listdummy.json --port 7700"
+    "json": "json-server --watch listdummy.json --port 7700",
+    "server": "json-server --watch dummy.json --port 7700",
+    "dummy": "concurrently \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
     "chart.js": "^4.4.0",

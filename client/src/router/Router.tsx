@@ -4,6 +4,8 @@ import MainPage from '@pages/MainPage';
 import NFTList from '@pages/ListPage/NFTList';
 import ConcertList from '@pages/ListPage/ConcertList';
 import ActiveList from '@pages/ListPage/ActiveList';
+import ConcertDetail from '@pages/DetailPage/ConcertDetail';
+import NFTDetail from '@pages/DetailPage/NFTDetail';
 import LiveList from '@pages/ListPage/LiveList';
 import AddFund from '@pages/AddFund';
 import ArtistDetail from '@pages/DetailPage/ArtistDetail';
@@ -25,6 +27,8 @@ export default function Router() {
         <Route path="/add-fund" element={<AddFund />}></Route>
         <Route path="/active-detail" element={<ActiveDetailPage />}></Route>
         <Route path="/artist-detail" element={<ArtistDetail />}></Route>
+        <Route path="/concert-detail" element={<ConcertDetail />}></Route>
+        <Route path="/nft-detail" element={<NFTDetail />}></Route>
         <Route
           path="/meeting-artist"
           element={<MeetingPage isArtist={true} />}
