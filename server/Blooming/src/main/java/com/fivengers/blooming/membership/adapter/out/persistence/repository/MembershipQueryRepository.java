@@ -5,7 +5,6 @@ import static com.fivengers.blooming.membership.adapter.out.persistence.entity.Q
 import com.fivengers.blooming.global.support.QuerydslRepositorySupport;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.MembershipJpaEntity;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.QMembershipJpaEntity;
-import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
