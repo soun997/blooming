@@ -107,6 +107,9 @@ class ArtistScrapRecordServiceTest {
     @Test
     @DisplayName("관심 취소 날짜가 이번주라면 기록한다.")
     void downCountRecordIfOnWeek() {
+        artistScrapRecordService.recordIfOnWeek(artist, ArtistScrapRecord::upCount);
+        artistScrapRecordService.recordIfOnWeek(artist, ArtistScrapRecord::upCount);
+        artistScrapRecordService.recordIfOnWeek(artist, ArtistScrapRecord::upCount);
         artistScrapRecordService.recordIfOnWeek(artist, ArtistScrapRecord::downCount);
 
         Optional<ArtistScrapRecord> artistScrapRecord = artistScrapRecordPort.findOnWeek(
@@ -115,7 +118,7 @@ class ArtistScrapRecordServiceTest {
                 artist);
 
         assertThat(artistScrapRecord).isNotEmpty();
-        assertThat(artistScrapRecord.get().getScrapCount()).isEqualTo(1L);
+        assertThat(artistScrapRecord.get().getScrapCount()).isEqualTo(2L);
     }
 
     private LocalDateTime getThisWeekDateTime(int dayOfWeek, int prevWeek, int hour, int minute, int second,
