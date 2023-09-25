@@ -4,7 +4,6 @@ import MainPage from '@pages/MainPage';
 import NFTList from '@pages/ListPage/NFTList';
 import ConcertList from '@pages/ListPage/ConcertList';
 import ActiveList from '@pages/ListPage/ActiveList';
-import ConcertDetail from '@pages/DetailPage/ConcertDetail';
 import NFTDetail from '@pages/DetailPage/NFTDetail';
 import LiveList from '@pages/ListPage/LiveList';
 import AddFund from '@pages/AddFund';
