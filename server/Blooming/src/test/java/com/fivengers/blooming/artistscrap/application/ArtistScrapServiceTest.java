@@ -99,9 +99,10 @@ class ArtistScrapServiceTest {
         artistScrapService.scrap(new ArtistScrapRequest(member.getId()), artist.getId());
         artistScrapService.unScrap(new ArtistScrapRequest(member.getId()), artist.getId());
 
-        assertThatThrownBy(() -> artistScrapPort
-                .findByMemberIdAndArtistId(member.getId(), artist.getId()))
-                .isInstanceOf(ArtistScrapNotFoundException.class);
+        Optional<ArtistScrap> artistScrap = artistScrapPort.findByMemberIdAndArtistId(
+                member.getId(), artist.getId());
+
+        assertThat(artistScrap).isEmpty();
     }
 
 }
