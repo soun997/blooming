@@ -33,8 +33,10 @@ import org.springframework.test.web.servlet.ResultActions;
 @WebMvcTest(ArtistController.class)
 class ArtistControllerTest extends RestDocsTest {
 
-    @MockBean ArtistUseCase artistUseCase;
-    @MockBean ArtistVideoUseCase artistVideoUseCase;
+    @MockBean
+    ArtistUseCase artistUseCase;
+    @MockBean
+    ArtistVideoUseCase artistVideoUseCase;
 
     @Test
     @DisplayName("아티스트 목록을 조회한다.")
@@ -108,14 +110,25 @@ class ArtistControllerTest extends RestDocsTest {
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
-        ArtistVideo artistVideo = ArtistVideo.builder()
+        ArtistVideo artistVideo1 = ArtistVideo.builder()
                 .id(1L)
-                .videoUrl("https://youtube.com/iu")
+                .videoUrl("https://youtube.com/iu1")
+                .artist(artist)
+                .build();
+        ArtistVideo artistVideo2 = ArtistVideo.builder()
+                .id(2L)
+                .videoUrl("https://youtube.com/iu2")
+                .artist(artist)
+                .build();
+        ArtistVideo artistVideo3 = ArtistVideo.builder()
+                .id(3L)
+                .videoUrl("https://youtube.com/iu3")
                 .artist(artist)
                 .build();
 
         given(artistUseCase.searchById(any(Long.class))).willReturn(artist);
-        given(artistVideoUseCase.searchByArtistId(any(Long.class))).willReturn(List.of(artistVideo));
+        given(artistVideoUseCase.searchByArtistId(any(Long.class)))
+                .willReturn(List.of(artistVideo1, artistVideo2, artistVideo3));
 
         ResultActions perform = mockMvc.perform(get("/api/v1/artists/{artistId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -153,14 +166,26 @@ class ArtistControllerTest extends RestDocsTest {
                 .createdAt(now)
                 .modifiedAt(now)
                 .build();
-        ArtistVideo artistVideo = ArtistVideo.builder()
+        ArtistVideo artistVideo1 = ArtistVideo.builder()
                 .id(1L)
-                .videoUrl("https://youtube.com/iu")
+                .videoUrl("https://youtube.com/iu1")
+                .artist(artist)
+                .build();
+        ArtistVideo artistVideo2 = ArtistVideo.builder()
+                .id(2L)
+                .videoUrl("https://youtube.com/iu2")
+                .artist(artist)
+                .build();
+        ArtistVideo artistVideo3 = ArtistVideo.builder()
+                .id(3L)
+                .videoUrl("https://youtube.com/iu3")
                 .artist(artist)
                 .build();
 
-        given(artistUseCase.add(any(ArtistCreateRequest.class), any(Long.class))).willReturn(artist);
-        given(artistVideoUseCase.searchByArtistId(any(Long.class))).willReturn(List.of(artistVideo));
+        given(artistUseCase.add(any(ArtistCreateRequest.class), any(Long.class)))
+                .willReturn(artist);
+        given(artistVideoUseCase.searchByArtistId(any(Long.class)))
+                .willReturn(List.of(artistVideo1, artistVideo2, artistVideo3));
 
         ResultActions perform = mockMvc.perform(post("/api/v1/artists")
                 .contentType(MediaType.APPLICATION_JSON)
