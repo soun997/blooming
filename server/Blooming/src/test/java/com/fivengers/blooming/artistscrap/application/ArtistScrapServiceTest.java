@@ -1,5 +1,6 @@
 package com.fivengers.blooming.artistscrap.application;
 
+import static org.assertj.core.api.Assertions.allOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -20,6 +21,7 @@ import com.fivengers.blooming.member.domain.MemberRole;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,8 +86,11 @@ class ArtistScrapServiceTest {
                 .findByMemberIdAndArtistId(member.getId(), artist.getId());
 
         assertThat(artistScrap).isNotEmpty();
-        assertThat(artistScrap.get().getMember().getId()).isEqualTo(member.getId());
-        assertThat(artistScrap.get().getArtist().getId()).isEqualTo(artist.getId());
+        SoftAssertions.assertSoftly(as -> {
+            as.assertThat(artistScrap.get().getMember().getId()).isEqualTo(member.getId());
+            as.assertThat(artistScrap.get().getArtist().getId()).isEqualTo(artist.getId());
+        });
+
     }
 
     @Test
