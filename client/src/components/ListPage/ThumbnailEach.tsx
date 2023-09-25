@@ -57,7 +57,7 @@ const EachFrame = styled.div`
   margin-bottom: 60px;
   cursor: pointer;
   img {
-    width: 355px;
+    width: 350px;
     height: 230px;
     border-radius: 3px;
   }
@@ -90,7 +90,7 @@ const Info = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 330px;
+      width: 320px;
 
       svg {
         width: 15px;
