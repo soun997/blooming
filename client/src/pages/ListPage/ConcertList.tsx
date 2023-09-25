@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { useState } from 'react';
 import axios from '@api/apiController';
+import axiosTemp from '@api/apiControllerTemp';
 
 import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
@@ -34,12 +35,15 @@ const ConcertList = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [isToggled, setIsToggled] = useState(true);
   const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
+  const [searchByKeyword, setSearchByKeyword] = useState<boolean>(true);
 
-  const scrollInfoForSearch = getSearchData({ searchKeyword });
+  const scrollInfoForSearch = getSearchData({
+    searchKeyword,
+    searchByKeyword,
+  });
   const scrollInfoForDefault = getConcertData({
     sort: selectedSort,
-    ongoing: false,
-    // isToggled 로 바꿀것
+    ongoing: isToggled,
   });
 
   const refForSearch = useIntersect(async (entry, observer) => {
@@ -62,18 +66,6 @@ const ConcertList = () => {
   const handleSearch = (data?: string, isArtistSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
     setShowResult(true);
-    if (isArtistSearch === undefined) {
-      //아티스트 NFT 검색
-      console.log('i am nft');
-    } else {
-      if (isArtistSearch) {
-        //아티스트로 검색
-        console.log('artist');
-      } else {
-        //콘서트나 활동명으로 검색
-        console.log('concert or activity');
-      }
-    }
   };
 
   const handleToggleChange = (checked: boolean) => {
@@ -91,82 +83,88 @@ const ConcertList = () => {
   }
 
   return (
-    <div>
-      <Navbar />
-      <TopFrame>
-        <MainTitle>
-          콘서트<div className="dot"></div>
-        </MainTitle>
-        <SearchBar
-          nowStat={CONCERT}
-          keyword={keyword}
-          setKeyword={setKeyword}
-          onSearch={handleSearch}
-        />
-      </TopFrame>
-      {showResult ? (
-        <>
-          <SearchResultTitle title={searchKeyword} />
-          <ResultList
-            datas={scrollInfoForSearch.searchData}
+    <>
+      <Navbar activeIdx={1} />
+      <ListFrame>
+        <TopFrame>
+          <MainTitle>
+            콘서트<div className="dot"></div>
+          </MainTitle>
+          <SearchBar
             nowStat={CONCERT}
+            keyword={keyword}
+            setKeyword={setKeyword}
+            onSearch={handleSearch}
+            setSearchByKeyword={setSearchByKeyword}
           />
-          {scrollInfoForSearch.isFetching && scrollInfoForSearch.isLoading && (
-            <Loading />
-          )}
-          <Target ref={refForSearch} />
-        </>
-      ) : (
-        <>
-          <TopRankList nowStat={CONCERT} bestData={bestConcertData} />
-          <NowToggle>
-            <LeftSection>
-              <div className="toggleTitle">
-                모집중인 {FUNDING_PHRASES.name}만 보기
-              </div>
-              <ToggleButton
-                defaultChecked={isToggled}
-                onChange={handleToggleChange}
-              />
-            </LeftSection>
-            <RightSection>
-              <SortOption
-                onClick={() => handleSortChange(POPULAR)}
-                isSelected={selectedSort === POPULAR}
-              >
-                인기순
-              </SortOption>
-              |
-              <SortOption
-                onClick={() => handleSortChange(RECENTLY)}
-                isSelected={selectedSort === RECENTLY}
-              >
-                최신순
-              </SortOption>
-            </RightSection>
-          </NowToggle>
-          <ResultList
-            datas={scrollInfoForDefault.searchData}
-            nowStat={CONCERT}
-          />
-          {scrollInfoForDefault.isFetching &&
-            scrollInfoForDefault.isLoading && <Loading />}
-          <Target ref={refForDefault} />
-        </>
-      )}
-    </div>
+        </TopFrame>
+        {showResult ? (
+          <>
+            <SearchResultTitle title={searchKeyword} />
+            <ResultList
+              datas={scrollInfoForSearch.searchData}
+              nowStat={CONCERT}
+            />
+            {scrollInfoForSearch.isFetching &&
+              scrollInfoForSearch.isLoading && <Loading />}
+            <Target ref={refForSearch} />
+          </>
+        ) : (
+          <>
+            <TopRankList nowStat={CONCERT} bestData={bestConcertData} />
+            <NowToggle>
+              <LeftSection>
+                <div className="toggleTitle">
+                  모집중인 {FUNDING_PHRASES.name}만 보기
+                </div>
+                <ToggleButton
+                  defaultChecked={isToggled}
+                  onChange={handleToggleChange}
+                />
+              </LeftSection>
+              <RightSection>
+                <SortOption
+                  onClick={() => handleSortChange(POPULAR)}
+                  isSelected={selectedSort === POPULAR}
+                >
+                  인기순
+                </SortOption>
+                |
+                <SortOption
+                  onClick={() => handleSortChange(RECENTLY)}
+                  isSelected={selectedSort === RECENTLY}
+                >
+                  최신순
+                </SortOption>
+              </RightSection>
+            </NowToggle>
+            <ResultList
+              datas={scrollInfoForDefault.searchData}
+              nowStat={CONCERT}
+            />
+            {scrollInfoForDefault.isFetching &&
+              scrollInfoForDefault.isLoading && <Loading />}
+            <Target ref={refForDefault} />
+          </>
+        )}
+      </ListFrame>
+    </>
   );
 };
 
 const fetchBestConcert = async () => {
   try {
-    const response = await axios.get('/concert-best');
+    const response = await axiosTemp.get('/concert-best');
     return response.data;
   } catch (error) {
     console.log(error);
     throw new Error('콘서트 베스트 리스트 요청 실패');
   }
 };
+
+export const ListFrame = styled.div`
+  margin: 0 -80px;
+`;
 
 const TopFrame = styled.div`
   margin-top: 60px;

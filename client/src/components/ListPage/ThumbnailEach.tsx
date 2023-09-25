@@ -11,7 +11,9 @@ interface Props {
 const ThumbnailEach: React.FC<Props> = ({ data }) => {
   return (
     <EachFrame>
-      <img src={data.profileImg}></img>
+      <img
+        src={data.profileImg ? data.profileImg : 'src/assets/images/nopic.jpg'}
+      ></img>
       <Info>
         <div className="txtInfo">
           <div className="name">{data.title}</div>
@@ -57,9 +59,10 @@ const EachFrame = styled.div`
   margin-bottom: 60px;
   cursor: pointer;
   img {
-    width: 300px;
-    height: 200px;
+    width: 350px;
+    height: 230px;
     border-radius: 3px;
+    object-fit: cover;
   }
 `;
 const Info = styled.div`
@@ -90,7 +93,7 @@ const Info = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 270px;
+      width: 320px;
 
       svg {
         width: 15px;
