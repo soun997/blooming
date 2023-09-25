@@ -6,4 +6,6 @@ import java.util.List;
 public interface ArtistVideoPort {
 
     List<ArtistVideo> findByArtistId(Long artistId);
+
+    ArtistVideo save(ArtistVideo artistVideo);
 }
