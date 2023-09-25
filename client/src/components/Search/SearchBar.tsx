@@ -104,7 +104,7 @@ interface StyleProps {
 
 const AutoSearch = styled.div<StyleProps>`
   background-color: var(--white-color);
-  z-index: 1;
+  z-index: 10;
   width: 330px;
   height: max-content;
   position: absolute;
