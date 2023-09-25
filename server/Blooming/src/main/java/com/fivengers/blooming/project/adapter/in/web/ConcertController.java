@@ -10,6 +10,7 @@ import com.fivengers.blooming.project.application.port.in.ViewCountUseCase;
 import com.fivengers.blooming.project.domain.Concert;
 import com.fivengers.blooming.project.domain.InvestmentOverview;
 import com.fivengers.blooming.project.domain.ViewCount;
+import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,7 +48,7 @@ public class ConcertController {
     }
 
     @GetMapping("/{concertId}")
-    public ApiResponse<ConcertDetailsResponse> concertDetails(@PathVariable Long concertId) {
+    public ApiResponse<ConcertDetailsResponse> concertDetails(@PathVariable @Min(1) Long concertId) {
 
         Concert concert = concertUseCase.searchById(concertId);
         InvestmentOverview overview = overviewUseCase.search(concertId);

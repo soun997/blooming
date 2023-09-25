@@ -10,11 +10,15 @@ import com.fivengers.blooming.project.application.port.in.ViewCountUseCase;
 import com.fivengers.blooming.project.domain.Activity;
 import com.fivengers.blooming.project.domain.InvestmentOverview;
 import com.fivengers.blooming.project.domain.ViewCount;
+import jakarta.validation.constraints.Min;
 import java.util.List;
+import lombok.Builder.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +51,7 @@ public class ActivityController {
     }
 
     @GetMapping("/{activityId}")
-    public ApiResponse<ActivityDetailsResponse> concertDetails(@PathVariable Long activityId) {
+    public ApiResponse<ActivityDetailsResponse> concertDetails(@PathVariable @Min(1) Long activityId) {
 
         Activity activity = activityUseCase.searchById(activityId);
         InvestmentOverview overview = overviewUseCase.search(activityId);
