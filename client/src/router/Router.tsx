@@ -7,6 +7,8 @@ import ActiveList from '@pages/ListPage/ActiveList';
 import NFTDetail from '@pages/DetailPage/NFTDetail';
 import LiveList from '@pages/ListPage/LiveList';
 import AddFund from '@pages/AddFund';
+import PaymentSuccessContainer from '@pages/PaymentPage/PaymentSuccessContainer';
+import PaymentFailureContainer from '@pages/PaymentPage/PaymentFailureContainer';
 import ArtistDetail from '@pages/DetailPage/ArtistDetail';
 import ConcertDetail from '@pages/DetailPage/ConcertDetail';
 import MyPage from '@pages/MyPage/MyPage';
@@ -25,6 +27,8 @@ export default function Router() {
         <Route path="/active" element={<ActiveList />}></Route>
         <Route path="/live" element={<LiveList />}></Route>
         <Route path="/add-fund" element={<AddFund />}></Route>
+        <Route path="/success" element={<PaymentSuccessContainer />}></Route>
+        <Route path="/failure" element={<PaymentFailureContainer />}></Route>
         <Route path="/active-detail" element={<ActiveDetailPage />}></Route>
         <Route path="/artist-detail" element={<ArtistDetail />}></Route>
         <Route path="/concert-detail" element={<ConcertDetail />}></Route>
