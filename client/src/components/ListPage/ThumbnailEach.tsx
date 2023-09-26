@@ -9,6 +9,7 @@ interface Props {
   data: ProcessInfo;
 }
 const ThumbnailEach: React.FC<Props> = ({ data }) => {
+  const leftDate = calculateDateDifference(new Date().toString(), data.endDate);
   return (
     <EachFrame>
       <img
@@ -18,8 +19,7 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
         <div className="txtInfo">
           <div className="name">{data.title}</div>
           <div className="leftDate">
-            {calculateDateDifference(new Date().toString(), data.endDate)} 일
-            남음
+            {Math.abs(leftDate)} 일{leftDate >= 0 ? ' 남음' : ' 지남'}
           </div>
         </div>
         <ProgressBarFrame
@@ -36,7 +36,11 @@ const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
   return (
     <EachFrame>
       <img
-        src={data.artist.profileImageUrl ? data.artist.profileImageUrl : ''}
+        src={
+          data.artist.profileImageUrl
+            ? data.artist.profileImageUrl
+            : 'src/assets/images/nopic.jpg'
+        }
       ></img>
       <Info>
         <div className="txtInfo">
