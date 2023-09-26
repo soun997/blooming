@@ -488,7 +488,7 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 302
+Content-Length: 315
 
 {
   "status" : 200,
@@ -521,6 +521,25 @@ Content-Type: application/json;charset=UTF-8
 Host: j9a105.p.ssafy.io:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/v1/artists/{artistId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>artistId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 ID</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_response_2"><a class="link" href="#_response_2">Response</a></h3>
@@ -528,7 +547,7 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 468
+Content-Length: 540
 
 {
   "status" : 200,
@@ -540,9 +559,13 @@ Content-Length: 468
     "youtubeUrl" : "https://youtube.com/iu",
     "fanCafeUrl" : "https://cafe.daum.net/ui",
     "snsUrl" : "https://instagram.com/ui",
-    "artistVideo" : {
-      "videoUrl" : [ "https://youtube.com/iu1", "https://youtube.com/iu2", "https://youtube.com/iu3" ]
-    }
+    "artistVideo" : [ {
+      "videoUrl" : "https://youtube.com/iu1"
+    }, {
+      "videoUrl" : "https://youtube.com/iu2"
+    }, {
+      "videoUrl" : "https://youtube.com/iu3"
+    } ]
   }
 }</code></pre>
 </div>
@@ -559,7 +582,7 @@ Content-Length: 468
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists?memberId=1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 355
+Content-Length: 366
 Host: j9a105.p.ssafy.io:8080
 
 {
@@ -576,6 +599,24 @@ Host: j9a105.p.ssafy.io:8080
 }</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 ID</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_response_3"><a class="link" href="#_response_3">Response</a></h3>
@@ -583,7 +624,7 @@ Host: j9a105.p.ssafy.io:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 468
+Content-Length: 540
 
 {
   "status" : 200,
@@ -595,9 +636,13 @@ Content-Length: 468
     "youtubeUrl" : "https://youtube.com/iu",
     "fanCafeUrl" : "https://cafe.daum.net/ui",
     "snsUrl" : "https://instagram.com/ui",
-    "artistVideo" : {
-      "videoUrl" : [ "https://youtube.com/iu1", "https://youtube.com/iu2", "https://youtube.com/iu3" ]
-    }
+    "artistVideo" : [ {
+      "videoUrl" : "https://youtube.com/iu1"
+    }, {
+      "videoUrl" : "https://youtube.com/iu2"
+    }, {
+      "videoUrl" : "https://youtube.com/iu3"
+    } ]
   }
 }</code></pre>
 </div>
@@ -609,7 +654,7 @@ Content-Length: 468
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-09-23 18:42:54 +0900
+Last updated 2023-09-26 14:21:26 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
