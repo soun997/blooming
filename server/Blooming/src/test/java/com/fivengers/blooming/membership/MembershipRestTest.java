@@ -104,8 +104,7 @@ public class MembershipRestTest extends RestEndToEndTest {
         RestAssured.given().log().all()
                 .body(toJson(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when()
-                .post("/api/v1/memberships")
+                .when().post("/api/v1/memberships")
                 .then().log().all()
                 .statusCode(200)
                 .body("results.title", response -> equalTo(request.title()));
