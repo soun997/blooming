@@ -12,5 +12,5 @@ public interface LivePort {
     boolean isNonExistentLive(Long liveId);
     Live save(Live live);
 
-    int findLiveCountByWeek(LocalDate endOfWeek);
+    int findLiveCountByWeek(Long artistId, LocalDate endOfWeek);
 }

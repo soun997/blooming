@@ -113,6 +113,10 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
     @Override
     public List<LiveFrequency> searchLiveFrequencyByArtist(
             LiveFrequencyDetailsRequest liveFrequencyDetailsRequest) {
+        if (artistPort.findById(liveFrequencyDetailsRequest.artistId()).isEmpty()) {
+            throw new ArtistNotFoundException();
+        }
+
         // 현재날짜를 기준으로 바로 이전 일요일 날짜를 가져온다.
         LocalDate lastSunday = DateUtils.findLastSunday();
         return IntStream.range(0, liveFrequencyDetailsRequest.numberOfWeeks())
@@ -120,7 +124,10 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
                     LocalDate prevLastSunday = lastSunday.minusDays(i * 7L);
                     return LiveFrequency.of(
                             prevLastSunday,
-                            livePort.findLiveCountByWeek(prevLastSunday)
+                            livePort.findLiveCountByWeek(
+                                    liveFrequencyDetailsRequest.artistId(),
+                                    prevLastSunday
+                            )
                     );
                 }).toList();
     }
