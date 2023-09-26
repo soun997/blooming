@@ -2,7 +2,6 @@ package com.fivengers.blooming.project.adapter.out.persistence.repository;
 
 
 import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
-import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.global.exception.project.ProjectNotFoundException;
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ConcertJpaEntity;
 import com.fivengers.blooming.project.adapter.out.persistence.mapper.ConcertMapper;
@@ -34,18 +33,6 @@ public class ConcertPersistenceAdapter implements ConcertPort {
     }
 
     @Override
-    public Page<Concert> findAll(Pageable pageable, List<Concert> exclusions) {
-        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAll(
-                pageable,
-                exclusions.stream()
-                        .map(concertMapper::toJpaEntity)
-                        .toList());
-        return new PageImpl<>(concerts.stream()
-                .map(concertMapper::toDomain)
-                .toList(), pageable, concerts.getTotalElements());
-    }
-
-    @Override
     public Page<Concert> findAllOngoingProject(Pageable pageable) {
         Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllOngoingProject(
                 pageable);
@@ -55,21 +42,16 @@ public class ConcertPersistenceAdapter implements ConcertPort {
     }
 
     @Override
-    public Page<Concert> findAllOngoingProject(Pageable pageable, List<Concert> exclusions) {
-        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllOngoingProject(
-                pageable,
-                exclusions.stream()
-                        .map(concertMapper::toJpaEntity)
-                        .toList());
-        return new PageImpl<>(concerts.stream()
-                .map(concertMapper::toDomain)
-                .toList(), pageable, concerts.getTotalElements());
-    }
-
-    @Override
     public List<Concert> findAllFinishedProjectByArtist(Long artistId, Pageable pageable) {
         return concertSpringDataRepository.findAllFinishedProjectByArtist(artistId, pageable)
                 .stream()
+                .map(concertMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Concert> findBestThreeProject() {
+        return concertSpringDataRepository.findBestThreeProject().stream()
                 .map(concertMapper::toDomain)
                 .toList();
     }

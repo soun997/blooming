@@ -1,6 +1,5 @@
 package com.fivengers.blooming.project.application.service;
 
-import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.project.application.port.in.ActivityUseCase;
 import com.fivengers.blooming.project.application.port.out.ActivityPort;
 import com.fivengers.blooming.project.domain.Activity;
@@ -22,10 +21,6 @@ public class ActivityService implements ActivityUseCase {
     public Page<Activity> searchAll(Pageable pageable) {
         return activityPort.findAll(pageable);
     }
-    @Override
-    public Page<Activity> searchAll(Pageable pageable, List<Activity> exclusions) {
-        return activityPort.findAll(pageable, exclusions);
-    }
 
     @Override
     public Page<Activity> searchAllOngoingProject(Pageable pageable) {
@@ -33,15 +28,15 @@ public class ActivityService implements ActivityUseCase {
     }
 
     @Override
-    public Page<Activity> searchAllOngoingProject(Pageable pageable, List<Activity> exclusions) {
-        return activityPort.findAllOngoingProject(pageable, exclusions);
-    }
-
-    @Override
     public List<Activity> searchAllFinishedProjectByArtist(Long artistId) {
         return activityPort.findAllFinishedProjectByArtist(artistId,
                 PageRequest.of(0, 5, Sort.by("createdAt")
                         .descending()));
+    }
+
+    @Override
+    public List<Activity> searchBestThreeProject() {
+        return activityPort.findBestThreeProject();
     }
 
     @Override

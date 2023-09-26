@@ -16,9 +16,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +34,7 @@ public class ActivityController {
 
     @GetMapping
     public ApiResponse<Page<ActivityListResponse>> activityList(Pageable pageable) {
-        List<Activity> exclusions = activityUseCase.searchAllOngoingProject(
-                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
-                .getContent();
-        Page<Activity> activities = activityUseCase.searchAll(pageable, exclusions);
+        Page<Activity> activities = activityUseCase.searchAll(pageable);
         return ApiResponse.ok(new PageImpl<>(activities.stream()
                 .map(ActivityListResponse::from)
                 .toList(), pageable, activities.getTotalElements()));
@@ -47,10 +42,7 @@ public class ActivityController {
 
     @GetMapping("/ongoing")
     public ApiResponse<Page<ActivityListResponse>> ongoingActivityList(Pageable pageable) {
-        List<Activity> exclusions = activityUseCase.searchAllOngoingProject(
-                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
-                .getContent();
-        Page<Activity> activities = activityUseCase.searchAllOngoingProject(pageable, exclusions);
+        Page<Activity> activities = activityUseCase.searchAllOngoingProject(pageable);
         return ApiResponse.ok(new PageImpl<>(activities.stream()
                 .map(ActivityListResponse::from)
                 .toList(), pageable, activities.getTotalElements()));
@@ -58,10 +50,8 @@ public class ActivityController {
 
     @GetMapping("/best")
     public ApiResponse<List<ActivityListResponse>> bestActivityList() {
-        List<Activity> activities = activityUseCase.searchAllOngoingProject(
-                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
-                .getContent();
-        return ApiResponse.ok(activities.stream()
+
+        return ApiResponse.ok(activityUseCase.searchBestThreeProject().stream()
                 .map(ActivityListResponse::from)
                 .toList());
     }

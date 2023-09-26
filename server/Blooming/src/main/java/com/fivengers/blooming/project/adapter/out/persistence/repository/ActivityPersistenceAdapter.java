@@ -1,15 +1,11 @@
 package com.fivengers.blooming.project.adapter.out.persistence.repository;
 
 
-import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
-import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.global.exception.project.ProjectNotFoundException;
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ActivityJpaEntity;
-import com.fivengers.blooming.project.adapter.out.persistence.entity.ConcertJpaEntity;
 import com.fivengers.blooming.project.adapter.out.persistence.mapper.ActivityMapper;
 import com.fivengers.blooming.project.application.port.out.ActivityPort;
 import com.fivengers.blooming.project.domain.Activity;
-import com.fivengers.blooming.project.domain.Concert;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,32 +31,8 @@ public class ActivityPersistenceAdapter implements ActivityPort {
     }
 
     @Override
-    public Page<Activity> findAll(Pageable pageable, List<Activity> exclusions) {
-        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAll(
-                pageable,
-                exclusions.stream()
-                        .map(activityMapper::toJpaEntity)
-                        .toList());
-        return new PageImpl<>(activities.stream()
-                .map(activityMapper::toDomain)
-                .toList(), pageable, activities.getTotalElements());
-    }
-
-    @Override
     public Page<Activity> findAllOngoingProject(Pageable pageable) {
         Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAllOngoingProject(pageable);
-        return new PageImpl<>(activities.stream()
-                .map(activityMapper::toDomain)
-                .toList(), pageable, activities.getTotalElements());
-    }
-
-    @Override
-    public Page<Activity> findAllOngoingProject(Pageable pageable, List<Activity> exclusions) {
-        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAllOngoingProject(
-                pageable,
-                exclusions.stream()
-                        .map(activityMapper::toJpaEntity)
-                        .toList());
         return new PageImpl<>(activities.stream()
                 .map(activityMapper::toDomain)
                 .toList(), pageable, activities.getTotalElements());
@@ -70,6 +42,13 @@ public class ActivityPersistenceAdapter implements ActivityPort {
     public List<Activity> findAllFinishedProjectByArtist(Long artistId, Pageable pageable) {
         return activitySpringDataRepository.findAllFinishedProjectByArtist(artistId, pageable)
                 .stream()
+                .map(activityMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Activity> findBestThreeProject() {
+        return activitySpringDataRepository.findBestThreeProject().stream()
                 .map(activityMapper::toDomain)
                 .toList();
     }
