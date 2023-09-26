@@ -61,9 +61,9 @@ const ActiveList = () => {
     fetchBestConcert,
   );
 
-  const handleSearch = (data?: string, isArtistSearch?: boolean) => {
+  const handleSearch = (data?: string, isBlankSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
-    setShowResult(true);
+    setShowResult(!isBlankSearch);
   };
 
   const handleToggleChange = (checked: boolean) => {
@@ -85,7 +85,11 @@ const ActiveList = () => {
       <Navbar activeIdx={2} />
       <ListFrame>
         <TopFrame>
-          <MainTitle>
+          <MainTitle
+            onClick={() => {
+              setShowResult(false);
+            }}
+          >
             활동<div className="dot"></div>
           </MainTitle>
           <SearchBar

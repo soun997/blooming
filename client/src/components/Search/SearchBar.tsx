@@ -14,7 +14,7 @@ interface Props {
   keyword: string;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setSearchByKeyword: React.Dispatch<React.SetStateAction<boolean>>;
-  onSearch: (data?: string, isArtistSearch?: boolean) => void;
+  onSearch: (data?: string, isBlankSearch?: boolean) => void;
 }
 
 const SearchBar: React.FC<Props> = ({
@@ -73,10 +73,12 @@ const SearchBar: React.FC<Props> = ({
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       if (nowInput.length === 0) {
+        onSearch(undefined, true);
+      } else {
+        setIsAutoBox(false);
+        setNowInput('');
+        onSearch(undefined, isArtist);
       }
-      setIsAutoBox(false);
-      setNowInput('');
-      onSearch(undefined, isArtist);
     }
   };
 
@@ -111,10 +113,7 @@ const SearchBar: React.FC<Props> = ({
                   key={id}
                   className="eachData"
                   onClick={() => {
-                    onSearch(
-                      data.title,
-                      nowStat === ARTIST ? undefined : isArtist,
-                    );
+                    onSearch(data.title, false);
                     setNowInput('');
                   }}
                 >

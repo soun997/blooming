@@ -38,9 +38,9 @@ const LiveList = () => {
     }
   });
 
-  const handleSearch = (data?: string, isArtistSearch?: boolean) => {
+  const handleSearch = (data?: string, isBlankSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
-    setShowResult(true);
+    setShowResult(!isBlankSearch);
   };
 
   return (
@@ -48,7 +48,11 @@ const LiveList = () => {
       <Navbar activeIdx={3} />
       <ListFrame>
         <TopFrame>
-          <MainTitle>
+          <MainTitle
+            onClick={() => {
+              setShowResult(false);
+            }}
+          >
             진행중인 라이브<div className="dot"></div>
           </MainTitle>
           <SearchBar

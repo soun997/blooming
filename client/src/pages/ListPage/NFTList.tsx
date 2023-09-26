@@ -59,9 +59,9 @@ const NFTList = () => {
     return <Loading />;
   }
 
-  const handleSearch = (data?: string, isArtistSearch?: boolean) => {
+  const handleSearch = (data?: string, isBlankSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
-    setShowResult(true);
+    setShowResult(!isBlankSearch);
   };
 
   const handleToggleChange = (checked: boolean) => {
@@ -79,7 +79,11 @@ const NFTList = () => {
       <Navbar activeIdx={0} />
       <ListFrame>
         <TopFrame>
-          <MainTitle>
+          <MainTitle
+            onClick={() => {
+              setShowResult(false);
+            }}
+          >
             NFT<div className="dot"></div>
           </MainTitle>
           <SearchBar

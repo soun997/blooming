@@ -64,9 +64,9 @@ const ConcertList = () => {
     ProcessInfo[]
   >(['concert-best'], fetchBestConcert);
 
-  const handleSearch = (data?: string, isArtistSearch?: boolean) => {
+  const handleSearch = (data?: string, isBlankSearch?: boolean) => {
     setSearchKeyword(data ? data : keyword);
-    setShowResult(true);
+    setShowResult(!isBlankSearch);
   };
 
   const handleToggleChange = (checked: boolean) => {
@@ -88,7 +88,11 @@ const ConcertList = () => {
       <Navbar activeIdx={1} />
       <ListFrame>
         <TopFrame>
-          <MainTitle>
+          <MainTitle
+            onClick={() => {
+              setShowResult(false);
+            }}
+          >
             콘서트<div className="dot"></div>
           </MainTitle>
           <SearchBar
