@@ -8,7 +8,6 @@ import { useQuery } from 'react-query';
 import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
 import { ACTIVE, ARTIST, CONCERT, LIVE } from '@components/common/constant';
 import { ProcessInfo } from '@type/ProcessInfo';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
   nowStat: string;
@@ -99,7 +98,9 @@ const SearchBar: React.FC<Props> = ({
           onKeyDown={handleKeyPress}
           onChange={onChangeData}
         />
-        <SearchSvg />
+        <SearchIcon>
+          <SearchSvg />
+        </SearchIcon>
         <AutoSearch isArtist={nowStat === ARTIST}>
           <div className="autolist">
             {autoSearchData?.length > 0 &&
@@ -173,6 +174,10 @@ const AutoSearch = styled.div<StyleProps>`
   .eachData {
     cursor: pointer;
   }
+`;
+
+const SearchIcon = styled.div`
+  cursor: pointer;
 `;
 
 const BarFrame = styled.div`
