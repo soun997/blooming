@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axiosTemp from '@api/apiControllerTemp';
 import Navbar from '@components/common/NavBar';
 
 import {
-  MyNftInfo,
   MyPageInfo,
-  MySettleFundingInfo,
-  MyUnSettleFundingInfo,
   ProfileInfo,
   ProfitInfo,
   SettlementInfo,
 } from '@type/MyPage';
-import { ACTIVE, ARTIST, CONCERT } from '@components/common/constant';
 import Profile from '@components/MyPage/ProfileInfo';
+import MyProcess from '@components/MyPage/MyProcess';
+
+import axiosTemp from '@api/apiControllerTemp';
+
+import { ReactComponent as FileSvg } from '@assets/icons/dollar-clipboard-file.svg';
+import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
+import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
 
 const MyPage = () => {
-  const [nowProcessTab, setNowProcessTab] = useState<string>(ACTIVE);
   const [profileInfo, setProfileInfo] = useState<ProfileInfo>();
   const [isArtist, setIsArtist] = useState<boolean>(false);
   const [profitInfo, setProfitInfo] = useState<ProfitInfo>();
   const [settleInfo, setSettleInfo] = useState<SettlementInfo>();
-  const [nowNftInfo, setNowNftInfo] = useState<MyNftInfo[]>();
-  const [doneNftInfo, setDoneNftInfo] = useState<MyNftInfo[]>();
-  const [nowSettleFundingInfo, setNowSettleFundingInfo] =
-    useState<MySettleFundingInfo[]>();
-  const [nowUnSettleFundingInfo, setNowUnSettleFundingInfo] =
-    useState<MyUnSettleFundingInfo[]>();
+  const [nowTab, setNowTab] = useState<number>(0);
 
   useEffect(() => {
     axiosTemp.get('/mypage-general').then((res) => {
@@ -38,40 +34,43 @@ const MyPage = () => {
     });
   }, []);
 
-  useEffect(() => {
-    switch (nowProcessTab) {
-      case ACTIVE:
-        axiosTemp.get('/my-nft').then((res) => {
-          const data = res.data;
-          setNowNftInfo(data.ing);
-          setDoneNftInfo(data.done);
-        });
-        break;
-      case CONCERT:
-        axiosTemp.get('/my-fund').then((res) => {
-          const data = res.data;
-          setNowUnSettleFundingInfo(data.ing);
-          setNowSettleFundingInfo(data.done);
-        });
-        break;
-      case ARTIST:
-        axiosTemp.get('/my-fund').then((res) => {
-          const data = res.data;
-          setNowUnSettleFundingInfo(data.ing);
-          setNowSettleFundingInfo(data.done);
-        });
-        break;
-    }
-  }, [nowProcessTab]);
-
   return (
     <>
       <Navbar />
       <MyPageFrame>
         <LeftSection>
           <Profile isArtist={isArtist} profileInfo={profileInfo} />
+          <Tabs>
+            <TabItem active={nowTab === 0} onClick={() => setNowTab(0)}>
+              <FileSvg />내 투자 보고서
+            </TabItem>
+            <TabItem active={nowTab === 1} onClick={() => setNowTab(1)}>
+              <YoutubeSvg />
+              NOW 라이브
+            </TabItem>
+            {!isArtist && (
+              <>
+                <TabItem active={nowTab === 2} onClick={() => setNowTab(2)}>
+                  <ApplySvg />
+                  멤버쉽 신청
+                </TabItem>
+                <TabItem active={nowTab === 3} onClick={() => setNowTab(3)}>
+                  <ApplySvg />
+                  펀딩 등록
+                </TabItem>
+                <TabItem active={nowTab === 4} onClick={() => setNowTab(4)}>
+                  <ApplySvg />
+                  정산정보 입력
+                </TabItem>
+                <TabItem active={nowTab === 5} onClick={() => setNowTab(5)}>
+                  <YoutubeSvg />
+                  라이브 ON
+                </TabItem>
+              </>
+            )}
+          </Tabs>
         </LeftSection>
-        <RightSection></RightSection>
+        <RightSection>{nowTab === 0 && <MyProcess />}</RightSection>
       </MyPageFrame>
     </>
   );
@@ -92,6 +91,42 @@ const RightSection = styled.div`
   width: 80%;
   background-color: var(--white-color);
   height: 100dvh;
+`;
+
+const Tabs = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 45px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+`;
+
+interface TabItemProps {
+  active: boolean;
+}
+
+const TabItem = styled.div<TabItemProps>`
+  cursor: pointer;
+  font-size: 15px;
+  width: 75%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-left: 10px;
+  font-weight: 600;
+  ${({ active }) =>
+    active &&
+    `
+    background-color : var(--main1-color);
+    color: var(--white-color);
+    font-weight: 500;
+    svg {
+      fill : white;
+    }
+  `};
 `;
 
 export default MyPage;

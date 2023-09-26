@@ -85,6 +85,7 @@ const ProfileName = styled.div`
   margin-top: 10px;
   gap: 5px;
   cursor: pointer;
+  font-size: 16px;
 `;
 
 const ProfileQualification = styled.div`
