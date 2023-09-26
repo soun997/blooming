@@ -8,6 +8,7 @@ import { useQuery } from 'react-query';
 import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
 import { ACTIVE, ARTIST, CONCERT, LIVE } from '@components/common/constant';
 import { ProcessInfo } from '@type/ProcessInfo';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   nowStat: string;
@@ -72,6 +73,8 @@ const SearchBar: React.FC<Props> = ({
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      if (nowInput.length === 0) {
+      }
       setIsAutoBox(false);
       setNowInput('');
       onSearch(undefined, isArtist);
