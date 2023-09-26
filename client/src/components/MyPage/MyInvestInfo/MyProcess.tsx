@@ -16,6 +16,7 @@ import { ReactComponent as MusicAlbumSvg } from '@assets/icons/music-album.svg';
 import { ReactComponent as ConcertSvg } from '@assets/icons/microphone-stage.svg';
 import { ReactComponent as CoinSvg } from '@assets/icons/coins.svg';
 import MyFundingList from './MyFundingList';
+import MyNFTList from './MyNFTList';
 
 interface Props {
   profileInfo: ProfileInfo | undefined;
@@ -110,6 +111,9 @@ const MyProcess = ({ profileInfo, profitInfo, settleInfo }: Props) => {
             nowSettleFundingInfo={nowSettleFundingInfo}
             nowUnSettleFundingInfo={nowUnSettleFundingInfo}
           />
+        )}
+        {nowProcessTab === ARTIST && (
+          <MyNFTList nowNftInfo={nowNftInfo} doneNftInfo={doneNftInfo} />
         )}
       </ResultFrame>
     </ProcessFrame>
