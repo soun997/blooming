@@ -24,33 +24,46 @@ import org.springframework.transaction.annotation.Transactional;
 public class ActivityPersistenceAdapter implements ActivityPort {
 
     private final ActivityMapper activityMapper;
-    private final ArtistMapper artistMapper;
     private final ActivitySpringDataRepository activitySpringDataRepository;
 
     @Override
     public Page<Activity> findAll(Pageable pageable) {
-        Page<ActivityJpaEntity> concerts = activitySpringDataRepository.findAll(pageable);
-        return new PageImpl<>(concerts.stream()
+        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAll(pageable);
+        return new PageImpl<>(activities.stream()
                 .map(activityMapper::toDomain)
-                .toList(), pageable, concerts.getTotalElements());
+                .toList(), pageable, activities.getTotalElements());
+    }
+
+    @Override
+    public Page<Activity> findAll(Pageable pageable, List<Activity> exclusions) {
+        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAll(
+                pageable,
+                exclusions.stream()
+                        .map(activityMapper::toJpaEntity)
+                        .toList());
+        return new PageImpl<>(activities.stream()
+                .map(activityMapper::toDomain)
+                .toList(), pageable, activities.getTotalElements());
     }
 
     @Override
     public Page<Activity> findAllOngoingProject(Pageable pageable) {
-        Page<ActivityJpaEntity> concerts = activitySpringDataRepository
-                .findAllOngoingProject(pageable);
-        return new PageImpl<>(concerts.stream()
+        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAllOngoingProject(pageable);
+        return new PageImpl<>(activities.stream()
                 .map(activityMapper::toDomain)
-                .toList(), pageable, concerts.getTotalElements());
+                .toList(), pageable, activities.getTotalElements());
     }
 
     @Override
-    public Page<Activity> findAllByArtist(Artist artist, Pageable pageable) {
-        Page<ActivityJpaEntity> concerts = activitySpringDataRepository.findAllByArtist(
-                artistMapper.toJpaEntity(artist), pageable);
-        return new PageImpl<>(concerts.stream()
+    public Page<Activity> findAllOngoingProject(Pageable pageable, List<Activity> exclusions) {
+        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAllOngoingProject(
+                pageable,
+                exclusions.stream()
+                        .map(activityMapper::toJpaEntity)
+                        .toList());
+        return new PageImpl<>(activities.stream()
                 .map(activityMapper::toDomain)
-                .toList(), pageable, concerts.getTotalElements());
+                .toList(), pageable, activities.getTotalElements());
     }
 
     @Override

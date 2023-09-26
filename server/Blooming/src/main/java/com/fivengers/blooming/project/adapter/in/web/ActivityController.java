@@ -35,25 +35,29 @@ public class ActivityController {
     private final ViewCountUseCase viewCountUseCase;
 
     @GetMapping
-    public ApiResponse<Page<ActivityListResponse>> concertList(Pageable pageable) {
-        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
-        Page<Activity> concerts = activityUseCase.searchAll(pageable);
-        return ApiResponse.ok(new PageImpl<>(concerts.stream()
+    public ApiResponse<Page<ActivityListResponse>> activityList(Pageable pageable) {
+        List<Activity> exclusions = activityUseCase.searchAllOngoingProject(
+                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
+                .getContent();
+        Page<Activity> activities = activityUseCase.searchAll(pageable, exclusions);
+        return ApiResponse.ok(new PageImpl<>(activities.stream()
                 .map(ActivityListResponse::from)
-                .toList(), pageable, concerts.getTotalElements()));
+                .toList(), pageable, activities.getTotalElements()));
     }
 
     @GetMapping("/ongoing")
-    public ApiResponse<Page<ActivityListResponse>> ongoingConcertList(Pageable pageable) {
-        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
-        Page<Activity> concerts = activityUseCase.searchAllOngoingProject(pageable);
-        return ApiResponse.ok(new PageImpl<>(concerts.stream()
+    public ApiResponse<Page<ActivityListResponse>> ongoingActivityList(Pageable pageable) {
+        List<Activity> exclusions = activityUseCase.searchAllOngoingProject(
+                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
+                .getContent();
+        Page<Activity> activities = activityUseCase.searchAllOngoingProject(pageable, exclusions);
+        return ApiResponse.ok(new PageImpl<>(activities.stream()
                 .map(ActivityListResponse::from)
-                .toList(), pageable, concerts.getTotalElements()));
+                .toList(), pageable, activities.getTotalElements()));
     }
 
     @GetMapping("/best")
-    public ApiResponse<List<ActivityListResponse>> bestConcertList() {
+    public ApiResponse<List<ActivityListResponse>> bestActivityList() {
         List<Activity> activities = activityUseCase.searchAllOngoingProject(
                 PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
                 .getContent();
@@ -63,7 +67,7 @@ public class ActivityController {
     }
 
     @GetMapping("/{activityId}")
-    public ApiResponse<ActivityDetailsResponse> concertDetails(@PathVariable @Min(1) Long activityId) {
+    public ApiResponse<ActivityDetailsResponse> activityDetails(@PathVariable @Min(1) Long activityId) {
         Activity activity = activityUseCase.searchById(activityId);
         return ApiResponse.ok(ActivityDetailsResponse.of(
                 ArtistResponse.from(activity.getArtist()),

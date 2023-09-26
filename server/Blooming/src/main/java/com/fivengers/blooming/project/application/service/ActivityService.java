@@ -22,6 +22,10 @@ public class ActivityService implements ActivityUseCase {
     public Page<Activity> searchAll(Pageable pageable) {
         return activityPort.findAll(pageable);
     }
+    @Override
+    public Page<Activity> searchAll(Pageable pageable, List<Activity> exclusions) {
+        return activityPort.findAll(pageable, exclusions);
+    }
 
     @Override
     public Page<Activity> searchAllOngoingProject(Pageable pageable) {
@@ -29,8 +33,8 @@ public class ActivityService implements ActivityUseCase {
     }
 
     @Override
-    public Page<Activity> searchAllByArtist(Artist artist, Pageable pageable) {
-        return activityPort.findAllByArtist(artist, pageable);
+    public Page<Activity> searchAllOngoingProject(Pageable pageable, List<Activity> exclusions) {
+        return activityPort.findAllOngoingProject(pageable, exclusions);
     }
 
     @Override

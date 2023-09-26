@@ -10,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 public interface ActivityUseCase {
 
     Page<Activity> searchAll(Pageable pageable);
+    Page<Activity> searchAll(Pageable pageable, List<Activity> exclusions);
     Page<Activity> searchAllOngoingProject(Pageable pageable);
-    Page<Activity> searchAllByArtist(Artist artist, Pageable pageable);
+    Page<Activity> searchAllOngoingProject(Pageable pageable, List<Activity> exclusions);
     List<Activity> searchAllFinishedProjectByArtist(Long artistId);
     Activity searchById(Long id);
     Page<Activity> searchAllByLikeKeyword(String query, Pageable pageable);

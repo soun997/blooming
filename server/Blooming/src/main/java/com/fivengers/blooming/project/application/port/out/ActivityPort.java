@@ -11,8 +11,9 @@ import org.springframework.data.domain.Pageable;
 public interface ActivityPort {
 
     Page<Activity> findAll(Pageable pageable);
+    Page<Activity> findAll(Pageable pageable, List<Activity> exclusions);
     Page<Activity> findAllOngoingProject(Pageable pageable);
-    Page<Activity> findAllByArtist(Artist artist, Pageable pageable);
+    Page<Activity> findAllOngoingProject(Pageable pageable, List<Activity> exclusions);
     List<Activity> findAllFinishedProjectByArtist(Long artistId, Pageable pageable);
     Activity findById(Long id);
     Page<Activity> findAllByLikeKeyword(String query, Pageable pageable);
