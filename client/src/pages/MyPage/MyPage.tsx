@@ -9,7 +9,7 @@ import {
   SettlementInfo,
 } from '@type/MyPage';
 import Profile from '@components/MyPage/ProfileInfo';
-import MyProcess from '@components/MyPage/MyProcess';
+import MyProcess from '@components/MyPage/MyInvestInfo/MyProcess';
 
 import axiosTemp from '@api/apiControllerTemp';
 
@@ -70,7 +70,15 @@ const MyPage = () => {
             )}
           </Tabs>
         </LeftSection>
-        <RightSection>{nowTab === 0 && <MyProcess />}</RightSection>
+        <RightSection>
+          {nowTab === 0 && (
+            <MyProcess
+              profileInfo={profileInfo}
+              profitInfo={profitInfo}
+              settleInfo={settleInfo}
+            />
+          )}
+        </RightSection>
       </MyPageFrame>
     </>
   );
@@ -83,7 +91,7 @@ const MyPageFrame = styled.div`
 
 const LeftSection = styled.div`
   width: 20%;
-  background-color: #f0f1f3c6;
+  background-color: var(--background2-color);
 `;
 
 const RightSection = styled.div`
@@ -91,6 +99,19 @@ const RightSection = styled.div`
   width: 80%;
   background-color: var(--white-color);
   height: 100dvh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 100vh;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    height: 15px;
+    background-color: var(--main2-color);
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--white-color);
+  }
 `;
 
 const Tabs = styled.div`
