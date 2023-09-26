@@ -8,6 +8,9 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -106,7 +109,12 @@ class LiveControllerTest extends RestDocsTest {
         perform.andDo(print())
                 .andDo(document("live-list-by-keyword",
                         getDocumentRequest(),
-                        getDocumentResponse()));
+                        getDocumentResponse(),
+                        queryParameters(
+                                parameterWithName("query").description("키워드"),
+                                parameterWithName("page").description("페이지"),
+                                parameterWithName("size").description("페이지 크기"),
+                                parameterWithName("sort").description("정렬 요소,순서"))));
     }
 
     @Test
@@ -133,7 +141,12 @@ class LiveControllerTest extends RestDocsTest {
         perform.andDo(print())
                 .andDo(document("live-list-by-artist",
                         getDocumentRequest(),
-                        getDocumentResponse()));
+                        getDocumentResponse(),
+                        queryParameters(
+                                parameterWithName("query").description("키워드"),
+                                parameterWithName("page").description("페이지"),
+                                parameterWithName("size").description("페이지 크기"),
+                                parameterWithName("sort").description("정렬 요소,순서"))));
     }
 
     @Test
@@ -173,7 +186,9 @@ class LiveControllerTest extends RestDocsTest {
         perform.andDo(print())
                 .andDo(document("live-connection-create",
                         getDocumentRequest(),
-                        getDocumentResponse()));
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("sessionId").description("세션 ID"))));
     }
 
     @Test
@@ -192,7 +207,9 @@ class LiveControllerTest extends RestDocsTest {
         perform.andDo(print())
                 .andDo(document("live-session-details",
                         getDocumentRequest(),
-                        getDocumentResponse()));
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("liveId").description("라이브 ID"))));
     }
 
     @Test
