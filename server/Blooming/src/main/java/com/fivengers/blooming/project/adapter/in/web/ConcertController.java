@@ -2,6 +2,7 @@ package com.fivengers.blooming.project.adapter.in.web;
 
 
 import com.fivengers.blooming.global.response.ApiResponse;
+import com.fivengers.blooming.project.adapter.in.web.dto.ActivityListResponse;
 import com.fivengers.blooming.project.adapter.in.web.dto.ArtistResponse;
 import com.fivengers.blooming.project.adapter.in.web.dto.ConcertDetailsResponse;
 import com.fivengers.blooming.project.adapter.in.web.dto.ConcertListResponse;
@@ -10,12 +11,16 @@ import com.fivengers.blooming.project.adapter.in.web.dto.InvestmentResponse;
 import com.fivengers.blooming.project.application.port.in.ConcertUseCase;
 import com.fivengers.blooming.project.application.port.in.InvestmentOverviewUseCase;
 import com.fivengers.blooming.project.application.port.in.ViewCountUseCase;
+import com.fivengers.blooming.project.domain.Activity;
 import com.fivengers.blooming.project.domain.Concert;
 import jakarta.validation.constraints.Min;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +38,7 @@ public class ConcertController {
 
     @GetMapping
     public ApiResponse<Page<ConcertListResponse>> concertList(Pageable pageable) {
+        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
         Page<Concert> concerts = concertUseCase.searchAll(pageable);
         return ApiResponse.ok(new PageImpl<>(concerts.stream()
                 .map(ConcertListResponse::from)
@@ -41,14 +47,26 @@ public class ConcertController {
 
     @GetMapping("/ongoing")
     public ApiResponse<Page<ConcertListResponse>> ongoingConcertList(Pageable pageable) {
+        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
         Page<Concert> concerts = concertUseCase.searchAllOngoingProject(pageable);
         return ApiResponse.ok(new PageImpl<>(concerts.stream()
                 .map(ConcertListResponse::from)
                 .toList(), pageable, concerts.getTotalElements()));
     }
 
+    @GetMapping("/best")
+    public ApiResponse<List<ConcertListResponse>> bestConcertList() {
+        List<Concert> concerts = concertUseCase.searchAllOngoingProject(
+                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
+                .getContent();
+        return ApiResponse.ok(concerts.stream()
+                .map(ConcertListResponse::from)
+                .toList());
+    }
+
     @GetMapping("/{concertId}")
-    public ApiResponse<ConcertDetailsResponse> concertDetails(@PathVariable @Min(1) Long concertId) {
+    public ApiResponse<ConcertDetailsResponse> concertDetails(
+            @PathVariable @Min(1) Long concertId) {
         Concert concert = concertUseCase.searchById(concertId);
         return ApiResponse.ok(ConcertDetailsResponse.of(
                 ArtistResponse.from(concert.getArtist()),

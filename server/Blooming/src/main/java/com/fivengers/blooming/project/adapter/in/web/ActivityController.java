@@ -12,10 +12,13 @@ import com.fivengers.blooming.project.application.port.in.InvestmentOverviewUseC
 import com.fivengers.blooming.project.application.port.in.ViewCountUseCase;
 import com.fivengers.blooming.project.domain.Activity;
 import jakarta.validation.constraints.Min;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +36,7 @@ public class ActivityController {
 
     @GetMapping
     public ApiResponse<Page<ActivityListResponse>> concertList(Pageable pageable) {
+        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
         Page<Activity> concerts = activityUseCase.searchAll(pageable);
         return ApiResponse.ok(new PageImpl<>(concerts.stream()
                 .map(ActivityListResponse::from)
@@ -41,10 +45,21 @@ public class ActivityController {
 
     @GetMapping("/ongoing")
     public ApiResponse<Page<ActivityListResponse>> ongoingConcertList(Pageable pageable) {
+        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
         Page<Activity> concerts = activityUseCase.searchAllOngoingProject(pageable);
         return ApiResponse.ok(new PageImpl<>(concerts.stream()
                 .map(ActivityListResponse::from)
                 .toList(), pageable, concerts.getTotalElements()));
+    }
+
+    @GetMapping("/best")
+    public ApiResponse<List<ActivityListResponse>> bestConcertList() {
+        List<Activity> activities = activityUseCase.searchAllOngoingProject(
+                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
+                .getContent();
+        return ApiResponse.ok(activities.stream()
+                .map(ActivityListResponse::from)
+                .toList());
     }
 
     @GetMapping("/{activityId}")
