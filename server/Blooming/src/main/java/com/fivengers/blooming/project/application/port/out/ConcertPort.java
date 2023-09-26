@@ -10,7 +10,7 @@ public interface ConcertPort {
 
     Page<Concert> findAll(Pageable pageable);
     Page<Concert> findAllOngoingProject(Pageable pageable);
-    List<Concert> findAllFinishedProjectByArtist(Long artistId, Pageable pageable);
+    List<Concert> findAllFinishedProjectByArtist(Long artistId);
     List<Concert> findBestThreeProject();
     Concert findById(Long id);
     Page<Concert> findAllByLikeKeyword(String keyword, Pageable pageable);

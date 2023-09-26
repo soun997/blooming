@@ -41,8 +41,8 @@ public class ActivityPersistenceAdapter implements ActivityPort {
     }
 
     @Override
-    public List<Activity> findAllFinishedProjectByArtist(Long artistId, Pageable pageable) {
-        return activitySpringDataRepository.findAllFinishedProjectByArtist(artistId, pageable)
+    public List<Activity> findAllFinishedProjectByArtist(Long artistId) {
+        return activitySpringDataRepository.findAllFinishedProjectByArtist(artistId)
                 .stream()
                 .map(activityMapper::toDomain)
                 .toList();

@@ -41,8 +41,8 @@ public class ConcertPersistenceAdapter implements ConcertPort {
     }
 
     @Override
-    public List<Concert> findAllFinishedProjectByArtist(Long artistId, Pageable pageable) {
-        return concertSpringDataRepository.findAllFinishedProjectByArtist(artistId, pageable)
+    public List<Concert> findAllFinishedProjectByArtist(Long artistId) {
+        return concertSpringDataRepository.findAllFinishedProjectByArtist(artistId)
                 .stream()
                 .map(concertMapper::toDomain)
                 .toList();

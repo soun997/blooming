@@ -13,8 +13,9 @@ public interface ActivitySpringDataRepository extends JpaRepository<ActivityJpaE
 
     Page<ActivityJpaEntity> findByEndedAtIsAfter(Pageable pageable, LocalDateTime now);
 
-    @Query("select a from ActivityJpaEntity a where a.artist.id = :artistId and a.endedAt < current date ")
-    List<ActivityJpaEntity> findAllFinishedProjectByArtist(@Param("artistId") Long artistId, Pageable pageable);
+    @Query("select a from ActivityJpaEntity a where a.artist.id = :artistId and a.endedAt < current date "
+            + "order by a.createdAt desc limit 5")
+    List<ActivityJpaEntity> findAllFinishedProjectByArtist(@Param("artistId") Long artistId);
 
     @Query("select a from ActivityJpaEntity a where a.endedAt > current date order by a.fundingAmount desc limit 3")
     List<ActivityJpaEntity> findBestThreeProject();

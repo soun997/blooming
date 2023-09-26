@@ -10,7 +10,7 @@ public interface ActivityPort {
 
     Page<Activity> findAll(Pageable pageable);
     Page<Activity> findAllOngoingProject(Pageable pageable);
-    List<Activity> findAllFinishedProjectByArtist(Long artistId, Pageable pageable);
+    List<Activity> findAllFinishedProjectByArtist(Long artistId);
     List<Activity> findBestThreeProject();
     Activity findById(Long id);
     Page<Activity> findAllByLikeKeyword(String query, Pageable pageable);

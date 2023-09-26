@@ -13,8 +13,9 @@ public interface ConcertSpringDataRepository extends JpaRepository<ConcertJpaEnt
 
     Page<ConcertJpaEntity> findByEndedAtIsAfter(Pageable pageable, LocalDateTime now);
 
-    @Query("select c from ConcertJpaEntity c where c.artist.id = :artistId and c.endedAt < current date ")
-    List<ConcertJpaEntity> findAllFinishedProjectByArtist(@Param("artistId") Long artistId, Pageable pageable);
+    @Query("select c from ConcertJpaEntity c where c.artist.id = :artistId and c.endedAt < current date "
+            + "order by c.createdAt desc limit 5")
+    List<ConcertJpaEntity> findAllFinishedProjectByArtist(@Param("artistId") Long artistId);
 
     @Query("select c from ConcertJpaEntity c where c.endedAt > current date order by c.fundingAmount desc limit 3")
     List<ConcertJpaEntity> findBestThreeProject();

@@ -6,9 +6,7 @@ import com.fivengers.blooming.project.domain.Concert;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,8 +27,7 @@ public class ConcertService implements ConcertUseCase {
 
     @Override
     public List<Concert> searchAllFinishedProjectByArtist(Long artistId) {
-        return concertPort.findAllFinishedProjectByArtist(artistId,
-                PageRequest.of(0, 5, Sort.by("createdAt").descending()));
+        return concertPort.findAllFinishedProjectByArtist(artistId);
     }
 
     @Override
