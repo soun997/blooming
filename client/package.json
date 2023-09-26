@@ -14,10 +14,10 @@
     "dummy": "concurrently \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
-    "@tosspayments/payment-sdk": "^1.6.5",
-    "@tosspayments/payment-widget-sdk": "^0.9.3",
     "@tanstack/react-query": "^4.35.3",
     "@teachablemachine/pose": "^0.8.6",
+    "@tosspayments/payment-sdk": "^1.6.5",
+    "@tosspayments/payment-widget-sdk": "^0.9.3",
     "axios": "^1.4.0",
     "chart.js": "^4.4.0",
     "faker": "5.5.3",

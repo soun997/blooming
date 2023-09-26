@@ -7,8 +7,6 @@ import ActiveList from '@pages/ListPage/ActiveList';
 import NFTDetail from '@pages/DetailPage/NFTDetail';
 import LiveList from '@pages/ListPage/LiveList';
 import AddFund from '@pages/AddFund';
-import PaymentSuccessContainer from '@pages/PaymentPage/PaymentSuccessContainer';
-import PaymentFailureContainer from '@pages/PaymentPage/PaymentFailureContainer';
 import ArtistDetail from '@pages/DetailPage/ArtistDetail';
 import ConcertDetail from '@pages/DetailPage/ConcertDetail';
 import MyPage from '@pages/MyPage/MyPage';
@@ -16,6 +14,9 @@ import PostSuccess from '@pages/common/PostSuccess';
 import PageNotFound from '@pages/common/PageNotFound';
 import MeetingPage from '@pages/MeetingPage/MeetingPage';
 import ActiveDetailPage from '@pages/DetailPage/ActiveDetail';
+import PaymentSuccess from '@pages/common/PaymentSuccess';
+import PaymentFailure from '@pages/common/PaymentFailure';
+import PaymentPage from '@pages/PaymentPage/PaymentPage';
 
 export default function Router() {
   return (
@@ -27,12 +28,13 @@ export default function Router() {
         <Route path="/active" element={<ActiveList />}></Route>
         <Route path="/live" element={<LiveList />}></Route>
         <Route path="/add-fund" element={<AddFund />}></Route>
-        <Route path="/success" element={<PaymentSuccessContainer />}></Route>
-        <Route path="/failure" element={<PaymentFailureContainer />}></Route>
+        <Route path="/success" element={<PaymentSuccess />}></Route>
+        <Route path="/failure" element={<PaymentFailure />}></Route>
         <Route path="/active-detail" element={<ActiveDetailPage />}></Route>
         <Route path="/artist-detail" element={<ArtistDetail />}></Route>
         <Route path="/concert-detail" element={<ConcertDetail />}></Route>
         <Route path="/nft-detail" element={<NFTDetail />}></Route>
+        <Route path="/pay" element={<PaymentPage />}></Route>
         <Route
           path="/meeting-artist"
           element={<MeetingPage isArtist={true} />}
