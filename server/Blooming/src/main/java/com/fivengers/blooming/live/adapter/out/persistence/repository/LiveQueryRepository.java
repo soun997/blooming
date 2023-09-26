@@ -39,46 +39,36 @@ public class LiveQueryRepository extends QuerydslRepositorySupport {
     }
 
     Page<LiveJpaEntity> findActiveLiveByTitleKeyword(String keyword, Pageable pageable) {
+        Function<JPAQueryFactory, JPAQuery<LiveJpaEntity>> contentQuery =
+                (query) -> findActiveLiveWithActiveMember(query)
+                        .where(live.title.contains(keyword));
 
-        List<OrderSpecifier> orders = getAllOrderSpecifiers(pageable);
+        Function<JPAQueryFactory, JPAQuery<Long>> countQuery =
+                (query) -> findActiveLiveCountWithActiveMember(query)
+                        .where(live.title.contains(keyword));
 
-        List<LiveJpaEntity> lives = findLiveWithActiveMember()
-                .where(live.title.contains(keyword))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(orders.toArray(OrderSpecifier[]::new))
-                .fetch();
-
-        Long count = findLiveCountWithActiveMember();
-        return new PageImpl<>(lives, pageable, count);
+        return applyPagination(
+                pageable, contentQuery, countQuery
+        );
     }
 
     Page<LiveJpaEntity> findActiveLiveByArtist(String keyword, Pageable pageable) {
 
-        List<OrderSpecifier> orders = getAllOrderSpecifiers(pageable);
+        Function<JPAQueryFactory, JPAQuery<LiveJpaEntity>> contentQuery =
+                (query) -> findActiveLiveWithActiveMember(query)
+                        .where(artist.stageName.contains(keyword));
 
-        List<LiveJpaEntity> lives = findLiveWithActiveMember()
-                .where(artist.stageName.contains(keyword))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(orders.toArray(OrderSpecifier[]::new))
-                .fetch();
+        Function<JPAQueryFactory, JPAQuery<Long>> countQuery =
+                (query) -> findActiveLiveCountWithActiveMember(query)
+                        .where(artist.stageName.contains(keyword));
 
-        Long count = findLiveCountWithActiveMember();
-        return new PageImpl<>(lives, pageable, count);
+        return applyPagination(
+                pageable, contentQuery, countQuery
+        );
     }
 
     private JPAQuery<LiveJpaEntity> findActiveLiveWithActiveMember(JPAQueryFactory query) {
         return query.selectFrom(live)
-                .leftJoin(live.artistJpaEntity, artist)
-                .fetchJoin()
-                .leftJoin(artist.memberJpaEntity, member)
-                .fetchJoin()
-                .where(isActiveArtist().and(isActiveLive()));
-    }
-
-    private JPAQuery<LiveJpaEntity> findLiveWithActiveMember() {
-        return selectFrom(live)
                 .leftJoin(live.artistJpaEntity, artist)
                 .fetchJoin()
                 .leftJoin(artist.memberJpaEntity, member)
@@ -94,38 +84,11 @@ public class LiveQueryRepository extends QuerydslRepositorySupport {
                 .where(isActiveArtist().and(isActiveLive()));
     }
 
-    private Long findLiveCountWithActiveMember() {
-        return select(live.count())
-                .from(live)
-                .leftJoin(live.artistJpaEntity, artist)
-                .leftJoin(artist.memberJpaEntity, member)
-                .where(isActiveArtist().and(isActiveLive()))
-                .fetchOne();
-    }
-
     private BooleanExpression isActiveArtist() {
         return (member.deleted.isFalse()).and(artist.deleted.isFalse());
     }
 
     private BooleanExpression isActiveLive() {
         return live.endedAt.isNull();
-    }
-
-    private List<OrderSpecifier> getAllOrderSpecifiers(Pageable page) {
-
-        List<OrderSpecifier> orders =
-                page.getSort().stream().map(this::getOrderSpecifier).toList();
-        return orders;
-    }
-
-    private OrderSpecifier getOrderSpecifier(Sort.Order order) {
-        Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
-        OrderSpecifier orderSpecifier = switch (order.getProperty()) {
-            case "title" -> new OrderSpecifier(direction, live.title);
-            case "createdAt" -> new OrderSpecifier(direction, live.createdAt);
-            case "endedAt" -> new OrderSpecifier(direction, live.endedAt);
-            default -> throw new InvalidSortOrderException();
-        };
-        return orderSpecifier;
     }
 }
