@@ -117,7 +117,6 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
             throw new ArtistNotFoundException();
         }
 
-        // 현재날짜를 기준으로 바로 이전 일요일 날짜를 가져온다.
         LocalDate lastSunday = DateUtils.findLastSunday();
         return IntStream.range(0, liveFrequencyDetailsRequest.numberOfWeeks())
                 .mapToObj(i -> {
