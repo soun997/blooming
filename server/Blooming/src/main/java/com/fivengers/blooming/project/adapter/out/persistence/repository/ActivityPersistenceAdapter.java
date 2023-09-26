@@ -6,6 +6,7 @@ import com.fivengers.blooming.project.adapter.out.persistence.entity.ActivityJpa
 import com.fivengers.blooming.project.adapter.out.persistence.mapper.ActivityMapper;
 import com.fivengers.blooming.project.application.port.out.ActivityPort;
 import com.fivengers.blooming.project.domain.Activity;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,8 @@ public class ActivityPersistenceAdapter implements ActivityPort {
 
     @Override
     public Page<Activity> findAllOngoingProject(Pageable pageable) {
-        Page<ActivityJpaEntity> activities = activitySpringDataRepository.findAllOngoingProject(pageable);
+        Page<ActivityJpaEntity> activities = activitySpringDataRepository
+                .findByEndedAtIsAfter(pageable, LocalDateTime.now());
         return new PageImpl<>(activities.stream()
                 .map(activityMapper::toDomain)
                 .toList(), pageable, activities.getTotalElements());

@@ -1,12 +1,12 @@
 package com.fivengers.blooming.project.adapter.out.persistence.repository;
 
 
-import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistMapper;
 import com.fivengers.blooming.global.exception.project.ProjectNotFoundException;
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ConcertJpaEntity;
 import com.fivengers.blooming.project.adapter.out.persistence.mapper.ConcertMapper;
 import com.fivengers.blooming.project.application.port.out.ConcertPort;
 import com.fivengers.blooming.project.domain.Concert;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConcertPersistenceAdapter implements ConcertPort {
 
     private final ConcertMapper concertMapper;
-    private final ArtistMapper artistMapper;
     private final ConcertSpringDataRepository concertSpringDataRepository;
 
     @Override
@@ -34,8 +33,8 @@ public class ConcertPersistenceAdapter implements ConcertPort {
 
     @Override
     public Page<Concert> findAllOngoingProject(Pageable pageable) {
-        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllOngoingProject(
-                pageable);
+        Page<ConcertJpaEntity> concerts = concertSpringDataRepository
+                .findByEndedAtIsAfter(pageable, LocalDateTime.now());
         return new PageImpl<>(concerts.stream()
                 .map(concertMapper::toDomain)
                 .toList(), pageable, concerts.getTotalElements());

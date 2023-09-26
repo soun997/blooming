@@ -1,6 +1,7 @@
 package com.fivengers.blooming.project.adapter.out.persistence.repository;
 
 import com.fivengers.blooming.project.adapter.out.persistence.entity.ActivityJpaEntity;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ActivitySpringDataRepository extends JpaRepository<ActivityJpaEntity, Long> {
 
-    @Query("select a from ActivityJpaEntity a where a.endedAt > current date ")
-    Page<ActivityJpaEntity> findAllOngoingProject(Pageable pageable);
+    Page<ActivityJpaEntity> findByEndedAtIsAfter(Pageable pageable, LocalDateTime now);
 
     @Query("select a from ActivityJpaEntity a where a.artist.id = :artistId and a.endedAt < current date ")
     List<ActivityJpaEntity> findAllFinishedProjectByArtist(@Param("artistId") Long artistId, Pageable pageable);
