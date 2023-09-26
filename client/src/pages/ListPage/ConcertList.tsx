@@ -28,6 +28,7 @@ import ToggleButton from '@components/Button/ToggleButton';
 import useIntersect from '@hooks/IntersectionObserverHook';
 import { getConcertData, getSearchData } from '@api/ListQuery/ConcertQuery';
 import Navbar from '@components/common/NavBar';
+import NoSearchResults from '@components/Search/NoSearchResults';
 
 const ConcertList = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -101,10 +102,18 @@ const ConcertList = () => {
         {showResult ? (
           <>
             <SearchResultTitle title={searchKeyword} />
-            <ResultList
-              datas={scrollInfoForSearch.searchData}
-              nowStat={CONCERT}
-            />
+            {!scrollInfoForSearch.isLoading &&
+            scrollInfoForSearch.searchData.length === 0 ? (
+              <>
+                <NoSearchResults />
+              </>
+            ) : (
+              <ResultList
+                datas={scrollInfoForSearch.searchData}
+                nowStat={CONCERT}
+              />
+            )}
+
             {scrollInfoForSearch.isFetching &&
               scrollInfoForSearch.isLoading && <Loading />}
             <Target ref={refForSearch} />
@@ -138,10 +147,17 @@ const ConcertList = () => {
                 </SortOption>
               </RightSection>
             </NowToggle>
-            <ResultList
-              datas={scrollInfoForDefault.searchData}
-              nowStat={CONCERT}
-            />
+            {!scrollInfoForDefault.isLoading &&
+            scrollInfoForDefault.searchData.length === 0 ? (
+              <>
+                <NoSearchResults />
+              </>
+            ) : (
+              <ResultList
+                datas={scrollInfoForDefault.searchData}
+                nowStat={CONCERT}
+              />
+            )}
             {scrollInfoForDefault.isFetching &&
               scrollInfoForDefault.isLoading && <Loading />}
             <Target ref={refForDefault} />

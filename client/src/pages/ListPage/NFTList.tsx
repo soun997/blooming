@@ -93,10 +93,18 @@ const NFTList = () => {
         {showResult ? (
           <>
             <SearchResultTitle title={searchKeyword} />
-            <ResultList
-              datas={scrollInfoForSearch.searchData}
-              nowStat={ARTIST}
-            />
+            {!scrollInfoForSearch.isLoading &&
+            scrollInfoForSearch.searchData.length === 0 ? (
+              <>
+                <NoSearchResults />
+              </>
+            ) : (
+              <ResultList
+                datas={scrollInfoForSearch.searchData}
+                nowStat={ARTIST}
+              />
+            )}
+
             {scrollInfoForSearch.isFetching &&
               scrollInfoForSearch.isLoading && <Loading />}
             <Target ref={refForSearch} />
@@ -131,7 +139,8 @@ const NFTList = () => {
                 </SortOption>
               </RightSection>
             </NowToggle>
-            {scrollInfoForDefault.searchData.length === 0 ? (
+            {!scrollInfoForDefault.isLoading &&
+            scrollInfoForDefault.searchData.length === 0 ? (
               <>
                 <NoSearchResults />
               </>

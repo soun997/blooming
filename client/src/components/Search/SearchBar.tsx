@@ -6,7 +6,7 @@ import axiosTemp from '@api/apiControllerTemp';
 
 import { useQuery } from 'react-query';
 import { ReactComponent as SearchSvg } from '@assets/icons/search.svg';
-import { ACTIVE, ARTIST, CONCERT } from '@components/common/constant';
+import { ACTIVE, ARTIST, CONCERT, LIVE } from '@components/common/constant';
 import { ProcessInfo } from '@type/ProcessInfo';
 
 interface Props {
@@ -45,6 +45,12 @@ const SearchBar: React.FC<Props> = ({
           ? '/activities/search/keyword'
           : '/activities/search/artist';
         setAutoCompleteUrl(url_active);
+        break;
+      case LIVE:
+        const url_live = !isArtist
+          ? '/lives/search/keyword'
+          : '/lives/search/artist';
+        setAutoCompleteUrl(url_live);
         break;
     }
   }, [isArtist]);
