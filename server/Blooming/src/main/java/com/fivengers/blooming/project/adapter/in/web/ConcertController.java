@@ -38,8 +38,10 @@ public class ConcertController {
 
     @GetMapping
     public ApiResponse<Page<ConcertListResponse>> concertList(Pageable pageable) {
-        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
-        Page<Concert> concerts = concertUseCase.searchAll(pageable);
+        List<Concert> exclusions = concertUseCase.searchAllOngoingProject(
+                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
+                .getContent();
+        Page<Concert> concerts = concertUseCase.searchAll(pageable, exclusions);
         return ApiResponse.ok(new PageImpl<>(concerts.stream()
                 .map(ConcertListResponse::from)
                 .toList(), pageable, concerts.getTotalElements()));
@@ -47,8 +49,10 @@ public class ConcertController {
 
     @GetMapping("/ongoing")
     public ApiResponse<Page<ConcertListResponse>> ongoingConcertList(Pageable pageable) {
-        // TODO: TOP3를 제외한 프로젝트를 조회하도록 수정
-        Page<Concert> concerts = concertUseCase.searchAllOngoingProject(pageable);
+        List<Concert> exclusions = concertUseCase.searchAllOngoingProject(
+                PageRequest.of(0, 3, Sort.by("fundingAmount").descending()))
+                .getContent();
+        Page<Concert> concerts = concertUseCase.searchAllOngoingProject(pageable, exclusions);
         return ApiResponse.ok(new PageImpl<>(concerts.stream()
                 .map(ConcertListResponse::from)
                 .toList(), pageable, concerts.getTotalElements()));

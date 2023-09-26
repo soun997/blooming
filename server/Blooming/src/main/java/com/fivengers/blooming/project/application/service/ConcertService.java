@@ -24,13 +24,18 @@ public class ConcertService implements ConcertUseCase {
     }
 
     @Override
+    public Page<Concert> searchAll(Pageable pageable, List<Concert> exclusions) {
+        return concertPort.findAll(pageable, exclusions);
+    }
+
+    @Override
     public Page<Concert> searchAllOngoingProject(Pageable pageable) {
         return concertPort.findAllOngoingProject(pageable);
     }
 
     @Override
-    public Page<Concert> searchAllByArtist(Artist artist, Pageable pageable) {
-        return concertPort.findAllByArtist(artist, pageable);
+    public Page<Concert> searchAllOngoingProject(Pageable pageable, List<Concert> exclusions) {
+        return concertPort.findAllOngoingProject(pageable, exclusions);
     }
 
     @Override

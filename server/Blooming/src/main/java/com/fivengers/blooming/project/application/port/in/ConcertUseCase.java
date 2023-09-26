@@ -9,8 +9,9 @@ import org.springframework.data.domain.Pageable;
 public interface ConcertUseCase {
 
     Page<Concert> searchAll(Pageable pageable);
+    Page<Concert> searchAll(Pageable pageable, List<Concert> exclusions);
     Page<Concert> searchAllOngoingProject(Pageable pageable);
-    Page<Concert> searchAllByArtist(Artist artist, Pageable pageable);
+    Page<Concert> searchAllOngoingProject(Pageable pageable, List<Concert> exclusions);
     List<Concert> searchAllFinishedProjectByArtist(Long artistId);
     Concert searchById(Long id);
     Page<Concert> searchAllByLikeKeyword(String keyword, Pageable pageable);

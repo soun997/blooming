@@ -34,6 +34,18 @@ public class ConcertPersistenceAdapter implements ConcertPort {
     }
 
     @Override
+    public Page<Concert> findAll(Pageable pageable, List<Concert> exclusions) {
+        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAll(
+                pageable,
+                exclusions.stream()
+                        .map(concertMapper::toJpaEntity)
+                        .toList());
+        return new PageImpl<>(concerts.stream()
+                .map(concertMapper::toDomain)
+                .toList(), pageable, concerts.getTotalElements());
+    }
+
+    @Override
     public Page<Concert> findAllOngoingProject(Pageable pageable) {
         Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllOngoingProject(
                 pageable);
@@ -43,9 +55,12 @@ public class ConcertPersistenceAdapter implements ConcertPort {
     }
 
     @Override
-    public Page<Concert> findAllByArtist(Artist artist, Pageable pageable) {
-        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllByArtist(
-                artistMapper.toJpaEntity(artist), pageable);
+    public Page<Concert> findAllOngoingProject(Pageable pageable, List<Concert> exclusions) {
+        Page<ConcertJpaEntity> concerts = concertSpringDataRepository.findAllOngoingProject(
+                pageable,
+                exclusions.stream()
+                        .map(concertMapper::toJpaEntity)
+                        .toList());
         return new PageImpl<>(concerts.stream()
                 .map(concertMapper::toDomain)
                 .toList(), pageable, concerts.getTotalElements());
@@ -53,7 +68,8 @@ public class ConcertPersistenceAdapter implements ConcertPort {
 
     @Override
     public List<Concert> findAllFinishedProjectByArtist(Long artistId, Pageable pageable) {
-        return concertSpringDataRepository.findAllFinishedProjectByArtist(artistId, pageable).stream()
+        return concertSpringDataRepository.findAllFinishedProjectByArtist(artistId, pageable)
+                .stream()
                 .map(concertMapper::toDomain)
                 .toList();
     }
