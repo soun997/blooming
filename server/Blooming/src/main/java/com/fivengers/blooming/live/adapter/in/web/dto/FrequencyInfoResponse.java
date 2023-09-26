@@ -6,8 +6,7 @@ import java.time.LocalDate;
 public record FrequencyInfoResponse(
         LocalDate startDate,
         LocalDate endDate,
-        int count
-) {
+        int count) {
 
     public static FrequencyInfoResponse from(LiveFrequency liveFrequency) {
         return new FrequencyInfoResponse(

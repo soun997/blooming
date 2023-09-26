@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record LiveFrequencyDetailsRequest(
         @NotNull @Min(1) Long artistId,
-        @NotNull @Min(1) Integer numberOfWeeks
-) {
+        @NotNull @Min(1) Integer numberOfWeeks) {
 
 }
