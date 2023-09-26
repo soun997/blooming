@@ -3,6 +3,7 @@ package com.fivengers.blooming.live.adapter.in.web;
 import com.fivengers.blooming.global.response.ApiResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailRequest;
 import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailResponse;
+import com.fivengers.blooming.live.adapter.in.web.dto.FrequencyInfoResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.LiveCreateRequest;
 import com.fivengers.blooming.live.adapter.in.web.dto.LiveDetailsResponse;
 import com.fivengers.blooming.live.adapter.in.web.dto.LiveFrequencyDetailsRequest;
@@ -106,8 +107,10 @@ public class LiveController {
             @Validated LiveFrequencyDetailsRequest liveFrequencyDetailsRequest) {
         List<LiveFrequency> liveFrequencies = liveSearchUseCase.searchLiveFrequencyByArtist(
                 liveFrequencyDetailsRequest);
+        List<FrequencyInfoResponse> frequencyInfoResponses = liveFrequencies.stream()
+                .map(FrequencyInfoResponse::from).toList();
         return ApiResponse.ok(LiveFrequencyDetailsResponse.from(
                 liveFrequencyDetailsRequest.artistId(),
-                liveFrequencies));
+                frequencyInfoResponses));
     }
 }

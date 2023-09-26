@@ -9,11 +9,10 @@ public record LiveFrequencyDetailsResponse(
         List<FrequencyInfoResponse> frequencies
 
 ) {
-
-    public static LiveFrequencyDetailsResponse from(Long artistId, List<LiveFrequency> liveFrequencies) {
+    public static LiveFrequencyDetailsResponse from(Long artistId, List<FrequencyInfoResponse> liveFrequencies) {
         return new LiveFrequencyDetailsResponse(
                 artistId,
-                liveFrequencies.stream().map(FrequencyInfoResponse::from).toList()
+                liveFrequencies
         );
     }
 
