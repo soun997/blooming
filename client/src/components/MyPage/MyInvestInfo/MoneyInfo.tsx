@@ -93,7 +93,7 @@ const EachBox = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: 500;
-  border-right: 1px solid var(--main1-color);
+  border-right: 1px solid var(--gray-color);
 
   &:last-child {
     border-right: none;
