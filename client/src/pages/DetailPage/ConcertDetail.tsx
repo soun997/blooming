@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
-// import axios from '@api/apiController';
-import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import axios from '@api/apiController';
+// import axios from 'axios';
 import ArtistInfo from '@components/fundingDetail/ArtistInfo';
 import Funding from '@components/fundingDetail/Funding';
 import FundingDetail from '@components/fundingDetail/FundingDetail';
-import {
-  artist,
-  concert,
-  investment,
-  pastConcerts,
-  viewCounts,
-} from '@type/ConcertDetail';
-import { concertDetail } from '@type/ConcertDetail';
+import { concertDetail, pastConcert } from '@type/ConcertDetail';
 
 const initData: concertDetail = {
   artist: {
@@ -52,8 +46,14 @@ const initData: concertDetail = {
       investmentPublishedDate: '',
       investmentMaturedDate: '',
     },
+    structure: '',
+    goods: '',
   },
-  pastConcerts: {
+  viewCounts: [],
+};
+
+const pastInitData: pastConcert[] = [
+  {
     id: 0,
     name: '',
     posterImg: '',
@@ -62,31 +62,38 @@ const initData: concertDetail = {
     targetAmount: 0,
     fundingAmount: 0,
   },
-
-  viewCounts: {
-    viewCount: [0, 0, 0, 0, 0, 0],
-  },
-};
+];
 
 const ActiveDetailPage = () => {
-  const activityId = 1;
   const [data, setData] = useState<concertDetail>(initData);
+  const [pastFundingdata, setPastFundingData] =
+    useState<pastConcert[]>(pastInitData);
+  const { concertId } = useParams();
 
   useEffect(() => {
+    //펀딩 상세 조회
     axios
-      .get('http://localhost:7700/concerts', {
-        //   params: {
-        //     activityId: activityId,
-        //   },
-      })
+      .get(`/concerts/${concertId}`)
       .then((response) => {
         console.log('요청 성공:', response);
-        setData(response.data);
+        setData(response.data.results);
       })
       .catch((error) => {
         console.error('요청 실패:', error);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`/artists/${data.artist.id}/concert/histories`)
+      .then((response) => {
+        console.log('과거 펀딩목록 조회 성공:', response);
+        setPastFundingData(response.data.results);
+      })
+      .catch((error) => {
+        console.error('과거 펀딩목록 조회 실패:', error);
+      });
+  }, [data]);
 
   return (
     <>
@@ -106,8 +113,8 @@ const ActiveDetailPage = () => {
         artistData={data.artist}
         concertData={data.concert}
         investmentData={data.investment}
-        pastConcertsData={[data.pastConcerts]}
-        viewCountData={data.viewCount}
+        pastConcertsData={pastFundingdata}
+        viewCountData={data.viewCounts}
       />
       <br />
       <br />
