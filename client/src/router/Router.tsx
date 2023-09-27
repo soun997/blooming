@@ -37,7 +37,7 @@ export default function Router() {
           element={<ConcertDetail />}
         ></Route>
         <Route path="/nft-detail" element={<NFTDetail />}></Route>
-        <Route path="/pay" element={<PaymentPage />}></Route>
+        {/* <Route path="/pay" element={<PaymentPage />}></Route> */}
         <Route
           path="/meeting-artist"
           element={<MeetingPage isArtist={true} />}
