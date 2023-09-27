@@ -48,3 +48,9 @@ jwt:
   access-header: Authorization
   refresh-header: Refresh
   secret: bloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingbloomingblooming
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
