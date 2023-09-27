@@ -18,6 +18,7 @@ import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
 import { useNavigate } from 'react-router-dom';
 import LiveInfo from '@components/MyPage/MyLiveInfo/LiveInfo';
+import MembershipInterface from '@components/MyPage/MyMembershipInfo/MembershipInterface';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ const MyPage = () => {
             />
           )}
           {nowTab === 1 && <LiveInfo />}
+          {nowTab === 2 && <MembershipInterface />}
         </RightSection>
       </MyPageFrame>
     </>
