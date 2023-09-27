@@ -56,7 +56,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         request ->
                                 request.requestMatchers(
-                                                new MvcRequestMatcher(introspector, "/api/**")).authenticated()
+                                                new MvcRequestMatcher(introspector, "/api/v1/auth"))
+                                        .permitAll()
+                                        .requestMatchers(
+                                                new MvcRequestMatcher(introspector, "/api/**"))
+                                        .authenticated()
                                         .anyRequest().authenticated())
                 .oauth2Login(setOAuth2Config())
                 .sessionManagement(

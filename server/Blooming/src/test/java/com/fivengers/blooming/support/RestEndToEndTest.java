@@ -7,6 +7,7 @@ import com.fivengers.blooming.config.security.oauth2.OAuth2Request;
 import com.fivengers.blooming.config.security.oauth2.mapper.LoginUserMapper;
 import com.fivengers.blooming.member.application.port.MemberService;
 import com.fivengers.blooming.member.domain.AuthProvider;
+import com.fivengers.blooming.member.domain.Member;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,8 @@ public class RestEndToEndTest {
     @Autowired
     private LoginUserMapper loginUserMapper;
 
+    protected Member member;
+
     public static final String AUTHORIZATION = "Authorization";
 
     protected String toJson(Object o) throws JsonProcessingException {
@@ -33,11 +36,13 @@ public class RestEndToEndTest {
 
     @Transactional
     protected String getAccessToken() {
-        return jwtProvider.createJwtToken(loginUserMapper.toLoginUser(
-                memberService.saveIfNotExists(new OAuth2Request(UUID.randomUUID().toString(),
+        member = memberService.saveIfNotExists(
+                new OAuth2Request(UUID.randomUUID().toString(),
                         AuthProvider.KAKAO,
                         "mock",
-                        "mock"))))
+                        "mock"));
+        return jwtProvider.createJwtToken(loginUserMapper.toLoginUser(
+                        member))
                 .getAccessToken();
     }
 }
