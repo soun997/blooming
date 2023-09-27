@@ -15,8 +15,9 @@ import {
 import { ValidCheck } from '@components/AddFundPage/ProjectInfo';
 import { ArtistRequestInfo } from '@type/ArtistRequest';
 import { POST_CATEGORY } from '@components/common/constant';
-
 import { ReactComponent as CancelSvg } from '@assets/icons/cancel.svg';
+import { ReactComponent as LinkSvg } from '@assets/icons/LinkIcon.svg';
+
 const ArtistRegistModal = ({
   isOpen,
   closeModal,
@@ -32,8 +33,28 @@ const ArtistRegistModal = ({
     fanCafeUrl: '',
     profileImageUrl: '',
     snsUrl: '',
-    youtubeUrl: [''], // 초기에 한 개의 입력 필드를 생성합니다.
+    youtubeUrl: [],
   });
+  const [inputList, setInputList] = useState<string[]>(['']);
+
+  const handleInputChange = (index: number, value: string) => {
+    const newList = [...inputList];
+    newList[index] = value;
+    setInputList(newList);
+  };
+
+  const handleAddInput = () => {
+    if (inputList.length < 5) {
+      setInputList([...inputList, '']);
+    }
+  };
+
+  const handleRemoveInput = (index: number) => {
+    const newList = [...inputList];
+    newList.splice(index, 1);
+    setInputList(newList);
+  };
+
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
     validIdx: 0,
     validValue: '',
@@ -58,7 +79,6 @@ const ArtistRegistModal = ({
           updatedInfo.profileImageUrl = validInputCheck.validValue;
           break;
         case 4:
-          updatedInfo.youtubeUrl[-1] = validInputCheck.validValue;
           break;
         case 5:
           updatedInfo.fanCafeUrl = validInputCheck.validValue;
@@ -70,7 +90,7 @@ const ArtistRegistModal = ({
         default:
           break;
       }
-
+      // console.log(updatedInfo);
       setRegistInfo(updatedInfo);
     } else {
       switch (validInputCheck.validIdx) {
@@ -90,21 +110,9 @@ const ArtistRegistModal = ({
     }
   }, [validInputCheck]);
 
-  const handleAddYoutubeUrl = () => {
-    const updatedInfo = { ...registInfo };
-    updatedInfo.youtubeUrl.push('');
-    setRegistInfo(updatedInfo);
-  };
-
-  const handleRemoveYoutubeUrl = (index: number) => {
-    // 유튜브 링크 입력 필드를 제거합니다.
-    const updatedInfo = { ...registInfo };
-    updatedInfo.youtubeUrl.splice(index, 1);
-    setRegistInfo(updatedInfo);
-  };
-
   const handleRegister = () => {
     if (validArtistRegistInfo()) {
+      console.log(inputList);
       axios.post('/artist-regist', registInfo).then((res) => {
         console.log(res.data);
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
@@ -175,34 +183,35 @@ const ArtistRegistModal = ({
               <Subtitle>아티스트님의 다양한 활약을 보여주세요</Subtitle>
               <Contents>
                 <div className="formlist">
-                  {registInfo.youtubeUrl.map((url, index) => (
-                    <div className="rows" key={index}>
-                      <FormForText
-                        title={`유튜브 링크 #${index + 1}을 입력해주세요`}
-                        placeholder="본인 유튜브 채널이 아니어도 좋아요"
-                        validIdx={4}
-                        setValid={setValidInputCheck}
-                        errorCheck={validNoneCheck}
-                        initKeyword={url}
-                      />
-                      {index > 0 && (
-                        <div className="button">
-                          <div
-                            className="minus"
-                            onClick={() => handleRemoveYoutubeUrl(index)}
+                  <InputContainer>
+                    <ContentTitle>유튜브 링크가 있으신가요?</ContentTitle>
+                    {inputList.map((input, index) => (
+                      <InputBox key={index}>
+                        <InputField
+                          placeholder="유튜브 링크를 입력해주세요"
+                          type="text"
+                          value={input}
+                          onChange={(e) =>
+                            handleInputChange(index, e.target.value)
+                          }
+                        />
+                        {inputList.length > 1 && (
+                          <RemoveButton
+                            onClick={() => handleRemoveInput(index)}
                           >
                             삭제
                             <CancelSvg />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                  <div className="button">
-                    <div className="plus" onClick={handleAddYoutubeUrl}>
-                      새로운 링크 추가
-                    </div>
-                  </div>
+                          </RemoveButton>
+                        )}
+                      </InputBox>
+                    ))}
+                    {inputList.length < 5 && (
+                      <AddButton onClick={handleAddInput}>
+                        <LinkSvg />
+                        링크 추가
+                      </AddButton>
+                    )}
+                  </InputContainer>
                 </div>
                 <FormForText
                   title="팬카페 링크가 있으신가요?"
@@ -270,33 +279,6 @@ const Contents = styled.div`
 
     > .rows {
       margin-bottom: 15px;
-    }
-  }
-  .button {
-    width: fit-content;
-    height: fit-content;
-    margin-top: 25px;
-    display: flex;
-    gap: 10px;
-    margin-right: -20px;
-    font-weight: 600;
-    font-size: 14px;
-
-    .minus {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      color: var(--error-color);
-      svg {
-        color: var(--error-color);
-        width: 15px;
-        height: 15px;
-      }
-    }
-
-    .plus {
-      margin: -20px 0 20px;
-      color: var(--main1-color);
     }
   }
 `;
@@ -376,7 +358,73 @@ const ButtonForRegist = styled.div`
   background-color: var(--main1-color);
   color: var(--white-color);
   padding: 8px 20px;
+  font-weight: 400;
   border-radius: 6px;
+`;
+
+//
+
+const ContentTitle = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+`;
+
+const InputField = styled.input`
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid var(--main2-color);
+  width: 380px;
+  &::placeholder {
+    color: var(--gray-color);
+    font-weight: 300;
+  }
+  &:focus {
+    outline: none !important;
+  }
+`;
+
+const AddButton = styled.div`
+  margin: -5px 0 10px;
+  color: var(--main1-color);
+  font-weight: 600;
+  font-size: 14px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const RemoveButton = styled.button`
+  color: var(--error-color);
+  align-items: center;
+  gap: 4px;
+  display: flex;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    color: var(--error-color);
+  }
 `;
 
 export default ArtistRegistModal;
