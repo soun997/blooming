@@ -30,12 +30,12 @@ public class JwtSetupService {
         JwtToken jwtToken = jwtProvider.createJwtToken(loginUser);
 
         response.addHeader(SET_COOKIE,
-                setCookie(accessTokenHeaderTag, jwtToken.getAccessToken()).toString());
+                createCookie(accessTokenHeaderTag, jwtToken.getAccessToken()).toString());
         response.addHeader(SET_COOKIE,
-                setCookie(refreshTokenHeaderTag, jwtToken.getRefreshToken()).toString());
+                createCookie(refreshTokenHeaderTag, jwtToken.getRefreshToken()).toString());
     }
 
-    private ResponseCookie setCookie(String key, String value) {
+    private ResponseCookie createCookie(String key, String value) {
         return ResponseCookie.from(key, value)
                 .path("/")
                 .domain(clientHost)
