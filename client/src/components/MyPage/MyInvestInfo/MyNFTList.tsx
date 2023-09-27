@@ -1,12 +1,33 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { ReactComponent as ArrowSvg } from '@assets/icons/arrow-right.svg';
 import { MyNftInfo } from '@type/MyPage';
+import { NFTListElement } from './ListElement';
 
 interface Props {
   nowNftInfo: MyNftInfo[] | undefined;
   doneNftInfo: MyNftInfo[] | undefined;
 }
 const MyNFTList = ({ nowNftInfo, doneNftInfo }: Props) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedNft, setSelectedNft] = useState<MyNftInfo[] | null>(null);
+
+  const openModal = (nft: MyNftInfo[]) => {
+    setSelectedNft(nft);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedNft(null);
+    setModalOpen(false);
+  };
+
+  const handleModalContainerClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   if (!nowNftInfo || !doneNftInfo) {
     return <></>;
   }
@@ -15,45 +36,34 @@ const MyNFTList = ({ nowNftInfo, doneNftInfo }: Props) => {
       <ResultEachFrame>
         <div className="title">
           <div className="text">정산 완료된 활동</div>
-          <div className="moreInfo">
+          <div className="moreInfo" onClick={() => openModal(doneNftInfo)}>
             더보기 <ArrowSvg />
           </div>
         </div>
         {doneNftInfo?.slice(0, 3).map((nft, idx) => (
-          <ListElement key={idx}>
-            <div className="left">
-              <img src={nft.profileImg} />
-              <div className="info">
-                <div className="name">{nft.name}</div>
-                <div className="artist">{nft.artistName}</div>
-              </div>
-            </div>
-
-            <div className="rate">시즌 {nft.seasonNum}</div>
-          </ListElement>
+          <NFTListElement nft={nft} key={idx} />
         ))}
       </ResultEachFrame>
       <ResultEachFrame>
         <div className="title">
           <div className="text">진행 중인 활동</div>
-          <div className="moreInfo">
+          <div className="moreInfo" onClick={() => openModal(nowNftInfo)}>
             더보기 <ArrowSvg />
           </div>
         </div>
         {doneNftInfo?.slice(0, 3).map((nft, idx) => (
-          <ListElement key={idx}>
-            <div className="left">
-              <img src={nft.profileImg} />
-              <div className="info">
-                <div className="name">{nft.name}</div>
-                <div className="artist">{nft.artistName}</div>
-              </div>
-            </div>
-
-            <div className="rate">시즌 {nft.seasonNum}</div>
-          </ListElement>
+          <NFTListElement nft={nft} key={idx} />
         ))}
       </ResultEachFrame>
+      {isModalOpen && selectedNft && (
+        <ModalContainer onClick={handleModalContainerClick}>
+          <ModalContent>
+            {selectedNft?.map((nft, idx) => (
+              <NFTListElement nft={nft} key={idx} />
+            ))}
+          </ModalContent>
+        </ModalContainer>
+      )}
     </>
   );
 };
@@ -87,39 +97,56 @@ const ResultEachFrame = styled.div`
   }
 `;
 
-const ListElement = styled.div`
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  gap: 20px;
-  justify-content: space-between;
-
-  .rate {
-    font-weight: 700;
-    color: var(--main1-color);
-  }
-  .left {
-    display: flex;
-    gap: 12px;
-    .info {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      .name {
-        font-weight: 600;
-        font-size: 16px;
-      }
-      .artist {
-        font-size: 14px;
-        color: var(--main2-color);
-        font-weight: 600;
-      }
-    }
-  }
-  img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 `;
 
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 50px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  width: 50dvh;
+  height: 60dvh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 100vh;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 15px;
+    background-color: var(--main2-color);
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--gray-color);
+    border-radius: 6px;
+  }
+
+  button {
+    background-color: var(--main1-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+  }
+`;
 export default MyNFTList;

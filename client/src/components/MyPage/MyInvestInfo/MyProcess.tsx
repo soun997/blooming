@@ -170,16 +170,17 @@ const TabItem = styled.div<TabItemProps>`
   justify-content: center;
   align-items: center;
   width: 70px;
-  padding: 10px 15px;
-  border-radius: 6px;
+  height: 70px;
+  padding: 15px;
+  border-radius: 50%;
   background-color: var(--background2-color);
   font-weight: 600;
   font-size: 14px;
-  gap: 12px;
+  gap: 10px;
 
   svg {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
   ${({ active }) =>
     active &&
