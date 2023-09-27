@@ -1,67 +1,113 @@
-import { MySettleFundingInfo, MyUnSettleFundingInfo } from '@type/MyPage';
-import React from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { MySettleFundingInfo, MyUnSettleFundingInfo } from '@type/MyPage';
 import { ReactComponent as ArrowSvg } from '@assets/icons/arrow-right.svg';
+import {
+  FundingSettleListElement,
+  FundingUnSettleListElement,
+} from './ListElement';
 
 interface Props {
   nowSettleFundingInfo: MySettleFundingInfo[] | undefined;
   nowUnSettleFundingInfo: MyUnSettleFundingInfo[] | undefined;
 }
+
 const MyFundingList = ({
   nowSettleFundingInfo,
   nowUnSettleFundingInfo,
 }: Props) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedFunding, setSelectedFunding] = useState<
+    MySettleFundingInfo[] | MyUnSettleFundingInfo[] | null
+  >();
+
+  const openModal = (
+    funding: MySettleFundingInfo[] | MyUnSettleFundingInfo[],
+  ) => {
+    setSelectedFunding(funding);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedFunding(null);
+    setModalOpen(false);
+  };
+
+  const handleModalContainerClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   if (!nowSettleFundingInfo || !nowUnSettleFundingInfo) {
     return <></>;
   }
+
+  const renderFundingList = () => {
+    if (selectedFunding) {
+      // selectedFunding의 타입에 따라 조건부 렌더링
+      if (Array.isArray(selectedFunding) && selectedFunding.length > 0) {
+        if ('profitRate' in selectedFunding[0]) {
+          return selectedFunding.map((funding, idx) => (
+            <FundingSettleListElement
+              funding={funding as MySettleFundingInfo}
+              key={idx}
+            />
+          ));
+        } else {
+          return selectedFunding.map((funding, idx) => (
+            <FundingUnSettleListElement
+              funding={funding as MyUnSettleFundingInfo}
+              key={idx}
+            />
+          ));
+        }
+      } else {
+        return <div>No funding data available.</div>;
+      }
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       <ResultEachFrame>
         <div className="title">
           <div className="text">정산 완료된 활동</div>
-          <div className="moreInfo">
+          <div
+            className="moreInfo"
+            onClick={() => openModal(nowSettleFundingInfo)}
+          >
             더보기 <ArrowSvg />
           </div>
         </div>
         {nowSettleFundingInfo?.slice(0, 3).map((funding, idx) => (
-          <ListElement key={idx}>
-            <div className="left">
-              <img src={funding.fundingImg} />
-              <div className="info">
-                <div className="name">{funding.name}</div>
-                <div className="artist">{funding.artistName}</div>
-              </div>
-            </div>
-
-            <div className="rate">{funding.profitRate} %</div>
-          </ListElement>
+          <FundingSettleListElement funding={funding} key={idx} />
         ))}
       </ResultEachFrame>
       <ResultEachFrame>
         <div className="title">
           <div className="text">진행 중인 활동</div>
-          <div className="moreInfo">
+          <div
+            className="moreInfo"
+            onClick={() => openModal(nowUnSettleFundingInfo)}
+          >
             더보기 <ArrowSvg />
           </div>
         </div>
         {nowUnSettleFundingInfo?.slice(0, 3).map((funding, idx) => (
-          <ListElement key={idx}>
-            <div className="left">
-              <img src={funding.fundingImg} />
-              <div className="info">
-                <div className="name">{funding.name}</div>
-                <div className="artist">{funding.artistName}</div>
-              </div>
-            </div>
-
-            <div className="rate">{funding.achiveRate} %</div>
-          </ListElement>
+          <FundingUnSettleListElement funding={funding} key={idx} />
         ))}
       </ResultEachFrame>
+      {isModalOpen && selectedFunding && (
+        <ModalContainer onClick={handleModalContainerClick}>
+          <ModalContent>{renderFundingList()}</ModalContent>
+        </ModalContainer>
+      )}
     </>
   );
 };
-
 const ResultEachFrame = styled.div`
   flex: 1;
   gap: 15px;
@@ -91,39 +137,56 @@ const ResultEachFrame = styled.div`
   }
 `;
 
-const ListElement = styled.div`
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  gap: 20px;
-  justify-content: space-between;
-
-  .rate {
-    font-weight: 700;
-    color: var(--main1-color);
-  }
-  .left {
-    display: flex;
-    gap: 12px;
-    .info {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      .name {
-        font-weight: 600;
-        font-size: 16px;
-      }
-      .artist {
-        font-size: 14px;
-        color: var(--main2-color);
-        font-weight: 600;
-      }
-    }
-  }
-  img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 `;
 
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 50px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  width: 50dvh;
+  height: 60dvh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 100vh;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 15px;
+    background-color: var(--main2-color);
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--gray-color);
+    border-radius: 6px;
+  }
+
+  button {
+    background-color: var(--main1-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+  }
+`;
 export default MyFundingList;
