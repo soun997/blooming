@@ -13,7 +13,7 @@ const initData: ArtistRequestInfo = {
   agency: '',
   description: '',
   profileImageUrl: '',
-  youtubeUrl: '',
+  youtubeUrl: [''],
   fanCafeUrl: '',
   snsUrl: '',
 };

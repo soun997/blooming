@@ -5,7 +5,7 @@ const MainPage = () => {
   return (
     <div>
       MainPage
-      <CheckoutPage></CheckoutPage>
+      {/* <CheckoutPage ></CheckoutPage> */}
     </div>
   );
 };
