@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import axios from '@api/apiController';
+import { useNavigate } from 'react-router';
 import {
   isNonEmptyString,
   validCompanyName,
@@ -12,10 +14,9 @@ import {
 } from '@components/AddFundPage/FormComponent';
 import { ValidCheck } from '@components/AddFundPage/ProjectInfo';
 import { ArtistRequestInfo } from '@type/ArtistRequest';
-import axios from '@api/apiController';
-import { useNavigate } from 'react-router';
 import { POST_CATEGORY } from '@components/common/constant';
 
+import { ReactComponent as CancelSvg } from '@assets/icons/cancel.svg';
 const ArtistRegistModal = ({
   isOpen,
   closeModal,
@@ -31,7 +32,7 @@ const ArtistRegistModal = ({
     fanCafeUrl: '',
     profileImageUrl: '',
     snsUrl: '',
-    youtubeUrl: '',
+    youtubeUrl: [''], // 초기에 한 개의 입력 필드를 생성합니다.
   });
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
     validIdx: 0,
@@ -41,64 +42,69 @@ const ArtistRegistModal = ({
 
   useEffect(() => {
     if (validInputCheck.isValid) {
+      const updatedInfo = { ...registInfo };
+
       switch (validInputCheck.validIdx) {
         case 0:
-          //stage name
-          registInfo.stageName = validInputCheck.validValue;
+          updatedInfo.stageName = validInputCheck.validValue;
           break;
         case 1:
-          // agency
-          registInfo.agency = validInputCheck.validValue;
+          updatedInfo.agency = validInputCheck.validValue;
           break;
         case 2:
-          // description
-          registInfo.description = validInputCheck.validValue;
+          updatedInfo.description = validInputCheck.validValue;
           break;
         case 3:
-          // profileImageUrl
-          registInfo.profileImageUrl = validInputCheck.validValue;
+          updatedInfo.profileImageUrl = validInputCheck.validValue;
           break;
         case 4:
-          // youtubeUrl
-          registInfo.youtubeUrl = validInputCheck.validValue;
+          updatedInfo.youtubeUrl[-1] = validInputCheck.validValue;
           break;
         case 5:
-          // fanCafeUrl
-          registInfo.fanCafeUrl = validInputCheck.validValue;
+          updatedInfo.fanCafeUrl = validInputCheck.validValue;
           break;
         case 6:
-          // snsUrl
-          registInfo.snsUrl = validInputCheck.validValue;
+          updatedInfo.snsUrl = validInputCheck.validValue;
           break;
 
         default:
           break;
       }
+
+      setRegistInfo(updatedInfo);
     } else {
       switch (validInputCheck.validIdx) {
         case 0:
-          //stage name
           registInfo.stageName = '';
           break;
         case 1:
-          // agency
           registInfo.agency = '';
           break;
         case 2:
-          // description
           registInfo.description = '';
           break;
         case 3:
-          // profileImageUrl
           registInfo.profileImageUrl = '';
           break;
       }
     }
   }, [validInputCheck]);
 
+  const handleAddYoutubeUrl = () => {
+    const updatedInfo = { ...registInfo };
+    updatedInfo.youtubeUrl.push('');
+    setRegistInfo(updatedInfo);
+  };
+
+  const handleRemoveYoutubeUrl = (index: number) => {
+    // 유튜브 링크 입력 필드를 제거합니다.
+    const updatedInfo = { ...registInfo };
+    updatedInfo.youtubeUrl.splice(index, 1);
+    setRegistInfo(updatedInfo);
+  };
+
   const handleRegister = () => {
     if (validArtistRegistInfo()) {
-      //api 호출
       axios.post('/artist-regist', registInfo).then((res) => {
         console.log(res.data);
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
@@ -168,14 +174,36 @@ const ArtistRegistModal = ({
             <QuestionFrame>
               <Subtitle>아티스트님의 다양한 활약을 보여주세요</Subtitle>
               <Contents>
-                <FormForText
-                  title="유튜브 링크를 입력해주세요"
-                  placeholder="본인 유튜브 채널이 아니어도 좋아요"
-                  validIdx={4}
-                  setValid={setValidInputCheck}
-                  errorCheck={validNoneCheck}
-                  initKeyword={''}
-                />
+                <div className="formlist">
+                  {registInfo.youtubeUrl.map((url, index) => (
+                    <div className="rows" key={index}>
+                      <FormForText
+                        title={`유튜브 링크 #${index + 1}을 입력해주세요`}
+                        placeholder="본인 유튜브 채널이 아니어도 좋아요"
+                        validIdx={4}
+                        setValid={setValidInputCheck}
+                        errorCheck={validNoneCheck}
+                        initKeyword={url}
+                      />
+                      {index > 0 && (
+                        <div className="button">
+                          <div
+                            className="minus"
+                            onClick={() => handleRemoveYoutubeUrl(index)}
+                          >
+                            삭제
+                            <CancelSvg />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <div className="button">
+                    <div className="plus" onClick={handleAddYoutubeUrl}>
+                      새로운 링크 추가
+                    </div>
+                  </div>
+                </div>
                 <FormForText
                   title="팬카페 링크가 있으신가요?"
                   placeholder="팬카페 링크를 입력해주세요"
@@ -234,6 +262,42 @@ const Contents = styled.div`
     display: flex;
     align-items: center;
     gap: 20px;
+  }
+
+  .formlist {
+    display: flex;
+    flex-direction: column;
+
+    > .rows {
+      margin-bottom: 15px;
+    }
+  }
+  .button {
+    width: fit-content;
+    height: fit-content;
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    margin-right: -20px;
+    font-weight: 600;
+    font-size: 14px;
+
+    .minus {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      color: var(--error-color);
+      svg {
+        color: var(--error-color);
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    .plus {
+      margin: -20px 0 20px;
+      color: var(--main1-color);
+    }
   }
 `;
 
