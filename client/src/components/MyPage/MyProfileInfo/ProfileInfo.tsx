@@ -4,6 +4,7 @@ import Loading from '@components/Animation/Loading';
 import { ProfileInfo } from '@type/MyPage';
 import { ReactComponent as PencilSvg } from '@assets/icons/pencil.svg';
 import ArtistRegistModal from './ArtistRegistModal';
+import NicknameModal from './NicknameModal';
 
 interface Props {
   isArtist: boolean;
@@ -11,6 +12,7 @@ interface Props {
 }
 const Profile = ({ isArtist, profileInfo }: Props) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isNicknameModalOpen, seticknameModalOpen] = useState(false);
   if (!profileInfo) {
     return (
       <>
@@ -27,6 +29,14 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
     setModalOpen(false);
   };
 
+  const openNicknameModal = () => {
+    seticknameModalOpen(true);
+  };
+
+  const closeNicknameModal = () => {
+    seticknameModalOpen(false);
+  };
+
   return (
     <ProfileFrame>
       <ProfileImg>
@@ -34,7 +44,7 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
       </ProfileImg>
       <ProfileName>
         {profileInfo.nickname}
-        <PencilSvg onClick={() => {}} />
+        <PencilSvg onClick={openNicknameModal} />
       </ProfileName>
       <ProfileQualification>
         {isArtist ? (
@@ -57,6 +67,10 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
         )}
       </ProfileQualification>
       <ArtistRegistModal isOpen={isModalOpen} closeModal={closeModal} />
+      <NicknameModal
+        isOpen={isNicknameModalOpen}
+        closeModal={closeNicknameModal}
+      />
     </ProfileFrame>
   );
 };

@@ -8,7 +8,7 @@ import {
   ProfitInfo,
   SettlementInfo,
 } from '@type/MyPage';
-import Profile from '@components/MyPage/ProfileInfo';
+import Profile from '@components/MyPage/MyProfileInfo/ProfileInfo';
 import MyProcess from '@components/MyPage/MyInvestInfo/MyProcess';
 
 import axiosTemp from '@api/apiControllerTemp';
