@@ -45,7 +45,6 @@ const MyFundingList = ({
 
   const renderFundingList = () => {
     if (selectedFunding) {
-      // selectedFunding의 타입에 따라 조건부 렌더링
       if (Array.isArray(selectedFunding) && selectedFunding.length > 0) {
         if ('profitRate' in selectedFunding[0]) {
           return selectedFunding.map((funding, idx) => (
@@ -74,7 +73,7 @@ const MyFundingList = ({
     <>
       <ResultEachFrame>
         <div className="title">
-          <div className="text">정산 완료된 활동</div>
+          <div className="text">정산 완료된 펀딩</div>
           <div
             className="moreInfo"
             onClick={() => openModal(nowSettleFundingInfo)}
@@ -82,13 +81,14 @@ const MyFundingList = ({
             더보기 <ArrowSvg />
           </div>
         </div>
+        {nowSettleFundingInfo.length === 0 && <>아직 펀딩한 내역이 없어요</>}
         {nowSettleFundingInfo?.slice(0, 3).map((funding, idx) => (
           <FundingSettleListElement funding={funding} key={idx} />
         ))}
       </ResultEachFrame>
       <ResultEachFrame>
         <div className="title">
-          <div className="text">진행 중인 활동</div>
+          <div className="text">진행 중인 펀딩</div>
           <div
             className="moreInfo"
             onClick={() => openModal(nowUnSettleFundingInfo)}
@@ -96,6 +96,7 @@ const MyFundingList = ({
             더보기 <ArrowSvg />
           </div>
         </div>
+        {nowUnSettleFundingInfo.length === 0 && <>아직 펀딩한 내역이 없어요</>}
         {nowUnSettleFundingInfo?.slice(0, 3).map((funding, idx) => (
           <FundingUnSettleListElement funding={funding} key={idx} />
         ))}

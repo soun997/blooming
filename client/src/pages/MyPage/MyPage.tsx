@@ -16,8 +16,10 @@ import axiosTemp from '@api/apiControllerTemp';
 import { ReactComponent as FileSvg } from '@assets/icons/dollar-clipboard-file.svg';
 import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const [profileInfo, setProfileInfo] = useState<ProfileInfo>();
   const [isArtist, setIsArtist] = useState<boolean>(false);
   const [profitInfo, setProfitInfo] = useState<ProfitInfo>();
@@ -54,7 +56,13 @@ const MyPage = () => {
                   <ApplySvg />
                   멤버쉽 신청
                 </TabItem>
-                <TabItem active={nowTab === 3} onClick={() => setNowTab(3)}>
+                <TabItem
+                  active={nowTab === 3}
+                  onClick={() => {
+                    setNowTab(3);
+                    navigate('/add-fund');
+                  }}
+                >
                   <ApplySvg />
                   펀딩 등록
                 </TabItem>

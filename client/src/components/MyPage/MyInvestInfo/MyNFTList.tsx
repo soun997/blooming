@@ -35,23 +35,25 @@ const MyNFTList = ({ nowNftInfo, doneNftInfo }: Props) => {
     <>
       <ResultEachFrame>
         <div className="title">
-          <div className="text">정산 완료된 활동</div>
+          <div className="text">현재 진행중인 멤버쉽</div>
           <div className="moreInfo" onClick={() => openModal(doneNftInfo)}>
             더보기 <ArrowSvg />
           </div>
         </div>
+        {doneNftInfo.length === 0 && <>아직 구입한 내역이 없어요</>}
         {doneNftInfo?.slice(0, 3).map((nft, idx) => (
           <NFTListElement nft={nft} key={idx} />
         ))}
       </ResultEachFrame>
       <ResultEachFrame>
         <div className="title">
-          <div className="text">진행 중인 활동</div>
+          <div className="text">진행 종료된 멤버쉽</div>
           <div className="moreInfo" onClick={() => openModal(nowNftInfo)}>
             더보기 <ArrowSvg />
           </div>
         </div>
-        {doneNftInfo?.slice(0, 3).map((nft, idx) => (
+        {nowNftInfo.length === 0 && <>아직 구입한 내역이 없어요</>}
+        {nowNftInfo?.slice(0, 3).map((nft, idx) => (
           <NFTListElement nft={nft} key={idx} />
         ))}
       </ResultEachFrame>
