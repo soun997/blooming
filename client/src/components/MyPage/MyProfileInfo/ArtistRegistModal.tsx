@@ -35,24 +35,24 @@ const ArtistRegistModal = ({
     snsUrl: '',
     youtubeUrl: [],
   });
-  const [inputList, setInputList] = useState<string[]>(['']);
+  const [youtubeUrlList, setYoutubeUrlList] = useState<string[]>(['']);
 
   const handleInputChange = (index: number, value: string) => {
-    const newList = [...inputList];
+    const newList = [...youtubeUrlList];
     newList[index] = value;
-    setInputList(newList);
+    setYoutubeUrlList(newList);
   };
 
   const handleAddInput = () => {
-    if (inputList.length < 5) {
-      setInputList([...inputList, '']);
+    if (youtubeUrlList.length < 5) {
+      setYoutubeUrlList([...youtubeUrlList, '']);
     }
   };
 
   const handleRemoveInput = (index: number) => {
-    const newList = [...inputList];
+    const newList = [...youtubeUrlList];
     newList.splice(index, 1);
-    setInputList(newList);
+    setYoutubeUrlList(newList);
   };
 
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
@@ -112,9 +112,10 @@ const ArtistRegistModal = ({
 
   const handleRegister = () => {
     if (validArtistRegistInfo()) {
-      console.log(inputList);
+      registInfo.youtubeUrl = youtubeUrlList;
+      // console.log(registInfo);
       axios.post('/artist-regist', registInfo).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
       });
     } else {
@@ -185,7 +186,7 @@ const ArtistRegistModal = ({
                 <div className="formlist">
                   <InputContainer>
                     <ContentTitle>유튜브 링크가 있으신가요?</ContentTitle>
-                    {inputList.map((input, index) => (
+                    {youtubeUrlList.map((input, index) => (
                       <InputBox key={index}>
                         <InputField
                           placeholder="유튜브 링크를 입력해주세요"
@@ -195,7 +196,7 @@ const ArtistRegistModal = ({
                             handleInputChange(index, e.target.value)
                           }
                         />
-                        {inputList.length > 1 && (
+                        {youtubeUrlList.length > 1 && (
                           <RemoveButton
                             onClick={() => handleRemoveInput(index)}
                           >
@@ -205,7 +206,7 @@ const ArtistRegistModal = ({
                         )}
                       </InputBox>
                     ))}
-                    {inputList.length < 5 && (
+                    {youtubeUrlList.length < 5 && (
                       <AddButton onClick={handleAddInput}>
                         <LinkSvg />
                         링크 추가
