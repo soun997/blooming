@@ -1,40 +1,49 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+
 import axiosTemp from '@api/apiControllerTemp';
-import { NFTProcessApplication } from '@type/ApplicationList';
+
+import {
+  FundingProcessApplication,
+  NFTProcessApplication,
+} from '@type/ApplicationList';
+
 import Loading from '@components/Animation/Loading';
 import NoSearchResults from '@components/Search/NoSearchResults';
 
-const MembershipList = () => {
+const FundingList = () => {
   const [activeTab, setActiveTab] = useState('inProgress'); // 현재 활성 탭 상태
 
   // API 엔드포인트와 쿼리 키 설정
   const apiEndpoint = getApiEndpointByTab(activeTab); // activeTab에 따라 엔드포인트 설정
-  const queryKey = ['membershipList', activeTab];
+  const queryKey = ['fundingList', activeTab];
 
   // React Query를 사용하여 데이터 가져오기
-  const { data, isLoading, isError } = useQuery<NFTProcessApplication[], Error>(
+  const { data, isLoading, isError } = useQuery<
+    FundingProcessApplication[],
+    Error
+  >(
     queryKey,
-    fetchMembershipData, // 데이터를 가져오는 함수
+    fetchFundingData, // 데이터를 가져오는 함수
   );
 
   // API 엔드포인트를 탭에 따라 설정하는 함수
   function getApiEndpointByTab(tab: string): string {
     switch (tab) {
       case 'inProgress':
-        return '/application-nft-inprogress';
+        return '/application-funding-inprogress';
       case 'admit':
-        return '/application-nft-admit';
+        return '/application-funding-admit';
       case 'reject':
-        return '/application-nft-reject';
+        return '/application-funding-reject';
       default:
         throw new Error(`Invalid tab: ${tab}`);
     }
   }
 
   // 데이터를 가져오는 함수
-  async function fetchMembershipData(): Promise<NFTProcessApplication[]> {
+  async function fetchFundingData(): Promise<FundingProcessApplication[]> {
     const response = await axiosTemp.get(apiEndpoint);
     console.log(response.data);
     return response.data.applicationList;
@@ -75,16 +84,16 @@ const MembershipList = () => {
         </div>
       ) : (
         <ResultDataFrame>
-          {data?.map((nft, idx) => (
+          {data?.map((funding, idx) => (
             <EachResultData key={idx}>
               <ThumbnailImg>
-                <img src={nft.thumbnailUrl} />
+                <img src={funding.thumbnailUrl} />
               </ThumbnailImg>
               <TextInfo>
-                <div className="title">{nft.title}</div>
+                <div className="title">{funding.title}</div>
                 <div className="info">
-                  {nft.seasonStart.split('T')[0].toString()} ~{' '}
-                  {nft.seasonEnd.split('T')[0].toString()}
+                  {funding.startDate.split('T')[0].toString()} ~{' '}
+                  {funding.endDate.split('T')[0].toString()}
                 </div>
               </TextInfo>
             </EachResultData>
@@ -158,4 +167,4 @@ const TextInfo = styled.div`
     font-size: 14px;
   }
 `;
-export default MembershipList;
+export default FundingList;
