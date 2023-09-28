@@ -148,18 +148,4 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
     public List<Live> searchBestLive(int numberOfLives) {
         return livePort.findTopLivesByNumberOfViewers(numberOfLives);
     }
-
-    @Override
-    public void createObject(Long liveId) {
-        // TODO: redisTestTemp
-        livePort.saveStreaming(liveId);
-
-    }
-
-    @Override
-    public void addViewer(Long liveId) {
-        // TODO: redisTestTemp
-        livePort.updateStreamingViewers(liveId);
-
-    }
 }

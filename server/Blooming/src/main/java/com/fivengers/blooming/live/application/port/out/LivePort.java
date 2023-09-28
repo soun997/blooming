@@ -13,7 +13,7 @@ public interface LivePort {
     Page<Live> findByKeyword(String keyword, Pageable pageable);
     Page<Live> findByArtistStageName(String keyword, Pageable pageable);
 
-    Optional<Long> findActiveLiveIdByArtist(Long liveId);
+    Optional<Long> findActiveLiveIdByArtist(Long artistId);
 
     boolean isNonExistentLive(Long liveId);
     Live save(Live live);
@@ -22,9 +22,4 @@ public interface LivePort {
 
     List<Live> findTopLivesByNumberOfViewers(int numberOfLives);
 
-    // TODO: redisTestTemp
-    void saveStreaming(Long liveId);
-
-    // TODO: redisTestTemp
-    void updateStreamingViewers(Long liveId);
 }

@@ -20,9 +20,4 @@ public interface LiveSearchUseCase {
 
     List<Live> searchBestLive(int numberOfLives);
 
-    // TODO: redisTestTemp
-    void createObject(Long liveId);
-    // TODO: redisTestTemp
-    void addViewer(Long liveId);
-
 }
