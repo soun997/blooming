@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
 @Transactional(readOnly = true)
 public class LivePersistenceAdapter implements LivePort {
 
-    private final String KEY = "activeLive";
+    private final String REDIS_ACTIVE_LIVE_KEY = "activeLive";
 
     private final LiveMapper liveMapper;
     private final LiveQueryRepository liveQueryRepository;
@@ -99,7 +99,7 @@ public class LivePersistenceAdapter implements LivePort {
     @Override
     public List<Live> findTopLivesByNumberOfViewers(int numberOfLives) {
         Set<TypedTuple<Long>> topActiveLiveTuples = redisTemplate.opsForZSet()
-                .rangeByScoreWithScores(KEY, 0, 1000, 0, numberOfLives);
+                .rangeByScoreWithScores(REDIS_ACTIVE_LIVE_KEY, 0, 1000, 0, numberOfLives);
         Assert.notNull(topActiveLiveTuples, "시청자 수 정보가 null 일 수 없습니다.");
 
         Map<Long, Integer> topActiveLivesViewerInfo = convertTupleToMap(topActiveLiveTuples);
