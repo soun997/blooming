@@ -37,6 +37,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveArtistUseCase {
 
+    private static final Long NOT_EXIST_ID = -1L;
+
+
     private final LivePort livePort;
     private final ArtistPort artistPort;
 
@@ -137,12 +140,26 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
     }
 
     @Override
-    public boolean checkActiveLive(Long liveId) {
-        return livePort.isActiveLive(liveId);
+    public Long checkActiveLive(Long artistId) {
+        return livePort.findActiveLiveIdByArtist(artistId).orElse(NOT_EXIST_ID);
     }
 
     @Override
     public List<Live> searchBestLive(int numberOfLives) {
         return livePort.findTopLivesByNumberOfViewers(numberOfLives);
+    }
+
+    @Override
+    public void createObject(Long liveId) {
+        // TODO: redisTestTemp
+        livePort.saveStreaming(liveId);
+
+    }
+
+    @Override
+    public void addViewer(Long liveId) {
+        // TODO: redisTestTemp
+        livePort.updateStreamingViewers(liveId);
+
     }
 }

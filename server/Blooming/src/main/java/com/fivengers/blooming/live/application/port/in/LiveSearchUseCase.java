@@ -16,7 +16,13 @@ public interface LiveSearchUseCase {
     List<LiveFrequency> searchLiveFrequencyByArtist(
             LiveFrequencyDetailsRequest liveFrequencyDetailsRequest);
 
-    boolean checkActiveLive(Long liveId);
+    Long checkActiveLive(Long artistId);
 
     List<Live> searchBestLive(int numberOfLives);
+
+    // TODO: redisTestTemp
+    void createObject(Long liveId);
+    // TODO: redisTestTemp
+    void addViewer(Long liveId);
+
 }
