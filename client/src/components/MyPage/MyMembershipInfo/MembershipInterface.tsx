@@ -11,7 +11,7 @@ const MembershipInterface = () => {
   const [membershipData, setMembershipData] =
     useState<NFTProcessApplication[]>();
   useEffect(() => {
-    axiosTemp.get('/application-nft').then((res) => {
+    axiosTemp.get('/application-nft-inprogress').then((res) => {
       setMembershipData(res.data.applicationList);
       setMembershipStatus(res.data.canGenerateNewNft);
     });
@@ -39,7 +39,7 @@ const MembershipInterface = () => {
         )}
       </Title>
 
-      <MembershipList data={membershipData} />
+      <MembershipList />
     </Frame>
   );
 };

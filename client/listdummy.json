@@ -510,25 +510,22 @@
     ]
   },
 
-  "application-nft": {
+  "application-nft-inprogress": {
     "canGenerateNewNft": false,
     "applicationList": [
       {
         "membershipId": "123",
-        "title": "hello",
+        "title": "hello-ing",
         "thumbnailUrl": "src/assets/images/ive.jpg",
         "seasonStart": "2023-09-26T14:21:52.0344679",
         "seasonEnd": "2024-09-26T14:21:52.0344679",
         "status": "IN PROCESS"
-      },
-      {
-        "membershipId": "123",
-        "title": "hello22",
-        "thumbnailUrl": "src/assets/images/ive.jpg",
-        "seasonStart": "2023-09-26T14:21:52.0344679",
-        "seasonEnd": "2024-09-26T14:21:52.0344679",
-        "status": "REJECT"
-      },
+      }
+    ]
+  },
+  "application-nft-admit": {
+    "canGenerateNewNft": false,
+    "applicationList": [
       {
         "membershipId": "123",
         "title": "hello333",
@@ -539,6 +536,28 @@
       }
     ]
   },
+  "application-nft-reject": {
+    "canGenerateNewNft": false,
+    "applicationList": [
+      {
+        "membershipId": "123",
+        "title": "hello",
+        "thumbnailUrl": "src/assets/images/ive.jpg",
+        "seasonStart": "2023-09-26T14:21:52.0344679",
+        "seasonEnd": "2024-09-26T14:21:52.0344679",
+        "status": "REJECT"
+      },
+      {
+        "membershipId": "123",
+        "title": "hello22",
+        "thumbnailUrl": "src/assets/images/ive.jpg",
+        "seasonStart": "2023-09-26T14:21:52.0344679",
+        "seasonEnd": "2024-09-26T14:21:52.0344679",
+        "status": "REJECT"
+      }
+    ]
+  },
+
   "application-funding": {
     "canGenerateNewFunding": false,
     "applicationList": [
