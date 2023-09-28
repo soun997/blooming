@@ -1,22 +1,25 @@
-import { ProcessInfo } from '@type/ProcessInfo';
 import React from 'react';
 import styled from 'styled-components';
+import { LiveInfo, ProcessInfo } from '@type/ProcessInfo';
 import { calculateDateDifference } from './EachRankBox';
 import ProgressBarFrame from '@components/Button/ProgressBar';
+import { ReactComponent as LiveSvg } from '@assets/icons/broadcast.svg';
 
 interface Props {
   data: ProcessInfo;
 }
 const ThumbnailEach: React.FC<Props> = ({ data }) => {
+  const leftDate = calculateDateDifference(new Date().toString(), data.endDate);
   return (
     <EachFrame>
-      <img src={data.profile_img}></img>
+      <img
+        src={data.profileImg ? data.profileImg : 'src/assets/images/nopic.jpg'}
+      ></img>
       <Info>
         <div className="txtInfo">
-          <div className="name">{data.name}</div>
+          <div className="name">{data.title}</div>
           <div className="leftDate">
-            {calculateDateDifference(new Date().toString(), data.endDate)} 일
-            남음
+            {Math.abs(leftDate)} 일{leftDate >= 0 ? ' 남음' : ' 지남'}
           </div>
         </div>
         <ProgressBarFrame
@@ -29,6 +32,30 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
     </EachFrame>
   );
 };
+const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
+  return (
+    <EachFrame>
+      <img
+        src={
+          data.artist.profileImageUrl
+            ? data.artist.profileImageUrl
+            : 'src/assets/images/nopic.jpg'
+        }
+      ></img>
+      <Info>
+        <div className="txtInfo">
+          <div className="name">
+            <LiveSvg />
+            <span className="liveinfo">
+              <div className="title">{data.title}</div>
+              <div className="artist"> @ {data.artist.stageName}</div>
+            </span>
+          </div>
+        </div>
+      </Info>
+    </EachFrame>
+  );
+};
 
 const EachFrame = styled.div`
   display: flex;
@@ -36,9 +63,10 @@ const EachFrame = styled.div`
   margin-bottom: 60px;
   cursor: pointer;
   img {
-    width: 300px;
-    height: 200px;
+    width: 350px;
+    height: 230px;
     border-radius: 3px;
+    object-fit: cover;
   }
 `;
 const Info = styled.div`
@@ -58,6 +86,36 @@ const Info = styled.div`
       font-weight: 600;
       line-height: 25px; /* 178.571% */
     }
+
+    .name {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .liveinfo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 320px;
+
+      svg {
+        width: 15px;
+        fill: var(--main4-color);
+      }
+
+      .title {
+        color: var(--main4-color);
+        font-weight: 700;
+        font-size: 15px;
+      }
+
+      .artist {
+        color: var(--main4-color);
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
   }
 `;
-export default ThumbnailEach;
+export { ThumbnailEach, ThumbnailEachLive };
