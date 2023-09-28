@@ -43,4 +43,8 @@ public class Live {
     public String getSessionId() {
         return SESSION_PREFIX + id;
     }
+
+    public void setNumberOfViewers(int numberOfViewers) {
+        this.numberOfViewers = numberOfViewers;
+    }
 }
