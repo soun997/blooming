@@ -152,11 +152,11 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
 
     @Override
     public void addParticipant(OpenviduWebhookRequest openviduWebhookRequest) {
-
+        livePort.updateParticipantCount(openviduWebhookRequest.sessionId(), 1);
     }
 
     @Override
     public void removeParticipant(OpenviduWebhookRequest openviduWebhookRequest) {
-
+        livePort.updateParticipantCount(openviduWebhookRequest.sessionId(), -1);
     }
 }
