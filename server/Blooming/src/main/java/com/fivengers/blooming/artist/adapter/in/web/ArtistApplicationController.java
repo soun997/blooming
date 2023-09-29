@@ -32,7 +32,7 @@ public class ArtistApplicationController {
 
     @GetMapping
     public ApiResponse<Page<ArtistApplicationListResponse>> artistApplicationList(Pageable pageable,
-            @RequestParam ArtistApplicationState state) {
+            @RequestParam(required = false) ArtistApplicationState state) {
         Page<ArtistApplication> artistApplications = artistApplicationUseCase.searchByArtistApplicationState(
                 pageable, state);
 
