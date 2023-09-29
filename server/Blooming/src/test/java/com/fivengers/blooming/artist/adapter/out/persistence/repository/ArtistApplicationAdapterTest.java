@@ -115,9 +115,6 @@ class ArtistApplicationAdapterTest {
         });
     }
 
-
-
-
     private static Stream<Arguments> providedArtistApplicationState() {
         return Stream.of(
                 Arguments.of(ArtistApplicationState.APPLY),
@@ -125,6 +122,47 @@ class ArtistApplicationAdapterTest {
                 Arguments.of(ArtistApplicationState.RETURN),
                 Arguments.of(ArtistApplicationState.APPROVAL)
         );
+    }
+
+    @Test
+    @DisplayName("상태가 null이면 전체 상태를 조회한다.")
+    void findArtistApplications() {
+        LocalDateTime now = LocalDateTime.now();
+        artistApplicationAdapter.save(ArtistApplication.builder()
+                .stageName("아이유 (IU)")
+                .description("아이유입니다.")
+                .agency("EDAM 엔터테인먼트")
+                .applicationState(ArtistApplicationState.REVIEW)
+                .profileImageUrl("https://image.com/iu")
+                .youtubeUrl("https://www.youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/iu")
+                .snsUrl("https://instagram.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .member(memberMapper.toDomain(member1))
+                .build());
+        artistApplicationAdapter.save(ArtistApplication.builder()
+                .stageName("박효신")
+                .description("박효신입니다.")
+                .agency("허비그하로")
+                .applicationState(ArtistApplicationState.APPROVAL)
+                .profileImageUrl("https://image.com/phs")
+                .youtubeUrl("https://www.youtube.com/phs")
+                .fanCafeUrl("https://cafe.daum.net/phs")
+                .snsUrl("https://instagram.com/phs")
+                .createdAt(now)
+                .modifiedAt(now)
+                .member(memberMapper.toDomain(member2))
+                .build());
+
+        Page<ArtistApplication> applications = artistApplicationAdapter.findByArtistApplicationState(
+                PageRequest.of(0, 10), null);
+
+        assertThat(applications).hasSize(2);
+        assertSoftly(as -> {
+            as.assertThat(applications.getContent().get(0).getApplicationState()).isEqualTo(ArtistApplicationState.REVIEW);
+            as.assertThat(applications.getContent().get(1).getApplicationState()).isEqualTo(ArtistApplicationState.APPROVAL);
+        });
     }
 
 }

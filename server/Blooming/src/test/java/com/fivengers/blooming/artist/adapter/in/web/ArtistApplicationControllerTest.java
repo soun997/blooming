@@ -110,7 +110,8 @@ class ArtistApplicationControllerTest extends RestDocsTest {
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isOk())
-                .andExpect(jsonPath("$.results.applicationState")
+                .andExpect(jsonPath("$.results.content[0].id").value(response.getId()))
+                .andExpect(jsonPath("$.results.content[0].applicationState")
                         .value(response.getApplicationState().getValue()));
 
         perform.andDo(print())
