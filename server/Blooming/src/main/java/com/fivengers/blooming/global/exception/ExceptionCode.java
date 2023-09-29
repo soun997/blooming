@@ -36,6 +36,7 @@ public enum ExceptionCode {
     JWT_MALFORMED(HttpStatus.UNAUTHORIZED, "ERR_JWT_002", "JWT가 손상되었습니다."),
     JWT_UNSUPPORTED(HttpStatus.UNAUTHORIZED, "ERR_JWT_003", "지원되지 않는 JWT 입니다."),
     JWT_INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "ERR_JWT_004", "signature가 유효하지 않습니다."),
+    JWT_NOT_FOUND(HttpStatus.UNAUTHORIZED, "ERR_JWT_005", "JWT를 찾을 수 없습니다."),
 
     SESSION_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_LIVE_001", "존재하지 않는 세션입니다."),
     INVALID_SESSION_ID(HttpStatus.BAD_REQUEST, "ERR_LIVE_002", "유효하지 않은 Session Id 입니다,"),

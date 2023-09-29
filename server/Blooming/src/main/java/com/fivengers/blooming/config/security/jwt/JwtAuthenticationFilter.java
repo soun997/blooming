@@ -1,10 +1,9 @@
 package com.fivengers.blooming.config.security.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fivengers.blooming.global.exception.ApplicationException;
 import com.fivengers.blooming.global.exception.ExceptionCode;
-import com.fivengers.blooming.global.response.ApiResponse;
-import com.fivengers.blooming.global.response.ErrorResponse;
+import com.fivengers.blooming.global.exception.ExceptionResponseUtils;
+import com.fivengers.blooming.global.exception.jwt.JwtNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -14,12 +13,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -38,41 +34,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             getTokensFromHeader(request).ifPresentOrElse(this::setTokenInSecurityContext,
                     () -> {
-                        throw new RuntimeException();
+                        throw new JwtNotFoundException();
                     });
 
             doFilter(request, response, filterChain);
         } catch (ExpiredJwtException e) {
-            responseException(response, ExceptionCode.JWT_EXPIRED,
+            ExceptionResponseUtils.responseHttpException(response, ExceptionCode.JWT_EXPIRED,
                     ExceptionCode.JWT_EXPIRED.getMessage());
         } catch (MalformedJwtException e) {
-            responseException(response, ExceptionCode.JWT_MALFORMED,
+            ExceptionResponseUtils.responseHttpException(response, ExceptionCode.JWT_MALFORMED,
                     ExceptionCode.JWT_MALFORMED.getMessage());
         } catch (UnsupportedJwtException e) {
-            responseException(response, ExceptionCode.JWT_UNSUPPORTED,
+            ExceptionResponseUtils.responseHttpException(response, ExceptionCode.JWT_UNSUPPORTED,
                     ExceptionCode.JWT_UNSUPPORTED.getMessage());
         } catch (SignatureException e) {
-            responseException(response, ExceptionCode.JWT_INVALID_SIGNATURE,
+            ExceptionResponseUtils.responseHttpException(response,
+                    ExceptionCode.JWT_INVALID_SIGNATURE,
                     ExceptionCode.JWT_INVALID_SIGNATURE.getMessage());
         } catch (ApplicationException e) {
-            responseException(response, e.getExceptionCode(), e.getExceptionCode().getMessage());
+            ExceptionResponseUtils.responseHttpException(response, e.getExceptionCode(),
+                    e.getExceptionCode().getMessage());
         } catch (Exception e) {
-            responseException(response, ExceptionCode.UNREGISTERED_EXCEPTION, e.getMessage());
+            ExceptionResponseUtils.responseHttpException(response,
+                    ExceptionCode.UNREGISTERED_EXCEPTION,
+                    e.getMessage());
         }
-    }
-
-    private void responseException(HttpServletResponse response, ExceptionCode exceptionCode,
-            String message) throws IOException {
-        response.setStatus(exceptionCode.getHttpStatus().value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-        PrintWriter writer = response.getWriter();
-        ObjectMapper objectMapper = new ObjectMapper();
-        writer.write(objectMapper.writeValueAsString(
-                ApiResponse.status(exceptionCode.getHttpStatus())
-                        .body(new ErrorResponse(exceptionCode.getErrorCode(), message))));
-        writer.flush();
     }
 
     private void setTokenInSecurityContext(String token) {
