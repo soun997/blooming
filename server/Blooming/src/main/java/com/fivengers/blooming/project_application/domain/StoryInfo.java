@@ -1,4 +1,4 @@
-package com.fivengers.blooming.form.domain;
+package com.fivengers.blooming.project_application.domain;
 
 
 import lombok.AccessLevel;
@@ -11,15 +11,20 @@ import lombok.NoArgsConstructor;
 public class StoryInfo {
 
     private String introduction;
+    private String description;
+    private String listImg;
+    private String compositionImg;
     private String teaserVideoUrl;
-    private MoreInfo moreInfo;
     private Long budget;
 
     @Builder
-    public StoryInfo(String introduction, String teaserVideoUrl, MoreInfo moreInfo, Long budget) {
+    public StoryInfo(String introduction, String description, String listImg, String compositionImg,
+            String teaserVideoUrl, Long budget) {
         this.introduction = introduction;
+        this.description = description;
+        this.listImg = listImg;
+        this.compositionImg = compositionImg;
         this.teaserVideoUrl = teaserVideoUrl;
-        this.moreInfo = moreInfo;
         this.budget = budget;
     }
 }

@@ -1,0 +1,24 @@
+package com.fivengers.blooming.project_application.application.port.in.dto;
+
+import com.fivengers.blooming.project_application.domain.StoryInfo;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+
+@Builder
+public record StoryInfoRequest(@NotBlank String introduction,
+                               @NotBlank String teaser,
+                               @NotNull MoreInfoRequest moreInfo,
+                               @NotNull Long budget) {
+
+    public StoryInfo toDomain() {
+        return StoryInfo.builder()
+                .introduction(introduction)
+                .description(moreInfo.description())
+                .listImg(moreInfo.listImage())
+                .compositionImg(moreInfo.compositionImage())
+                .teaserVideoUrl(teaser)
+                .budget(budget)
+                .build();
+    }
+}

@@ -1,4 +1,4 @@
-package com.fivengers.blooming.form.domain;
+package com.fivengers.blooming.project_application.domain;
 
 
 import java.time.LocalDateTime;
@@ -9,18 +9,21 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DefaultInfo {
+public class BasicInfo {
 
-    private String image;
+    private String title;
+    private String thumbnail;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String title;
 
     @Builder
-    public DefaultInfo(String image, LocalDateTime startDate, LocalDateTime endDate, String title) {
-        this.image = image;
+    public BasicInfo(String title,
+            String thumbnail,
+            LocalDateTime startDate,
+            LocalDateTime endDate) {
+        this.title = title;
+        this.thumbnail = thumbnail;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.title = title;
     }
 }
