@@ -21,6 +21,7 @@ import { ReactComponent as FileSvg } from '@assets/icons/dollar-clipboard-file.s
 import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
 import FundingInterface from '@components/MyPage/MyFundingInfo/FundingInterface';
+import SettlementInterface from '@components/MyPage/MySettlementInfo/SettlementInterface';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const MyPage = () => {
               <YoutubeSvg />
               NOW 라이브
             </TabItem>
-            {!isArtist && (
+            {isArtist && (
               <>
                 <TabItem active={nowTab === 2} onClick={() => setNowTab(2)}>
                   <ApplySvg />
@@ -87,6 +88,7 @@ const MyPage = () => {
           {nowTab === 1 && <LiveInfo />}
           {nowTab === 2 && <MembershipInterface />}
           {nowTab === 3 && <FundingInterface />}
+          {nowTab === 4 && <SettlementInterface />}
         </RightSection>
       </MyPageFrame>
     </>
