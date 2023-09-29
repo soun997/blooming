@@ -9,9 +9,10 @@ import { FundingProcessApplication } from '@type/ApplicationList';
 import Loading from '@components/Animation/Loading';
 import NoSearchResults from '@components/Search/NoSearchResults';
 import SettlementModal from './SettlementModal';
+import { APPROVE, INPROGRESS } from '@components/common/constant';
 
 const SettlementList = () => {
-  const [activeTab, setActiveTab] = useState('inProgress'); // 현재 활성 탭 상태
+  const [activeTab, setActiveTab] = useState(INPROGRESS); // 현재 활성 탭 상태
 
   // API 엔드포인트와 쿼리 키 설정
   const apiEndpoint = getApiEndpointByTab(activeTab); // activeTab에 따라 엔드포인트 설정
@@ -50,23 +51,21 @@ const SettlementList = () => {
 
   return (
     <div>
-      {/* 탭 메뉴 */}
       <TabMenu>
         <TabItem
-          onClick={() => setActiveTab('inProgress')}
-          isActive={activeTab === 'inProgress'}
+          onClick={() => setActiveTab(INPROGRESS)}
+          isActive={activeTab === INPROGRESS}
         >
           정산 대기중
         </TabItem>
         <TabItem
-          onClick={() => setActiveTab('admit')}
-          isActive={activeTab === 'admit'}
+          onClick={() => setActiveTab(APPROVE)}
+          isActive={activeTab === APPROVE}
         >
           정산 완료
         </TabItem>
       </TabMenu>
 
-      {/* 데이터 표시 */}
       {isLoading ? (
         <div>
           <Loading />
@@ -88,7 +87,7 @@ const SettlementList = () => {
                   {funding.startDate.split('T')[0].toString()} ~{' '}
                   {funding.endDate.split('T')[0].toString()}
                 </div>
-                {activeTab === 'inProgress' && (
+                {activeTab === INPROGRESS && (
                   <SettlementButton
                     onClick={() => {
                       console.log('Open modal');
