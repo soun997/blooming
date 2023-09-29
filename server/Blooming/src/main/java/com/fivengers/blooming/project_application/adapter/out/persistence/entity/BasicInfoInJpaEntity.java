@@ -1,4 +1,4 @@
-package com.fivengers.blooming.form.adapter.out.persistence.entity;
+package com.fivengers.blooming.project_application.adapter.out.persistence.entity;
 
 
 import jakarta.persistence.Embeddable;
@@ -11,18 +11,19 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DefaultInfoInForm {
+public class BasicInfoInJpaEntity {
 
-    private String image;
+    private String title;
+    private String thumbnail;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String title;
 
     @Builder
-    public DefaultInfoInForm(String image, LocalDateTime startDate, LocalDateTime endDate, String title) {
-        this.image = image;
+    public BasicInfoInJpaEntity(String title, String thumbnail, LocalDateTime startDate,
+            LocalDateTime endDate) {
+        this.title = title;
+        this.thumbnail = thumbnail;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.title = title;
     }
 }
