@@ -10,7 +10,7 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
-== 진행중인 라이브 조회
+== 펀딩 프로젝트 신청서 등록
 
 === Request
 
