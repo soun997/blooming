@@ -60,6 +60,7 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
         {isArtist ? (
           <>
             <ArtistRegist>
+              <span>다양한 유튜브 활동들을 보여주세요!</span>
               <ArtistRegistButton onClick={openModifModal}>
                 아티스트 정보 수정
               </ArtistRegistButton>
