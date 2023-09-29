@@ -43,25 +43,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             doFilter(request, response, filterChain);
         } catch (ExpiredJwtException e) {
-            exceptionResponse(response, ExceptionCode.JWT_EXPIRED,
+            responseException(response, ExceptionCode.JWT_EXPIRED,
                     ExceptionCode.JWT_EXPIRED.getMessage());
         } catch (MalformedJwtException e) {
-            exceptionResponse(response, ExceptionCode.JWT_MALFORMED,
+            responseException(response, ExceptionCode.JWT_MALFORMED,
                     ExceptionCode.JWT_MALFORMED.getMessage());
         } catch (UnsupportedJwtException e) {
-            exceptionResponse(response, ExceptionCode.JWT_UNSUPPORTED,
+            responseException(response, ExceptionCode.JWT_UNSUPPORTED,
                     ExceptionCode.JWT_UNSUPPORTED.getMessage());
         } catch (SignatureException e) {
-            exceptionResponse(response, ExceptionCode.JWT_INVALID_SIGNATURE,
+            responseException(response, ExceptionCode.JWT_INVALID_SIGNATURE,
                     ExceptionCode.JWT_INVALID_SIGNATURE.getMessage());
         } catch (ApplicationException e) {
-            exceptionResponse(response, e.getExceptionCode(), e.getExceptionCode().getMessage());
+            responseException(response, e.getExceptionCode(), e.getExceptionCode().getMessage());
         } catch (Exception e) {
-            exceptionResponse(response, ExceptionCode.UNREGISTERED_EXCEPTION, e.getMessage());
+            responseException(response, ExceptionCode.UNREGISTERED_EXCEPTION, e.getMessage());
         }
     }
 
-    private void exceptionResponse(HttpServletResponse response, ExceptionCode exceptionCode,
+    private void responseException(HttpServletResponse response, ExceptionCode exceptionCode,
             String message) throws IOException {
         response.setStatus(exceptionCode.getHttpStatus().value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

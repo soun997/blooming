@@ -29,23 +29,24 @@ public class DefaultAccessDeniedHandler extends AccessDeniedHandlerImpl {
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
         if (!endpointChecker.existsEndpoint(request)) {
-            responseException(response);
+            responseException(response, ExceptionCode.UNREGISTERED_EXCEPTION, NOT_FOUND_SERVLET_MSG);
             return;
         }
 
         super.handle(request, response, accessDeniedException);
     }
 
-    private void responseException(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    private void responseException(HttpServletResponse response, ExceptionCode exceptionCode,
+            String message) throws IOException {
+        response.setStatus(exceptionCode.getHttpStatus().value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
         PrintWriter writer = response.getWriter();
+        ObjectMapper objectMapper = new ObjectMapper();
         writer.write(objectMapper.writeValueAsString(
-                ApiResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(new ErrorResponse(
-                                ExceptionCode.UNREGISTERED_EXCEPTION.getErrorCode(),
-                                NOT_FOUND_SERVLET_MSG))));
+                ApiResponse.status(exceptionCode.getHttpStatus())
+                        .body(new ErrorResponse(exceptionCode.getErrorCode(), message))));
         writer.flush();
     }
 }
