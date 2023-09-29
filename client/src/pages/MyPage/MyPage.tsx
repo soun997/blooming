@@ -32,7 +32,7 @@ const MyPage = () => {
   const [nowTab, setNowTab] = useState<number>(0);
 
   useEffect(() => {
-    axiosTemp.get('/mypage-artist').then((res) => {
+    axiosTemp.get('/mypage-general').then((res) => {
       const data: MyPageInfo = res.data;
       setProfileInfo(data.profileInfo);
       setIsArtist(data.profileInfo.isArtist);

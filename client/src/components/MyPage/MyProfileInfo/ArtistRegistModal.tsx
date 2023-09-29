@@ -1,22 +1,23 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import axios from '@api/apiController';
 import { useNavigate } from 'react-router';
+
+import axios from '@api/apiController';
 import {
   isNonEmptyString,
   validCompanyName,
   validNoneCheck,
 } from '@utils/validation/AddFundInfoCheck';
+
 import {
   FormForLongText,
   FormForText,
   FormForUpload,
 } from '@components/AddFundPage/FormComponent';
 import { ValidCheck } from '@components/AddFundPage/ProjectInfo';
-import { ArtistRequestInfo } from '@type/ArtistRequest';
 import { POST_CATEGORY } from '@components/common/constant';
-import { ReactComponent as CancelSvg } from '@assets/icons/cancel.svg';
-import { ReactComponent as LinkSvg } from '@assets/icons/LinkIcon.svg';
+
+import { ArtistRequestInfo } from '@type/ArtistRequest';
 
 const ArtistRegistModal = ({
   isOpen,
@@ -33,27 +34,7 @@ const ArtistRegistModal = ({
     fanCafeUrl: '',
     profileImageUrl: '',
     snsUrl: '',
-    youtubeUrl: [],
   });
-  const [youtubeUrlList, setYoutubeUrlList] = useState<string[]>(['']);
-
-  const handleInputChange = (index: number, value: string) => {
-    const newList = [...youtubeUrlList];
-    newList[index] = value;
-    setYoutubeUrlList(newList);
-  };
-
-  const handleAddInput = () => {
-    if (youtubeUrlList.length < 5) {
-      setYoutubeUrlList([...youtubeUrlList, '']);
-    }
-  };
-
-  const handleRemoveInput = (index: number) => {
-    const newList = [...youtubeUrlList];
-    newList.splice(index, 1);
-    setYoutubeUrlList(newList);
-  };
 
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
     validIdx: 0,
@@ -112,7 +93,6 @@ const ArtistRegistModal = ({
 
   const handleRegister = () => {
     if (validArtistRegistInfo()) {
-      registInfo.youtubeUrl = youtubeUrlList;
       // console.log(registInfo);
       axios.post('/artist-regist', registInfo).then((res) => {
         // console.log(res.data);
@@ -183,37 +163,6 @@ const ArtistRegistModal = ({
             <QuestionFrame>
               <Subtitle>아티스트님의 다양한 활약을 보여주세요</Subtitle>
               <Contents>
-                <div className="formlist">
-                  <InputContainer>
-                    <ContentTitle>유튜브 링크가 있으신가요?</ContentTitle>
-                    {youtubeUrlList.map((input, index) => (
-                      <InputBox key={index}>
-                        <InputField
-                          placeholder="유튜브 링크를 입력해주세요"
-                          type="text"
-                          value={input}
-                          onChange={(e) =>
-                            handleInputChange(index, e.target.value)
-                          }
-                        />
-                        {youtubeUrlList.length > 1 && (
-                          <RemoveButton
-                            onClick={() => handleRemoveInput(index)}
-                          >
-                            삭제
-                            <CancelSvg />
-                          </RemoveButton>
-                        )}
-                      </InputBox>
-                    ))}
-                    {youtubeUrlList.length < 5 && (
-                      <AddButton onClick={handleAddInput}>
-                        <LinkSvg />
-                        링크 추가
-                      </AddButton>
-                    )}
-                  </InputContainer>
-                </div>
                 <FormForText
                   title="팬카페 링크가 있으신가요?"
                   placeholder="팬카페 링크를 입력해주세요"
