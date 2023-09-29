@@ -33,9 +33,9 @@ const SettlementList = () => {
   // API 엔드포인트를 탭에 따라 설정하는 함수
   function getApiEndpointByTab(tab: string): string {
     switch (tab) {
-      case 'inProgress':
+      case INPROGRESS:
         return '/application-settle-inprogress';
-      case 'admit':
+      case APPROVE:
         return '/application-settle-admit';
       default:
         throw new Error(`Invalid tab: ${tab}`);

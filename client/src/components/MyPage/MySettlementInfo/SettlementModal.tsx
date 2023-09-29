@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { FundingProcessApplication } from '@type/ApplicationList';
+import { calculateComma } from '@utils/calculateComma';
 
 interface SettlementModalProps {
   funding: FundingProcessApplication;
@@ -12,13 +13,24 @@ const SettlementModal: React.FC<SettlementModalProps> = ({
   funding,
   onClose,
 }) => {
-  const [revenue, setRevenue] = useState<number>(0);
+  const [revenue, setRevenue] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  // 정산 정보 입력 처리 함수
   const handleSettlementSubmit = () => {
-    // revenue 상태를 이용하여 처리
     console.log(`정산 정보 입력 - 수익: ${revenue}`);
-    onClose(); // 모달 닫기
+    onClose();
+  };
+
+  const handleErrorCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const stringWithoutCommas = value.replace(/,/g, '');
+    setRevenue(stringWithoutCommas);
+    if (isNaN(Number(revenue))) {
+      setError('숫자만 입력해주세요');
+      setRevenue('');
+    } else {
+      setError('');
+    }
   };
 
   return (
@@ -29,20 +41,42 @@ const SettlementModal: React.FC<SettlementModalProps> = ({
           <button onClick={onClose}>닫기</button>
         </ModalHeader>
         <ModalContent>
-          <RevenueInput
-            type="number"
-            placeholder="수익을 입력하세요"
-            value={revenue}
-            onChange={(e) => setRevenue(Number(e.target.value))}
-          />
+          <EachFormForText>
+            <ContentTitle>총 순수익을 입력해주세요</ContentTitle>
+            <div className="row">
+              <FormBox
+                placeholder={'순수익을 입력해주세요'}
+                value={calculateComma(Number(revenue))}
+                onChange={handleErrorCheck}
+              ></FormBox>
+              <span>원</span>
+            </div>
+
+            {error.length > 0 && <ErrorText>{error}</ErrorText>}
+          </EachFormForText>
           <SubmitButton onClick={handleSettlementSubmit}>입력</SubmitButton>
         </ModalContent>
       </ModalWrapper>
     </ModalOverlay>
   );
 };
+const EachFormForText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
-// 모달 스타일 컴포넌트
+const ContentTitle = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const ErrorText = styled.div`
+  color: var(--error-color);
+  font-size: 12px;
+  margin-top: 8px;
+`;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -62,8 +96,6 @@ const ModalWrapper = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   width: 100%;
-
-  /* 다른 스타일 속성들... */
 `;
 
 const ModalHeader = styled.div`
@@ -90,17 +122,9 @@ const ModalContent = styled.div`
   padding: 16px;
 `;
 
-const RevenueInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid var(--main3-color);
-  border-radius: 4px;
-`;
-
 const SubmitButton = styled.button`
   width: 100%;
-  margin-top: 16px;
+  margin-top: 30px;
   padding: 8px;
   background-color: var(--main1-color);
   color: var(--white-color);
@@ -108,7 +132,23 @@ const SubmitButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
+`;
+
+const FormBox = styled.input`
+  padding: 10px 5px 10px;
+  border: none;
+  width: 340px;
+  background: none;
+  border-bottom: 1px solid var(--main2-color);
+  &::placeholder {
+    color: var(--gray-color);
+    font-weight: 300;
+  }
+
+  &:focus {
+    outline: none !important;
+  }
 `;
 
 export default SettlementModal;
