@@ -32,7 +32,7 @@ const MyPage = () => {
   const [nowTab, setNowTab] = useState<number>(0);
 
   useEffect(() => {
-    axiosTemp.get('/mypage-general').then((res) => {
+    axiosTemp.get('/mypage-artist').then((res) => {
       const data: MyPageInfo = res.data;
       setProfileInfo(data.profileInfo);
       setIsArtist(data.profileInfo.isArtist);
@@ -55,7 +55,7 @@ const MyPage = () => {
               <YoutubeSvg />
               NOW 라이브
             </TabItem>
-            {!isArtist && (
+            {isArtist && (
               <>
                 <TabItem active={nowTab === 2} onClick={() => setNowTab(2)}>
                   <ApplySvg />
