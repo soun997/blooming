@@ -38,7 +38,6 @@ public class SecurityConfig {
     private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final HttpRequestEndpointChecker endpointChecker;
-    private final ObjectMapper objectMapper;
 
     @Value("${client.url}")
     private String clientUrl;
@@ -55,14 +54,14 @@ public class SecurityConfig {
         return http.httpBasic(Customizer.withDefaults())
                 .exceptionHandling(config ->
                         config.accessDeniedHandler(
-                                        new DefaultAccessDeniedHandler(endpointChecker, objectMapper))
+                                        new DefaultAccessDeniedHandler(endpointChecker))
                                 .authenticationEntryPoint(
-                                        new DefaultAuthenticationEntryPoint(endpointChecker,
-                                                objectMapper)))
+                                        new DefaultAuthenticationEntryPoint(endpointChecker)))
                 .headers(c -> c.frameOptions(FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(
-                                        new MvcRequestMatcher(introspector, "/api/v1/auth"))
+                                        new MvcRequestMatcher(introspector, "/api/v1/auth"),
+                                        new MvcRequestMatcher(introspector, "/error"))
                                 .permitAll()
                                 .requestMatchers(
                                         new MvcRequestMatcher(introspector, "/api/**"))
