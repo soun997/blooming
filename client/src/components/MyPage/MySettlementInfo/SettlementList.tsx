@@ -8,6 +8,7 @@ import { FundingProcessApplication } from '@type/ApplicationList';
 
 import Loading from '@components/Animation/Loading';
 import NoSearchResults from '@components/Search/NoSearchResults';
+import SettlementModal from './SettlementModal';
 
 const SettlementList = () => {
   const [activeTab, setActiveTab] = useState('inProgress'); // 현재 활성 탭 상태
@@ -15,6 +16,9 @@ const SettlementList = () => {
   // API 엔드포인트와 쿼리 키 설정
   const apiEndpoint = getApiEndpointByTab(activeTab); // activeTab에 따라 엔드포인트 설정
   const queryKey = ['settlementList', activeTab];
+
+  const [selectedFunding, setSelectedFunding] =
+    useState<FundingProcessApplication | null>(null);
 
   // React Query를 사용하여 데이터 가져오기
   const { data, isLoading, isError } = useQuery<
@@ -84,10 +88,26 @@ const SettlementList = () => {
                   {funding.startDate.split('T')[0].toString()} ~{' '}
                   {funding.endDate.split('T')[0].toString()}
                 </div>
+                {activeTab === 'inProgress' && (
+                  <SettlementButton
+                    onClick={() => {
+                      console.log('Open modal');
+                      setSelectedFunding(funding);
+                    }}
+                  >
+                    정산정보 입력
+                  </SettlementButton>
+                )}
               </TextInfo>
             </EachResultData>
           ))}
         </ResultDataFrame>
+      )}
+      {selectedFunding && (
+        <SettlementModal
+          funding={selectedFunding}
+          onClose={() => setSelectedFunding(null)}
+        />
       )}
     </div>
   );
@@ -126,7 +146,7 @@ const EachResultData = styled.div`
   /* justify-content: space-between; */
   gap: 30px;
   width: 500px;
-  height: 100px;
+  height: fit-content;
   margin-bottom: 20px;
   padding: 20px;
   border: 1px solid var(--main3-color);
@@ -136,7 +156,7 @@ const EachResultData = styled.div`
 const ThumbnailImg = styled.div`
   img {
     width: 100px;
-    height: 100px;
+    height: fit-content;
     object-fit: cover;
     border-radius: 6px;
   }
@@ -145,7 +165,7 @@ const ThumbnailImg = styled.div`
 const TextInfo = styled.div`
   display: flex;
   flex-direction: column;
-
+  width: 100%;
   .title {
     font-weight: 600;
     font-size: 18px;
@@ -154,6 +174,25 @@ const TextInfo = styled.div`
     margin-top: 20px;
     font-weight: 400;
     font-size: 14px;
+  }
+`;
+
+const SettlementButton = styled.div`
+  cursor: pointer;
+  width: fit-content;
+  margin-left: auto;
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: var(--background2-color);
+  color: var(--main1-color);
+  text-align: center;
+  font-weight: 600;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--main1-color);
+    color: var(--white-color);
+    font-weight: 500;
   }
 `;
 export default SettlementList;
