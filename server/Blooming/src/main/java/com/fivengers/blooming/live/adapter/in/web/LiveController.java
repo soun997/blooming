@@ -153,7 +153,13 @@ public class LiveController {
             @RequestBody OpenviduWebhookRequest openviduWebhookRequest
     ) {
         log.info("Openvidu webHook : {}", openviduWebhookRequest);
+        switch (openviduWebhookRequest.event()) {
+            case OpenviduWebhook.PARTICIPANT_JOINED.getEvent() ->
+            liveSessionUseCase.addParticipant(openviduWebhookRequest);
+            case OpenviduWebhook.PARTICIPANT_LEFT.getEvent() ->
+                    liveSessionUseCase.removeParticipant(openviduWebhookRequest);
 
+        }
         return ApiResponse.ok(new OpenviduWebHookResponse("SUCCESS"));
     }
 }
