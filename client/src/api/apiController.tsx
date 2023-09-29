@@ -7,6 +7,8 @@ const instance = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    Authorization:
+      'eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjciLCJleHAiOjE2OTU5NzMxMTB9.FPiSIUgKeXoeEuTWCyO1YlsxTqeJLEekq7MohhncdTx_Vso3s7LTCV_6VSFvJtufqeEZ6RiJm-8a-2BWBLgq4Q',
   },
 });
 
