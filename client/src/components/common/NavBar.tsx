@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { getCookie } from '@hooks/useAuth';
+import { deleteCookie, getCookie } from '@hooks/useAuth';
 import { ACCESS_KEY } from './constant';
 
 import { ReactComponent as UserSvg } from '@assets/icons/user-key.svg';
 import { ReactComponent as MyPageSvg } from '@assets/icons/account-mypage.svg';
 import { ReactComponent as ModifSvg } from '@assets/icons/keymodify.svg';
 import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
+import LoginModal from '@components/Login/LoginModal';
 
 interface NavItemProps {
   onClick: () => void;
@@ -22,6 +23,15 @@ const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isLogin, setLogin] = useState<boolean>(false);
   const [isArtist, setArtist] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const navigate = useNavigate();
 
@@ -77,7 +87,7 @@ const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
             사용자
           </div>
         ) : (
-          <div className="user">
+          <div className="user" onClick={openModal}>
             <UserSvg />
             로그인이 필요합니다
           </div>
@@ -95,13 +105,14 @@ const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
                 LIVE ON
               </DropdownItem>
             )}
-            <DropdownItem>
+            <DropdownItem onClick={() => deleteCookie(ACCESS_KEY)}>
               <ModifSvg />
               로그아웃
             </DropdownItem>
           </Dropdown>
         )}
       </UserIcon>
+      {isModalOpen && <LoginModal closeModal={closeModal} />}
     </Nav>
   );
 };
