@@ -12,14 +12,12 @@ import com.fivengers.blooming.member.adapter.out.persistence.repository.MemberSp
 import com.fivengers.blooming.member.domain.AuthProvider;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -88,7 +86,7 @@ class ArtistApplicationAdapterTest {
 
     @DisplayName("아티스트 신청을 상태별로 조회한다.")
     @ParameterizedTest(name = "{index}: state = {0}")
-    @MethodSource("providedArtistApplicationState")
+    @EnumSource(ArtistApplicationState.class)
     void findArtistApplicationByState(ArtistApplicationState state) {
         LocalDateTime now = LocalDateTime.now();
         artistApplicationAdapter.save(ArtistApplication.builder()
@@ -126,15 +124,6 @@ class ArtistApplicationAdapterTest {
             as.assertThat(applications.getContent().get(0).getApplicationState()).isEqualTo(state);
             as.assertThat(applications.getContent().get(1).getApplicationState()).isEqualTo(state);
         });
-    }
-
-    private static Stream<Arguments> providedArtistApplicationState() {
-        return Stream.of(
-                Arguments.of(ArtistApplicationState.APPLY),
-                Arguments.of(ArtistApplicationState.RETURN),
-                Arguments.of(ArtistApplicationState.CANCEL),
-                Arguments.of(ArtistApplicationState.APPROVAL)
-        );
     }
 
     @Test
