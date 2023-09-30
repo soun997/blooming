@@ -23,5 +23,5 @@ public interface LivePort {
     List<Live> findTopLivesByNumberOfViewers(int numberOfLives);
 
     void updateParticipantCount(String sessionId, int difference);
-
+    boolean isCorrectArtistOfLive(Long member, Long liveId);
 }
