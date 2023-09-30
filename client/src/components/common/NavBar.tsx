@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
+import { getCookie } from '@hooks/useAuth';
+import { ACCESS_KEY } from './constant';
+
 import { ReactComponent as UserSvg } from '@assets/icons/user-key.svg';
 import { ReactComponent as MyPageSvg } from '@assets/icons/account-mypage.svg';
 import { ReactComponent as ModifSvg } from '@assets/icons/keymodify.svg';
-import { useNavigate } from 'react-router';
+import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
 
 interface NavItemProps {
   onClick: () => void;
@@ -11,7 +15,14 @@ interface NavItemProps {
 }
 
 const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
+  useEffect(() => {
+    const accessToken = getCookie(ACCESS_KEY);
+    console.log(accessToken);
+  }, []);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isLogin, setLogin] = useState<boolean>(false);
+  const [isArtist, setArtist] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
@@ -60,17 +71,30 @@ const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
         </NavItem>
       </NavList>
       <UserIcon onClick={toggleDropdown}>
-        <div className="user">
-          <UserSvg />
-          사용자
-        </div>
+        {isLogin ? (
+          <div className="user">
+            <UserSvg />
+            사용자
+          </div>
+        ) : (
+          <div className="user">
+            <UserSvg />
+            로그인이 필요합니다
+          </div>
+        )}
 
-        {isDropdownOpen && (
+        {isDropdownOpen && isLogin && (
           <Dropdown onClick={(e) => e.stopPropagation()}>
             <DropdownItem onClick={() => navigate('/mypage')}>
               <MyPageSvg />
               마이페이지
             </DropdownItem>
+            {isArtist && (
+              <DropdownItem onClick={() => navigate('/mypage')}>
+                <YoutubeSvg />
+                LIVE ON
+              </DropdownItem>
+            )}
             <DropdownItem>
               <ModifSvg />
               로그아웃

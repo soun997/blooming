@@ -1,3 +1,4 @@
+import { ACCESS_KEY } from '@components/common/constant';
 import { Cookies } from 'react-cookie';
 
 const cookies = new Cookies();
@@ -11,7 +12,7 @@ const getCookie = (key: string) => {
 };
 
 const setAccessToken = (token: string) => {
-  document.cookie = `Authorization=${token}; max-age=604800; path=/; secure; samesite=none`;
+  document.cookie = `${ACCESS_KEY}=${token}; max-age=604800; path=/; secure; samesite=none`;
 };
 
 const setRefreshToken = (token: string) => {

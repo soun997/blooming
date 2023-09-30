@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as useAuth from '@hooks/useAuth';
+import { ACCESS_KEY } from '@components/common/constant';
 
 export const BASE_URL = 'http://localhost:8080/api/v1';
 // export const BASE_URL = 'http://localhost:7700';
@@ -16,9 +17,9 @@ const instance = axios.create({
 // Request 🧑
 instance.interceptors.request.use(
   function (config) {
-    const accessToken = useAuth.getCookie('Authorization');
+    const accessToken = useAuth.getCookie(ACCESS_KEY);
     if (accessToken) {
-      config.headers['Authorization'] = accessToken;
+      config.headers[ACCESS_KEY] = accessToken;
     }
     return config;
   },
