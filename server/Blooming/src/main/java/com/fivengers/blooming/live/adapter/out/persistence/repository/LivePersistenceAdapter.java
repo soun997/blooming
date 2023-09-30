@@ -120,8 +120,7 @@ public class LivePersistenceAdapter implements LivePort {
     }
 
     @Override
-    public void updateParticipantCount(String sessionId, int difference) {
-        SessionId session = new SessionId(sessionId);
-        redisTemplate.opsForZSet().incrementScore(REDIS_ACTIVE_LIVE_KEY, session.getLiveId(), difference);
+    public void updateParticipantCount(Long liveId, int difference) {
+        redisTemplate.opsForZSet().incrementScore(REDIS_ACTIVE_LIVE_KEY, liveId, difference);
     }
 }
