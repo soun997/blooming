@@ -51,19 +51,19 @@ const ProjectInfo = ({ data, setData }: Props) => {
       switch (validInputCheck.validIdx) {
         case 0:
           //사업자 등록 번호
-          projectInfo.makerInfo.makerNum = validInputCheck.validValue;
+          projectInfo.makerInfo.licenseNumber = validInputCheck.validValue;
           setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
           break;
 
         case 1:
           //사업자 이름
-          projectInfo.makerInfo.makerName = validInputCheck.validValue;
+          projectInfo.makerInfo.companyName = validInputCheck.validValue;
           setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
           break;
 
         case 2:
           //사업자 등록증
-          projectInfo.makerInfo.makerAddFile = validInputCheck.validValue;
+          projectInfo.makerInfo.licenseImage = validInputCheck.validValue;
           setData((prevInfo) => updateProjectInfo(prevInfo, projectInfo));
           break;
 
@@ -120,7 +120,7 @@ const ProjectInfo = ({ data, setData }: Props) => {
             validIdx={0}
             setValid={setValidInputCheck}
             errorCheck={validCompanyRegistrationNumber}
-            initKeyword={projectInfo.makerInfo.makerNum}
+            initKeyword={projectInfo.makerInfo.licenseNumber}
           />
           <FormForText
             title="상호 법인명"
@@ -128,7 +128,7 @@ const ProjectInfo = ({ data, setData }: Props) => {
             validIdx={1}
             setValid={setValidInputCheck}
             errorCheck={validCompanyName}
-            initKeyword={projectInfo.makerInfo.makerName}
+            initKeyword={projectInfo.makerInfo.companyName}
           />
           <FormForUpload
             title="사업자 등록증"

@@ -27,10 +27,10 @@ const AddFund = () => {
 
   const components = [
     <ProjectInfo data={totalInfo.projectInfo} setData={setTotalInfo} />,
-    <DefaultInfo data={totalInfo.defaultInfo} setData={setTotalInfo} />,
+    <DefaultInfo data={totalInfo.basicInfo} setData={setTotalInfo} />,
     <StoryWrite data={totalInfo.storyInfo} setData={setTotalInfo} />,
     <Policy data={totalInfo.policyInfo} setData={setTotalInfo} />,
-    <RepresentInfo data={totalInfo.refresentInfo} setData={setTotalInfo} />,
+    <RepresentInfo data={totalInfo.settlementInfo} setData={setTotalInfo} />,
   ];
 
   const handleSubtitleClick = (index: number) => {

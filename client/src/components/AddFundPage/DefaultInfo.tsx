@@ -53,7 +53,7 @@ const DefaultInfo = ({ data, setData }: Props) => {
       switch (validInputCheck.validIdx) {
         case 0:
           // 대표 이미지 등록
-          defaultInfo.image = validInputCheck.validValue;
+          defaultInfo.thumbnail = validInputCheck.validValue;
           setData((prevInfo) => updatedefaultInfo(prevInfo, defaultInfo));
           break;
         case 1:

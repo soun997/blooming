@@ -39,25 +39,25 @@ const StoryWrite = ({ data, setData }: Props) => {
       switch (validInputCheck.validIdx) {
         case 0:
           //프로젝트 소개
-          storyInfo.summary = validInputCheck.validValue;
+          storyInfo.introduction = validInputCheck.validValue;
           setData((prevInfo) => updatestoryInfo(prevInfo, storyInfo));
           break;
 
         case 1:
           //앨범 정보
-          storyInfo.moreInfo.album_desc = validInputCheck.validValue;
+          storyInfo.moreInfo.description = validInputCheck.validValue;
           setData((prevInfo) => updatestoryInfo(prevInfo, storyInfo));
           break;
 
         case 2:
           //트랙리스트
-          storyInfo.moreInfo.track_list = validInputCheck.validValue;
+          storyInfo.moreInfo.listImage = validInputCheck.validValue;
           setData((prevInfo) => updatestoryInfo(prevInfo, storyInfo));
           break;
 
         case 3:
           //구성품
-          storyInfo.moreInfo.album_img = validInputCheck.validValue;
+          storyInfo.moreInfo.compositionImage = validInputCheck.validValue;
           setData((prevInfo) => updatestoryInfo(prevInfo, storyInfo));
           break;
 
@@ -93,7 +93,7 @@ const StoryWrite = ({ data, setData }: Props) => {
             validIdx={0}
             setValid={setValidInputCheck}
             errorCheck={validIntroduce}
-            initKeyword={storyInfo.summary}
+            initKeyword={storyInfo.introduction}
           />
         </Contents>
       </QuestionFrame>
@@ -106,7 +106,7 @@ const StoryWrite = ({ data, setData }: Props) => {
             validIdx={1}
             setValid={setValidInputCheck}
             errorCheck={validIntroduce}
-            initKeyword={storyInfo.moreInfo.album_desc}
+            initKeyword={storyInfo.moreInfo.description}
           />
           <FormForUpload
             title="트랙 리스트"
