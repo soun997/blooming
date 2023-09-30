@@ -2,7 +2,6 @@ package com.fivengers.blooming.artist.adapter.in.web;
 
 import static com.fivengers.blooming.support.docs.ApiDocumentUtils.getDocumentRequest;
 import static com.fivengers.blooming.support.docs.ApiDocumentUtils.getDocumentResponse;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -36,7 +35,7 @@ class ArtistAdminControllerTest extends RestDocsTest {
     @MockBean ArtistVideoUseCase artistVideoUseCase;
 
     @Test
-    @DisplayName("아티스트를 등록한다.")
+    @DisplayName("관리자가 아티스트 신을 승인한다.")
     void artistCreate() throws Exception {
         ArtistCreateRequest request = new ArtistCreateRequest("아이유",
                 "EDAM 엔터테인먼트",
