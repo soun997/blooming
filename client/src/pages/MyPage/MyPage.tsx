@@ -14,14 +14,16 @@ import Profile from '@components/MyPage/MyProfileInfo/ProfileInfo';
 import MyProcess from '@components/MyPage/MyInvestInfo/MyProcess';
 import LiveInfo from '@components/MyPage/MyLiveInfo/LiveInfo';
 import MembershipInterface from '@components/MyPage/MyMembershipInfo/MembershipInterface';
+import FundingInterface from '@components/MyPage/MyFundingInfo/FundingInterface';
+import SettlementInterface from '@components/MyPage/MySettlementInfo/SettlementInterface';
 
 import axiosTemp from '@api/apiControllerTemp';
 
 import { ReactComponent as FileSvg } from '@assets/icons/dollar-clipboard-file.svg';
 import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
-import FundingInterface from '@components/MyPage/MyFundingInfo/FundingInterface';
-import SettlementInterface from '@components/MyPage/MySettlementInfo/SettlementInterface';
+import { ReactComponent as HeartSvg } from '@assets/icons/heart-padlock.svg';
+import LikedArtist from '@components/MyPage/MyLikedArtist/LikedArtist';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const MyPage = () => {
   const [nowTab, setNowTab] = useState<number>(0);
 
   useEffect(() => {
-    axiosTemp.get('/mypage-general').then((res) => {
+    axiosTemp.get('/mypage-artist').then((res) => {
       const data: MyPageInfo = res.data;
       setProfileInfo(data.profileInfo);
       setIsArtist(data.profileInfo.isArtist);
@@ -55,11 +57,18 @@ const MyPage = () => {
               <YoutubeSvg />
               NOW 라이브
             </TabItem>
+            <TabItem active={nowTab === 6} onClick={() => setNowTab(6)}>
+              <HeartSvg />내 찜 목록
+            </TabItem>
             {isArtist && (
               <>
                 <TabItem active={nowTab === 2} onClick={() => setNowTab(2)}>
                   <ApplySvg />
                   멤버쉽 신청
+                </TabItem>
+                <TabItem active={nowTab === 5} onClick={() => setNowTab(5)}>
+                  <YoutubeSvg />
+                  라이브 ON
                 </TabItem>
                 <TabItem active={nowTab === 3} onClick={() => setNowTab(3)}>
                   <ApplySvg />
@@ -68,10 +77,6 @@ const MyPage = () => {
                 <TabItem active={nowTab === 4} onClick={() => setNowTab(4)}>
                   <ApplySvg />
                   정산정보 입력
-                </TabItem>
-                <TabItem active={nowTab === 5} onClick={() => setNowTab(5)}>
-                  <YoutubeSvg />
-                  라이브 ON
                 </TabItem>
               </>
             )}
@@ -89,6 +94,7 @@ const MyPage = () => {
           {nowTab === 2 && <MembershipInterface />}
           {nowTab === 3 && <FundingInterface />}
           {nowTab === 4 && <SettlementInterface />}
+          {nowTab === 6 && <LikedArtist />}
         </RightSection>
       </MyPageFrame>
     </>
@@ -156,9 +162,14 @@ const TabItem = styled.div<TabItemProps>`
     color: var(--white-color);
     font-weight: 500;
     svg {
-      fill : white;
+      color : var(--white-color);
+      fill : var(--white-color);
     }
   `};
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 export default MyPage;

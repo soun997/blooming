@@ -660,5 +660,42 @@
     "profileImageUrl": "src/assets/images/newjeans.jpg",
     "fanCafeUrl": "https://daum.net/cafe/newjeans",
     "snsUrl": "https://instagram.com/newjeansOfficial"
-  }
+  },
+  "liked-artist": [
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    },
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    },
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    },
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    },
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    },
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    },
+    {
+      "artistImg": "src/assets/images/newjeans.jpg",
+      "artistName": "뉴지슨",
+      "artistDesc": "아아아아ㅏ아ㅏ앙"
+    }
+  ]
 }
