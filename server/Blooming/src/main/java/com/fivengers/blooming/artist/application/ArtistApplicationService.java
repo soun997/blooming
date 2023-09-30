@@ -40,11 +40,17 @@ public class ArtistApplicationService implements ArtistApplicationUseCase {
     }
 
     @Override
+    public ArtistApplication searchByMemberId(Long memberId) {
+        return artistApplicationPort.findByMemberId(memberId)
+                .orElseThrow(ArtistApplicationNotFoundException::new);
+    }
+
+    @Override
     public ArtistApplication modifyStateById(Long applicationId,
                                              ArtistApplicationStateModifyRequest request) {
         ArtistApplication application = artistApplicationPort.findById(applicationId)
                 .orElseThrow(ArtistApplicationNotFoundException::new);
-        application.changeState(request.state());
+        application.changeState(request.applicationState());
 
         return artistApplicationPort.update(application);
     }
