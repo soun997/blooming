@@ -84,8 +84,6 @@ public class LivePersistenceAdapter implements LivePort {
 
     @Override
     public void saveActiveLiveInfo(String sessionId, String artistStageName) {
-        System.out.printf("liveId : %s, artistStageName : %s\n", sessionId, artistStageName);
-
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {
@@ -125,7 +123,10 @@ public class LivePersistenceAdapter implements LivePort {
     @Override
     public List<Live> findTopLivesByNumberOfViewers(int numberOfLives) {
         Set<TypedTuple<String>> topActiveLiveTuples = redisTemplate.opsForZSet()
-                .rangeByScoreWithScores(REDIS_LIVE_VIEWER_COUNT_KEY, 0, 1000, 0, numberOfLives);
+                .reverseRangeByScoreWithScores(
+                        REDIS_LIVE_VIEWER_COUNT_KEY,
+                        Double.MIN_VALUE, Double.MAX_VALUE,
+                        0, numberOfLives);
         Assert.notNull(topActiveLiveTuples, "시청자 수 정보가 null 일 수 없습니다.");
 
         Map<String, Integer> topActiveLivesViewerInfo = convertTupleToMap(topActiveLiveTuples);
@@ -135,7 +136,7 @@ public class LivePersistenceAdapter implements LivePort {
                         .map(SessionId::getLiveId)
                         .collect(Collectors.toSet())
         ).stream().map(liveMapper::toDomain).toList());
-        topLives.forEach(live -> live.setNumberOfViewers(topActiveLivesViewerInfo.get(live.getId())));
+        topLives.forEach(live -> live.setNumberOfViewers(topActiveLivesViewerInfo.get(live.getSessionId())));
         topLives.sort((live1, live2) -> live2.getNumberOfViewers() - live1.getNumberOfViewers());
         return Collections.unmodifiableList(topLives);
     }
