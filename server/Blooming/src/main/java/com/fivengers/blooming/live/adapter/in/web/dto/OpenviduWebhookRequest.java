@@ -9,11 +9,9 @@ public record OpenviduWebhookRequest(
         Timestamp startTime,
         Integer duration,
         String reason,
-        String location,
         String ip,
         String platform,
-        String clientData,
-        OpenviduServerDataRequest serverData
+        String clientData
 ) {
 
 }
