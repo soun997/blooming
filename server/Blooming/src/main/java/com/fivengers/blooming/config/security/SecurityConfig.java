@@ -1,6 +1,5 @@
 package com.fivengers.blooming.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fivengers.blooming.config.security.jwt.JwtAuthenticationFilter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
