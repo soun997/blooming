@@ -40,4 +40,8 @@ public class ArtistApplication {
         this.snsUrl = snsUrl;
         this.member = member;
     }
+
+    public void changeState(ArtistApplicationState state) {
+        this.applicationState = state;
+    }
 }

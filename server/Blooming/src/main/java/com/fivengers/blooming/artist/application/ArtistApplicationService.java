@@ -1,10 +1,12 @@
 package com.fivengers.blooming.artist.application;
 
 import com.fivengers.blooming.artist.application.port.in.ArtistApplicationUseCase;
+import com.fivengers.blooming.artist.application.port.in.dto.ArtistApplicationStateModifyRequest;
 import com.fivengers.blooming.artist.application.port.in.dto.ArtistApplyRequest;
 import com.fivengers.blooming.artist.application.port.out.ArtistApplicationPort;
 import com.fivengers.blooming.artist.domain.ArtistApplication;
 import com.fivengers.blooming.artist.domain.ArtistApplicationState;
+import com.fivengers.blooming.global.exception.artist.ArtistApplicationNotFoundException;
 import com.fivengers.blooming.global.exception.member.MemberNotFoundException;
 import com.fivengers.blooming.member.application.port.out.MemberPort;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +22,30 @@ public class ArtistApplicationService implements ArtistApplicationUseCase {
     private final ArtistApplicationPort artistApplicationPort;
 
     @Override
-    public Page<ArtistApplication> searchByArtistApplicationState(Pageable pageable, ArtistApplicationState state) {
+    public ArtistApplication add(ArtistApplyRequest request, Long memberId) {
+        return artistApplicationPort.save(request.toDomain(
+                memberPort.findById(memberId).orElseThrow(MemberNotFoundException::new)));
+    }
+
+    @Override
+    public Page<ArtistApplication> searchByArtistApplicationState(Pageable pageable,
+            ArtistApplicationState state) {
         return artistApplicationPort.findByArtistApplicationState(pageable, state);
     }
 
     @Override
-    public ArtistApplication add(ArtistApplyRequest request, Long memberId) {
-        return artistApplicationPort.save(request.toDomain(
-                memberPort.findById(memberId).orElseThrow(MemberNotFoundException::new)));
+    public ArtistApplication searchById(Long applicationId) {
+        return artistApplicationPort.findById(applicationId)
+                .orElseThrow(ArtistApplicationNotFoundException::new);
+    }
+
+    @Override
+    public ArtistApplication modifyStateById(Long applicationId,
+                                             ArtistApplicationStateModifyRequest request) {
+        ArtistApplication application = artistApplicationPort.findById(applicationId)
+                .orElseThrow(ArtistApplicationNotFoundException::new);
+        application.changeState(request.state());
+
+        return artistApplicationPort.update(application);
     }
 }
