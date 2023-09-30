@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,21 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArtistApplicationController {
 
     private final ArtistApplicationUseCase artistApplicationUseCase;
-
-    @GetMapping
-    public ApiResponse<Page<ArtistApplicationListResponse>> artistApplicationList(Pageable pageable,
-            @RequestParam(required = false) ArtistApplicationState state) {
-        Page<ArtistApplication> artistApplications = artistApplicationUseCase.searchByArtistApplicationState(
-                pageable, state);
-
-        List<ArtistApplicationListResponse> responses = artistApplications.getContent().stream()
-                .map(application -> ArtistApplicationListResponse.from(application,
-                        MemberResponse.from(application.getMember())))
-                .toList();
-
-        return ApiResponse.ok(
-                new PageImpl<>(responses, pageable, artistApplications.getTotalElements()));
-    }
 
     @PostMapping
     public ApiResponse<ArtistApplicationDetailsResponse> artistApplicationCreate(
