@@ -24,6 +24,7 @@ import { ReactComponent as YoutubeSvg } from '@assets/icons/youtube-logo.svg';
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
 import { ReactComponent as HeartSvg } from '@assets/icons/heart-padlock.svg';
 import LikedArtist from '@components/MyPage/MyLikedArtist/LikedArtist';
+import OnLive from '@components/MyPage/OnLive';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -96,6 +97,7 @@ const MyPage = () => {
           {nowTab === 2 && <MembershipInterface />}
           {nowTab === 3 && <FundingInterface />}
           {nowTab === 4 && <SettlementInterface />}
+          {nowTab === 5 && <OnLive />}
           {nowTab === 6 && <LikedArtist />}
         </RightSection>
       </MyPageFrame>
