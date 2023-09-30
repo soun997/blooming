@@ -1,5 +1,6 @@
 package com.fivengers.blooming.artist.adapter.out.persistence.entity;
 
+import com.fivengers.blooming.artist.domain.ArtistApplication;
 import com.fivengers.blooming.artist.domain.ArtistApplicationState;
 import com.fivengers.blooming.global.audit.BaseTime;
 import com.fivengers.blooming.member.adapter.out.persistence.entity.MemberJpaEntity;
@@ -69,5 +70,16 @@ public class ArtistApplicationJpaEntity extends BaseTime {
         this.fanCafeUrl = fanCafeUrl;
         this.snsUrl = snsUrl;
         this.memberJpaEntity = memberJpaEntity;
+    }
+
+    public void update(ArtistApplication application) {
+        this.stageName = application.getStageName();
+        this.agency = application.getAgency();
+        this.description = application.getDescription();
+        this.applicationState = application.getApplicationState();
+        this.profileImageUrl = application.getProfileImageUrl();
+        this.youtubeUrl = application.getYoutubeUrl();
+        this.fanCafeUrl = application.getFanCafeUrl();
+        this.snsUrl = application.getSnsUrl();
     }
 }

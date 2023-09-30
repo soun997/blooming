@@ -6,6 +6,7 @@ import com.fivengers.blooming.artist.adapter.out.persistence.entity.ArtistApplic
 import com.fivengers.blooming.artist.domain.ArtistApplicationState;
 import com.fivengers.blooming.global.support.QuerydslRepositorySupport;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -34,5 +35,13 @@ public class ArtistApplicationQueryRepository extends QuerydslRepositorySupport 
 
     private BooleanExpression equalState(ArtistApplicationState state) {
         return state == null ? null : artistApplicationJpaEntity.applicationState.eq(state);
+    }
+
+    public Optional<ArtistApplicationJpaEntity> findById(Long applicationId) {
+        return Optional.ofNullable(selectFrom(artistApplicationJpaEntity)
+                .where(artistApplicationJpaEntity.id.eq(applicationId))
+                .leftJoin(artistApplicationJpaEntity.memberJpaEntity)
+                .fetchJoin()
+                .fetchOne());
     }
 }

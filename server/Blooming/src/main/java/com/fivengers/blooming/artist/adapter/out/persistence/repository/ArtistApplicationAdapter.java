@@ -5,6 +5,8 @@ import com.fivengers.blooming.artist.adapter.out.persistence.mapper.ArtistApplic
 import com.fivengers.blooming.artist.application.port.out.ArtistApplicationPort;
 import com.fivengers.blooming.artist.domain.ArtistApplication;
 import com.fivengers.blooming.artist.domain.ArtistApplicationState;
+import com.fivengers.blooming.global.exception.artist.ArtistApplicationNotFoundException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,5 +39,22 @@ public class ArtistApplicationAdapter implements ArtistApplicationPort {
         return artistApplicationMapper.toDomain(
                 artistApplicationSpringDataRepository.save(
                         artistApplicationMapper.toJpaEntity(artistApplication)));
+    }
+
+    @Override
+    public Optional<ArtistApplication> findById(Long applicationId) {
+        return artistApplicationQueryRepository.findById(applicationId)
+                .map(artistApplicationMapper::toDomain);
+    }
+
+    @Override
+    @Transactional
+    public ArtistApplication update(ArtistApplication artistApplication) {
+        ArtistApplicationJpaEntity jpaEntity =
+                artistApplicationSpringDataRepository.findById(artistApplication.getId())
+                        .orElseThrow(ArtistApplicationNotFoundException::new);
+
+        jpaEntity.update(artistApplication);
+        return artistApplicationMapper.toDomain(jpaEntity);
     }
 }
