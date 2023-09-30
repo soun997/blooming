@@ -38,7 +38,7 @@ public class ArtistApplicationController {
     public ApiResponse<ArtistApplicationDetailsResponse> artistApplicationMyDetails(
             @AuthenticationPrincipal LoginUser loginUser) {
         ArtistApplication artistApplication =
-                artistApplicationUseCase.searchById(loginUser.getMemberId());
+                artistApplicationUseCase.searchByMemberId(loginUser.getMemberId());
 
         return ApiResponse.ok(ArtistApplicationDetailsResponse.from(artistApplication,
                 MemberResponse.from(artistApplication.getMember())));
