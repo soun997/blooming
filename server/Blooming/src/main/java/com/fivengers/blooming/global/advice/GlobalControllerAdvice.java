@@ -8,7 +8,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -35,20 +35,15 @@ public class GlobalControllerAdvice {
         ));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse<ErrorResponse> nullParameterViolation(
-            MethodArgumentNotValidException exception) {
-        ExceptionCode exceptionCode = ExceptionCode.UNREGISTERED_EXCEPTION;
-        String errorMessage = exception.getMessage();
-        if (exception.getMessage().contains("널")) {
-            exceptionCode = ExceptionCode.NULL_PARAMETER;
-            errorMessage = exceptionCode.getMessage();
-        }
+    public ApiResponse<ErrorResponse> missingParameterViolation(
+            MissingServletRequestParameterException exception) {
+        ExceptionCode exceptionCode = ExceptionCode.NULL_PARAMETER;
         AdviceLoggingUtils.exceptionLog(exceptionCode, exception);
         return ApiResponse.badRequest(new ErrorResponse(
                 exceptionCode.getErrorCode(),
-                errorMessage
+                exception.getMessage()
         ));
     }
 
