@@ -151,12 +151,16 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
     }
 
     @Override
-    public void addParticipant(OpenviduWebhookRequest openviduWebhookRequest) {
-        livePort.updateParticipantCount(openviduWebhookRequest.sessionId(), 1);
+    public void addParticipantCount(OpenviduWebhookRequest openviduWebhookRequest) {
+        // sessionId 객체를 만들면서 유효한 sessionId인지 검증도 진행합니다.
+        SessionId sessionId = new SessionId(openviduWebhookRequest.sessionId());
+        livePort.updateParticipantCount(sessionId.getLiveId(), 1);
     }
 
     @Override
-    public void removeParticipant(OpenviduWebhookRequest openviduWebhookRequest) {
-        livePort.updateParticipantCount(openviduWebhookRequest.sessionId(), -1);
+    public void removeParticipantCount(OpenviduWebhookRequest openviduWebhookRequest) {
+        // sessionId 객체를 만들면서 유효한 sessionId인지 검증도 진행합니다.
+        SessionId sessionId = new SessionId(openviduWebhookRequest.sessionId());
+        livePort.updateParticipantCount(sessionId.getLiveId(), -1);
     }
 }

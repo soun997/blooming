@@ -15,8 +15,8 @@ public interface LiveSessionUseCase {
 
     String searchSessionId(Long liveId);
 
-    void addParticipant(OpenviduWebhookRequest openviduWebhookRequest);
+    void addParticipantCount(OpenviduWebhookRequest openviduWebhookRequest);
 
-    void removeParticipant(OpenviduWebhookRequest openviduWebhookRequest);
+    void removeParticipantCount(OpenviduWebhookRequest openviduWebhookRequest);
 
 }

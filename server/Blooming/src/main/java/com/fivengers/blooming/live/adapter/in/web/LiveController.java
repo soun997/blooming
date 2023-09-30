@@ -156,9 +156,9 @@ public class LiveController {
         OpenviduWebHook receivedWebHook = OpenviduWebHook.from(openviduWebhookRequest.event());
         switch (receivedWebHook) {
             case PARTICIPANT_JOINED ->
-            liveSessionUseCase.addParticipant(openviduWebhookRequest);
+            liveSessionUseCase.addParticipantCount(openviduWebhookRequest);
             case PARTICIPANT_LEFT ->
-                    liveSessionUseCase.removeParticipant(openviduWebhookRequest);
+                    liveSessionUseCase.removeParticipantCount(openviduWebhookRequest);
 
         }
         return ApiResponse.ok(new OpenviduWebHookResponse("SUCCESS"));
