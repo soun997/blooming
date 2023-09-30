@@ -120,7 +120,6 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
                 .build();
 
         Live createdLive = livePort.save(live);
-        System.out.println(createdLive);
 
         livePort.saveActiveLiveInfo(createdLive.getSessionId(), createdLive.getArtist().getStageName());
         return createdLive;
