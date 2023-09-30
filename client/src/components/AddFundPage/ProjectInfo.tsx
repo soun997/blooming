@@ -1,6 +1,6 @@
 import { ACTIVE, CONCERT, FUNDING_CATEGORY } from '@components/common/constant';
 import { MainTitle } from '@style/common';
-import { FundAddInfo, ProjectInfoInAdd } from '@type/ProcessInfo';
+import { FundAddInfo, MakerInfo, ProjectInfoInAdd } from '@type/ProcessInfo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormForText, FormForUpload } from './FormComponent';
@@ -42,9 +42,10 @@ const ProjectInfo = ({ data, setData }: Props) => {
 
   useEffect(() => {
     if (data) {
-      setCategoryIdx(projectInfo.category === CONCERT ? 0 : 1);
+      setCategoryIdx(data.category === CONCERT ? 0 : 1);
+      setProjectInfo(data);
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (validInputCheck.isValid) {

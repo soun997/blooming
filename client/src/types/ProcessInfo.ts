@@ -25,7 +25,7 @@ export interface FundAddInfo {
   basicInfo: DefaultInfoInAdd;
   storyInfo: StoryInfoInAdd;
   policyInfo: PolicyInAdd;
-  settlementInfo: RepresentInfo;
+  settlementInfo: RepresentInfoInAdd;
 }
 
 export type ProjectInfoInAdd = {
@@ -66,7 +66,7 @@ export type PolicyInAdd = {
   refund: boolean;
 };
 
-export type RepresentInfo = {
+export type RepresentInfoInAdd = {
   representative: string;
   email: string;
   accountNumber: string;

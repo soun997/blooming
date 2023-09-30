@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { MainTitle } from '@style/common';
 import { useEffect, useState } from 'react';
-import { FundAddInfo, RepresentInfo } from '@type/ProcessInfo';
+import { FundAddInfo, RepresentInfoInAdd } from '@type/ProcessInfo';
 import { FormForText, FormForUpload } from './FormComponent';
 import {
   validCompanyName,
@@ -10,7 +10,7 @@ import {
 } from '@utils/validation/AddFundInfoCheck';
 
 interface Props {
-  data: RepresentInfo;
+  data: RepresentInfoInAdd;
   setData: React.Dispatch<React.SetStateAction<FundAddInfo>>;
 }
 
@@ -22,7 +22,7 @@ export interface ValidCheck {
 
 const updaterepresentInfo = (
   prevInfo: FundAddInfo,
-  representInfo: RepresentInfo,
+  representInfo: RepresentInfoInAdd,
 ) => {
   return {
     ...prevInfo,
@@ -31,7 +31,7 @@ const updaterepresentInfo = (
 };
 
 const RepresentInfo = ({ data, setData }: Props) => {
-  const [representInfo, setrepresentInfo] = useState<RepresentInfo>(data);
+  const [representInfo, setrepresentInfo] = useState<RepresentInfoInAdd>(data);
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
     validIdx: 0,
     validValue: '',
