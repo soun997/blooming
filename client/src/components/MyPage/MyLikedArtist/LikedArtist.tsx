@@ -1,7 +1,5 @@
-import { LiveResultList } from '@components/ListPage/ResultList';
 import axiosTemp from '@api/apiControllerTemp';
 import { useEffect, useState } from 'react';
-import { LiveInfo } from '@type/ProcessInfo';
 import Loading from '@components/Animation/Loading';
 import { MainTitle } from '@style/common';
 import styled from 'styled-components';

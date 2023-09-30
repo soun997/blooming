@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   MyPageInfo,
@@ -27,11 +27,13 @@ import LikedArtist from '@components/MyPage/MyLikedArtist/LikedArtist';
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const { tab } = useParams();
+
   const [profileInfo, setProfileInfo] = useState<ProfileInfo>();
   const [isArtist, setIsArtist] = useState<boolean>(false);
   const [profitInfo, setProfitInfo] = useState<ProfitInfo>();
   const [settleInfo, setSettleInfo] = useState<SettlementInfo>();
-  const [nowTab, setNowTab] = useState<number>(0);
+  const [nowTab, setNowTab] = useState<number>(tab ? Number(tab) : 0);
 
   useEffect(() => {
     axiosTemp.get('/mypage-artist').then((res) => {

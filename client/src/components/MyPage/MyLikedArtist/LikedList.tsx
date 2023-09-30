@@ -6,7 +6,7 @@ export const LikedList = ({ datas }: { datas: ArtistInfo[] }) => {
     <ResultFrame>
       <BoxFrame>
         {datas.map((data, idx) => (
-          <EachFrame>
+          <EachFrame key={idx}>
             <img
               src={
                 data.artistImg ? data.artistImg : 'src/assets/images/nopic.jpg'
@@ -30,7 +30,7 @@ const ResultFrame = styled.div`
 `;
 
 const BoxFrame = styled.div`
-  margin-top: 48px;
+  margin-top: 65px;
   display: flex;
   justify-content: flex-start;
   gap: 60px;
@@ -53,7 +53,7 @@ const EachFrame = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   img {
     width: 230px;
     height: 230px;
