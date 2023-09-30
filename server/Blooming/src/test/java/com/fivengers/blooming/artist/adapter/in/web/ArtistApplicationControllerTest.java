@@ -5,6 +5,7 @@ import static com.fivengers.blooming.support.docs.ApiDocumentUtils.getDocumentRe
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,6 +68,39 @@ class ArtistApplicationControllerTest extends RestDocsTest {
 
         perform.andDo(print())
                 .andDo(document("artist-application-create",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("자신의 신청 기록을 조회한다.")
+    void artistApplicationMyDetails() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        ArtistApplication response = ArtistApplication.builder()
+                .id(1L)
+                .stageName("아이유 (IU)")
+                .description("아이유입니다.")
+                .agency("EDAM 엔터테인먼트")
+                .applicationState(ArtistApplicationState.APPLY)
+                .profileImageUrl("https://image.com/iu")
+                .youtubeUrl("https://www.youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/iu")
+                .snsUrl("https://instagram.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .member(Member.builder().build())
+                .build();
+        given(artistApplicationUseCase.searchById(any(Long.class)))
+                .willReturn(response);
+
+        ResultActions perform = mockMvc.perform(get("/api/v1/artist-applications/me")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.results.stageName").value(response.getStageName()));
+
+        perform.andDo(print())
+                .andDo(document("artist-application-my-details",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
