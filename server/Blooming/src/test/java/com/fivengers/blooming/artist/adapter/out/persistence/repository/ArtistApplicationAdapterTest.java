@@ -12,6 +12,7 @@ import com.fivengers.blooming.member.adapter.out.persistence.repository.MemberSp
 import com.fivengers.blooming.member.domain.AuthProvider;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,8 @@ import org.springframework.data.domain.PageRequest;
 class ArtistApplicationAdapterTest {
 
     @Autowired MemberSpringDataRepository memberSpringDataRepository;
+    @Autowired
+    ArtistApplicationSpringDataRepository artistApplicationSpringDataRepository;
     @Autowired MemberMapper memberMapper;
     @Autowired ArtistApplicationAdapter artistApplicationAdapter;
     MemberJpaEntity member1;
@@ -48,6 +51,11 @@ class ArtistApplicationAdapterTest {
                 .account("87654321")
                 .deleted(false)
                 .build());
+    }
+
+    @AfterEach
+    void clearData() {
+        artistApplicationSpringDataRepository.deleteAll();
     }
 
     @Test
@@ -118,8 +126,8 @@ class ArtistApplicationAdapterTest {
     private static Stream<Arguments> providedArtistApplicationState() {
         return Stream.of(
                 Arguments.of(ArtistApplicationState.APPLY),
-                Arguments.of(ArtistApplicationState.REVIEW),
                 Arguments.of(ArtistApplicationState.RETURN),
+                Arguments.of(ArtistApplicationState.CANCEL),
                 Arguments.of(ArtistApplicationState.APPROVAL)
         );
     }
@@ -132,7 +140,7 @@ class ArtistApplicationAdapterTest {
                 .stageName("아이유 (IU)")
                 .description("아이유입니다.")
                 .agency("EDAM 엔터테인먼트")
-                .applicationState(ArtistApplicationState.REVIEW)
+                .applicationState(ArtistApplicationState.APPLY)
                 .profileImageUrl("https://image.com/iu")
                 .youtubeUrl("https://www.youtube.com/iu")
                 .fanCafeUrl("https://cafe.daum.net/iu")
@@ -160,7 +168,7 @@ class ArtistApplicationAdapterTest {
 
         assertThat(applications).hasSize(2);
         assertSoftly(as -> {
-            as.assertThat(applications.getContent().get(0).getApplicationState()).isEqualTo(ArtistApplicationState.REVIEW);
+            as.assertThat(applications.getContent().get(0).getApplicationState()).isEqualTo(ArtistApplicationState.APPLY);
             as.assertThat(applications.getContent().get(1).getApplicationState()).isEqualTo(ArtistApplicationState.APPROVAL);
         });
     }
