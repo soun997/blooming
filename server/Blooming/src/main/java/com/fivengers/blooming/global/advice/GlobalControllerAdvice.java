@@ -37,7 +37,8 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse<ErrorResponse> nullParameterViolation(MethodArgumentNotValidException exception) {
+    public ApiResponse<ErrorResponse> nullParameterViolation(
+            MethodArgumentNotValidException exception) {
         ExceptionCode exceptionCode = ExceptionCode.UNREGISTERED_EXCEPTION;
         String errorMessage = exception.getMessage();
         if (exception.getMessage().contains("널")) {
@@ -60,6 +61,15 @@ public class GlobalControllerAdvice {
                 exceptionCode.getErrorCode(),
                 exception.getMessage()
         ));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiResponse<ErrorResponse> runtimeException(RuntimeException exception) {
+        ExceptionCode exceptionCode = ExceptionCode.UNREGISTERED_EXCEPTION;
+        AdviceLoggingUtils.exceptionLog(exceptionCode, exception);
+        return ApiResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(exceptionCode.getErrorCode(), exception.getMessage()));
     }
 
 }
