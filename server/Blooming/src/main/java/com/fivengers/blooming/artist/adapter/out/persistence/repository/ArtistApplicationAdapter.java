@@ -48,6 +48,12 @@ public class ArtistApplicationAdapter implements ArtistApplicationPort {
     }
 
     @Override
+    public Optional<ArtistApplication> findByMemberId(Long memberId) {
+        return artistApplicationQueryRepository.findByMemberId(memberId)
+                .map(artistApplicationMapper::toDomain);
+    }
+
+    @Override
     @Transactional
     public ArtistApplication update(ArtistApplication artistApplication) {
         ArtistApplicationJpaEntity jpaEntity =

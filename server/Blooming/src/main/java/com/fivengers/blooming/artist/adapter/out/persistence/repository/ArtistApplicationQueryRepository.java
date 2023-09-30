@@ -44,4 +44,12 @@ public class ArtistApplicationQueryRepository extends QuerydslRepositorySupport 
                 .fetchJoin()
                 .fetchOne());
     }
+
+    public Optional<ArtistApplicationJpaEntity> findByMemberId(Long memberId) {
+        return Optional.ofNullable(selectFrom(artistApplicationJpaEntity)
+                .where(artistApplicationJpaEntity.memberJpaEntity.id.eq(memberId))
+                .leftJoin(artistApplicationJpaEntity.memberJpaEntity)
+                .fetchJoin()
+                .fetchOne());
+    }
 }
