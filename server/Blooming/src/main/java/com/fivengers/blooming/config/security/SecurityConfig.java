@@ -61,7 +61,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(
                                         new MvcRequestMatcher(introspector, "/api/v1/auth"),
-                                        new MvcRequestMatcher(introspector, "/error"))
+                                        new MvcRequestMatcher(introspector, "/error"),
+                                        new MvcRequestMatcher(introspector, "/api/v1/lives/openvidu/webhook"))
                                 .permitAll()
                                 .requestMatchers(
                                         new MvcRequestMatcher(introspector, "/api/**"))
