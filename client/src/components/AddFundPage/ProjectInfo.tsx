@@ -103,10 +103,10 @@ const ProjectInfo = ({ data, setData }: Props) => {
         <Subtitle>무엇을 위한 펀딩인가요?</Subtitle>
         <Contents>
           <div className="rows">
-            <Chip active={categoryIdx === 0} onClick={handleCategoryChange}>
+            <Chip $active={categoryIdx === 0} onClick={handleCategoryChange}>
               {FUNDING_CATEGORY[0]}
             </Chip>
-            <Chip active={categoryIdx === 1} onClick={handleCategoryChange}>
+            <Chip $active={categoryIdx === 1} onClick={handleCategoryChange}>
               {FUNDING_CATEGORY[1]}
             </Chip>
           </div>
@@ -208,7 +208,7 @@ const Contents = styled.div`
 `;
 
 interface styleProps {
-  active?: boolean;
+  $active?: boolean;
 }
 
 const Chip = styled.div<styleProps>`
@@ -217,7 +217,7 @@ const Chip = styled.div<styleProps>`
   height: fit-content;
   padding: 10px 20px;
   background-color: ${(props) =>
-    props.active ? 'var(--main1-color)' : 'var(--gray-color)'};
+    props.$active ? 'var(--main1-color)' : 'var(--gray-color)'};
   color: var(--white-color);
   font-size: 14px;
   font-weight: 400;

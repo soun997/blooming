@@ -37,6 +37,15 @@ const AddFund = () => {
   const [policyInfo, setPolicyInfo] = useState<PolicyInAdd>();
   const [settlementInfo, setSettlementInfo] = useState<RepresentInfoInAdd>();
 
+  const setInitInfo = (nowInfo: FundAddInfo) => {
+    setProjectInfo(nowInfo.projectInfo);
+    setBasicInfo(nowInfo.basicInfo);
+    setStoryInfo(nowInfo.storyInfo);
+    setPolicyInfo(nowInfo.policyInfo);
+    setSettlementInfo(nowInfo.settlementInfo);
+    setTotalInfo(nowInfo);
+  };
+
   const handleSubtitleClick = (index: number) => {
     setActiveIndex(index);
   };
@@ -50,27 +59,18 @@ const AddFund = () => {
     if (temporaryData) {
       if (confirm('임시 저장된 데이터가 있습니다')) {
         const tempInfo = JSON.parse(temporaryData);
-        setTotalInfo(tempInfo);
-        setProjectInfo(tempInfo.projectInfo);
-        setBasicInfo(tempInfo.basicInfo);
-        setStoryInfo(tempInfo.storyInfo);
-        setPolicyInfo(tempInfo.policyInfo);
-        setSettlementInfo(tempInfo.settlementInfo);
+        setInitInfo(tempInfo);
       } else {
-        setProjectInfo(InitInfo.projectInfo);
-        setBasicInfo(InitInfo.basicInfo);
-        setStoryInfo(InitInfo.storyInfo);
-        setPolicyInfo(InitInfo.policyInfo);
-        setSettlementInfo(InitInfo.settlementInfo);
-        setTotalInfo(InitInfo);
+        setInitInfo(InitInfo);
       }
+    } else {
+      setInitInfo(InitInfo);
     }
   }, []);
 
   useEffect(() => {
     console.log('상위페이지 데이터 체크 > ', totalInfo);
     if (totalInfo && validateFundAddInfo(totalInfo)) {
-      console.log('success');
       setIsSubmit(true);
     }
   }, [totalInfo]);
@@ -85,7 +85,7 @@ const AddFund = () => {
               임시저장
             </TemporaryButton>
             <AddButton
-              isSubmit={canSubmit}
+              $isSubmit={canSubmit}
               onClick={() => {
                 console.log('now,', totalInfo);
               }}
@@ -245,7 +245,7 @@ const TopInfoFrame = styled.div`
 `;
 
 interface StyleProps {
-  isSubmit: boolean;
+  $isSubmit: boolean;
 }
 const AddButton = styled.div<StyleProps>`
   display: flex;
@@ -253,9 +253,9 @@ const AddButton = styled.div<StyleProps>`
   justify-content: center;
   padding: 10px 30px;
   background-color: ${(props) =>
-    props.isSubmit ? `var(--main1-color)` : `var(--white-color)`};
+    props.$isSubmit ? `var(--main1-color)` : `var(--white-color)`};
   color: ${(props) =>
-    props.isSubmit ? `var(--white-color)` : `var(--main1-color)`};
+    props.$isSubmit ? `var(--white-color)` : `var(--main1-color)`};
   font-weight: 700;
   margin-right: 30px;
   border-radius: 6px;

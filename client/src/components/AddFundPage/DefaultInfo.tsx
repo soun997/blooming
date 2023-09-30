@@ -27,7 +27,7 @@ const updatedefaultInfo = (
 ) => {
   return {
     ...prevInfo,
-    defaultInfo: defaultInfo,
+    basicInfo: defaultInfo,
   };
 };
 

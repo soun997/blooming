@@ -26,7 +26,7 @@ const updaterepresentInfo = (
 ) => {
   return {
     ...prevInfo,
-    representInfo: representInfo,
+    settlementInfo: representInfo,
   };
 };
 
