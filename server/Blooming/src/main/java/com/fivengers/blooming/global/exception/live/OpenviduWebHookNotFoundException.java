@@ -11,6 +11,6 @@ public class OpenviduWebHookNotFoundException extends ApplicationException {
     }
 
     public OpenviduWebHookNotFoundException() {
-        this(ExceptionCode.INVESTMENT_OVERVIEW_NOT_FOUND);
+        this(ExceptionCode.OPENVIDU_WEBHOOK_NOT_FOUND);
     }
 }

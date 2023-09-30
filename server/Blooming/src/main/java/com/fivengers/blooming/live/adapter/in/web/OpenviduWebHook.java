@@ -1,5 +1,6 @@
 package com.fivengers.blooming.live.adapter.in.web;
 
+import com.fivengers.blooming.global.exception.live.OpenviduWebHookNotFoundException;
 import java.util.Arrays;
 import lombok.Getter;
 
@@ -14,7 +15,7 @@ public enum OpenviduWebHook {
         return Arrays.stream(OpenviduWebHook.values())
                 .filter((webhook) -> webhook.getEvent().equals(event))
                 .findAny()
-                .orElseThrow();
+                .orElseThrow(OpenviduWebHookNotFoundException::new);
     }
 
     OpenviduWebHook(String event) {
