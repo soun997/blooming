@@ -90,7 +90,7 @@ class ArtistApplicationControllerTest extends RestDocsTest {
                 .modifiedAt(now)
                 .member(Member.builder().build())
                 .build();
-        given(artistApplicationUseCase.searchById(any(Long.class)))
+        given(artistApplicationUseCase.searchByMemberId(any(Long.class)))
                 .willReturn(response);
 
         ResultActions perform = mockMvc.perform(get("/api/v1/artist-applications/me")
