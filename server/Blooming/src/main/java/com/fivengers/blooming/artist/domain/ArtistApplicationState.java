@@ -7,13 +7,11 @@ import lombok.Getter;
 @Getter
 public enum ArtistApplicationState {
     APPLY("신청"),
-    REVIEW("검토"),
     APPROVAL("승인"),
-    RETURN("반려"),
+    RETURN("거절"),
     CANCEL("취소");
 
     private final String value;
-
 
     ArtistApplicationState(String value) {
         this.value = value;
