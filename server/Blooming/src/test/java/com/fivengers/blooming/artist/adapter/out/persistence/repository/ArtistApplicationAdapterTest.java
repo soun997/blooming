@@ -11,6 +11,7 @@ import com.fivengers.blooming.member.adapter.out.persistence.mapper.MemberMapper
 import com.fivengers.blooming.member.adapter.out.persistence.repository.MemberSpringDataRepository;
 import com.fivengers.blooming.member.domain.AuthProvider;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,11 +28,14 @@ import org.springframework.data.domain.PageRequest;
 @SpringBootTest
 class ArtistApplicationAdapterTest {
 
-    @Autowired MemberSpringDataRepository memberSpringDataRepository;
+    @Autowired
+    MemberSpringDataRepository memberSpringDataRepository;
     @Autowired
     ArtistApplicationSpringDataRepository artistApplicationSpringDataRepository;
-    @Autowired MemberMapper memberMapper;
-    @Autowired ArtistApplicationAdapter artistApplicationAdapter;
+    @Autowired
+    MemberMapper memberMapper;
+    @Autowired
+    ArtistApplicationAdapter artistApplicationAdapter;
     MemberJpaEntity member1;
     MemberJpaEntity member2;
 
@@ -78,7 +82,8 @@ class ArtistApplicationAdapterTest {
 
         ArtistApplication savedArtistApplication = artistApplicationAdapter.save(artistApplication);
 
-        assertThat(savedArtistApplication.getStageName()).isEqualTo(artistApplication.getStageName());
+        assertThat(savedArtistApplication.getStageName()).isEqualTo(
+                artistApplication.getStageName());
     }
 
     @DisplayName("아티스트 신청을 상태별로 조회한다.")
@@ -168,9 +173,75 @@ class ArtistApplicationAdapterTest {
 
         assertThat(applications).hasSize(2);
         assertSoftly(as -> {
-            as.assertThat(applications.getContent().get(0).getApplicationState()).isEqualTo(ArtistApplicationState.APPLY);
-            as.assertThat(applications.getContent().get(1).getApplicationState()).isEqualTo(ArtistApplicationState.APPROVAL);
+            as.assertThat(applications.getContent().get(0).getApplicationState())
+                    .isEqualTo(ArtistApplicationState.APPLY);
+            as.assertThat(applications.getContent().get(1).getApplicationState())
+                    .isEqualTo(ArtistApplicationState.APPROVAL);
         });
+    }
+
+    @Test
+    @DisplayName("아티스트 신청 ID로 아티스트를 조회한다.")
+    void findArtistApplicationById() {
+        LocalDateTime now = LocalDateTime.now();
+        ArtistApplication application = artistApplicationAdapter.save(ArtistApplication.builder()
+                .stageName("아이유 (IU)")
+                .description("아이유입니다.")
+                .agency("EDAM 엔터테인먼트")
+                .applicationState(ArtistApplicationState.APPLY)
+                .profileImageUrl("https://image.com/iu")
+                .youtubeUrl("https://www.youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/iu")
+                .snsUrl("https://instagram.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .member(memberMapper.toDomain(member1))
+                .build());
+
+        Optional<ArtistApplication> findApplication =
+                artistApplicationAdapter.findById(application.getId());
+
+        assertThat(findApplication).isNotEmpty();
+        assertThat(findApplication.get().getId()).isEqualTo(application.getId());
+    }
+
+    @Test
+    @DisplayName("아티스트 신청 정보를 업데이트한다.")
+    void updateArtistApplication() {
+        LocalDateTime now = LocalDateTime.now();
+        ArtistApplication application = artistApplicationAdapter.save(ArtistApplication.builder()
+                .stageName("아이유 (IU)")
+                .description("아이유입니다.")
+                .agency("EDAM 엔터테인먼트")
+                .applicationState(ArtistApplicationState.APPLY)
+                .profileImageUrl("https://image.com/iu")
+                .youtubeUrl("https://www.youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/iu")
+                .snsUrl("https://instagram.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .member(memberMapper.toDomain(member1))
+                .build());
+
+        ArtistApplication willUpdate = ArtistApplication.builder()
+                .id(application.getId())
+                .stageName("아이유 (IU)")
+                .description("아이유입니다.")
+                .agency("EDAM 엔터테인먼트")
+                .applicationState(ArtistApplicationState.APPROVAL)
+                .profileImageUrl("https://image.com/iu")
+                .youtubeUrl("https://www.youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/iu")
+                .snsUrl("https://instagram.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .member(memberMapper.toDomain(member1))
+                .build();
+        ArtistApplication updatedApplication = artistApplicationAdapter.update(willUpdate);
+
+        assertThat(updatedApplication.getId()).isEqualTo(application.getId());
+        assertThat(updatedApplication.getApplicationState())
+                .isEqualTo(willUpdate.getApplicationState());
     }
 
 }
