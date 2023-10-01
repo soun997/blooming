@@ -10,5 +10,5 @@ public interface MembershipUseCase {
 
     Membership add(MembershipCreateRequest request);
     Page<Membership> searchLatestSeasons(Pageable pageable);
-    Membership modify(MembershipModifyRequest request, Long memberId);
+    Membership modify(MembershipModifyRequest request, Long membershipId, Long memberId);
 }
