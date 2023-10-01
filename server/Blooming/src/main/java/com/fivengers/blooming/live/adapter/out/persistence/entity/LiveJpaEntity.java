@@ -48,4 +48,8 @@ public class LiveJpaEntity extends BaseTime {
         this.endedAt = endedAt;
         this.artistJpaEntity = artistJpaEntity;
     }
+
+    public void setEndedAt(LocalDateTime endedAt) {
+        this.endedAt = endedAt;
+    }
 }
