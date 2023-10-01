@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface LivePort {
 
     Page<Live> findActiveLive(Pageable pageable);
+    Optional<Live> findActiveLiveById(Long liveId);
     Page<Live> findByKeyword(String keyword, Pageable pageable);
     Page<Live> findByArtistStageName(String keyword, Pageable pageable);
 
@@ -23,5 +24,4 @@ public interface LivePort {
     List<Live> findTopLivesByNumberOfViewers(int numberOfLives);
 
     void updateParticipantCount(String sessionId, int difference);
-    boolean isCorrectArtistOfLive(Long member, Long liveId);
 }
