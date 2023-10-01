@@ -90,8 +90,7 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
     }
 
     private void validateLive(SessionDetailRequest sessionDetailRequest) {
-        SessionId sessionId = new SessionId(sessionDetailRequest.customSessionId());
-        Long liveId = sessionId.getLiveId();
+        Long liveId = SessionId.getLiveId(sessionDetailRequest.customSessionId());
         if (livePort.isNonExistentLive(liveId)) {
             throw new LiveNotFoundException();
         }

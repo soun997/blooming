@@ -133,7 +133,6 @@ public class LivePersistenceAdapter implements LivePort {
         Map<String, Integer> topActiveLivesViewerInfo = convertTupleToMap(topActiveLiveTuples);
         List<Live> topLives = new ArrayList<>(liveSpringDataRepository.findLiveJpaEntityByIdIsIn(
                 topActiveLivesViewerInfo.keySet().stream()
-                        .map(SessionId::new)
                         .map(SessionId::getLiveId)
                         .collect(Collectors.toSet())
         ).stream().map(liveMapper::toDomain).toList());
