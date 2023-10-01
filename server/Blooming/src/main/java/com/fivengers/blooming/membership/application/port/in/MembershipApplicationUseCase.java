@@ -16,6 +16,6 @@ public interface MembershipApplicationUseCase {
     Page<MembershipApplication> searchAll(Pageable pageable,
             MembershipApplicationState applicationState);
 
-    MembershipApplication modifyStateById(Long applicationId,
-            MembershipApplicationModifyRequest request, Long memberId);
+    MembershipApplication modifyStateById(MembershipApplicationModifyRequest request,
+            Long applicationId, Long memberId);
 }
