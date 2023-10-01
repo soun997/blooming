@@ -33,8 +33,8 @@ public class MembershipService implements MembershipUseCase {
     }
 
     @Override
-    public Membership modify(MembershipModifyRequest request, Long memberId) {
-        Membership membership = membershipPort.findById(request.id())
+    public Membership modify(MembershipModifyRequest request, Long membershipId, Long memberId) {
+        Membership membership = membershipPort.findById(membershipId)
                 .orElseThrow(MembershipNotFoundException::new);
 
         if (membership.isOwner(memberId)) {
@@ -46,7 +46,7 @@ public class MembershipService implements MembershipUseCase {
                     request.purchaseEnd(),
                     request.thumbnailUrl());
 
-            return membership;
+            return membershipPort.update(membership);
         }
 
         throw new InvalidMembershipModifyRequestException();
