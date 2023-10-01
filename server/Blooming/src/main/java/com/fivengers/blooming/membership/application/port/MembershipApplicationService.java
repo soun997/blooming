@@ -42,8 +42,8 @@ public class MembershipApplicationService implements MembershipApplicationUseCas
     }
 
     @Override
-    public MembershipApplication modifyStateById(Long applicationId,
-            MembershipApplicationModifyRequest request, Long memberId) {
+    public MembershipApplication modifyStateById(MembershipApplicationModifyRequest request,
+            Long applicationId, Long memberId) {
         MembershipApplication application = membershipApplicationPort.findById(
                         applicationId)
                 .orElseThrow(MembershipApplicationNotFoundException::new);
@@ -51,7 +51,7 @@ public class MembershipApplicationService implements MembershipApplicationUseCas
         if (application.isApplier(memberId)) {
             application.changeState(request.applicationState());
 
-            return application;
+            return membershipApplicationPort.update(application);
         }
 
         throw new InvalidMembershipApplicationModifyRequestException();

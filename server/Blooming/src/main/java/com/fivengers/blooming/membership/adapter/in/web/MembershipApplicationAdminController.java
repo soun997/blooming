@@ -54,7 +54,7 @@ public class MembershipApplicationAdminController {
             @RequestBody @Validated MembershipApplicationModifyRequest request,
             @AuthenticationPrincipal LoginUser loginUser) {
         MembershipApplication membershipApplication = membershipApplicationUseCase
-                .modifyStateById(applicationId, request, loginUser.getMemberId());
+                .modifyStateById(request, applicationId, loginUser.getMemberId());
 
         return ApiResponse.ok(MembershipApplicationDetailsResponse.from(membershipApplication,
                 ArtistResponse.from(membershipApplication.getArtist())));
