@@ -139,8 +139,8 @@ public class LiveController {
     @GetMapping("/check/active")
     public ApiResponse<LiveCheckActiveResponse> liveActiveCheck(
             @NotNull @Min(1) @RequestParam Long artistId) {
-        Long hasActiveLive = liveSearchUseCase.checkActiveLive(artistId);
-        return ApiResponse.ok(new LiveCheckActiveResponse(artistId, hasActiveLive));
+        Long activeLiveId = liveSearchUseCase.checkActiveLive(artistId);
+        return ApiResponse.ok(new LiveCheckActiveResponse(artistId, activeLiveId));
     }
 
     @GetMapping("/best")
