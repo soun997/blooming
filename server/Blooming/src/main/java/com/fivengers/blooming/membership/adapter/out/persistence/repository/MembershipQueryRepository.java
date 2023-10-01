@@ -22,6 +22,8 @@ public class MembershipQueryRepository extends QuerydslRepositorySupport {
 
     public Optional<MembershipJpaEntity> findById(Long membershipId) {
         return Optional.ofNullable(selectFrom(membershipJpaEntity)
+                .leftJoin(membershipJpaEntity.artistJpaEntity).fetchJoin()
+                .leftJoin(membershipJpaEntity.artistJpaEntity.memberJpaEntity).fetchJoin()
                 .where(membershipJpaEntity.id.eq(membershipId))
                 .fetchOne());
     }
@@ -38,6 +40,8 @@ public class MembershipQueryRepository extends QuerydslRepositorySupport {
             Pageable pageable, QMembershipJpaEntity sub) {
         return query -> query.selectFrom(membershipJpaEntity)
                 .innerJoin(membershipJpaEntity.nftSaleJpaEntity).fetchJoin()
+                .leftJoin(membershipJpaEntity.artistJpaEntity).fetchJoin()
+                .leftJoin(membershipJpaEntity.artistJpaEntity.memberJpaEntity).fetchJoin()
                 .where(membershipJpaEntity.deleted.eq(false)
                         .and(membershipJpaEntity.artistJpaEntity.in(
                                 select(sub.artistJpaEntity)
@@ -50,6 +54,8 @@ public class MembershipQueryRepository extends QuerydslRepositorySupport {
 
     private Function<JPAQueryFactory, JPAQuery<Long>> latestSeasonsCountQuery() {
         return countQuery -> select(membershipJpaEntity.count())
-                .from(membershipJpaEntity);
+                .from(membershipJpaEntity)
+                .leftJoin(membershipJpaEntity.artistJpaEntity).fetchJoin()
+                .leftJoin(membershipJpaEntity.artistJpaEntity.memberJpaEntity).fetchJoin();
     }
 }
