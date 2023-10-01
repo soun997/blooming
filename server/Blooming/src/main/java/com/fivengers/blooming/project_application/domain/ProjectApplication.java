@@ -1,6 +1,7 @@
 package com.fivengers.blooming.project_application.domain;
 
 
+import com.fivengers.blooming.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,15 +17,20 @@ public class ProjectApplication {
     private StoryInfo storyInfo;
     private PolicyInfo policyInfo;
     private SettlementInfo settlementInfo;
+    private ProjectApplicationState state;
+    private Member member;
 
     @Builder
     public ProjectApplication(Long id, ProjectInfo projectInfo, BasicInfo basicInfo,
-            StoryInfo storyInfo, PolicyInfo policyInfo, SettlementInfo settlementInfo) {
+            StoryInfo storyInfo, PolicyInfo policyInfo, SettlementInfo settlementInfo,
+            ProjectApplicationState state, Member member) {
         this.id = id;
         this.projectInfo = projectInfo;
         this.basicInfo = basicInfo;
         this.storyInfo = storyInfo;
         this.policyInfo = policyInfo;
         this.settlementInfo = settlementInfo;
+        this.state = state;
+        this.member = member;
     }
 }

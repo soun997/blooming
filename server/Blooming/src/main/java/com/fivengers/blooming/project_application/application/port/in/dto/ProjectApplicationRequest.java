@@ -1,6 +1,8 @@
 package com.fivengers.blooming.project_application.application.port.in.dto;
 
+import com.fivengers.blooming.member.domain.Member;
 import com.fivengers.blooming.project_application.domain.ProjectApplication;
+import com.fivengers.blooming.project_application.domain.ProjectApplicationState;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -12,7 +14,7 @@ public record ProjectApplicationRequest(@NotNull @Valid ProjectInfoRequest proje
                                         @NotNull @Valid PolicyInfoRequest policyInfo,
                                         @NotNull @Valid SettlementInfoRequest settlementInfo) {
 
-    public ProjectApplication toDomain() {
+    public ProjectApplication toDomain(Member member) {
 
         return ProjectApplication.builder()
                 .projectInfo(projectInfo.toDomain())
@@ -20,6 +22,8 @@ public record ProjectApplicationRequest(@NotNull @Valid ProjectInfoRequest proje
                 .storyInfo(storyInfo.toDomain())
                 .policyInfo(policyInfo.toDomain())
                 .settlementInfo(settlementInfo.toDomain())
+                .state(ProjectApplicationState.APPLY)
+                .member(member)
                 .build();
     }
 }

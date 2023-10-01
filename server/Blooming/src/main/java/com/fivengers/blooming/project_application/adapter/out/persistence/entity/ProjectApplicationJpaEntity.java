@@ -1,12 +1,17 @@
 package com.fivengers.blooming.project_application.adapter.out.persistence.entity;
 
 
+import com.fivengers.blooming.member.adapter.out.persistence.entity.MemberJpaEntity;
+import com.fivengers.blooming.project_application.domain.ProjectApplicationState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,15 +40,25 @@ public class ProjectApplicationJpaEntity {
     @Embedded
     private PolicyInfoInJpaEntity policyInfo;
 
+    @Column(nullable = false)
+    private ProjectApplicationState state;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberJpaEntity member;
+
     @Builder
     public ProjectApplicationJpaEntity(Long id, ProjectInfoInJpaEntity projectInfo,
             BasicInfoInJpaEntity basicInfo, StoryInfoInJpaEntity storyInfo,
-            SettlementInfoInJpaEntity settlementInfo, PolicyInfoInJpaEntity policyInfo) {
+            SettlementInfoInJpaEntity settlementInfo, PolicyInfoInJpaEntity policyInfo,
+            ProjectApplicationState state, MemberJpaEntity member) {
         this.id = id;
         this.projectInfo = projectInfo;
         this.basicInfo = basicInfo;
         this.storyInfo = storyInfo;
         this.settlementInfo = settlementInfo;
         this.policyInfo = policyInfo;
+        this.state = state;
+        this.member = member;
     }
 }
