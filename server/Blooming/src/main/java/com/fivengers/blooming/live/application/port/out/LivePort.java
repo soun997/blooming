@@ -2,6 +2,7 @@ package com.fivengers.blooming.live.application.port.out;
 
 import com.fivengers.blooming.live.domain.Live;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -24,4 +25,7 @@ public interface LivePort {
     List<Live> findTopLivesByNumberOfViewers(int numberOfLives);
 
     void updateParticipantCount(String sessionId, int difference);
+
+    Live updateLiveEndAt(Live live, LocalDateTime dateTime);
+    void deleteActiveLiveInfo(String sessionId);
 }

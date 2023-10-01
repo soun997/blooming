@@ -7,7 +7,6 @@ import com.fivengers.blooming.global.exception.live.LiveNotFoundException;
 import com.fivengers.blooming.global.exception.live.SessionNotFoundException;
 import com.fivengers.blooming.global.exception.live.UnauthorizedMemberForClosingLiveException;
 import com.fivengers.blooming.global.util.Assertion;
-import com.fivengers.blooming.global.util.BiAssertion;
 import com.fivengers.blooming.global.util.DateUtils;
 import com.fivengers.blooming.live.adapter.in.web.dto.ConnectionTokenDetailRequest;
 import com.fivengers.blooming.live.adapter.in.web.dto.LiveCreateRequest;
@@ -30,7 +29,7 @@ import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
@@ -129,24 +128,23 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
         livePort.saveActiveLiveInfo(createdLive.getSessionId(), createdLive.getArtist().getStageName());
         return createdLive;
     }
+
+    @Transactional
     @Override
     public Live closeLive(Long liveId, Member member) {
-        // TODO 1: 해당 멤버가 해당 live를 오픈한 아티스트인지 검증
+        // 해당 멤버가 해당 live를 오픈한 아티스트인지 검증
         Live live = livePort.findActiveLiveById(liveId).orElseThrow(LiveNotFoundException::new);
         Assertion.with(member.getId())
                 .setValidation(live::canCloseLive)
                 .validateOrThrow(UnauthorizedMemberForClosingLiveException::new);
 
-        // TODO 2: 해당 라이브의 종료일 설정
+        // 해당 라이브의 종료일 설정
+        Live closedLive = livePort.updateLiveEndAt(live, LocalDateTime.now());
 
+        // 레디스에서 해당 라이브 관련 정보 삭제
+        livePort.deleteActiveLiveInfo(closedLive.getSessionId());
 
-        // TODO 3: 레디스에서 스트리머 정보 삭제
-        // TODO 4: 레디스에서 시청자 수 정보 삭제
-        List<Integer> arr = new ArrayList<>();
-
-
-
-        return null;
+        return closedLive;
     }
 
     @Override
