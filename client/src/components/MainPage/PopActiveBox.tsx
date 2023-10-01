@@ -15,6 +15,8 @@ const PopActiveBox = () => {
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
+        centeredSlides={true}
+        loop={true}
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
@@ -35,7 +37,7 @@ const PopActiveBox = () => {
           <PopActiveCard />
         </SwiperSlide>
       </Swiper>
-      <SeeMoreFundingBtn />
+      <SeeMoreFundingBtn btnTitle="펀딩" />
     </ActiveBox>
   );
 };

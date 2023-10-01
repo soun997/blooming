@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const SeeMoreFundingBtn = () => {
+interface Props {
+  btnTitle: string;
+}
+
+const SeeMoreFundingBtn: React.FC<Props> = ({ btnTitle }) => {
   return (
     <SeeMoreBox>
       <SeeMoreBtn>
-        <div className="see_more_text">펀딩 전체보기</div>
+        <div className="see_more_text">{btnTitle} 전체보기</div>
         <img
           src="../../src/assets/icons/see-more-funding.svg"
           alt=""

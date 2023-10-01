@@ -11,8 +11,11 @@ const MainPage = () => {
   return (
     <div>
       <Navbar />
+      <Background></Background>
       <br />
       <PopBannerBox></PopBannerBox>
+      <br />
+      <br />
       <br />
       <br />
       <br />
@@ -22,7 +25,9 @@ const MainPage = () => {
       <br />
       <br />
       <br />
+      <br />
       <PopConcertBox></PopConcertBox>
+      <br />
       <br />
       <br />
       <br />
@@ -32,4 +37,13 @@ const MainPage = () => {
   );
 };
 
+const Background = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  background: var(--Main4, #1b335e);
+  z-index: 1;
+`;
 export default MainPage;

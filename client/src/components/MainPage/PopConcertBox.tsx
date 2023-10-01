@@ -12,8 +12,11 @@ const PopConcertBox = () => {
       <div className="box_title">인기 콘서트 펀딩</div>
 
       <Swiper
-        slidesPerView={2}
-        spaceBetween={0}
+        slidesPerView={2.3}
+        spaceBetween={30}
+        centeredSlides={true}
+        // centerInsufficientSlides={false}
+        loop={true}
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
@@ -34,7 +37,7 @@ const PopConcertBox = () => {
           <PopConcertCard />
         </SwiperSlide>
       </Swiper>
-      <SeeMoreFundingBtn />
+      <SeeMoreFundingBtn btnTitle="펀딩" />
     </ConcertBox>
   );
 };

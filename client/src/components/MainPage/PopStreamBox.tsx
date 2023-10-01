@@ -14,6 +14,8 @@ const PopStreamBox = () => {
       <Swiper
         slidesPerView={2}
         spaceBetween={30}
+        centeredSlides={true}
+        loop={true}
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
@@ -37,7 +39,7 @@ const PopStreamBox = () => {
           <PopStreamCard />
         </SwiperSlide>
       </Swiper>
-      <SeeMoreFundingBtn />
+      <SeeMoreFundingBtn btnTitle="스트리밍" />
     </StreamBox>
   );
 };
