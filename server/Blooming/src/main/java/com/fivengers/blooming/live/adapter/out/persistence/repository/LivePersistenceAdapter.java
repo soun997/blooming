@@ -43,7 +43,6 @@ public class LivePersistenceAdapter implements LivePort {
     private final LiveQueryRepository liveQueryRepository;
     private final LiveSpringDataRepository liveSpringDataRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final EntityManager em;
 
     @Override
     public Page<Live> findByKeyword(String keyword, Pageable pageable) {
@@ -163,10 +162,9 @@ public class LivePersistenceAdapter implements LivePort {
     }
 
     @Override
-    public Live updateLiveEndAt(Live live, LocalDateTime dateTime) {
-        LiveJpaEntity liveJpaEntity = liveMapper.toJpaEntity(live);
-        em.persist(liveJpaEntity);
-        liveJpaEntity.setEndedAt(dateTime);
+    public Live updateLive(Live live) {
+        LiveJpaEntity liveJpaEntity = liveQueryRepository.findActiveLiveById(live.getId());
+        liveJpaEntity.update(live);
         return liveMapper.toDomain(liveJpaEntity);
     }
 
