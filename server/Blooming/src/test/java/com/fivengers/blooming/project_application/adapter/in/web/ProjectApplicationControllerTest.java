@@ -39,8 +39,24 @@ public class ProjectApplicationControllerTest extends RestDocsTest {
     @DisplayName("콘서트 펀딩 프로젝트 신청서를 등록한다.")
     void projectApplicationAddTest() throws Exception {
 
+        ProjectApplicationRequest request = createRequest();
+
+        ResultActions perform = mockMvc.perform(post("/api/v1/project-applications")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(request)));
+
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(HttpStatus.NO_CONTENT.value()));
+
+        perform.andDo(print())
+                .andDo(document("project-application-add",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    private ProjectApplicationRequest createRequest() {
+
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         ProjectInfoRequest projectInfoRequest = new ProjectInfoRequest(
                 ProjectType.CONCERT.getValue(),
@@ -55,8 +71,8 @@ public class ProjectApplicationControllerTest extends RestDocsTest {
         BasicInfoRequest basicInfoRequest = BasicInfoRequest.builder()
                 .title("김싸피 데뷔 1주년 기념 콘서트")
                 .thumbnail("/thumbnail1")
-                .startDate(now.format(formatter))
-                .endDate(now.plusMonths(3).format(formatter))
+                .startDate(now)  // Validation에 걸리지 않기 위해 1분을 더해줌 (현재-미래만 가능)
+                .endDate(now.plusMonths(3))
                 .build();
 
         StoryInfoRequest storyInfoRequest = StoryInfoRequest.builder()
@@ -78,24 +94,12 @@ public class ProjectApplicationControllerTest extends RestDocsTest {
 
         PolicyInfoRequest policyInfoRequest = new PolicyInfoRequest(true, true);
 
-        ProjectApplicationRequest request = ProjectApplicationRequest.builder()
+        return ProjectApplicationRequest.builder()
                 .projectInfo(projectInfoRequest)
                 .basicInfo(basicInfoRequest)
                 .storyInfo(storyInfoRequest)
                 .settlementInfo(settlementInfoRequest)
                 .policyInfo(policyInfoRequest)
                 .build();
-
-        ResultActions perform = mockMvc.perform(post("/api/v1/project-applications")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(request)));
-
-        perform.andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(HttpStatus.NO_CONTENT.value()));
-
-        perform.andDo(print())
-                .andDo(document("project-application-add",
-                        getDocumentRequest(),
-                        getDocumentResponse()));
     }
 }
