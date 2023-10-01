@@ -14,6 +14,7 @@ import com.fivengers.blooming.support.RestEndToEndTest;
 import io.restassured.RestAssured;
 import java.time.LocalDateTime;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class LiveRestTest extends RestEndToEndTest {
 
     private final String REDIS_LIVE_VIEWER_COUNT_KEY = "liveViewerCount";
     private final String REDIS_LIVE_STREAMER_KEY = "liveStreamer";
-    private final String SESSION_PREFIX = "bloomingTest";
+    private final String SESSION_PREFIX = "blooming";
 
     @Autowired
     LiveSpringDataRepository liveSpringDataRepository;
@@ -41,6 +42,7 @@ public class LiveRestTest extends RestEndToEndTest {
     ArtistJpaEntity artist;
     MemberJpaEntity artistMember;
     MemberJpaEntity member;
+    String sessionId;
 
     @BeforeEach
     void initObjects() {
@@ -79,6 +81,13 @@ public class LiveRestTest extends RestEndToEndTest {
                 .endedAt(now)
                 .artistJpaEntity(artist)
                 .build());
+        sessionId = SESSION_PREFIX + activeLive.getId();
+    }
+
+    @AfterEach
+    void clearTestData() {
+        redisTemplate.opsForHash().delete(REDIS_LIVE_STREAMER_KEY, sessionId);
+        redisTemplate.opsForZSet().remove(REDIS_LIVE_VIEWER_COUNT_KEY, sessionId);
     }
 
     @Test
@@ -90,7 +99,7 @@ public class LiveRestTest extends RestEndToEndTest {
                 .when().get("/api/v1/lives/check/active")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("results.activeLiveId", response -> equalTo(1));
+                .body("results.activeLiveId", response -> equalTo(activeLive.getId().intValue()));
 
     }
 
@@ -115,9 +124,6 @@ public class LiveRestTest extends RestEndToEndTest {
             as.assertThat(redisTemplate.opsForHash().hasKey(REDIS_LIVE_STREAMER_KEY, sessionId)).isFalse();
             as.assertThat(redisTemplate.opsForZSet().score(REDIS_LIVE_VIEWER_COUNT_KEY, sessionId)).isNull();
         });
-
-        redisTemplate.opsForHash().delete(REDIS_LIVE_STREAMER_KEY, sessionId);
-        redisTemplate.opsForZSet().remove(REDIS_LIVE_VIEWER_COUNT_KEY, sessionId);
     }
     @Test
     @DisplayName("라이브를 종료할 권한이 없는 사용자가 라이브 종료 요청 시 에러가 발생한다.")
@@ -135,9 +141,6 @@ public class LiveRestTest extends RestEndToEndTest {
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .body("results.errorCode", response -> equalTo("ERR_LIVE_005"));
-
-        redisTemplate.opsForHash().delete(REDIS_LIVE_STREAMER_KEY, sessionId);
-        redisTemplate.opsForZSet().remove(REDIS_LIVE_VIEWER_COUNT_KEY, sessionId);
     }
 
 
