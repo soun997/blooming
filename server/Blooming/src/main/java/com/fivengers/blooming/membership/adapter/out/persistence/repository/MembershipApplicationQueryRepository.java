@@ -43,6 +43,8 @@ public class MembershipApplicationQueryRepository extends QuerydslRepositorySupp
                 .where(membershipApplicationJpaEntity.id.eq(applicationId))
                 .leftJoin(membershipApplicationJpaEntity.artistJpaEntity)
                 .fetchJoin()
+                .leftJoin(membershipApplicationJpaEntity.artistJpaEntity.memberJpaEntity)
+                .fetchJoin()
                 .fetchOne());
     }
 
@@ -51,6 +53,8 @@ public class MembershipApplicationQueryRepository extends QuerydslRepositorySupp
                 .where(membershipApplicationJpaEntity.artistJpaEntity
                         .memberJpaEntity.id.eq(memberId))
                 .leftJoin(membershipApplicationJpaEntity.artistJpaEntity)
+                .fetchJoin()
+                .leftJoin(membershipApplicationJpaEntity.artistJpaEntity.memberJpaEntity)
                 .fetchJoin()
                 .fetchOne());
     }
