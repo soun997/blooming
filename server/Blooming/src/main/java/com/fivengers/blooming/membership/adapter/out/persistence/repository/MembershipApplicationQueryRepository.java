@@ -4,10 +4,8 @@ import static com.fivengers.blooming.membership.adapter.out.persistence.entity.Q
 
 import com.fivengers.blooming.global.support.QuerydslRepositorySupport;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.MembershipApplicationJpaEntity;
-import com.fivengers.blooming.membership.adapter.out.persistence.entity.QMembershipApplicationJpaEntity;
 import com.fivengers.blooming.membership.domain.MembershipApplicationState;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MembershipApplicationQueryRepository extends QuerydslRepositorySupport {
 
-    public MembershipApplicationQueryRepository(Class<?> entityClass) {
+    public MembershipApplicationQueryRepository() {
         super(MembershipApplicationJpaEntity.class);
     }
 
