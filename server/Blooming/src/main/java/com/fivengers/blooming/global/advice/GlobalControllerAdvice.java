@@ -68,15 +68,4 @@ public class GlobalControllerAdvice {
                 new ErrorResponse(exception.getExceptionCode().getErrorCode(),
                         exception.getMessage()));
     }
-
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiResponse<ErrorResponse> runtimeException(RuntimeException exception) {
-        ExceptionCode exceptionCode = ExceptionCode.UNREGISTERED_EXCEPTION;
-        exception.getCause();
-        AdviceLoggingUtils.exceptionLog(exceptionCode, exception);
-        return ApiResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse(exceptionCode.getErrorCode(), exception.getMessage()));
-    }
-
 }
