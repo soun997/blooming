@@ -6,9 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;
-import com.fivengers.blooming.membership.application.port.in.dto.MembershipCreateRequest;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipModifyRequest;
 import com.fivengers.blooming.membership.domain.Membership;
 import com.fivengers.blooming.membership.domain.NftSale;
@@ -36,7 +35,8 @@ import org.springframework.test.web.servlet.ResultActions;
 @WebMvcTest(MembershipController.class)
 class MembershipControllerTest extends RestDocsTest {
 
-    @MockBean MembershipUseCase membershipUseCase;
+    @MockBean
+    MembershipUseCase membershipUseCase;
 
     @Test
     @DisplayName("멤버십 목록을 조회한다")
@@ -153,10 +153,11 @@ class MembershipControllerTest extends RestDocsTest {
                 .nftSale(nftSale)
                 .build();
 
-        given(membershipUseCase.modify(any(MembershipModifyRequest.class), any(Long.class)))
+        given(membershipUseCase.modify(any(MembershipModifyRequest.class), any(Long.class),
+                any(Long.class)))
                 .willReturn(membership);
 
-        ResultActions perform = mockMvc.perform(put("/api/v1/memberships")
+        ResultActions perform = mockMvc.perform(put("/api/v1/memberships/{membershipId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(request)));
 
@@ -166,6 +167,8 @@ class MembershipControllerTest extends RestDocsTest {
         perform.andDo(print())
                 .andDo(document("membership-modify",
                         getDocumentRequest(),
-                        getDocumentResponse()));
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("membershipId").description("멤버십 ID"))));
     }
 }
