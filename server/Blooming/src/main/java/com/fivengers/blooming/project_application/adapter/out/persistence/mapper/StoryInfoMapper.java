@@ -15,8 +15,8 @@ public class StoryInfoMapper {
         return StoryInfo.builder()
                 .introduction(storyInfo.getIntroduction())
                 .description(storyInfo.getDescription())
-                .listImg(storyInfo.getListImg())
-                .compositionImg(storyInfo.getCompositionImg())
+                .listImage(storyInfo.getListImage())
+                .compositionImage(storyInfo.getCompositionImage())
                 .teaserVideoUrl(storyInfo.getTeaserVideoUrl())
                 .budget(storyInfo.getBudget())
                 .build();
@@ -27,8 +27,8 @@ public class StoryInfoMapper {
         return StoryInfoInJpaEntity.builder()
                 .introduction(storyInfo.getIntroduction())
                 .description(storyInfo.getDescription())
-                .listImg(storyInfo.getListImg())
-                .compositionImg(storyInfo.getCompositionImg())
+                .listImage(storyInfo.getListImage())
+                .compositionImage(storyInfo.getCompositionImage())
                 .teaserVideoUrl(storyInfo.getTeaserVideoUrl())
                 .budget(storyInfo.getBudget())
                 .build();

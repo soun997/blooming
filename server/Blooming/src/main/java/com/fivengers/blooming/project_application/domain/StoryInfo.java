@@ -12,18 +12,18 @@ public class StoryInfo {
 
     private String introduction;
     private String description;
-    private String listImg;
-    private String compositionImg;
+    private String listImage;
+    private String compositionImage;
     private String teaserVideoUrl;
     private Long budget;
 
     @Builder
-    public StoryInfo(String introduction, String description, String listImg, String compositionImg,
-            String teaserVideoUrl, Long budget) {
+    public StoryInfo(String introduction, String description, String listImage,
+            String compositionImage, String teaserVideoUrl, Long budget) {
         this.introduction = introduction;
         this.description = description;
-        this.listImg = listImg;
-        this.compositionImg = compositionImg;
+        this.listImage = listImage;
+        this.compositionImage = compositionImage;
         this.teaserVideoUrl = teaserVideoUrl;
         this.budget = budget;
     }

@@ -13,13 +13,13 @@ public class SettlementInfo {
     private String representative;
     private String email;
     private String accountNumber;
-    private String bankbookImg;
+    private String bankbookImage;
 
     @Builder
-    public SettlementInfo(String representative, String email, String accountNumber, String bankbookImg) {
+    public SettlementInfo(String representative, String email, String accountNumber, String bankbookImage) {
         this.representative = representative;
         this.email = email;
         this.accountNumber = accountNumber;
-        this.bankbookImg = bankbookImg;
+        this.bankbookImage = bankbookImage;
     }
 }

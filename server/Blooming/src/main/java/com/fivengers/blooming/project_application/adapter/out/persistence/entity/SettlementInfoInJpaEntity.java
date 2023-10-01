@@ -15,14 +15,14 @@ public class SettlementInfoInJpaEntity {
     private String representative;
     private String email;
     private String accountNumber;
-    private String bankbookImg;
+    private String bankbookImage;
 
     @Builder
     public SettlementInfoInJpaEntity(String representative, String email, String accountNumber,
-            String bankbookImg) {
+            String bankbookImage) {
         this.representative = representative;
         this.email = email;
         this.accountNumber = accountNumber;
-        this.bankbookImg = bankbookImg;
+        this.bankbookImage = bankbookImage;
     }
 }

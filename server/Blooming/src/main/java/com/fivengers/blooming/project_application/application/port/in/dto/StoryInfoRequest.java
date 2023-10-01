@@ -16,8 +16,8 @@ public record StoryInfoRequest(@NotBlank String introduction,
         return StoryInfo.builder()
                 .introduction(introduction)
                 .description(moreInfo.description())
-                .listImg(moreInfo.listImage())
-                .compositionImg(moreInfo.compositionImage())
+                .listImage(moreInfo.listImage())
+                .compositionImage(moreInfo.compositionImage())
                 .teaserVideoUrl(teaser)
                 .budget(budget)
                 .build();

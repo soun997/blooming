@@ -15,7 +15,7 @@ public class SettlementInfoMapper {
                 .representative(settlementInfo.getRepresentative())
                 .email(settlementInfo.getEmail())
                 .accountNumber(settlementInfo.getAccountNumber())
-                .bankbookImg(settlementInfo.getBankbookImg())
+                .bankbookImage(settlementInfo.getBankbookImage())
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class SettlementInfoMapper {
                 .representative(settlementInfo.getRepresentative())
                 .email(settlementInfo.getEmail())
                 .accountNumber(settlementInfo.getAccountNumber())
-                .bankbookImg(settlementInfo.getBankbookImg())
+                .bankbookImage(settlementInfo.getBankbookImage())
                 .build();
     }
 }

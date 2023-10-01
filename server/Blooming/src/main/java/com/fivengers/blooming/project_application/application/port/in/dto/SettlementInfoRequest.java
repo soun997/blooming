@@ -16,7 +16,7 @@ public record SettlementInfoRequest(@NotBlank String representative,
                 .representative(representative)
                 .email(email)
                 .accountNumber(accountNumber)
-                .bankbookImg(bankbookImage)
+                .bankbookImage(bankbookImage)
                 .build();
     }
 }

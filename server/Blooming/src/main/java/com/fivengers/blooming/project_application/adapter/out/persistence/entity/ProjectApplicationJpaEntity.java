@@ -33,12 +33,12 @@ public class ProjectApplicationJpaEntity {
     @Embedded
     private SettlementInfoInJpaEntity settlementInfo;
     @Embedded
-    private PolicyInfoJpaEntity policyInfo;
+    private PolicyInfoInJpaEntity policyInfo;
 
     @Builder
     public ProjectApplicationJpaEntity(Long id, ProjectInfoInJpaEntity projectInfo,
             BasicInfoInJpaEntity basicInfo, StoryInfoInJpaEntity storyInfo,
-            SettlementInfoInJpaEntity settlementInfo, PolicyInfoJpaEntity policyInfo) {
+            SettlementInfoInJpaEntity settlementInfo, PolicyInfoInJpaEntity policyInfo) {
         this.id = id;
         this.projectInfo = projectInfo;
         this.basicInfo = basicInfo;
