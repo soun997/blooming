@@ -38,6 +38,8 @@ include::{snippets}/membership-list/http-response.adoc[]
 
 include::{snippets}/membership-modify/http-request.adoc[]
 
+include::{snippets}/membership-modify/path-parameters.adoc[]
+
 === Response
 
 include::{snippets}/membership-modify/http-response.adoc[]
