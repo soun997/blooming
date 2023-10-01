@@ -14,7 +14,10 @@ import com.fivengers.blooming.fixture.member.adapter.out.persistence.FakeMemberP
 import com.fivengers.blooming.member.domain.AuthProvider;
 import com.fivengers.blooming.member.domain.Member;
 import com.fivengers.blooming.member.domain.MemberRole;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -74,10 +77,8 @@ class ArtistScrapRecordServiceTest {
         IntStream.range(0, 5)
                 .mapToObj(i -> ArtistScrapRecord.builder()
                         .scrapCount(2)
-                        .startDateOnWeek(getThisWeekDateTime(Calendar.SUNDAY, i, 0, 0, 0, 0))
-                        .endDateOnWeek(
-                                getThisWeekDateTime(Calendar.SATURDAY, i, 23, 59, 59,
-                                        999_999_999))
+                        .startDateOnWeek(getStartOfWeekDateTime(DayOfWeek.MONDAY).minusWeeks(i))
+                        .endDateOnWeek(getEndOfWeekDateTime(DayOfWeek.SUNDAY).minusWeeks(i))
                         .artist(artist)
                         .build())
                 .forEach(record -> artistScrapRecordPort.save(record));
@@ -87,7 +88,7 @@ class ArtistScrapRecordServiceTest {
 
         assertThat(records).hasSize(4);
         assertThat(records.get(0).getStartDateOnWeek()).isEqualTo(
-                getThisWeekDateTime(Calendar.SUNDAY, 0, 0, 0, 0, 0));
+                getStartOfWeekDateTime(DayOfWeek.MONDAY));
     }
 
     @Test
@@ -96,8 +97,8 @@ class ArtistScrapRecordServiceTest {
         artistScrapRecordService.recordIfOnWeek(artist, ArtistScrapRecord::upCount);
 
         Optional<ArtistScrapRecord> artistScrapRecord = artistScrapRecordPort.findOnWeek(
-                getThisWeekDateTime(Calendar.MONDAY, 0, 0, 0, 0, 0),
-                getThisWeekDateTime(Calendar.SUNDAY, -1, 23, 59, 59, 999_999_999),
+                getStartOfWeekDateTime(DayOfWeek.MONDAY),
+                getEndOfWeekDateTime(DayOfWeek.SUNDAY),
                 artist);
 
         assertThat(artistScrapRecord).isNotEmpty();
@@ -113,23 +114,21 @@ class ArtistScrapRecordServiceTest {
         artistScrapRecordService.recordIfOnWeek(artist, ArtistScrapRecord::downCount);
 
         Optional<ArtistScrapRecord> artistScrapRecord = artistScrapRecordPort.findOnWeek(
-                getThisWeekDateTime(Calendar.MONDAY, 0, 0, 0, 0, 0),
-                getThisWeekDateTime(Calendar.SUNDAY, -1, 23, 59, 59, 999_999_999),
+                getStartOfWeekDateTime(DayOfWeek.MONDAY),
+                getEndOfWeekDateTime(DayOfWeek.SUNDAY),
                 artist);
 
         assertThat(artistScrapRecord).isNotEmpty();
         assertThat(artistScrapRecord.get().getScrapCount()).isEqualTo(2L);
     }
 
-    private LocalDateTime getThisWeekDateTime(int dayOfWeek, int prevWeek, int hour, int minute, int second,
-            int nanoOfSecond) {
-        Calendar calendar = Calendar.getInstance();
+    private LocalDateTime getStartOfWeekDateTime(DayOfWeek dayOfWeek) {
+        return LocalDate.now().atTime(0, 0, 0, 0)
+                .with(TemporalAdjusters.previousOrSame(dayOfWeek));
+    }
 
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        calendar.add(Calendar.DATE, 7);
-        return LocalDateTime.ofInstant(calendar.getTime().toInstant(),
-                        calendar.getTimeZone().toZoneId())
-                .minusWeeks(1 + prevWeek)
-                .toLocalDate().atTime(hour, minute, second, nanoOfSecond);
+    private LocalDateTime getEndOfWeekDateTime(DayOfWeek dayOfWeek) {
+        return LocalDate.now().atTime(23, 59, 59, 999_999_999)
+                .with(TemporalAdjusters.nextOrSame(dayOfWeek));
     }
 }

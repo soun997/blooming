@@ -38,10 +38,7 @@ public class FakeArtistScrapRecordPersistenceAdapter implements ArtistScrapRecor
     public Optional<ArtistScrapRecord> findOnWeek(LocalDateTime startDate, LocalDateTime endDate,
             Artist artist) {
         return store.values().stream()
-                .peek(record -> System.out.println(record.getId()))
-                .peek(record -> System.out.println(record.getStartDateOnWeek() + ", " + startDate))
                 .filter(record -> record.getStartDateOnWeek().isEqual(startDate))
-                .peek(record -> System.out.println(record.getEndDateOnWeek() + ", " + endDate))
                 .filter(record -> record.getEndDateOnWeek().isEqual(endDate))
                 .filter(record -> record.getArtist().getId().equals(artist.getId()))
                 .findFirst();
