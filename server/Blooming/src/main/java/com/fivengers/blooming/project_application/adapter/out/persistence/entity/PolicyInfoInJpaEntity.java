@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PolicyInfoJpaEntity {
+public class PolicyInfoInJpaEntity {
 
     private Boolean serviceAgreement;
     private Boolean refundAgreement;
 
-    public PolicyInfoJpaEntity(Boolean serviceAgreement, Boolean refundAgreement) {
+    public PolicyInfoInJpaEntity(Boolean serviceAgreement, Boolean refundAgreement) {
         this.serviceAgreement = serviceAgreement;
         this.refundAgreement = refundAgreement;
     }

@@ -14,11 +14,11 @@ import lombok.Builder;
 
 @Builder
 public record BasicInfoRequest(@NotBlank String thumbnail,
-                               @NotNull @FutureOrPresent
+                               @NotNull
                                @JsonDeserialize(using = LocalDateTimeDeserializer.class)    // nested DTO에서 @JsonFormat을 사용할 때 반드시 필요
                                @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
                                LocalDateTime startDate,
-                               @NotNull @Future
+                               @NotNull
                                @JsonDeserialize(using = LocalDateTimeDeserializer.class)
                                @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
                                LocalDateTime endDate,
