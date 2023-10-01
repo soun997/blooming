@@ -139,7 +139,8 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
                 .validateOrThrow(UnauthorizedMemberForClosingLiveException::new);
 
         // 해당 라이브의 종료일 설정
-        Live closedLive = livePort.updateLiveEndAt(live, LocalDateTime.now());
+        live.close();
+        Live closedLive = livePort.updateLive(live);
 
         // 레디스에서 해당 라이브 관련 정보 삭제
         livePort.deleteActiveLiveInfo(closedLive.getSessionId());

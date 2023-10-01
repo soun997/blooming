@@ -26,6 +26,6 @@ public interface LivePort {
 
     void updateParticipantCount(String sessionId, int difference);
 
-    Live updateLiveEndAt(Live live, LocalDateTime dateTime);
+    Live updateLive(Live live);
     void deleteActiveLiveInfo(String sessionId);
 }

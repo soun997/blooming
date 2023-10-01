@@ -51,4 +51,8 @@ public class Live {
     public boolean canCloseLive(Long memberId) {
         return Objects.equals(artist.getMember().getId(), memberId);
     }
+
+    public void close() {
+        endedAt = LocalDateTime.now();
+    }
 }
