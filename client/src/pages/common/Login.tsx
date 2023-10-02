@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import axios from '@api/apiController';
 import * as useAuth from '@hooks/useAuth';
 import Loading from '@components/Animation/Loading';
+import axios from 'axios';
 
 const LoginSuccess = () => {
   const navigate = useNavigate();
@@ -17,7 +17,10 @@ const LoginSuccess = () => {
       };
 
       try {
-        const res = await axios.post('/auth', token);
+        const res = await axios.post(
+          'http://localhost:8080/api/v1/auth',
+          token,
+        );
         const accessToken = res.data.results.accessToken;
         const refreshToken = res.data.results.refreshToken;
         useAuth.setAccessToken(accessToken);
