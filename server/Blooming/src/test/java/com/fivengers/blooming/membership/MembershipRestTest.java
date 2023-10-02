@@ -12,10 +12,8 @@ import com.fivengers.blooming.member.domain.AuthProvider;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.MembershipJpaEntity;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.NftSaleJpaEntity;
 import com.fivengers.blooming.membership.adapter.out.persistence.repository.MembershipSpringDataRepository;
-import com.fivengers.blooming.membership.adapter.out.persistence.repository.NftSaleSpringDataRepository;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipCreateRequest;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipModifyRequest;
-import com.fivengers.blooming.nft.adapter.out.persistence.repository.NftSpringDataRepository;
 import com.fivengers.blooming.support.RestEndToEndTest;
 import io.restassured.RestAssured;
 import java.time.LocalDateTime;
@@ -32,12 +30,9 @@ public class MembershipRestTest extends RestEndToEndTest {
 
     @Autowired MembershipSpringDataRepository membershipSpringDataRepository;
     @Autowired ArtistSpringDataRepository artistSpringDataRepository;
-    @Autowired NftSpringDataRepository nftSpringDataRepository;
-    @Autowired NftSaleSpringDataRepository nftSaleSpringDataRepository;
     @Autowired MemberSpringDataRepository memberSpringDataRepository;
     MemberJpaEntity member;
     ArtistJpaEntity artist;
-    NftSaleJpaEntity nftSale;
     MembershipJpaEntity membership;
 
     @BeforeEach
@@ -129,14 +124,14 @@ public class MembershipRestTest extends RestEndToEndTest {
     @DisplayName("멤버십을 수정한다.")
     void modifyMembership() throws JsonProcessingException {
         LocalDateTime now = LocalDateTime.now();
-        MembershipModifyRequest request = new MembershipModifyRequest(1L,
-                "아이유 (IU)",
-                "아이유입니다.",
+        MembershipModifyRequest request = new MembershipModifyRequest(membership.getId(),
+                "박효신",
+                "박효신입니다.",
                 now,
                 now.plusYears(1),
                 now,
                 now.plusMonths(1),
-                "https://image.com/iu");
+                "https://image.com/psh");
 
         RestAssured.given().log().all()
                 .header(AUTHORIZATION, getAccessToken(member))
@@ -144,7 +139,8 @@ public class MembershipRestTest extends RestEndToEndTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().put("/api/v1/memberships/{membershipId}", membership.getId())
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.OK.value())
+                .body("results.title", response -> equalTo(request.title()));
     }
 
 }
