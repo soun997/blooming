@@ -21,3 +21,5 @@ include::{docdir}/src/docs/asciidoc/membershipapplication.adoc[]
 include::{docdir}/src/docs/asciidoc/live.adoc[]
 
 include::{docdir}/src/docs/asciidoc/payment.adoc[]
+
+include::{docdir}/src/docs/asciidoc/project_application.adoc[]
