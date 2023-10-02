@@ -44,6 +44,7 @@ class ArtistAdminControllerTest extends RestDocsTest {
                 "https://youtube.com/iu",
                 "https://cafe.daum.net/iu",
                 "https://instagram.com/iu",
+                1L,
                 new ArtistVideoCreateRequest(List.of("https://youtube.com/iu")));
         LocalDateTime now = LocalDateTime.now();
         Artist artist = Artist.builder()
@@ -74,7 +75,7 @@ class ArtistAdminControllerTest extends RestDocsTest {
                 .artist(artist)
                 .build();
 
-        given(artistUseCase.add(any(ArtistCreateRequest.class), any(Long.class)))
+        given(artistUseCase.add(any(ArtistCreateRequest.class)))
                 .willReturn(artist);
         given(artistVideoUseCase.searchByArtistId(any(Long.class)))
                 .willReturn(List.of(artistVideo1, artistVideo2, artistVideo3));
@@ -90,8 +91,6 @@ class ArtistAdminControllerTest extends RestDocsTest {
         perform.andDo(print())
                 .andDo(document("artist-create",
                         getDocumentRequest(),
-                        getDocumentResponse(),
-                        queryParameters(
-                                parameterWithName("memberId").description("멤버 ID"))));
+                        getDocumentResponse()));
     }
 }

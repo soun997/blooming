@@ -26,9 +26,8 @@ public class ArtistAdminController {
     @PostMapping
     public ApiResponse<ArtistDetailsResponse> artistCreate(@RequestBody
                                                            @Validated
-                                                           ArtistCreateRequest request,
-                                                           @RequestParam Long memberId) {
-        Artist artist = artistUseCase.add(request, memberId);
+                                                           ArtistCreateRequest request) {
+        Artist artist = artistUseCase.add(request);
 
         return ApiResponse.ok(ArtistDetailsResponse.from(artist,
                 artistVideoUseCase.searchByArtistId(artist.getId()).stream()

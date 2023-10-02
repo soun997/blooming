@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ArtistUseCase {
 
-    Artist add(ArtistCreateRequest request, Long memberId);
+    Artist add(ArtistCreateRequest request);
     List<Artist> searchAll();
     Artist searchById(Long artistId);
     Artist modify(ArtistModifyRequest request);

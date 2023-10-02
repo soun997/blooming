@@ -13,6 +13,7 @@ public record ArtistCreateRequest(@NotBlank String stageName,
                                   @NotNull String youtubeUrl,
                                   @NotNull String fanCafeUrl,
                                   @NotNull String snsUrl,
+                                  @NotNull Long memberId,
                                   @Validated ArtistVideoCreateRequest artistVideo) {
 
     public Artist toDomain(Member member) {

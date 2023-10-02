@@ -113,6 +113,7 @@ class ArtistServiceTest {
                 "https://youtube.com/iu",
                 "https://cafe.daum.net/iu",
                 "https://instagram.com/iu",
+                member.getId(),
                 new ArtistVideoCreateRequest(List.of("https://youtube.com/iu")));
         Artist artist = Artist.builder()
                 .id(1L)
@@ -129,7 +130,7 @@ class ArtistServiceTest {
                 .build();
 
 
-        Artist savedArtist = artistService.add(request, 1L);
+        Artist savedArtist = artistService.add(request);
 
         assertThat(savedArtist.getId()).isEqualTo(artist.getId());
     }
