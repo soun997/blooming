@@ -40,6 +40,24 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
   );
 };
 const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
+  const navigate = useNavigate();
+  const handleJoinLive = async (liveId: number, liveTitle: string) => {
+    //session id 조회하고
+    const response = await axios.get(`/lives/${liveId}/session-id`);
+    const sessionId = response.data.results.sessionId;
+    //connection 생성하고
+    const connection = await axios.post(
+      `lives/sessions/${sessionId}/connections`,
+    );
+
+    if (connection) {
+      setLiveNickName('추후변경현재닉네임');
+      setLiveSessionId(sessionId);
+      setLiveTitle(liveTitle);
+      navigate('/meeting');
+    }
+  };
+
   return (
     <EachFrame onClick={() => handleJoinLive(data.id, data.title)}>
       <img
@@ -62,24 +80,6 @@ const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
       </Info>
     </EachFrame>
   );
-};
-
-const handleJoinLive = async (liveId: number, liveTitle: string) => {
-  const navigate = useNavigate();
-  //session id 조회하고
-  const response = await axios.get(`/lives/${liveId}/session-id`);
-  const sessionId = response.data.results.sessionId;
-  //connection 생성하고
-  const connection = await axios.post(
-    `lives/sessions/${sessionId}/connections`,
-  );
-
-  if (connection) {
-    setLiveNickName('추후변경현재닉네임');
-    setLiveSessionId(sessionId);
-    setLiveTitle(liveTitle);
-    navigate('/meeting');
-  }
 };
 
 const EachFrame = styled.div`
