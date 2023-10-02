@@ -125,7 +125,7 @@ class MembershipApplicationAdminControllerTest extends RestDocsTest {
                 .build();
 
         given(membershipApplicationUseCase.modifyStateById(
-                any(MembershipApplicationModifyRequest.class), any(Long.class), any(Long.class)))
+                any(MembershipApplicationModifyRequest.class), any(Long.class)))
                 .willReturn(application);
 
         ResultActions perform = mockMvc.perform(
