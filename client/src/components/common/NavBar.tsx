@@ -17,10 +17,10 @@ interface NavItemProps {
 
 const Navbar = ({
   activeIdx,
-  isMain,
+  $isMain,
 }: {
   activeIdx?: number;
-  isMain?: boolean;
+  $isMain?: boolean;
 }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isLogin, setLogin] = useState<boolean>(false);
@@ -56,11 +56,11 @@ const Navbar = ({
   };
 
   return (
-    <Nav isMain={isMain}>
+    <Nav $isMain={$isMain}>
       <Logo onClick={() => navigate('/')}>
         <img
           src={
-            isMain
+            $isMain
               ? 'src/assets/resourceImg/logofont-white.png'
               : 'src/assets/resourceImg/logofont-color.png'
           }
@@ -138,7 +138,7 @@ const Navbar = ({
 };
 
 interface NavStyleProp {
-  isMain?: boolean;
+  $isMain?: boolean;
 }
 
 const Nav = styled.nav<NavStyleProp>`
@@ -146,11 +146,11 @@ const Nav = styled.nav<NavStyleProp>`
   margin: 0 -280px;
   justify-content: space-between;
   align-items: center;
-  background-color: ${({ isMain }) =>
-    isMain ? 'var(--main4-color)' : 'var(--white-color)'};
-  color: ${({ isMain }) =>
-    isMain ? 'var(--white-color)' : 'var(--black-color)'};
-  padding: ${({ isMain }) => (isMain ? '20px 40px 10px' : '15px 40px')};
+  background-color: ${({ $isMain }) =>
+    $isMain ? 'var(--main4-color)' : 'var(--white-color)'};
+  color: ${({ $isMain }) =>
+    $isMain ? 'var(--white-color)' : 'var(--black-color)'};
+  padding: ${({ $isMain }) => ($isMain ? '20px 40px 10px' : '15px 40px')};
   height: 40px;
   box-shadow: 0px 2px 6px rgba(91, 89, 89, 0.1); /* 그림자 추가 */
 
@@ -159,8 +159,8 @@ const Nav = styled.nav<NavStyleProp>`
   }
 
   svg {
-    color: ${({ isMain }) =>
-      isMain ? 'var(--white-color)' : 'var(--black-color)'};
+    color: ${({ $isMain }) =>
+      $isMain ? 'var(--white-color)' : 'var(--black-color)'};
   }
 `;
 
