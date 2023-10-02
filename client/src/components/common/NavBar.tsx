@@ -22,15 +22,21 @@ const Navbar = ({
   activeIdx?: number;
   isMain?: boolean;
 }) => {
-  useEffect(() => {
-    const accessToken = getCookie(ACCESS_KEY);
-    console.log(accessToken);
-  }, []);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isLogin, setLogin] = useState<boolean>(false);
   const [isArtist, setArtist] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  //임시로 access-token 앞 5자리 설정
+  const [userNickname, setUserNickname] = useState<string>('');
+
+  useEffect(() => {
+    const accessToken = getCookie(ACCESS_KEY);
+    if (accessToken) {
+      setLogin(true);
+      setUserNickname(accessToken.slice(0, 5));
+    }
+  }, []);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -98,7 +104,7 @@ const Navbar = ({
         {isLogin ? (
           <div className="user">
             <UserSvg />
-            사용자
+            {userNickname} 님
           </div>
         ) : (
           <div className="user" onClick={openModal}>
