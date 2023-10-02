@@ -15,7 +15,13 @@ interface NavItemProps {
   active: boolean;
 }
 
-const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
+const Navbar = ({
+  activeIdx,
+  isMain,
+}: {
+  activeIdx?: number;
+  isMain?: boolean;
+}) => {
   useEffect(() => {
     const accessToken = getCookie(ACCESS_KEY);
     console.log(accessToken);
@@ -44,8 +50,16 @@ const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
   };
 
   return (
-    <Nav>
-      <Logo onClick={() => navigate('/')}>LOGO</Logo>
+    <Nav isMain={isMain}>
+      <Logo onClick={() => navigate('/')}>
+        <img
+          src={
+            isMain
+              ? 'src/assets/resourceImg/logofont-white.png'
+              : 'src/assets/resourceImg/logofont-color.png'
+          }
+        />
+      </Logo>
       <NavList>
         <NavItem
           onClick={() => {
@@ -117,24 +131,43 @@ const Navbar = ({ activeIdx }: { activeIdx?: number }) => {
   );
 };
 
-const Nav = styled.nav`
+interface NavStyleProp {
+  isMain?: boolean;
+}
+
+const Nav = styled.nav<NavStyleProp>`
   display: flex;
   margin: 0 -280px;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--white-color);
-  color: black;
-  padding: 10px 40px;
+  background-color: ${({ isMain }) =>
+    isMain ? 'var(--main4-color)' : 'var(--white-color)'};
+  color: ${({ isMain }) =>
+    isMain ? 'var(--white-color)' : 'var(--black-color)'};
+  padding: ${({ isMain }) => (isMain ? '20px 40px 10px' : '15px 40px')};
   height: 40px;
   box-shadow: 0px 2px 6px rgba(91, 89, 89, 0.1); /* 그림자 추가 */
 
   * {
     cursor: pointer;
   }
+
+  svg {
+    color: ${({ isMain }) =>
+      isMain ? 'var(--white-color)' : 'var(--black-color)'};
+  }
 `;
 
 const Logo = styled.div`
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    margin-top: 5px;
+    width: 220px;
+    height: auto;
+  }
 `;
 
 const NavList = styled.ul`
@@ -146,8 +179,7 @@ const NavList = styled.ul`
 const NavItem = styled.li<NavItemProps>`
   cursor: pointer;
   font-size: 18px;
-  color: ${({ active }) =>
-    active ? 'var(--main1-color)' : 'var(--black-color)'};
+  color: ${({ active }) => (active ? 'var(--main1-color)' : 'default')};
   font-weight: ${({ active }) => (active ? '500' : 'normal')};
   &:hover {
     color: var(--main1-color);
