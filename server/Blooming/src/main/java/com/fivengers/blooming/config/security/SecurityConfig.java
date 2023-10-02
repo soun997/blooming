@@ -61,7 +61,8 @@ public class SecurityConfig {
                         request.requestMatchers(
                                         new MvcRequestMatcher(introspector, "/api/v1/auth"),
                                         new MvcRequestMatcher(introspector, "/error"),
-                                        new MvcRequestMatcher(introspector, "/api/v1/lives/openvidu/webhook"))
+                                        new MvcRequestMatcher(introspector, "/api/v1/lives/openvidu/webhook"),
+                                        new MvcRequestMatcher(introspector, "/ws/**"))
                                 .permitAll()
                                 .requestMatchers(
                                         new MvcRequestMatcher(introspector, "/api/**"))
@@ -87,7 +88,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(clientUrl));
+        config.setAllowedOrigins(List.of(clientUrl, "http://localhost:8008"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
