@@ -17,7 +17,7 @@ public class SocketController {
 
     private final SimpMessageSendingOperations messagingTemplate;
 
-    @MessageMapping("/lives/{liveId}/emoji")
+    @MessageMapping("/lives/emoji")
     public void sendEmoji(@Payload EmojiSendRequest emojiSendRequest,
             @DestinationVariable("liveId") Long liveId) {
         messagingTemplate.convertAndSend("/topic/lives/"+liveId+"/emoji", emojiSendRequest);
