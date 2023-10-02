@@ -56,7 +56,7 @@ const OnLive = () => {
   useEffect(() => {
     //임시
     axiosTemp.get('/application-funding-inprogress').then((res) => {
-      setLiveAvailable(res.data.canGenerateNewFunding);
+      setLiveAvailable(true);
     });
   }, []);
 
@@ -93,29 +93,33 @@ const OnLive = () => {
         <MembershipTitle>
           LIVE ON<div className="dot"></div>
         </MembershipTitle>
-        {isLiveAvailable && (
+        {!isLiveAvailable && (
           <div className="subInfo">라이브를 진행할 수 없어요</div>
         )}
       </Title>
+      {isLiveAvailable ? (
+        // isLiveAvailable이 true인 경우에만 아래 컴포넌트들을 렌더링
+        <>
+          {registLoading && <Loading />}
+          {sessionId ? (
+            <BodyFrame>
+              <Animation>
+                <PostSuccessAnimation />
+              </Animation>
 
-      {registLoading && <Loading />}
-      {sessionId ? (
-        <BodyFrame>
-          <Animation>
-            <PostSuccessAnimation />
-          </Animation>
-
-          <MeetingLink>
-            준비가 전부 끝났습니다! 라이브를 시작해주세요
-          </MeetingLink>
-          <Button onClick={handleOnLive}>
-            라이브 시작하기
-            <ArrowSvg />
-          </Button>
-        </BodyFrame>
-      ) : (
-        <MoreInfo onRegisterLive={handleRegisterLive}></MoreInfo>
-      )}
+              <MeetingLink>
+                준비가 전부 끝났습니다! 라이브를 시작해주세요
+              </MeetingLink>
+              <Button onClick={handleOnLive}>
+                라이브 시작하기
+                <ArrowSvg />
+              </Button>
+            </BodyFrame>
+          ) : (
+            <MoreInfo onRegisterLive={handleRegisterLive}></MoreInfo>
+          )}
+        </>
+      ) : null}
     </Frame>
   );
 };
