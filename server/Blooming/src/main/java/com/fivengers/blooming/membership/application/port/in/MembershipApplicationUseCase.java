@@ -17,5 +17,5 @@ public interface MembershipApplicationUseCase {
             MembershipApplicationState applicationState);
 
     MembershipApplication modifyStateById(MembershipApplicationModifyRequest request,
-            Long applicationId, Long memberId);
+            Long applicationId);
 }

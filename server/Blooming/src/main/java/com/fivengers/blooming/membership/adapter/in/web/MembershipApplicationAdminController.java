@@ -51,10 +51,9 @@ public class MembershipApplicationAdminController {
     @PutMapping("{applicationId}/states")
     public ApiResponse<MembershipApplicationDetailsResponse> membershipApplicationStateModify(
             @PathVariable Long applicationId,
-            @RequestBody @Validated MembershipApplicationModifyRequest request,
-            @AuthenticationPrincipal LoginUser loginUser) {
+            @RequestBody @Validated MembershipApplicationModifyRequest request) {
         MembershipApplication membershipApplication = membershipApplicationUseCase
-                .modifyStateById(request, applicationId, loginUser.getMemberId());
+                .modifyStateById(request, applicationId);
 
         return ApiResponse.ok(MembershipApplicationDetailsResponse.from(membershipApplication,
                 ArtistResponse.from(membershipApplication.getArtist())));
