@@ -113,7 +113,7 @@ const ArtistDetail: React.FC<Props> = ({ artistData }) => {
     };
 
     axios
-      .post('http://localhost:8080/data', requestBody)
+      .post('http://localhost:8084/data', requestBody)
       .then((response) => {
         console.log('데이터랩 조회 성공:', response);
         setSearchTrendData(response.data.results[0].data);

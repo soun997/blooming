@@ -5,7 +5,7 @@ app.use(cors());
 const dotenv = require("dotenv");
 const axios = require("axios");
 
-const PORT = 8080;
+const PORT = 8084;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
