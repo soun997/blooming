@@ -211,6 +211,11 @@ const Dropdown = styled.div`
   border-radius: 5px;
   width: 150px;
   padding: 10px 0px;
+  z-index: 999;
+  color: var(--black-color);
+  svg {
+    color: var(--black-color);
+  }
 `;
 
 const DropdownItem = styled.div`
