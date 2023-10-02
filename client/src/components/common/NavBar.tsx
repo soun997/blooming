@@ -12,7 +12,7 @@ import LoginModal from '@components/Login/LoginModal';
 
 interface NavItemProps {
   onClick: () => void;
-  active: boolean;
+  $active: boolean;
 }
 
 const Navbar = ({
@@ -71,7 +71,7 @@ const Navbar = ({
           onClick={() => {
             navigate('/nft');
           }}
-          active={activeIdx === 0}
+          $active={activeIdx === 0}
         >
           NFT
         </NavItem>
@@ -79,7 +79,7 @@ const Navbar = ({
           onClick={() => {
             navigate('/concert');
           }}
-          active={activeIdx === 1}
+          $active={activeIdx === 1}
         >
           콘서트 펀딩
         </NavItem>
@@ -87,7 +87,7 @@ const Navbar = ({
           onClick={() => {
             navigate('/active');
           }}
-          active={activeIdx === 2}
+          $active={activeIdx === 2}
         >
           활동 펀딩
         </NavItem>
@@ -95,7 +95,7 @@ const Navbar = ({
           onClick={() => {
             navigate('/live');
           }}
-          active={activeIdx === 3}
+          $active={activeIdx === 3}
         >
           진행 중인 라이브
         </NavItem>
@@ -185,8 +185,8 @@ const NavList = styled.ul`
 const NavItem = styled.li<NavItemProps>`
   cursor: pointer;
   font-size: 18px;
-  color: ${({ active }) => (active ? 'var(--main1-color)' : 'default')};
-  font-weight: ${({ active }) => (active ? '500' : 'normal')};
+  color: ${({ $active }) => ($active ? 'var(--main1-color)' : 'default')};
+  font-weight: ${({ $active }) => ($active ? '500' : 'normal')};
   &:hover {
     color: var(--main1-color);
     font-weight: 500;
