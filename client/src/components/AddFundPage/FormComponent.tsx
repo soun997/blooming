@@ -212,23 +212,23 @@ interface StyleProps {
   isLong?: boolean;
 }
 
-const FileNameContainer = styled.div`
+export const FileNameContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
 `;
 
-const FileName = styled.span`
+export const FileName = styled.span`
   margin-right: 5px;
 `;
 
-const ClearFileName = styled.button`
+export const ClearFileName = styled.button`
   background: none;
   border: none;
   cursor: pointer;
 `;
 
-const HiddenInput = styled.input`
+export const HiddenInput = styled.input`
   display: none;
 `;
 
