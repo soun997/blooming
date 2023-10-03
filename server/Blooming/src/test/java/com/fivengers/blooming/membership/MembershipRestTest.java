@@ -38,6 +38,8 @@ public class MembershipRestTest extends RestEndToEndTest {
 
     @BeforeEach
     void initObjects() {
+        databaseCleaner.afterPropertiesSet();
+        databaseCleaner.execute();
         LocalDateTime now = LocalDateTime.now();
         member = memberSpringDataRepository.save(MemberJpaEntity.builder()
                 .oauth(new Oauth(AuthProvider.KAKAO, "1234567"))
@@ -79,19 +81,23 @@ public class MembershipRestTest extends RestEndToEndTest {
                 .build());
     }
 
-    @AfterEach
-    void clearData() {
-        membershipSpringDataRepository.deleteAll();
-        artistSpringDataRepository.deleteAll();
-        memberSpringDataRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("멤버십 목록을 최신순으로 조회한다.")
     void getMembershipBySortingCreatedAt() {
         RestAssured.given().log().all()
                 .header(AUTHORIZATION, getAccessToken())
                 .when().get("/api/v1/memberships?page=0&size=20&sort=createdAt,desc")
+                .then().log().all()
+                .statusCode(200)
+                .body("results.content[0].title", response -> equalTo(membership.getTitle()));
+    }
+
+    @Test
+    @DisplayName("진행 중인 멤버십 목록을 조회한다.")
+    void getMembershipByOngoing() {
+        RestAssured.given().log().all()
+                .header(AUTHORIZATION, getAccessToken())
+                .when().get("/api/v1/memberships/ongoing?page=0&size=20&sort=createdAt,desc")
                 .then().log().all()
                 .statusCode(200)
                 .body("results.content[0].title", response -> equalTo(membership.getTitle()));
@@ -119,6 +125,16 @@ public class MembershipRestTest extends RestEndToEndTest {
                 .then().log().all()
                 .statusCode(200)
                 .body("results.title", response -> equalTo(request.title()));
+    }
+
+    @Test
+    @DisplayName("가장 많이 판 3개의 멤버십(베스트 멤버십)을 조회한다.")
+    void getBestMemberships() {
+        RestAssured.given().log().all()
+                .header(AUTHORIZATION, getAccessToken())
+                .when().get("/api/v1/memberships/best")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
