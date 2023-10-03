@@ -28,7 +28,7 @@ public class SocketController {
     private final SocketLogger socketLogger;
 
     @MessageMapping("/lives/emoji")
-    public void sendEmoji(@Header("simpUser") SocketAuthUser user,
+    public String sendEmoji(@Header("simpUser") SocketAuthUser user,
             @Payload EmojiSendRequest emojiSendRequest) {
         log.info("sendEmoji controller method working...");
         log.info("request : {}", emojiSendRequest);
@@ -42,6 +42,8 @@ public class SocketController {
         messagingTemplate.convertAndSend(
                 "/topic/lives/" + sessionId + "/emoji",
                 EmojiSendResponse.from(user, emoji));
+
+        return emoji.toString();
     }
 
     @MessageExceptionHandler(SocketException.class)
@@ -57,6 +59,7 @@ public class SocketController {
     public String handleException(Exception exception, @Header("simpUser") SocketAuthUser user) {
         log.info("Unregistered Exception occurred...");
         log.info("{}", exception.getMessage());
+        exception.printStackTrace();
         messagingTemplate.convertAndSendToUser(user.getName(), "/queue/error",
                 SocketExceptionCode.SERVER_ERROR.stringify(exception.getMessage()));
         return exception.getMessage();
