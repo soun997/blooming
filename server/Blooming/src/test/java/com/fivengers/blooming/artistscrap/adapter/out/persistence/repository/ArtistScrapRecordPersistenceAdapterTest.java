@@ -8,7 +8,14 @@ import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artistscrap.adapter.out.persistence.entity.ArtistScrapRecordJpaEntity;
 import com.fivengers.blooming.artistscrap.adapter.out.persistence.mapper.ArtistScrapRecordMapper;
 import com.fivengers.blooming.artistscrap.domain.ArtistScrapRecord;
+import com.fivengers.blooming.member.adapter.out.persistence.repository.MemberPersistenceAdapter;
+import com.fivengers.blooming.member.domain.AuthProvider;
+import com.fivengers.blooming.member.domain.Member;
+import com.fivengers.blooming.member.domain.MemberRole;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -22,18 +29,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ArtistScrapRecordPersistenceAdapterTest {
 
+    @Autowired MemberPersistenceAdapter memberPersistenceAdapter;
     @Autowired ArtistScrapRecordPersistenceAdapter artistScrapRecordPersistenceAdapter;
     @Autowired ArtistScrapRecordSpringDataRepository artistScrapRecordSpringDataRepository;
     @Autowired ArtistPersistenceAdapter artistPersistenceAdapter;
     @Autowired ArtistScrapRecordMapper artistScrapRecordMapper;
     @Autowired ArtistMapper artistMapper;
+    Member member;
     Artist artist;
 
     @BeforeEach
     void initObjects() {
         LocalDateTime now = LocalDateTime.now();
+        member = memberPersistenceAdapter.save(Member.builder()
+                .oauthProvider(AuthProvider.KAKAO)
+                .oauthAccount("12434512")
+                .name("이지은")
+                .nickname("아이유")
+                .account("account")
+                .createdAt(now)
+                .modifiedAt(now)
+                .role(List.of(MemberRole.ROLE_USER))
+                .build());
         artist = artistPersistenceAdapter.save(Artist.builder()
-                .id(1L)
                 .stageName("아이유")
                 .agency("EDAM 엔터테인먼트")
                 .description("아이유입니다.")
@@ -43,6 +61,7 @@ class ArtistScrapRecordPersistenceAdapterTest {
                 .snsUrl("https://instagram.com/iu")
                 .createdAt(now)
                 .modifiedAt(now)
+                .member(member)
                 .build());
     }
 
@@ -52,11 +71,8 @@ class ArtistScrapRecordPersistenceAdapterTest {
         IntStream.range(0, 5)
                 .mapToObj(i -> ArtistScrapRecord.builder()
                         .scrapCount(2)
-                        .startDateOnWeek(
-                                getThisWeekDateTime(Calendar.SUNDAY, i, 0, 0, 0, 0))
-                        .endDateOnWeek(
-                                getThisWeekDateTime(Calendar.SATURDAY, i, 23, 59, 59,
-                                        999_999_999))
+                        .startDateOnWeek(getStartOfWeekDateTime(DayOfWeek.MONDAY))
+                        .endDateOnWeek(getEndOfWeekDateTime(DayOfWeek.SUNDAY))
                         .artist(artist)
                         .build())
                 .forEach(record -> artistScrapRecordPersistenceAdapter.save(record));
@@ -65,8 +81,8 @@ class ArtistScrapRecordPersistenceAdapterTest {
                 .findTopByArtistIdOrderByStartDateDesc(artist.getId(), 4L);
 
         assertThat(records).hasSize(4);
-        assertThat(records.get(0).getStartDateOnWeek()).isEqualTo(
-                getThisWeekDateTime(Calendar.SUNDAY, 0, 0, 0, 0, 0));
+        assertThat(records.get(0).getStartDateOnWeek())
+                .isEqualTo(getStartOfWeekDateTime(DayOfWeek.MONDAY));
 
     }
 
@@ -76,9 +92,8 @@ class ArtistScrapRecordPersistenceAdapterTest {
         ArtistScrapRecord artistScrapRecord = artistScrapRecordPersistenceAdapter.save(
                 ArtistScrapRecord.builder()
                         .scrapCount(1)
-                        .startDateOnWeek(getThisWeekDateTime(Calendar.SUNDAY, 0, 0, 0, 0, 0))
-                        .endDateOnWeek(
-                                getThisWeekDateTime(Calendar.SATURDAY, 0, 23, 59, 59, 999_999_999))
+                        .startDateOnWeek(getStartOfWeekDateTime(DayOfWeek.MONDAY))
+                        .endDateOnWeek(getEndOfWeekDateTime(DayOfWeek.SUNDAY))
                         .artist(artist)
                         .build());
 
@@ -88,15 +103,13 @@ class ArtistScrapRecordPersistenceAdapterTest {
         assertThat(findRecord.get().getId()).isEqualTo(artistScrapRecord.getId());
     }
 
-    private LocalDateTime getThisWeekDateTime(int dayOfWeek, int prevWeek, int hour, int minute, int second,
-            int nanoOfSecond) {
-        Calendar calendar = Calendar.getInstance();
+    private LocalDateTime getStartOfWeekDateTime(DayOfWeek dayOfWeek) {
+        return LocalDate.now().atTime(0, 0, 0, 0)
+                .with(TemporalAdjusters.previousOrSame(dayOfWeek));
+    }
 
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        calendar.add(Calendar.DATE, 7);
-        return LocalDateTime.ofInstant(calendar.getTime().toInstant(),
-                        calendar.getTimeZone().toZoneId())
-                .minusWeeks(1 + prevWeek)
-                .toLocalDate().atTime(hour, minute, second, nanoOfSecond);
+    private LocalDateTime getEndOfWeekDateTime(DayOfWeek dayOfWeek) {
+        return LocalDate.now().atTime(23, 59, 59, 999_999_999)
+                .with(TemporalAdjusters.nextOrSame(dayOfWeek));
     }
 }

@@ -62,7 +62,8 @@ public class SecurityConfig {
                                         new MvcRequestMatcher(introspector, "/api/v1/auth"),
                                         new MvcRequestMatcher(introspector, "/error"),
                                         new MvcRequestMatcher(introspector, "/api/v1/lives/openvidu/webhook"),
-                                        new MvcRequestMatcher(introspector, "/ws/**"))
+                                        new MvcRequestMatcher(introspector, "/ws/**")),
+                                        new MvcRequestMatcher(introspector, "/actuator/health"))
                                 .permitAll()
                                 .requestMatchers(
                                         new MvcRequestMatcher(introspector, "/api/**"))

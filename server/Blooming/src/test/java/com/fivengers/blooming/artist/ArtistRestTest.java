@@ -31,7 +31,6 @@ public class ArtistRestTest extends RestEndToEndTest {
 
     @BeforeEach
     void initObjects() {
-        LocalDateTime now = LocalDateTime.now();
         member = memberSpringDataRepository.save(MemberJpaEntity.builder()
                 .oauth(new Oauth(AuthProvider.KAKAO, "1234567"))
                 .name("이지은")
@@ -77,18 +76,25 @@ public class ArtistRestTest extends RestEndToEndTest {
     @Test
     @DisplayName("아티스트를 생성한다.")
     void createArtist() throws JsonProcessingException {
-        ArtistCreateRequest request = new ArtistCreateRequest("아이유",
-                "EDAM 엔터테인먼트",
-                "아이유입니다.",
+        MemberJpaEntity member2 = memberSpringDataRepository.save(MemberJpaEntity.builder()
+                .oauth(new Oauth(AuthProvider.KAKAO, "7654321"))
+                .name("박효신")
+                .nickname("박효신")
+                .account("87654321")
+                .deleted(false)
+                .build());
+        ArtistCreateRequest request = new ArtistCreateRequest("박효신",
+                "몰라",
+                "박효신입니다.",
                 "https://image.com",
-                "https://youtube.com/iu",
-                "https://cafe.daum.net/iu",
-                "https://instagram.com/iu",
-                new ArtistVideoCreateRequest(List.of("https://youtube.com/iu")));
+                "https://youtube.com/psh",
+                "https://cafe.daum.net/psh",
+                "https://instagram.com/psh",
+                member2.getId(),
+                new ArtistVideoCreateRequest(List.of("https://youtube.com/psh")));
 
         RestAssured.given().log().all()
                 .header(AUTHORIZATION, getAccessToken())
-                .queryParam("memberId", member.getId())
                 .body(toJson(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/api/v1/admin/artists")

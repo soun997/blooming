@@ -23,9 +23,9 @@ public class ArtistService implements ArtistUseCase {
     private final MemberPort memberPort;
 
     @Override
-    public Artist add(ArtistCreateRequest request, Long memberId) {
+    public Artist add(ArtistCreateRequest request) {
         Artist artist = artistPort.save(request.toDomain(
-                memberPort.findById(memberId).orElseThrow(MemberNotFoundException::new)));
+                memberPort.findById(request.memberId()).orElseThrow(MemberNotFoundException::new)));
         request.artistVideo().videoUrl()
                 .forEach(video -> artistVideoPort.save(ArtistVideo.builder()
                         .videoUrl(video)
