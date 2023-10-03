@@ -1,6 +1,7 @@
 package com.fivengers.blooming.global.exception;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -29,19 +30,19 @@ public enum SocketExceptionCode {
     private final String errorCode;
     private final String message;
 
-    public String stringify() {
-        Gson gson = new Gson();
+    public String stringify() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> socketException = new HashMap<>();
         socketException.put("errorCode", errorCode);
         socketException.put("message", message);
-        return gson.toJson(socketException);
+        return objectMapper.writeValueAsString(socketException);
     }
 
-    public String stringify(String errorMessage) {
-        Gson gson = new Gson();
+    public String stringify(String errorMessage) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> socketException = new HashMap<>();
         socketException.put("errorCode", errorCode);
         socketException.put("message", errorMessage);
-        return gson.toJson(socketException);
+        return objectMapper.writeValueAsString(socketException);
     }
 }
