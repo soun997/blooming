@@ -24,6 +24,7 @@ import com.fivengers.blooming.project.domain.Concert;
 import com.fivengers.blooming.support.docs.RestDocsTest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -88,7 +89,7 @@ public class ArtistProjectControllerTest extends RestDocsTest {
                 .endedAt(now.plusMonths(3))
                 .artist(artist)
                 .build();
-        given(concertUseCase.searchByArtistId(anyLong())).willReturn(concert);
+        given(concertUseCase.searchByArtistId(anyLong())).willReturn(Optional.of(concert));
 
         ResultActions perform = mockMvc.perform(
                 get("/api/v1/artists/{artistId}/concert/ongoing", 1L)
@@ -120,7 +121,7 @@ public class ArtistProjectControllerTest extends RestDocsTest {
                 .endedAt(now.minusHours(1))
                 .artist(artist)
                 .build();
-        given(concertUseCase.searchByArtistId(anyLong())).willReturn(null);
+        given(concertUseCase.searchByArtistId(anyLong())).willReturn(Optional.empty());
 
         ResultActions perform = mockMvc.perform(
                 get("/api/v1/artists/{artistId}/concert/ongoing", 1L)
@@ -144,7 +145,7 @@ public class ArtistProjectControllerTest extends RestDocsTest {
                 .endedAt(now.plusMonths(3))
                 .artist(artist)
                 .build();
-        given(activityUseCase.searchByArtistId(anyLong())).willReturn(activity);
+        given(activityUseCase.searchByArtistId(anyLong())).willReturn(Optional.of(activity));
 
         ResultActions perform = mockMvc.perform(
                 get("/api/v1/artists/{artistId}/activity/ongoing", 1L)
