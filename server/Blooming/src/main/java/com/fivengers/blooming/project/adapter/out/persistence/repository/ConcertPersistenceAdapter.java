@@ -79,4 +79,11 @@ public class ConcertPersistenceAdapter implements ConcertPort {
                 .map(concertMapper::toDomain)
                 .toList(), pageable, concerts.getTotalElements());
     }
+
+    @Override
+    public Concert findByArtistId(Long artistId) {
+        return concertSpringDataRepository.findConcertByArtistId(artistId)
+                .map(concertMapper::toDomain)
+                .orElse(null);
+    }
 }

@@ -79,4 +79,11 @@ public class ActivityPersistenceAdapter implements ActivityPort {
                 .map(activityMapper::toDomain)
                 .toList(), pageable, activities.getTotalElements());
     }
+
+    @Override
+    public Activity findByArtistId(Long artistId) {
+        return activitySpringDataRepository.findActivityByArtistId(artistId)
+                .map(activityMapper::toDomain)
+                .orElse(null);
+    }
 }
