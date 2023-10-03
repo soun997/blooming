@@ -52,7 +52,7 @@ public class SocketController {
         socketLogger.error(exception);
         messagingTemplate.convertAndSendToUser(user.getName(), "/queue/error",
                 exception.getExceptionCode().stringify());
-        return exception.getMessage();
+        return exception.getExceptionCode().getMessage();
     }
 
     @MessageExceptionHandler(Exception.class)
