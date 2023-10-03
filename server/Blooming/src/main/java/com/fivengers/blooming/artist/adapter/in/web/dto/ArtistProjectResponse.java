@@ -14,6 +14,11 @@ public record ArtistProjectResponse(Long id,
                                     LocalDateTime startedAt,
                                     LocalDateTime endedAt) {
 
+    public static ArtistProjectResponse empty() {
+
+        return ArtistProjectResponse.builder().build();
+    }
+
     public static ArtistProjectResponse from(Project project) {
         return ArtistProjectResponse.builder()
                 .id(project.getId())

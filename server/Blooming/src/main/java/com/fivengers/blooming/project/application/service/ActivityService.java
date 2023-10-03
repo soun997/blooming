@@ -4,6 +4,7 @@ import com.fivengers.blooming.project.application.port.in.ActivityUseCase;
 import com.fivengers.blooming.project.application.port.out.ActivityPort;
 import com.fivengers.blooming.project.domain.Activity;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +52,7 @@ public class ActivityService implements ActivityUseCase {
     }
 
     @Override
-    public Activity searchByArtistId(Long artistId) {
+    public Optional<Activity> searchByArtistId(Long artistId) {
         return activityPort.findByArtistId(artistId);
     }
 }
