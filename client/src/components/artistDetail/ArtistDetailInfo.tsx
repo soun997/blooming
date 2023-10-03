@@ -13,12 +13,16 @@ interface Props {
 }
 
 const ArtistDetailInfo: React.FC<Props> = ({ artistData, artistId }) => {
+  const [isOnair, setIsOnair] = useState<boolean>(false);
+
   // const videoSlides = artistData.artistVideo.map((video, index) => (
   //   <SwiperSlide key={index}>
   //     <img src={video.videoUrl} alt={`서브 앨범 이미지 ${index + 1}`} className="album_list_img" />
   //   </SwiperSlide>
   // ));
-  console.log('아티스트아이디', artistId);
+  // console.log('아티스트아이디', artistId);
+  // console.log('생방중', isOnair);
+
   useEffect(() => {
     axios
       .get('/lives/check/active', {
@@ -32,6 +36,11 @@ const ArtistDetailInfo: React.FC<Props> = ({ artistData, artistId }) => {
       // .get(`/lives/check/active/${artistId}`)
       .then((response) => {
         console.log('라이브 여부 조회 성공', response.data.results);
+        if (response.data.results.activeLiveId === -1) {
+          setIsOnair(false);
+        } else {
+          setIsOnair(true);
+        }
       })
       .catch((error) => {
         console.error('라이브 여부 조회 실패', error);
@@ -40,10 +49,12 @@ const ArtistDetailInfo: React.FC<Props> = ({ artistData, artistId }) => {
 
   return (
     <ArtistDetailInfoBox>
-      <LiveInfoBox>
-        <LiveIcon></LiveIcon>
-        <div className="live_info">현재 LIVE 중입니다</div>
-      </LiveInfoBox>
+      {isOnair && (
+        <LiveInfoBox>
+          <LiveIcon></LiveIcon>
+          <div className="live_info">현재 LIVE 중입니다</div>
+        </LiveInfoBox>
+      )}
 
       <ArtistInfoBox>
         <ImgBox>
@@ -83,7 +94,7 @@ const ArtistDetailInfo: React.FC<Props> = ({ artistData, artistId }) => {
                 effect={'coverflow'}
                 grabCursor={true}
                 // centeredSlides={true}
-                slidesPerView={4}
+                slidesPerView={5}
                 spaceBetween={15}
                 coverflowEffect={{
                   rotate: 50,
@@ -182,6 +193,7 @@ const AlbumListBox = styled.div`
     display: block;
     /* width: 350px; */
     height: 90px;
+    width: 90px;
     /* object-fit: cover; */
     /* margin: 15px; */
   }
@@ -227,6 +239,7 @@ const ArtistName = styled.div`
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
+  height: 146px;
 
   .artist_name {
     align-self: center;
@@ -272,6 +285,7 @@ const LiveInfoBox = styled.div`
   display: flex;
   margin-left: 50px;
   margin-bottom: 20px;
+  /* height: 25px; */
 
   .live_info {
     color: var(--Main, #3061b9);

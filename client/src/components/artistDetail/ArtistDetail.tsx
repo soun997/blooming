@@ -31,12 +31,12 @@ ChartJS.register(
   PointElement,
   LineElement,
 );
-const initSearchTrendData: searchTrend[] = [
-  {
-    period: '',
-    ratio: 0,
-  },
-];
+// const initSearchTrendData: searchTrend[] = [
+//   {
+//     period: '',
+//     ratio: 0,
+//   },
+// ];
 
 interface Props {
   artistData: ArtistDetailType;
@@ -78,8 +78,7 @@ const ArtistDetail: React.FC<Props> = ({ artistData }) => {
   // ));
 
   // 네이버 검색어 api
-  const [searchTrendData, setSearchTrendData] =
-    useState<searchTrend[]>(initSearchTrendData);
+  const [searchTrendData, setSearchTrendData] = useState<searchTrend[]>([]);
 
   useEffect(() => {
     const today = new Date();
@@ -122,15 +121,21 @@ const ArtistDetail: React.FC<Props> = ({ artistData }) => {
         console.error('데이터랩 조회 실패:', error);
       });
   }, []);
-  console.log('searchTrendData:', searchTrendData);
+  // console.log('searchTrendData:', searchTrendData);
 
   // 그래프 관련
+
   const options = {
     responsive: true,
     plugins: {
       legend: {
         position: 'top' as const,
         display: false,
+        labels: {
+          font: {
+            family: 'Pretendard',
+          },
+        },
       },
       title: {
         display: true,
@@ -139,7 +144,7 @@ const ArtistDetail: React.FC<Props> = ({ artistData }) => {
     },
     elements: {
       point: {
-        radius: 0,
+        radius: 3,
       },
     },
     scales: {
@@ -155,7 +160,7 @@ const ArtistDetail: React.FC<Props> = ({ artistData }) => {
     ),
     datasets: [
       {
-        label: '검색량 ratio',
+        label: '검색량 (ratio)',
         data: searchTrendData.map((data) => data.ratio),
         borderColor: '#3061B9',
         backgroundColor: '#3061B9',
@@ -238,8 +243,6 @@ const ArtistDetail: React.FC<Props> = ({ artistData }) => {
       </YoutubeBox>
       <SearchGraphBox>
         <div className="detail_title">검색결과 분석</div>
-        {/* <div id="trends-widget"></div> */}
-        {/* 그래프 */}
         <Line options={options} data={data} />
       </SearchGraphBox>
     </ArtistDetailBox>
@@ -325,18 +328,22 @@ const FundingTextBox = styled.div``;
 const FundingImgBox = styled.div`
   .concert_funding_img {
     height: 350px;
-    height: 100%;
+    width: 550px;
+    object-fit: cover;
     border-radius: 6px;
   }
 
   .active_funding_img {
     height: 350px;
-    width: 100%;
+    width: 550px;
+    object-fit: cover;
     border-radius: 6px;
   }
 `;
 const FundingBox = styled.div`
   display: flex;
+  height: 350px;
+  width: 100%;
 `;
 const ActiveFundingBox = styled.div``;
 const ArtistDetailBox = styled.div`
