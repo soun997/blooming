@@ -14,5 +14,6 @@ public interface MembershipPort {
     Page<Membership> findLatestSeasons(Pageable pageable);
     Page<Membership> findByBetweenSeasonStartAndSeasonEnd(Pageable pageable, LocalDateTime now);
     Optional<Membership> findById(Long membershipId);
+    List<Membership> findByTopNSalesCount(long n);
     Membership update(Membership membership);
 }
