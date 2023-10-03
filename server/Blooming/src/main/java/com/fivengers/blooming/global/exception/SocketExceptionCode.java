@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
 public enum SocketExceptionCode {
     COMMAND_NOT_FOUND("ERR_SOCKET_REQUEST_001", "Frame에 Command가 없습니다."),
     SESSION_ID_NOT_FOUND("ERR_SOCKET_REQUEST_002", "Frame Header에 sessionId가 없습니다."),
+    LIVE_USER_NAME_NOT_FOUND("ERR_SOCKET_REQUEST_003", "Frame Header에 liveUserName이 없습니다."),
 
     JWT_EXPIRED("ERR_SOCKET_JWT_001", "JWT 기한이 만료되었습니다."),
     JWT_MALFORMED("ERR_SOCKET_JWT_002", "JWT가 손상되었습니다."),
