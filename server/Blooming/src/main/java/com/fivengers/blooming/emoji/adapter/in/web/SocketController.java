@@ -23,12 +23,14 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class SocketController {
 
+    private static final String AUTH_USER_HEADER = "simpUser";
+
     private final SimpMessageSendingOperations messagingTemplate;
     private final SocketEmojiUseCase socketEmojiUseCase;
     private final SocketLogger socketLogger;
 
     @MessageMapping("/lives/emoji")
-    public String sendEmoji(@Header("simpUser") SocketAuthUser user,
+    public String sendEmoji(@Header(AUTH_USER_HEADER) SocketAuthUser user,
             @Payload EmojiSendRequest emojiSendRequest) {
         log.info("sendEmoji controller method working...");
         log.info("request : {}", emojiSendRequest);
@@ -48,7 +50,7 @@ public class SocketController {
 
     @MessageExceptionHandler(SocketException.class)
     public String handleSocketException(SocketException exception,
-            @Header("simpUser") SocketAuthUser user) {
+            @Header(AUTH_USER_HEADER) SocketAuthUser user) {
         socketLogger.error(exception);
         messagingTemplate.convertAndSendToUser(user.getName(), "/queue/error",
                 exception.getExceptionCode().stringify());
@@ -56,7 +58,7 @@ public class SocketController {
     }
 
     @MessageExceptionHandler(Exception.class)
-    public String handleException(Exception exception, @Header("simpUser") SocketAuthUser user) {
+    public String handleException(Exception exception, @Header(AUTH_USER_HEADER) SocketAuthUser user) {
         log.info("Unregistered Exception occurred...");
         log.info("{}", exception.getMessage());
         exception.printStackTrace();
