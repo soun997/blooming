@@ -15,4 +15,5 @@ public interface ActivityPort {
     Activity findById(Long id);
     Page<Activity> findAllByLikeKeyword(String query, Pageable pageable);
     Page<Activity> findAllByLikeArtist(String query, Pageable pageable);
+    Activity findByArtistId(Long artistId);
 }

@@ -14,4 +14,5 @@ public interface ActivityUseCase {
     Activity searchById(Long id);
     Page<Activity> searchAllByLikeKeyword(String query, Pageable pageable);
     Page<Activity> searchAllByLikeArtist(String query, Pageable pageable);
+    Activity searchByArtistId(Long artistId);
 }

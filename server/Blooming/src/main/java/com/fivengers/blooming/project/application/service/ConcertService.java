@@ -49,4 +49,9 @@ public class ConcertService implements ConcertUseCase {
     public Page<Concert> searchAllByLikeArtist(String artist, Pageable pageable) {
         return concertPort.findAllByLikeArtist(artist, pageable);
     }
+
+    @Override
+    public Concert searchByArtistId(Long artistId) {
+        return concertPort.findByArtistId(artistId);
+    }
 }
