@@ -1,5 +1,7 @@
 package com.fivengers.blooming.artist.adapter.in.web;
 
+import com.fivengers.blooming.artist.adapter.in.web.dto.ArtistActivityResponse;
+import com.fivengers.blooming.artist.adapter.in.web.dto.ArtistConcertResponse;
 import com.fivengers.blooming.global.response.ApiResponse;
 import com.fivengers.blooming.project.adapter.in.web.dto.PastActivityResponse;
 import com.fivengers.blooming.project.adapter.in.web.dto.PastConcertResponse;
@@ -9,6 +11,7 @@ import com.fivengers.blooming.project.application.port.in.InvestmentOverviewUseC
 import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/artists/{artistId}")
 @RequiredArgsConstructor
-public class ArtistHistoryController {
+public class ArtistProjectController {
 
     private final ActivityUseCase activityUseCase;
     private final ConcertUseCase concertUseCase;
@@ -42,4 +45,17 @@ public class ArtistHistoryController {
                         overviewUseCase.search(concert.getId())))
                 .toList());
     }
+
+    @GetMapping("/activity/ongoing")
+    public ApiResponse<ArtistActivityResponse> ongoingActivity(@PathVariable @Min(1) Long artistId) {
+
+        return ApiResponse.ok(ArtistActivityResponse.from(activityUseCase.searchByArtistId(artistId)));
+    }
+
+    @GetMapping("/concert/ongoing")
+    public ApiResponse<ArtistConcertResponse> ongoingConcert(@PathVariable @Min(1) Long artistId) {
+
+        return ApiResponse.ok(ArtistConcertResponse.from(concertUseCase.searchByArtistId(artistId)));
+    }
+
 }
