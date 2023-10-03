@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "motion")
@@ -28,6 +29,11 @@ public class MotionJpaEntity extends BaseTime {
 
     @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private Boolean deleted;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "montion_model_id", nullable = false)
