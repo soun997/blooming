@@ -167,10 +167,11 @@ class MembershipControllerTest extends RestDocsTest {
                                 parameterWithName("page").description("페이지"),
                                 parameterWithName("size").description("페이지 크기"),
                                 parameterWithName("sort").description("정렬 요소,순서"))));
+    }
 
     @Test
     @DisplayName("판매량이 가장 많은 3개의 멤버십을 조회한다.")
-    void membershipListByTop3Sales() throws Exception {
+    void membershipListByTop3Salesfix() throws Exception {
         LocalDateTime now = LocalDateTime.now();
         List<Membership> memberships = IntStream.range(0, 4)
                 .mapToObj(i -> Membership.builder()

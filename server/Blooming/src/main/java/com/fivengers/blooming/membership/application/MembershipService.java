@@ -35,13 +35,13 @@ public class MembershipService implements MembershipUseCase {
     }
 
     @Override
-<<<<<<< server/Blooming/src/main/java/com/fivengers/blooming/membership/application/MembershipService.java
     public Page<Membership> searchOngoing(Pageable pageable) {
         return membershipPort.findByBetweenSeasonStartAndSeasonEnd(pageable, LocalDateTime.now());
-=======
+    }
+
+    @Override
     public List<Membership> searchTop3SalesMembership() {
         return membershipPort.findByTopNSalesCount(3L);
->>>>>>> server/Blooming/src/main/java/com/fivengers/blooming/membership/application/MembershipService.java
     }
 
     @Override
