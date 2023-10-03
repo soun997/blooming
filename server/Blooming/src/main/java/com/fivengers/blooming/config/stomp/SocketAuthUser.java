@@ -20,6 +20,6 @@ public class SocketAuthUser implements Principal {
 
     @Override
     public String getName() {
-        return sessionId;
+        return liveUserName;
     }
 }

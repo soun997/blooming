@@ -20,7 +20,9 @@ public enum SocketExceptionCode {
     JWT_NOT_FOUND("ERR_SOCKET_JWT_005", "JWT를 찾을 수 없습니다."),
     JWT_PARSING_FAILED("ERR_SOCKET_JWT_006", "잘못된 JWT 토큰입니다."),
 
-    EMOJI_NOT_FOUND("ERR_SOCKET_EMOJI_001", "존재하지 않는 이모지 입니다.");
+    EMOJI_NOT_FOUND("ERR_SOCKET_EMOJI_001", "존재하지 않는 이모지 입니다."),
+
+    SERVER_ERROR("ERR_SOCKET_SERVER_001", "서버에서 에러가 발생했습니다.");
 
 
 
@@ -32,6 +34,14 @@ public enum SocketExceptionCode {
         Map<String, String> socketException = new HashMap<>();
         socketException.put("errorCode", errorCode);
         socketException.put("message", message);
+        return gson.toJson(socketException);
+    }
+
+    public String stringify(String errorMessage) {
+        Gson gson = new Gson();
+        Map<String, String> socketException = new HashMap<>();
+        socketException.put("errorCode", errorCode);
+        socketException.put("message", errorMessage);
         return gson.toJson(socketException);
     }
 }
