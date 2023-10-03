@@ -18,7 +18,11 @@ public enum SocketExceptionCode {
     JWT_UNSUPPORTED("ERR_SOCKET_JWT_003", "지원되지 않는 JWT 입니다."),
     JWT_INVALID_SIGNATURE("ERR_SOCKET_JWT_004", "signature가 유효하지 않습니다."),
     JWT_NOT_FOUND("ERR_SOCKET_JWT_005", "JWT를 찾을 수 없습니다."),
-    JWT_PARSING_FAILED("ERR_SOCKET_JWT_006", "잘못된 JWT 토큰입니다.");
+    JWT_PARSING_FAILED("ERR_SOCKET_JWT_006", "잘못된 JWT 토큰입니다."),
+
+    EMOJI_NOT_FOUND("ERR_SOCKET_EMOJI_001", "존재하지 않는 이모지 입니다.");
+
+
 
     private final String errorCode;
     private final String message;
