@@ -26,7 +26,7 @@ public class MotionJpaEntity extends BaseTime {
     @Column(name = "motion_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
