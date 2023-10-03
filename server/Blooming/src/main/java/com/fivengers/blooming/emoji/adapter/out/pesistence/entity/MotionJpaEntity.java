@@ -36,7 +36,7 @@ public class MotionJpaEntity extends BaseTime {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "montion_model_id", nullable = false)
+    @JoinColumn(name = "motion_model_id", nullable = false)
     private MotionModelJpaEntity motionModelJpaEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
