@@ -32,7 +32,7 @@ public class SocketController {
     @MessageMapping("/lives/emoji")
     public String sendEmoji(@Header(AUTH_USER_HEADER) SocketAuthUser user,
             @Payload EmojiSendRequest emojiSendRequest) {
-        log.info("sendEmoji controller method working...");
+        socketLogger.controller("sendEmoji");
         log.info("request : {}", emojiSendRequest);
 
         String sessionId = user.getSessionId();
