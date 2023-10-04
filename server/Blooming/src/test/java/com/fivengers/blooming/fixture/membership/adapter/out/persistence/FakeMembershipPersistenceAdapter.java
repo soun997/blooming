@@ -2,6 +2,8 @@ package com.fivengers.blooming.fixture.membership.adapter.out.persistence;
 
 import com.fivengers.blooming.membership.application.port.out.MembershipPort;
 import com.fivengers.blooming.membership.domain.Membership;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,10 +40,33 @@ public class FakeMembershipPersistenceAdapter implements MembershipPort {
     }
 
     @Override
+    public Page<Membership> findByBetweenSeasonStartAndSeasonEnd(Pageable pageable, LocalDateTime now) {
+        List<Membership> filteredMembership = store.values().stream()
+                .filter(membership -> membership.getSeasonStart().isBefore(now)
+                        && membership.getSeasonEnd().isAfter(now))
+                .toList();
+
+        List<Membership> memberships = filteredMembership.stream()
+                .skip(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .toList();
+
+        return new PageImpl<>(memberships, pageable, filteredMembership.size());
+    }
+
+    @Override
     public Optional<Membership> findById(Long membershipId) {
         return store.values().stream()
                 .filter(membership -> membership.getId().equals(membershipId))
                 .findFirst();
+    }
+
+    @Override
+    public List<Membership> findByTopNSalesCount(long n) {
+        return store.values().stream()
+                .sorted(Comparator.comparingInt(Membership::getSaleCount).reversed())
+                .limit(n)
+                .toList();
     }
 
     @Override

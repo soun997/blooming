@@ -7,10 +7,12 @@ import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipListRespon
 import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipModifyRequest;
 import com.fivengers.blooming.membership.domain.Membership;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +32,27 @@ public class MembershipController {
     @GetMapping
     public ApiResponse<Page<MembershipListResponse>> membershipList(Pageable pageable) {
         Page<Membership> memberships = membershipUseCase.searchLatestSeasons(pageable);
+        ;
+        return ApiResponse.ok(PageableExecutionUtils.getPage(memberships.stream()
+                .map(MembershipListResponse::from)
+                .toList(), pageable, memberships::getTotalElements));
+    }
 
-        return ApiResponse.ok(
-                new PageImpl<>(memberships.stream()
-                        .map(MembershipListResponse::from)
-                        .toList(), pageable, memberships.getTotalElements()));
+    @GetMapping("/ongoing")
+    public ApiResponse<Page<MembershipListResponse>> membershipListByOngoing(Pageable pageable) {
+        Page<Membership> memberships = membershipUseCase.searchOngoing(pageable);
+
+        ;
+        return ApiResponse.ok(PageableExecutionUtils.getPage(memberships.getContent().stream()
+                .map(MembershipListResponse::from)
+                .toList(), pageable, memberships::getTotalElements));
+    }
+
+    @GetMapping("/best")
+    public ApiResponse<List<MembershipDetailsResponse>> membershipBestList() {
+        return ApiResponse.ok(membershipUseCase.searchTop3SalesMembership().stream()
+                .map(MembershipDetailsResponse::from)
+                .toList());
     }
 
     @PutMapping("/{membershipId}")

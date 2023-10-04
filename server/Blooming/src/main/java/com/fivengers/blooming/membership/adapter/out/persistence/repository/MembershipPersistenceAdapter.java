@@ -5,6 +5,8 @@ import com.fivengers.blooming.membership.adapter.out.persistence.entity.Membersh
 import com.fivengers.blooming.membership.adapter.out.persistence.mapper.MembershipMapper;
 import com.fivengers.blooming.membership.application.port.out.MembershipPort;
 import com.fivengers.blooming.membership.domain.Membership;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,9 +42,27 @@ public class MembershipPersistenceAdapter implements MembershipPort {
     }
 
     @Override
+    public Page<Membership> findByBetweenSeasonStartAndSeasonEnd(Pageable pageable,
+            LocalDateTime now) {
+        Page<MembershipJpaEntity> memberships = membershipQueryRepository
+                .findByBetweenSeasonStartAndSeasonEnd(pageable, now);
+
+        return new PageImpl<>(memberships.getContent().stream()
+                .map(membershipMapper::toDomain)
+                .toList(), pageable, memberships.getTotalElements());
+    }
+
+    @Override
     public Optional<Membership> findById(Long membershipId) {
         return membershipQueryRepository.findById(membershipId)
                 .map(membershipMapper::toDomain);
+    }
+
+    @Override
+    public List<Membership> findByTopNSalesCount(long n) {
+        return membershipQueryRepository.findTopNSaleCount(n).stream()
+                .map(membershipMapper::toDomain)
+                .toList();
     }
 
     @Override
