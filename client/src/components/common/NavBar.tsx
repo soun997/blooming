@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { deleteCookie, getCookie } from '@hooks/useAuth';
-import { ACCESS_KEY } from './constant';
+import { ACCESS_KEY, ADMIN, ARTIST, GENERAL } from './constant';
 
 import { ReactComponent as UserSvg } from '@assets/icons/user-key.svg';
 import { ReactComponent as MyPageSvg } from '@assets/icons/account-mypage.svg';
@@ -24,7 +24,7 @@ const Navbar = ({
 }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isLogin, setLogin] = useState<boolean>(false);
-  const [isArtist, setArtist] = useState<boolean>(false);
+  const [qualification, setQualification] = useState<string>(GENERAL);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //임시로 access-token 앞 5자리 설정
@@ -35,6 +35,9 @@ const Navbar = ({
     if (accessToken) {
       setLogin(true);
       setUserNickname(accessToken.slice(0, 5));
+
+      //!추후 수정
+      setQualification(ADMIN);
     }
   }, []);
   const openModal = () => {
@@ -115,15 +118,32 @@ const Navbar = ({
 
         {isDropdownOpen && isLogin && (
           <Dropdown onClick={(e) => e.stopPropagation()}>
-            <DropdownItem onClick={() => navigate('/mypage')}>
-              <MyPageSvg />
-              마이페이지
-            </DropdownItem>
-            {isArtist && (
+            {qualification === GENERAL && (
               <DropdownItem onClick={() => navigate('/mypage')}>
-                <YoutubeSvg />
-                LIVE ON
+                <MyPageSvg />
+                마이페이지
               </DropdownItem>
+            )}
+
+            {qualification === ARTIST && (
+              <>
+                <DropdownItem onClick={() => navigate('/mypage')}>
+                  <MyPageSvg />
+                  마이페이지
+                </DropdownItem>
+                <DropdownItem onClick={() => navigate('/mypage/5')}>
+                  <YoutubeSvg />
+                  LIVE ON
+                </DropdownItem>
+              </>
+            )}
+            {qualification === ADMIN && (
+              <>
+                <DropdownItem onClick={() => navigate('/admin')}>
+                  <MyPageSvg />
+                  관리자페이지
+                </DropdownItem>
+              </>
             )}
             <DropdownItem onClick={() => deleteCookie(ACCESS_KEY)}>
               <ModifSvg />
