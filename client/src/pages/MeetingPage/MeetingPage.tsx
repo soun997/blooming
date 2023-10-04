@@ -75,8 +75,8 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
   const [showNotice, setShowNotice] = useState<boolean>(true);
 
-  const prevEmotionRef = useRef<string[]>([]);
-  const [showEmotions, setShowEmotions] = useState<string[]>([]);
+  const prevEmojiRef = useRef<string[]>([]);
+  const [showingEmojis, setShowingEmojis] = useState<string[]>([]);
 
   // ********** [useEffect] prediction **********
   useEffect(() => {
@@ -84,33 +84,29 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
       console.log('PREDICTION👩👩👩 : ', prediction);
 
       const max = findMaxEmotion(prediction);
-      emojiPuB(socketClient, 1, max.key, socketHeader);
       CONSOLE.emoji(max.key);
-      let newEmotion = '';
-      if (max.key === EMOTION_LIST.SHAKE) {
-        newEmotion = 'src/assets/reaction/heart.png';
-      } else {
-        newEmotion = 'src/assets/reaction/thumb.png';
-      }
-      // showEmotions 리스트에 현재 Emotion 추가
-      setShowEmotions((prevEmotions) => {
-        const updatedEmotions = [...prevEmotions, newEmotion].slice(
-          -MAX_EMOTIONS_COUNT,
-        );
-        // 이전 Emotion 저장 업데이트
-        prevEmotionRef.current = updatedEmotions;
-        return updatedEmotions;
-      });
+      if (max.key !== "NoMotion") {
+        emojiPuB(socketClient, 1, max.key, socketHeader);
+        let newEmoji = max.key;
 
-      setEmoji(newEmotion);
+        // showEmotions 리스트에 현재 Emotion 추가
+        setShowingEmojis((prev) => {
+          const updatedEmojis = [...prev, newEmoji].slice(
+            -MAX_EMOTIONS_COUNT,
+          );
+          // 이전 Emotion 저장 업데이트
+          prevEmojiRef.current = updatedEmojis;
+          return updatedEmojis;
+        });
+      }
     }
   }, [prediction]);
 
   // ********** [useEffect] nowEmotion **********
   // 이전 Emotion 중 가장 오래된 것을 삭제
   useEffect(() => {
-    if (prevEmotionRef.current.length > MAX_EMOTIONS_COUNT) {
-      prevEmotionRef.current.shift();
+    if (prevEmojiRef.current.length > MAX_EMOTIONS_COUNT) {
+      prevEmojiRef.current.shift();
     }
   }, [emoji]);
 
@@ -192,7 +188,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
           <NoticeSvg onClick={handleNoticeInfo} />
         </NoticeBoard>
         {/* 애니메이션을 적용한 이미지 */}
-        {showEmotions.map((emotion, index) => (
+        {showingEmojis.map((emotion, index) => (
           <FloatingImage
             key={index}
             left={Math.random() * 80} // 랜덤한 가로 위치 설정
@@ -298,7 +294,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         </Buttons>
       )}
       {/* 애니메이션을 적용한 이미지 */}
-      {showEmotions.map((emotion, index) => (
+      {showingEmojis.map((emotion, index) => (
         <FloatingImage
           key={index}
           left={Math.random() * 80} // 랜덤한 가로 위치 설정

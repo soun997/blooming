@@ -18,6 +18,9 @@ const CONSOLE = {
   error: function (msg: string) {
     coloredMsg(msgStyle.error, msg);
   },
+  errorWithPrefix: function (prefix: string, msg: string) {
+    coloredMsg(msgStyle.error, `[ERROR - ${prefix}] ${msg}`);
+  },
   info: function (msg: string) {
     coloredMsg(msgStyle.info, msg);
   },

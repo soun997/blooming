@@ -162,7 +162,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
       },
       () => {
         CONSOLE.socket("connected!!")
-        emojiSUB(socketClient, setEmoji, liveId);
+        emojiSUB(socketClient, setEmoji, meetingInfo.mySessionId);
         errorSUB(socketClient, (error:any) => {
           console.log(error);
         });
@@ -197,9 +197,6 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
         motionModelUrl: data.results.motionModelUrl,
       }));
     });
-
-    // 3. 소켓 연결
-    socketConnectHandler()
   }, []);
 
   // ********** [END] INIT COMPONENT **********
@@ -255,7 +252,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
     }));
   }, [videoOption]);
 
-  // ********** [useEffect] meetingInfo **********
+  // ********** [useEffect] meetingInfo.mySessionId **********
   useEffect(() => {
     if (meetingInfo.session && !isTokenRequested.current) {
       CONSOLE.info('서버에 토큰을 요청합니다.');
@@ -287,6 +284,9 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
             }));
           });
       });
+
+      // 3. 소켓 연결
+      socketConnectHandler()
     }
   }, [meetingInfo.mySessionId]);
 
