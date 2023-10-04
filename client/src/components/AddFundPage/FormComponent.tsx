@@ -151,7 +151,6 @@ export const FormForUpload = ({
       try {
         const uploadedFileUrl = await uploadFile(
           selectedFile,
-          'YOUR_S3_BUCKET_NAME', // 아마존 S3 버킷 이름
           'uploads/' + selectedFile.name, // S3 내 파일 경로 및 이름
         );
 

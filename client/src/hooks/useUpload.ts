@@ -2,9 +2,10 @@ import AWS from 'aws-sdk';
 
 // AWS 설정
 const awsConfig = {
-  accessKeyId: 'YOUR_ACCESS_KEY_ID',
-  secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
-  region: 'YOUR_S3_REGION', // 예: 'us-east-1'
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: import.meta.env.VITE_IDENTITY_POOLID,
+  }),
+  region: import.meta.env.VITE_BUCKET_REGION, // 예: 'us-east-1'
 };
 
 AWS.config.update(awsConfig);
@@ -13,9 +14,9 @@ AWS.config.update(awsConfig);
 const s3 = new AWS.S3();
 
 // 파일 업로드 함수
-const uploadFile = async (file: File, bucketName: string, key: string) => {
+const uploadFile = async (file: File, key: string) => {
   const params = {
-    Bucket: bucketName,
+    Bucket: import.meta.env.VITE_BUCKET_NAME,
     Key: key, // S3 버킷 내 경로와 파일명
     Body: file, // 업로드할 파일
     ACL: 'public-read', // 업로드한 파일에 대한 퍼블릭 액세스 권한
