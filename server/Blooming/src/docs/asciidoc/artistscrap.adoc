@@ -10,7 +10,7 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
-== 아티스트 스크랩 여부
+== 아티스트 스크랩 여부 (User)
 
 === Request
 
@@ -20,7 +20,7 @@ include::{snippets}/artist-scraped/http-request.adoc[]
 
 include::{snippets}/artist-scraped/http-response.adoc[]
 
-== 아티스트 스크랩
+== 아티스트 스크랩 (User)
 
 === Request
 
@@ -32,7 +32,7 @@ include::{snippets}/artist-scrap/path-parameters.adoc[]
 
 include::{snippets}/artist-scrap/http-response.adoc[]
 
-== 아티스트 스크랩 취소
+== 아티스트 스크랩 취소 (User)
 
 === Request
 
