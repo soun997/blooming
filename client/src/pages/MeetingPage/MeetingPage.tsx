@@ -75,8 +75,8 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
   const [showNotice, setShowNotice] = useState<boolean>(true);
 
-  const prevEmojiRef = useRef<string[]>([]);
-  const [showingEmojis, setShowingEmojis] = useState<string[]>([]);
+  const prevEmojiRef = useRef<number[]>([]);
+  const [showingEmojis, setShowingEmojis] = useState<number[]>([]);
 
   // ********** [useEffect] prediction **********
   useEffect(() => {
@@ -85,28 +85,32 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
 
       const max = findMaxEmotion(prediction);
       CONSOLE.emoji(max.key);
-      if (max.key !== "NoMotion") {
+      if (max.key !== 'NoMotion') {
         emojiPuB(socketClient, 1, max.key, socketHeader);
-        let newEmoji = max.key;
-
-        // showEmotions 리스트에 현재 Emotion 추가
-        setShowingEmojis((prev) => {
-          const updatedEmojis = [...prev, newEmoji].slice(
-            -MAX_EMOTIONS_COUNT,
-          );
-          // 이전 Emotion 저장 업데이트
-          prevEmojiRef.current = updatedEmojis;
-          return updatedEmojis;
-        });
       }
     }
   }, [prediction]);
 
-  // ********** [useEffect] nowEmotion **********
+  // ********** [useEffect] emoji **********
   // 이전 Emotion 중 가장 오래된 것을 삭제
+  // emoji는 소켓 구독에 의해서만 업데이트 됩니다.
   useEffect(() => {
-    if (prevEmojiRef.current.length > MAX_EMOTIONS_COUNT) {
-      prevEmojiRef.current.shift();
+    CONSOLE.useEffectIn('MeetingPage::emoji');
+    if (emoji) {
+      CONSOLE.info('this is not init timing');
+      if (prevEmojiRef.current.length > MAX_EMOTIONS_COUNT) {
+        prevEmojiRef.current.shift();
+      }
+
+      // showEmotions 리스트에 현재 Emotion 추가
+      setShowingEmojis((prev: number[]) => {
+        const updatedEmojis = [...prev, emoji].slice(
+          -MAX_EMOTIONS_COUNT,
+        ) as number[];
+        // 이전 Emotion 저장 업데이트
+        prevEmojiRef.current = updatedEmojis;
+        return updatedEmojis;
+      });
     }
   }, [emoji]);
 
@@ -188,16 +192,12 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
           <NoticeSvg onClick={handleNoticeInfo} />
         </NoticeBoard>
         {/* 애니메이션을 적용한 이미지 */}
-        {showingEmojis.map((emotion, index) => (
+        {showingEmojis.map((emoji, index) => (
           <FloatingImage
             key={index}
             left={Math.random() * 80} // 랜덤한 가로 위치 설정
           >
-            <img
-              src={emotion}
-              alt="Emotion"
-              style={{ width: '50px', height: '50px' }}
-            />
+            {String.fromCodePoint(emoji)}
           </FloatingImage>
         ))}
 
@@ -206,11 +206,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
           <FloatingImage
             left={Math.random() * 70} // 랜덤한 가로 위치 설정
           >
-            <img
-              src={emoji}
-              alt="Emotion"
-              style={{ width: '40px', height: '40px' }}
-            />
+            {String.fromCodePoint(emoji)}
           </FloatingImage>
         )}
       </MeetingFrame>
@@ -294,16 +290,12 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         </Buttons>
       )}
       {/* 애니메이션을 적용한 이미지 */}
-      {showingEmojis.map((emotion, index) => (
+      {showingEmojis.map((emoji, index) => (
         <FloatingImage
           key={index}
           left={Math.random() * 80} // 랜덤한 가로 위치 설정
         >
-          <img
-            src={emotion}
-            alt="Emotion"
-            style={{ width: '50px', height: '50px' }}
-          />
+          {String.fromCodePoint(emoji)}
         </FloatingImage>
       ))}
 
@@ -312,11 +304,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         <FloatingImage
           left={Math.random() * 70} // 랜덤한 가로 위치 설정
         >
-          <img
-            src={emoji}
-            alt="Emotion"
-            style={{ width: '40px', height: '40px' }}
-          />
+          {String.fromCodePoint(emoji)}
         </FloatingImage>
       )}
     </MeetingFrame>
@@ -474,7 +462,7 @@ const FloatingImage = styled.div<FloatingImageProps>`
   transform: translateY(100%);
   opacity: 0;
   animation: ${moveUp} 3s ease-in-out forwards;
-
+  font-size: 2rem;
   & + & {
     animation-delay: 3s; // 애니메이션 딜레이 추가
   }

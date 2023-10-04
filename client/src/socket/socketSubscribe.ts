@@ -6,7 +6,7 @@ const emojiSUB = (client: React.MutableRefObject<any>, callback:Function, sessio
     const emojiData = JSON.parse(emojiResponse);
     CONSOLE.socket(`RECEIVED emoji`);
     console.log(emojiData)
-    callback(emojiData);
+    callback(emojiData.emojiCode);
   });
 };
 

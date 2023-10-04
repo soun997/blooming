@@ -49,7 +49,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
   const [prediction, setPrediction] = useState<Emotion[]>([]);
-  const [emoji, setEmoji] = useState<string>('');
+  const [emoji, setEmoji] = useState<number>();
 
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
     mySessionId: null,
