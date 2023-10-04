@@ -1,17 +1,16 @@
 import { MainTitle } from '@style/common';
 import styled from 'styled-components';
-import MembershipList from './MembershipList';
+import ArtistList from './ArtistList';
 
-const MembershipInterface = () => {
+const ArtistInterface = () => {
   return (
     <Frame>
       <Title>
         <MembershipTitle>
-          멤버쉽 승인 내역<div className="dot"></div>
+          아티스트 승인 내역<div className="dot"></div>
         </MembershipTitle>
       </Title>
-
-      <MembershipList />
+      <ArtistList />
     </Frame>
   );
 };
@@ -34,4 +33,4 @@ const MembershipTitle = styled(MainTitle)`
   font-size: 30px;
 `;
 
-export default MembershipInterface;
+export default ArtistInterface;

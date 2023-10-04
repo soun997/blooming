@@ -754,5 +754,37 @@
         }
       ]
     }
+  },
+  "artist-admit": {
+    "results": {
+      "content": [
+        {
+          "id": 1,
+          "stageName": "NEW JEANS",
+          "agency": "EDAM 엔터테인먼트",
+          "profileImageUrl": "src/assets/images/newjeans.jpg",
+          "applicationState": "신청",
+          "createdAt": "2023-10-04T09:55:08.2216521",
+          "modifiedAt": "2023-10-04T09:55:08.2216521",
+          "member": {
+            "id": null,
+            "name": null
+          }
+        },
+        {
+          "id": 2,
+          "stageName": "NEW JEANS22",
+          "agency": "EDAM 엔터테인먼트",
+          "profileImageUrl": "src/assets/images/newjeans.jpg",
+          "applicationState": "신청",
+          "createdAt": "2023-10-04T09:55:08.2216521",
+          "modifiedAt": "2023-10-04T09:55:08.2216521",
+          "member": {
+            "id": null,
+            "name": null
+          }
+        }
+      ]
+    }
   }
 }

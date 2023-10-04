@@ -13,3 +13,19 @@ export interface MembershipAdmit {
   modifiedAt: string;
   artist: ArtistRequestInfo;
 }
+
+export interface ArtistAdmit {
+  id: number;
+  stageName: string;
+  profileImageUrl: string;
+  agency: string;
+  applicationState: string;
+  createdAt: string;
+  modifiedAt: string;
+  member: MemberInfo;
+}
+
+export interface MemberInfo {
+  id: number | null;
+  name: string | null;
+}

@@ -8,6 +8,7 @@ import FundingInterface from '@components/MyPage/MyFundingInfo/FundingInterface'
 import SettlementInterface from '@components/MyPage/MySettlementInfo/SettlementInterface';
 
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
+import ArtistInterface from '@components/AdminPage/Artist/ArtistInterface';
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const AdminPage = () => {
         <RightSection>
           {nowTab === 0 && <MembershipInterface />}
           {nowTab === 1 && <FundingInterface />}
-          {nowTab === 2 && <SettlementInterface />}
+          {nowTab === 2 && <ArtistInterface />}
           {nowTab === 3 && <SettlementInterface />}
         </RightSection>
       </MyPageFrame>
