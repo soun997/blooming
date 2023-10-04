@@ -61,6 +61,7 @@ const ArtistRegistModal = ({
           updatedInfo.profileImageUrl = validInputCheck.validValue;
           break;
         case 4:
+          updatedInfo.youtubeUrl = validInputCheck.validValue;
           break;
         case 5:
           updatedInfo.fanCafeUrl = validInputCheck.validValue;
@@ -164,6 +165,14 @@ const ArtistRegistModal = ({
             <QuestionFrame>
               <Subtitle>아티스트님의 다양한 활약을 보여주세요</Subtitle>
               <Contents>
+                <FormForText
+                  title="공식 유튜브가 있으신가요?"
+                  placeholder="유튜브 링크를 입력해주세요"
+                  validIdx={4}
+                  setValid={setValidInputCheck}
+                  errorCheck={validNoneCheck}
+                  initKeyword={''}
+                />
                 <FormForText
                   title="팬카페 링크가 있으신가요?"
                   placeholder="팬카페 링크를 입력해주세요"

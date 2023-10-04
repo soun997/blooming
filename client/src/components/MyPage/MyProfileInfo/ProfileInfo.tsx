@@ -8,7 +8,7 @@ import NicknameModal from './NicknameModal';
 import ArtistModifModal from './ArtistModifModal';
 import { getCookie } from '@hooks/useAuth';
 import axios from '@api/apiController';
-import { STATE_APPLY } from '@components/common/constant';
+import { STATE_APPLY, STATE_APPROVAL } from '@components/common/constant';
 
 interface Props {
   isArtist: boolean;
@@ -19,11 +19,14 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
   const [isModifModalOpen, setModifModalOpen] = useState(false);
   const [isNicknameModalOpen, seticknameModalOpen] = useState(false);
   const [isRequest, setRequestArtist] = useState(false);
+  const [isArtistNow, setArtistNow] = useState(isArtist);
 
   useEffect(() => {
     axios.get('/artist-applications/me').then((res) => {
       if (res.data.results.applicationState === STATE_APPLY) {
         setRequestArtist(true);
+      } else if (res.data.results.applicationState === STATE_APPROVAL) {
+        setArtistNow(true);
       }
     });
   }, []);
@@ -70,7 +73,7 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
         <PencilSvg onClick={openNicknameModal} />
       </ProfileName>
       <ProfileQualification>
-        {isArtist ? (
+        {isArtistNow ? (
           <>
             <ArtistRegist>
               <span>다양한 유튜브 활동들을 보여주세요!</span>
