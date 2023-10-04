@@ -14,6 +14,7 @@ public enum ExceptionCode {
 
     ARTIST_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_ARTIST_001", "아티스트를 찾을 수 없습니다."),
     ARTIST_APPLICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_ARTIST_002", "아티스트 신청 기록을 찾을 수 없습니다."),
+    INVALID_ARTIST_APPLICATION_STATE(HttpStatus.BAD_REQUEST, "ERR_ARTIST_005", "유효하지 않은 아티스트 신청 상태입니다."),
 
     MEMBERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_MEMBERSHIP_001", "멤버십을 찾을 수 없습니다."),
     INVALID_MEMBERSHIP_MODIFY_REQUEST(HttpStatus.BAD_REQUEST, "ERR_MEMBERSHIP_002",
@@ -22,6 +23,7 @@ public enum ExceptionCode {
             "멤버십 신청 기록을 찾을 수 없습니다."),
     INVALID_MEMBERSHIP_APPLICATION_MODIFY_REQUEST(HttpStatus.BAD_REQUEST, "ERR_MEMBERSHIP_004",
             "유효하지 않은 멤버십 신청 수정 요청입니다."),
+    INVALID_MEMBERSHIP_APPLICATION_STATE(HttpStatus.BAD_REQUEST, "ERR_MEMBERSHIP_005", "유효하지 않은 멤버십 신청 상태입니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_MEMBER_001", "멤버를 찾을 수 없습니다."),
 
@@ -55,7 +57,8 @@ public enum ExceptionCode {
     INVALID_SESSION_ID(HttpStatus.BAD_REQUEST, "ERR_LIVE_002", "유효하지 않은 Session Id 입니다,"),
     LIVE_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_LIVE_003", "해당 라이브는 존재하지 않습니다."),
     OPENVIDU_WEBHOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_LIVE_004", "올바르지 않은 Openvidu WebHook 입니다."),
-    UNAUTHORIZED_MEMBER_FOR_CLOSING_LIVE(HttpStatus.BAD_REQUEST, "ERR_LIVE_005", "해당 멤버는 해당 라이브를 종료할 수 없습니다.");
+    UNAUTHORIZED_MEMBER_FOR_CLOSING_LIVE(HttpStatus.BAD_REQUEST, "ERR_LIVE_005", "해당 멤버는 해당 라이브를 종료할 수 없습니다."),
+    MOTION_MODEL_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_LIVE_006", "사용가능한 모션 모델이 없습니다");
 
 
     private final HttpStatus httpStatus;

@@ -91,6 +91,8 @@ class LiveControllerTest extends RestDocsTest {
             lives[i] = Live.builder()
                     .id((long) i+1)
                     .title("라이브" + i)
+                    .thumbnailUrl("img/thumbnail.png")
+                    .motionModelUrl("https://teachablemachine.withgoogle.com/models/blooming/")
                     .numberOfViewers(numberOfViewers[i])
                     .artist(artists[i])
                     .createdAt(now)
@@ -99,6 +101,7 @@ class LiveControllerTest extends RestDocsTest {
             closedLives[i] = Live.builder()
                     .id((long) i + 1 + numberOfSamples)
                     .title("종료된 라이브" + i)
+                    .thumbnailUrl("img/thumbnail.png")
                     .artist(artists[i])
                     .createdAt(now.minusHours(1))
                     .modifiedAt(now)
@@ -244,20 +247,19 @@ class LiveControllerTest extends RestDocsTest {
     }
 
     @Test
-    @DisplayName("라이브 Id로 Session Id를 조회한다.")
-    void 라이브_Id로_Session_Id를_조회한다() throws Exception {
-        given(liveSessionUseCase.searchSessionId(
-                any(Long.class))).willReturn(
-                "sessionId");
+    @DisplayName("라이브 Id로 라이브 입장 정보를 조회한다.")
+    void 라이브_Id로_라이브_입장_정보를_조회한다() throws Exception {
+        given(liveSearchUseCase.searchActiveLiveById(
+                any(Long.class))).willReturn(lives[0]);
 
         ResultActions perform = mockMvc.perform(
-                get("/api/v1/lives/{liveId}/session-id", "1"));
+                get("/api/v1/lives/{liveId}/enter", "1"));
 
         perform.andExpect(status().isOk())
-                .andExpect(jsonPath("$.results.sessionId").value("sessionId"));
+                .andExpect(jsonPath("$.results.sessionId").value("blooming1"));
 
         perform.andDo(print())
-                .andDo(document("live-session-details",
+                .andDo(document("live-enter",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -267,7 +269,7 @@ class LiveControllerTest extends RestDocsTest {
     @Test
     @DisplayName("라이브를 생성한다.")
     void 라이브를_생성한다() throws Exception {
-        LiveCreateRequest request = new LiveCreateRequest("찹찹", 2L);
+        LiveCreateRequest request = new LiveCreateRequest("찹찹", 2L, "img/thumbnamil.png");
 
         given(liveArtistUseCase.createLive(any(LiveCreateRequest.class))).willReturn(lives[0]);
 

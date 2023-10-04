@@ -9,6 +9,8 @@ import com.fivengers.blooming.membership.application.port.in.dto.MembershipCreat
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipModifyRequest;
 import com.fivengers.blooming.membership.application.port.out.MembershipPort;
 import com.fivengers.blooming.membership.domain.Membership;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,21 @@ public class MembershipService implements MembershipUseCase {
     @Override
     public Page<Membership> searchLatestSeasons(Pageable pageable) {
         return membershipPort.findLatestSeasons(pageable);
+    }
+
+    @Override
+    public Page<Membership> searchOngoing(Pageable pageable) {
+        return membershipPort.findByBetweenSeasonStartAndSeasonEnd(pageable, LocalDateTime.now());
+    }
+
+    @Override
+    public List<Membership> searchTop3SalesMembership() {
+        return membershipPort.findByTopNSalesCount(3L);
+    }
+
+    @Override
+    public Page<Membership> searchByArtistNameContains(Pageable pageable, String searchQuery) {
+        return membershipPort.findByArtistNameContains(pageable, searchQuery);
     }
 
     @Override

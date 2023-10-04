@@ -18,7 +18,13 @@ public class ArtistScrapPersistenceAdapter implements ArtistScrapPort {
     private final ArtistScrapMapper artistScrapMapper;
 
     @Override
-//    @Transactional
+    public boolean scraped(Long artistId, Long memberId) {
+        return artistScrapSpringDataRepository
+                .existsByArtistJpaEntityIdAndMemberJpaEntityId(artistId, memberId);
+    }
+
+    @Override
+    @Transactional
     public void saveScrap(ArtistScrap artistScrap) {
         artistScrapSpringDataRepository.save(artistScrapMapper.toJpaEntity(artistScrap));
     }

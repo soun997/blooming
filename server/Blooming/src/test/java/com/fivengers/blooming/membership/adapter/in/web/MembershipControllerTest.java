@@ -22,6 +22,7 @@ import com.fivengers.blooming.membership.domain.NftSale;
 import com.fivengers.blooming.support.docs.RestDocsTest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -101,6 +102,183 @@ class MembershipControllerTest extends RestDocsTest {
                                 parameterWithName("page").description("페이지"),
                                 parameterWithName("size").description("페이지 크기"),
                                 parameterWithName("sort").description("정렬 요소,순서"))));
+    }
+
+    @Test
+    @DisplayName("진행중인 멤버십 목록을 조회한다.")
+    void membershipListByOngoing() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        Artist artist = Artist.builder()
+                .id(1L)
+                .stageName("아이유")
+                .agency("EDAM 엔터테인먼트")
+                .description("아이유입니다.")
+                .profileImageUrl("https://image.com/iu")
+                .youtubeUrl("https://youtube.com/iu")
+                .fanCafeUrl("https://cafe.daum.net/iu")
+                .snsUrl("https://instagram.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .build();
+        NftSale nftSale = NftSale.builder()
+                .id(1L)
+                .totalNftCount(1)
+                .soldNftCount(0)
+                .totalNftAmount(10000L)
+                .soldNftAmount(0L)
+                .createdAt(now)
+                .modifiedAt(now)
+                .build();
+        Membership membership = Membership.builder()
+                .id(1L)
+                .title("아이유 (IU)")
+                .description("아이유입니다.")
+                .season(1)
+                .seasonStart(now)
+                .seasonEnd(now.plusYears(1))
+                .purchaseStart(now)
+                .purchaseEnd(now.plusMonths(1))
+                .saleCount(0)
+                .thumbnailUrl("https://image.com/iu")
+                .createdAt(now)
+                .modifiedAt(now)
+                .artist(artist)
+                .nftSale(nftSale)
+                .build();
+
+        given(membershipUseCase.searchOngoing(any(Pageable.class)))
+                .willReturn(new PageImpl<>(List.of(membership),
+                        PageRequest.of(0, 10), 1));
+
+        ResultActions perform = mockMvc.perform(get("/api/v1/memberships/ongoing")
+                .queryParam("page", "0")
+                .queryParam("size", "10")
+                .queryParam("sort", "createdAt,desc")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.results.content[0].title").value(membership.getTitle()));
+
+        perform.andDo(print())
+                .andDo(document("membership-list",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        queryParameters(
+                                parameterWithName("page").description("페이지"),
+                                parameterWithName("size").description("페이지 크기"),
+                                parameterWithName("sort").description("정렬 요소,순서"))));
+    }
+
+    @Test
+    @DisplayName("판매량이 가장 많은 3개의 멤버십을 조회한다.")
+    void membershipListByTop3Salesfix() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        List<Membership> memberships = IntStream.range(0, 4)
+                .mapToObj(i -> Membership.builder()
+                        .id(1L)
+                        .title("아이유 (IU)")
+                        .description("아이유입니다.")
+                        .season(1)
+                        .seasonStart(now)
+                        .seasonEnd(now.plusYears(1))
+                        .purchaseStart(now)
+                        .purchaseEnd(now.plusMonths(1))
+                        .saleCount(i)
+                        .thumbnailUrl("https://image.com/iu")
+                        .createdAt(now)
+                        .modifiedAt(now)
+                        .artist(Artist.builder()
+                                .id(1L)
+                                .stageName("아이유")
+                                .agency("EDAM 엔터테인먼트")
+                                .description("아이유입니다.")
+                                .profileImageUrl("https://image.com/iu")
+                                .youtubeUrl("https://youtube.com/iu")
+                                .fanCafeUrl("https://cafe.daum.net/iu")
+                                .snsUrl("https://instagram.com/iu")
+                                .createdAt(now)
+                                .modifiedAt(now)
+                                .build())
+                        .nftSale(NftSale.builder()
+                                .id(1L)
+                                .totalNftCount(1)
+                                .soldNftCount(0)
+                                .totalNftAmount(10000L)
+                                .soldNftAmount(0L)
+                                .createdAt(now)
+                                .modifiedAt(now)
+                                .build())
+                        .build())
+                .toList();
+        given(membershipUseCase.searchTop3SalesMembership())
+                .willReturn(memberships);
+
+        ResultActions perform = mockMvc.perform(get("/api/v1/memberships/best"));
+
+        perform.andExpect(status().isOk());
+
+        perform.andDo(print())
+                .andDo(document("membership-best-list",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("아티스트 명에 검색어가 포함되어있는 멤버십들을 조회한다.")
+    void membershipListByArtistNameContainsQuery() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        List<Membership> memberships = IntStream.range(0, 4)
+                .mapToObj(i -> Membership.builder()
+                        .id(1L)
+                        .title("아이유 (IU)")
+                        .description("아이유입니다.")
+                        .season(1)
+                        .seasonStart(now)
+                        .seasonEnd(now.plusYears(1))
+                        .purchaseStart(now)
+                        .purchaseEnd(now.plusMonths(1))
+                        .saleCount(i)
+                        .thumbnailUrl("https://image.com/iu")
+                        .createdAt(now)
+                        .modifiedAt(now)
+                        .artist(Artist.builder()
+                                .id(1L)
+                                .stageName("아이유")
+                                .agency("EDAM 엔터테인먼트")
+                                .description("아이유입니다.")
+                                .profileImageUrl("https://image.com/iu")
+                                .youtubeUrl("https://youtube.com/iu")
+                                .fanCafeUrl("https://cafe.daum.net/iu")
+                                .snsUrl("https://instagram.com/iu")
+                                .createdAt(now)
+                                .modifiedAt(now)
+                                .build())
+                        .nftSale(NftSale.builder()
+                                .id(1L)
+                                .totalNftCount(1)
+                                .soldNftCount(0)
+                                .totalNftAmount(10000L)
+                                .soldNftAmount(0L)
+                                .createdAt(now)
+                                .modifiedAt(now)
+                                .build())
+                        .build())
+                .toList();
+        given(membershipUseCase.searchByArtistNameContains(any(Pageable.class), any(String.class)))
+                .willReturn(new PageImpl<>(memberships, PageRequest.of(0, 10), 1L));
+
+        ResultActions perform = mockMvc.perform(get("/api/v1/memberships/search")
+                .queryParam("query", "이유")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        perform.andExpect(status().isOk());
+
+        perform.andDo(print())
+                .andDo(document("membership-list-by-search",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        queryParameters(
+                                parameterWithName("query").description("검색어"))));
     }
 
     @Test

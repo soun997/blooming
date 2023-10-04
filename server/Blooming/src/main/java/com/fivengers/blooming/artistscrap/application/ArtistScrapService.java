@@ -23,6 +23,11 @@ public class ArtistScrapService implements ArtistScrapUseCase {
     private final ArtistPort artistPort;
 
     @Override
+    public boolean scraped(Long artistId, Long memberId) {
+        return artistScrapPort.scraped(artistId, memberId);
+    }
+
+    @Override
     public void scrap(ArtistScrapRequest request, Long artistId) {
         Artist artist = artistPort.findById(artistId).orElseThrow(ArtistNotFoundException::new);
         artistScrapPort.saveScrap(ArtistScrap.builder()

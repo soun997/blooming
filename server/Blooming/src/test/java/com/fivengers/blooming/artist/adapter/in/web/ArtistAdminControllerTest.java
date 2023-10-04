@@ -35,7 +35,7 @@ class ArtistAdminControllerTest extends RestDocsTest {
     @MockBean ArtistVideoUseCase artistVideoUseCase;
 
     @Test
-    @DisplayName("관리자가 아티스트 신을 승인한다.")
+    @DisplayName("관리자가 아티스트 신청을 승인한다.")
     void artistCreate() throws Exception {
         ArtistCreateRequest request = new ArtistCreateRequest("아이유",
                 "EDAM 엔터테인먼트",
