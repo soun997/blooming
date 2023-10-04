@@ -32,7 +32,7 @@ include::{snippets}/membership-list/query-parameters.adoc[]
 
 include::{snippets}/membership-list/http-response.adoc[]
 
-== 멤버십 수정
+== 멤버십 수정 (Artist)
 
 === Request
 
