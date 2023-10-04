@@ -124,7 +124,7 @@ const MembershipList = () => {
         <div>
           <NoSearchResults />
         </div>
-      ) : (
+      ) : data && data.length > 0 ? (
         <>
           <ResultDataFrame>
             {data?.map((nft, idx) => (
@@ -149,6 +149,10 @@ const MembershipList = () => {
             onApprove={handleApprove}
             onReject={handleReject}
           />
+        </>
+      ) : (
+        <>
+          <NoSearchResults />
         </>
       )}
     </div>

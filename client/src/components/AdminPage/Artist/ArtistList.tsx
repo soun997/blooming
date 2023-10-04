@@ -125,7 +125,7 @@ const ArtistList = () => {
         <div>
           <NoSearchResults />
         </div>
-      ) : (
+      ) : data && data?.length > 0 ? (
         <>
           <ResultDataFrame>
             {data?.map((artist, idx) => (
@@ -150,6 +150,10 @@ const ArtistList = () => {
             onApprove={handleApprove}
             onReject={handleReject}
           />
+        </>
+      ) : (
+        <>
+          <NoSearchResults />
         </>
       )}
     </div>

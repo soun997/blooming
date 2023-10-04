@@ -8,18 +8,23 @@ import {
   CONCERT,
   INPROGRESS,
   REJECT,
+  STATE_APPROVAL,
+  STATE_RETURN,
 } from '@components/common/constant';
 import DetailModal from './DetailModal';
 
 import axiosTemp from '@api/apiControllerTemp';
+import axios from '@api/apiController';
+
 import { FundAddInfo } from '@type/ProcessInfo';
+import { FundingAdmit } from '@type/AdminAdmit';
 
 const FundingList = () => {
   const [activeTab, setActiveTab] = useState(INPROGRESS); // 현재 활성 탭 상태
   const [selectedFundingData, setSelectedFundingData] =
-    useState<FundAddInfo | null>(null);
+    useState<FundingAdmit | null>(null);
 
-  const handleFundingClick = (nftData: FundAddInfo) => {
+  const handleFundingClick = (nftData: FundingAdmit) => {
     if (activeTab === INPROGRESS) {
       setSelectedFundingData(nftData);
     }
@@ -29,14 +34,34 @@ const FundingList = () => {
     setSelectedFundingData(null);
   };
 
-  const handleApprove = () => {
-    // !승인 처리 로직 추가
-    handleModalClose();
+  const handleApprove = async () => {
+    const response = await axios.put(
+      `/admin/artist-applications/${selectedFundingData?.id}/states`,
+      {
+        applicationState: STATE_APPROVAL,
+      },
+    );
+
+    if (response) {
+      handleModalClose();
+    } else {
+      console.error('승인처리실패');
+    }
   };
 
-  const handleReject = () => {
-    // ! 거절 처리 로직 추가
-    handleModalClose();
+  const handleReject = async () => {
+    const response = await axios.put(
+      `/admin/funding-applications/${selectedFundingData?.id}/states`,
+      {
+        applicationState: STATE_RETURN,
+      },
+    );
+
+    if (response) {
+      handleModalClose();
+    } else {
+      console.error('거절처리실패');
+    }
   };
 
   // API 엔드포인트와 쿼리 키 설정
@@ -44,7 +69,7 @@ const FundingList = () => {
   const queryKey = ['fundingList', activeTab];
 
   // React Query를 사용하여 데이터 가져오기
-  const { data, isLoading, isError } = useQuery<FundAddInfo[], Error>(
+  const { data, isLoading, isError } = useQuery<FundingAdmit[], Error>(
     queryKey,
     fetchFundingInfo,
   );
@@ -53,18 +78,18 @@ const FundingList = () => {
     switch (tab) {
       //추후 변경
       case INPROGRESS:
-        return '/funding-admit';
+        return '/admin/funding-applications?state=APPLY';
       case APPROVE:
-        return '/funding-admit';
+        return '/admin/funding-applications?state=APPROVAL';
       case REJECT:
-        return '/funding-admit';
+        return '/admin/funding-applications?state=RETURN';
       default:
         throw new Error(`Invalid tab: ${tab}`);
     }
   }
 
   // 데이터를 가져오는 함수
-  async function fetchFundingInfo(): Promise<FundAddInfo[]> {
+  async function fetchFundingInfo(): Promise<FundingAdmit[]> {
     const response = await axiosTemp.get(apiEndpoint);
     console.log(response.data);
     return response.data.results.content;
@@ -103,10 +128,10 @@ const FundingList = () => {
         <div>
           <NoSearchResults />
         </div>
-      ) : (
+      ) : data && data.length > 0 ? (
         <>
           <ResultDataFrame>
-            {data?.map((fund: FundAddInfo, idx) => (
+            {data?.map((fund: FundingAdmit, idx) => (
               <EachResultData
                 key={idx}
                 onClick={() => handleFundingClick(fund)}
@@ -134,6 +159,10 @@ const FundingList = () => {
             onApprove={handleApprove}
             onReject={handleReject}
           />
+        </>
+      ) : (
+        <>
+          <NoSearchResults />
         </>
       )}
     </div>

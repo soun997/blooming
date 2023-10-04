@@ -1,4 +1,5 @@
 import { ArtistRequestInfo } from './ArtistRequest';
+import { FundAddInfo } from './ProcessInfo';
 
 export interface MembershipAdmit {
   id: number;
@@ -28,4 +29,8 @@ export interface ArtistAdmit {
 export interface MemberInfo {
   id: number | null;
   name: string | null;
+}
+
+export interface FundingAdmit extends FundAddInfo {
+  id: number;
 }
