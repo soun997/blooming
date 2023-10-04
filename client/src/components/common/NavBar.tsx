@@ -141,7 +141,7 @@ const Navbar = ({
               <>
                 <DropdownItem onClick={() => navigate('/admin')}>
                   <MyPageSvg />
-                  관리자페이지
+                  ADMIN
                 </DropdownItem>
               </>
             )}

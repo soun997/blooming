@@ -19,6 +19,8 @@ import PaymentFailure from '@pages/common/PaymentFailure';
 import PaymentPage from '@pages/PaymentPage/PaymentPage';
 import LoginSuccess from '@pages/common/Login';
 import PrivateRoute from './PrivateRouter';
+import AdminRoute from './AdminRouter';
+import AdminPage from '@pages/MyPage/AdminPage';
 
 export default function Router() {
   return (
@@ -28,6 +30,9 @@ export default function Router() {
         <Route path="/login-success" element={<LoginSuccess />} />
 
         <Route element={<PrivateRoute />}>
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminPage />} />
+          </Route>
           <Route path="/nft" element={<NFTList />}></Route>
           <Route path="/concert" element={<ConcertList />}></Route>
           <Route path="/active" element={<ActiveList />}></Route>
