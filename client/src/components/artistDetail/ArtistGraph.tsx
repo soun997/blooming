@@ -3,7 +3,7 @@ import axios from '@api/apiController';
 import styled from 'styled-components';
 import { ReactComponent as LikeIcon } from '../../assets/icons/LikeIcon.svg';
 import { ReactComponent as LiveIcon } from '../../assets/icons/LiveIcon.svg';
-import { liveFrequency } from '@type/LiveFrequency';
+import { liveFrequency, artistLikesPerWeek } from '@type/ArtistGraphData';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -38,6 +38,9 @@ interface Props {
 
 const ArtistGraph: React.FC<Props> = ({ artistId }) => {
   const [liveFrequencies, setLiveFrequencies] = useState<liveFrequency[]>([]);
+  const [artistLikesCountperWeek, setArtistLikesCountperWeek] = useState<
+    artistLikesPerWeek[]
+  >([]);
 
   useEffect(() => {
     axios
@@ -45,9 +48,6 @@ const ArtistGraph: React.FC<Props> = ({ artistId }) => {
         params: {
           artistId: artistId,
           numberOfWeeks: 4,
-        },
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
         },
       })
       // .get(`/lives/check/active/${artistId}`)
@@ -58,8 +58,17 @@ const ArtistGraph: React.FC<Props> = ({ artistId }) => {
       .catch((error) => {
         console.error('라이브 빈도 조회 실패', error);
       });
+
+    axios
+      .get(`/artists/${artistId}/scrap-records`)
+      .then((response) => {
+        console.log('아티스트 관심수 조회 성공', response.data.results);
+        setArtistLikesCountperWeek(response.data.results);
+      })
+      .catch((error) => {
+        console.error('아티스트 관심수 조회 실패', error);
+      });
   }, [artistId]);
-  console.log('라이브 빈도', liveFrequencies);
 
   // 그래프 관련
   const options1 = {
@@ -133,12 +142,13 @@ const ArtistGraph: React.FC<Props> = ({ artistId }) => {
     datasets: [
       {
         label: '관심 아티스트 등록 수 (명)',
-        data: [123403, 123603, 125079, 126030],
+        // data: [123403, 123603, 125079, 126030],
+        data: artistLikesCountperWeek.reverse().map((data) => data.scrapCount),
         borderColor: '#3061B9',
         backgroundColor: '#3061B9',
       },
       {
-        label: 'NFT 누적 구매수 (개)',
+        label: 'NFT 구매수 (개)',
         data: [126030, 129029, 130294, 135049],
         borderColor: '#01CD3B',
         backgroundColor: '#01CD3B',

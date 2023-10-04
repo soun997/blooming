@@ -44,7 +44,15 @@ const ArtistDetailPage = () => {
           artistId={artistId || ''}
         ></ArtistDetailInfo>
         <ArtistGraph artistId={artistId || ''}></ArtistGraph>
-        <ArtistDetail artistData={artistData}></ArtistDetail>
+        <ArtistDetail
+          artistData={artistData}
+          artistId={artistId || ''}
+        ></ArtistDetail>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </ArtistDetailBox1>
       <ArtistDetailBox2>
         <br />

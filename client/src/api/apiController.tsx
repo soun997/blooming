@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as useAuth from '@hooks/useAuth';
 import { ACCESS_KEY } from '@components/common/constant';
 
-export const BASE_URL = 'http://localhost:8080/api/v1';
+export const BASE_URL = 'https://j9a105.p.ssafy.io/api/v1';
 // export const BASE_URL = 'http://localhost:7700';
 
 const instance = axios.create({
