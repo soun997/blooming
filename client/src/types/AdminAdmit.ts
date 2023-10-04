@@ -1,6 +1,9 @@
 import { ArtistRequestInfo } from './ArtistRequest';
 import { FundAddInfo } from './ProcessInfo';
 
+export interface ArtistInMembershipAdmit extends ArtistRequestInfo {
+  id: number;
+}
 export interface MembershipAdmit {
   id: number;
   title: string;
@@ -12,7 +15,7 @@ export interface MembershipAdmit {
   applicationState: string;
   createdAt: string;
   modifiedAt: string;
-  artist: ArtistRequestInfo;
+  artist: ArtistInMembershipAdmit;
 }
 
 export interface ArtistAdmit {
