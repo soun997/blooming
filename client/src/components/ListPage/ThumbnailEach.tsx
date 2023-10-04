@@ -61,7 +61,7 @@ const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
             <LiveSvg />
             <span className="liveinfo">
               <div className="title">{data.title}</div>
-              <DebugDiv>liveId : {data.id}</DebugDiv>
+              {/* <DebugDiv>liveId : {data.id}</DebugDiv> */}
               <div className="artist"> @ {data.artist.stageName}</div>
             </span>
           </div>
