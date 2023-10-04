@@ -10,7 +10,8 @@ const msgStyle = {
   brown: 'color: sienna',
   motion: 'color: coral; font-weight: bold',
   axios: 'color: lightslategray; font-weight: bold',
-  emoji: 'color: orchid; font-weight: bold'
+  emoji: 'color: orchid; font-weight: bold',
+  socket: 'color: maroon; font-weight: bold'
 };
 
 const CONSOLE = {
@@ -49,6 +50,9 @@ const CONSOLE = {
   },
   emoji: function (msg: string) {
     coloredMsg(msgStyle.emoji, `[Emoji] ${msg}`);
+  },
+  socket: function (msg: string) {
+    coloredMsg(msgStyle.socket, `[Socket] ${msg}`);
   },
 };
 

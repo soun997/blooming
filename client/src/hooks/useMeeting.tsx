@@ -10,11 +10,16 @@ import CONSOLE from '@utils/consoleColors';
 import axios from '@api/apiController';
 import { Emotion, MeetingInfo } from '@type/MeetingInfo';
 import {
+  ACCESS_KEY,
   ARTIST,
   LIVE_ID,
   LIVE_NICKNAME,
   SESSION_ID,
 } from '@components/common/constant';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { emojiSUB, errorSUB } from '../socket/socketSubscribe';
+import { CompatClient } from '@stomp/stompjs';
 
 const tmPose = window.tmPose;
 import * as tmtype from '@teachablemachine/pose';
@@ -44,6 +49,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
   const [prediction, setPrediction] = useState<Emotion[]>([]);
+  const [emoji, setEmoji] = useState<string>('');
 
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
     mySessionId: null,
@@ -134,15 +140,54 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
     }
   }
 
+  // ==================== Socket Connect START ====================
+
+  const apiURL = import.meta.env.VITE_APP_SERVER;
+  const wsUrl = `${apiURL}/ws/blooming`;
+  const accessToken = getCookie(ACCESS_KEY);
+
+  const socketClient = useRef<CompatClient | null>(null);
+
+  const socketConnectHandler = () => {
+    socketClient.current = Stomp.over(() => {
+      const socket = new SockJS(wsUrl);
+      return socket;
+    });
+
+    socketClient.current.connect(
+      {
+        Authorization: `Bearer ${accessToken}`,
+        sessionId: meetingInfo.mySessionId,
+        liveUserName: meetingInfo.myUserName,
+      },
+      () => {
+        CONSOLE.socket("connected!!")
+        emojiSUB(socketClient, setEmoji, liveId);
+        errorSUB(socketClient, (error:any) => {
+          console.log(error);
+        });
+      },
+      (error:any) => {
+        console.log(error)
+      }
+    );
+  };
+  
+
+  // ==================== Socket Connect END ====================
+
   // ********** [START] INIT COMPONENT **********
 
   useEffect(() => {
     CONSOLE.info('세션을 시작합니다.');
+
+    // 1. Openvidu initSession
     setMeetingInfo((prevState) => ({
       ...prevState,
       session: OV.initSession(),
     }));
 
+    // 2. 입장 정보 (motionModelUrl, liveId) 가져오기
     axios.get(`/lives/${liveId}/enter`).then(({ data }) => {
       CONSOLE.axios(`GET /lives/${liveId}/enter`);
       console.log(data);
@@ -152,6 +197,9 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
         motionModelUrl: data.results.motionModelUrl,
       }));
     });
+
+    // 3. 소켓 연결
+    socketConnectHandler()
   }, []);
 
   // ********** [END] INIT COMPONENT **********
@@ -324,5 +372,8 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
     webcam,
     setWebcam,
     initWebcam,
+    emoji,
+    setEmoji,
+    socketClient
   };
 }

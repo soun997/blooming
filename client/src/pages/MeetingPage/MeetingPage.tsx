@@ -7,6 +7,7 @@ import CONSOLE from '@utils/consoleColors';
 import axios from '@api/apiController';
 
 import {
+  ACCESS_KEY,
   ARTIST,
   EMOTION_LIST,
   LIVE_ID,
@@ -27,15 +28,21 @@ import { ReactComponent as ArrowLeft } from '@assets/icons/arrow-left.svg';
 import { ReactComponent as ExitSvg } from '@assets/icons/sign-out.svg';
 
 import { useMeeting } from '@hooks/useMeeting';
-import { getCookie, deleteCookie } from '@hooks/useLiveAuth';
+import { deleteCookie } from '@hooks/useLiveAuth';
+import { getCookie } from '@hooks/useAuth';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { emojiPuB } from '../../socket/socketPublish';
+
+// -------------------- import END
 
 // const MeetingName = '나 김아무개 아티스트가 여는 콘서트다!';
 const MAX_EMOTIONS_COUNT = 20; // 최대 Emotion 갯수
 
 const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
-  CONSOLE.reRender("MeetingPage rendered!!!");
+  CONSOLE.reRender('MeetingPage rendered!!!');
 
-  const { liveId } = useParams()
+  const { liveId } = useParams();
 
   const navigate = useNavigate();
   const {
@@ -51,22 +58,34 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
     handleException,
     getToken,
     prediction,
+    emoji,
+    setEmoji,
+    socketClient,
   } = useMeeting(isArtist, liveId);
   console.log('MEETINGINFO!!', meetingInfo);
+
+  const accessToken = getCookie(ACCESS_KEY);
+  const socketHeader = {
+    Authorization: `Bearer ${accessToken}`,
+    sessionId: meetingInfo.mySessionId,
+    liveUserName: meetingInfo.myUserName,
+  };
+
   const [notArtistCamera, setNotArtistCamera] = useState<boolean>(false);
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
   const [showNotice, setShowNotice] = useState<boolean>(true);
-  const [nowEmotion, setNowEmotion] = useState<string>('');
 
   const prevEmotionRef = useRef<string[]>([]);
   const [showEmotions, setShowEmotions] = useState<string[]>([]);
 
+  // ********** [useEffect] prediction **********
   useEffect(() => {
     if (prediction.length !== 0) {
       console.log('PREDICTION👩👩👩 : ', prediction);
 
       const max = findMaxEmotion(prediction);
-      CONSOLE.emoji(max.key)
+      emojiPuB(socketClient, 1, max.key, socketHeader);
+      CONSOLE.emoji(max.key);
       let newEmotion = '';
       if (max.key === EMOTION_LIST.SHAKE) {
         newEmotion = 'src/assets/reaction/heart.png';
@@ -83,16 +102,19 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         return updatedEmotions;
       });
 
-      setNowEmotion(newEmotion);
+      setEmoji(newEmotion);
     }
   }, [prediction]);
 
+  // ********** [useEffect] nowEmotion **********
   // 이전 Emotion 중 가장 오래된 것을 삭제
   useEffect(() => {
     if (prevEmotionRef.current.length > MAX_EMOTIONS_COUNT) {
       prevEmotionRef.current.shift();
     }
-  }, [nowEmotion]);
+  }, [emoji]);
+
+  // ==================== Function Definitions START ====================
 
   const findMaxEmotion = (
     arr: Array<Emotion>,
@@ -141,7 +163,9 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
     });
   };
 
-  // 아티스트일 경우!!
+  // ==================== Function Definitions END ====================
+
+  // ########## [COMPONENT] 1. 아티스트일 경우
   if (meetingInfo.isArtist) {
     return (
       <MeetingFrame>
@@ -182,12 +206,12 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         ))}
 
         {/* 현재 Emotion 표시 */}
-        {nowEmotion && (
+        {emoji && (
           <FloatingImage
             left={Math.random() * 70} // 랜덤한 가로 위치 설정
           >
             <img
-              src={nowEmotion}
+              src={emoji}
               alt="Emotion"
               style={{ width: '40px', height: '40px' }}
             />
@@ -197,7 +221,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
     );
   }
 
-  //일반 사용자의 경우
+  // ########## [COMPONENT] 2. 일반 사용자의 경우
   return (
     <MeetingFrame>
       <div className="navigateBtn" onClick={handlePageOut}>
@@ -288,12 +312,12 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
       ))}
 
       {/* 현재 Emotion 표시 */}
-      {nowEmotion && (
+      {emoji && (
         <FloatingImage
           left={Math.random() * 70} // 랜덤한 가로 위치 설정
         >
           <img
-            src={nowEmotion}
+            src={emoji}
             alt="Emotion"
             style={{ width: '40px', height: '40px' }}
           />
