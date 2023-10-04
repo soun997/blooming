@@ -4,6 +4,8 @@ import com.fivengers.blooming.artistscrap.application.port.in.dto.ArtistScrapReq
 
 public interface ArtistScrapUseCase {
 
+    boolean scraped(Long artistId, Long memberId);
+
     void scrap(ArtistScrapRequest request, Long artistId);
 
     void unScrap(ArtistScrapRequest request, Long artistId);
