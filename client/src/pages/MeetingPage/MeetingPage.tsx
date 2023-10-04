@@ -99,12 +99,13 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
     if (emoji) {
       CONSOLE.info('this is not init timing');
       if (prevEmojiRef.current.length > MAX_EMOTIONS_COUNT) {
+        CONSOLE.info("over emojis.. remove one")
         prevEmojiRef.current.shift();
       }
 
       // showEmotions 리스트에 현재 Emotion 추가
       setShowingEmojis((prev: number[]) => {
-        const updatedEmojis = [...prev, emoji].slice(
+        const updatedEmojis = [...prev, emoji.emojiCode].slice(
           -MAX_EMOTIONS_COUNT,
         ) as number[];
         // 이전 Emotion 저장 업데이트
@@ -206,7 +207,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
           <FloatingImage
             left={Math.random() * 70} // 랜덤한 가로 위치 설정
           >
-            {String.fromCodePoint(emoji)}
+            {String.fromCodePoint(emoji.emojiCode)}
           </FloatingImage>
         )}
       </MeetingFrame>
@@ -304,7 +305,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
         <FloatingImage
           left={Math.random() * 70} // 랜덤한 가로 위치 설정
         >
-          {String.fromCodePoint(emoji)}
+          {String.fromCodePoint(emoji.emojiCode)}
         </FloatingImage>
       )}
     </MeetingFrame>

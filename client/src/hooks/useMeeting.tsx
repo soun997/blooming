@@ -24,6 +24,7 @@ import { CompatClient } from '@stomp/stompjs';
 const tmPose = window.tmPose;
 import * as tmtype from '@teachablemachine/pose';
 import { getCookie } from './useLiveAuth';
+import { EmojiMessage } from '@type/SocketEmoji';
 
 const OV = new OpenVidu();
 // const loggedInUserNickname = 'ksm';
@@ -49,7 +50,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
   const [prediction, setPrediction] = useState<Emotion[]>([]);
-  const [emoji, setEmoji] = useState<number>();
+  const [emoji, setEmoji] = useState<EmojiMessage | null>(null);
 
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
     mySessionId: null,
