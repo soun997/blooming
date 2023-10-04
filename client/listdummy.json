@@ -786,5 +786,88 @@
         }
       ]
     }
+  },
+
+  "funding-admit": {
+    "results": {
+      "content": [
+        {
+          "projectInfo": {
+            "category": "concert",
+            "makerInfo": {
+              "licenseNumber": "1234567890",
+              "companyName": "무명 엔터테인먼트",
+              "licenseImage": "/licenseImg1",
+              "sealCertificate": "/seal_certificate1"
+            },
+            "targetAmount": 50000000
+          },
+          "basicInfo": {
+            "thumbnail": "/thumbnail1",
+            "startDate": "2023-10-04 09:55:30",
+            "endDate": "2024-01-04 09:55:30",
+            "title": "김싸피 데뷔 1주년 기념 콘서트"
+          },
+          "storyInfo": {
+            "introduction": "김싸피의 데뷔 1주년을 기념하는 성대한 콘서트",
+            "teaser": "www.youtube.com/kimssafy",
+            "moreInfo": {
+              "description": "많이많이 와주세용",
+              "listImage": "/setlist1",
+              "compositionImage": "/composition1"
+            },
+            "budget": 100000000
+          },
+          "policyInfo": {
+            "service": true,
+            "refund": true
+          },
+          "settlementInfo": {
+            "representative": "박싸피",
+            "email": "parkssafy@ssafy.co.kr",
+            "accountNumber": "1234567890123",
+            "bankbookImage": "/bankbook1"
+          }
+        },
+        {
+          "projectInfo": {
+            "category": "concert",
+            "makerInfo": {
+              "licenseNumber": "1234567890",
+              "companyName": "무명 엔터테인먼트",
+              "licenseImage": "/licenseImg1",
+              "sealCertificate": "/seal_certificate1"
+            },
+            "targetAmount": 50000000
+          },
+          "basicInfo": {
+            "thumbnail": "/thumbnail1",
+            "startDate": "2023-10-04 09:55:30",
+            "endDate": "2024-01-04 09:55:30",
+            "title": "김싸피 데뷔 1주년 기념 콘서트"
+          },
+          "storyInfo": {
+            "introduction": "김싸피의 데뷔 1주년을 기념하는 성대한 콘서트",
+            "teaser": "www.youtube.com/kimssafy",
+            "moreInfo": {
+              "description": "많이많이 와주세용",
+              "listImage": "/setlist1",
+              "compositionImage": "/composition1"
+            },
+            "budget": 100000000
+          },
+          "policyInfo": {
+            "service": true,
+            "refund": true
+          },
+          "settlementInfo": {
+            "representative": "박싸피",
+            "email": "parkssafy@ssafy.co.kr",
+            "accountNumber": "1234567890123",
+            "bankbookImage": "/bankbook1"
+          }
+        }
+      ]
+    }
   }
 }

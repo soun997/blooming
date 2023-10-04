@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import Navbar from '@components/common/NavBar';
 import MembershipInterface from '@components/AdminPage/Membership/MembershipInterface';
-import FundingInterface from '@components/MyPage/MyFundingInfo/FundingInterface';
+import FundingInterface from '@components/AdminPage/Funding/FundingInterface';
 import SettlementInterface from '@components/MyPage/MySettlementInfo/SettlementInterface';
 
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
