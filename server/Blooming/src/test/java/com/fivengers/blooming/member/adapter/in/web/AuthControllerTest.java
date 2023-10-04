@@ -2,10 +2,14 @@ package com.fivengers.blooming.member.adapter.in.web;
 
 import static com.fivengers.blooming.support.docs.ApiDocumentUtils.getDocumentRequest;
 import static com.fivengers.blooming.support.docs.ApiDocumentUtils.getDocumentResponse;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fivengers.blooming.artist.application.port.in.ArtistUseCase;
 import com.fivengers.blooming.config.security.jwt.JwtProvider;
 import com.fivengers.blooming.config.security.jwt.JwtToken;
 import com.fivengers.blooming.config.security.jwt.JwtValidator;
@@ -21,14 +25,6 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -37,10 +33,9 @@ import org.springframework.test.web.servlet.ResultActions;
 @WebMvcTest(AuthController.class)
 class AuthControllerTest extends RestDocsTest {
 
-    @MockBean
-    JwtValidator jwtValidator;
-    @MockBean
-    JwtProvider jwtProvider;
+    @MockBean JwtValidator jwtValidator;
+    @MockBean JwtProvider jwtProvider;
+    @MockBean ArtistUseCase artistUseCase;
 
     @Test
     @DisplayName("authToken으로 Jwt 정보를 가져온다.")

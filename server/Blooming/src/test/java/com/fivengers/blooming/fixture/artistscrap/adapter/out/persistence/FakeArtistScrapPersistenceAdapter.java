@@ -13,6 +13,13 @@ public class FakeArtistScrapPersistenceAdapter implements ArtistScrapPort {
     private Long autoIncrementId = 1L;
 
     @Override
+    public boolean scraped(Long artistId, Long memberId) {
+        return store.values().stream()
+                .anyMatch(artistScrap -> artistScrap.getArtist().getId().equals(artistId) &&
+                        artistScrap.getMember().getId().equals(memberId));
+    }
+
+    @Override
     public void saveScrap(ArtistScrap artistScrap) {
         if (isPersistenceObject(artistScrap)) {
             store.put(artistScrap.getId(), artistScrap);
