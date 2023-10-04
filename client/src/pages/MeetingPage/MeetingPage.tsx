@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import CONSOLE from '@utils/consoleColors';
@@ -31,9 +32,11 @@ import { getCookie, deleteCookie } from '@hooks/useLiveAuth';
 // const MeetingName = '나 김아무개 아티스트가 여는 콘서트다!';
 const MAX_EMOTIONS_COUNT = 20; // 최대 Emotion 갯수
 
-const MeetingPage = ({ isArtist, liveId }: { isArtist: boolean, liveId: number }) => {
+const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
   CONSOLE.reRender("MeetingPage rendered!!!");
-  
+
+  const { liveId } = useParams()
+
   const navigate = useNavigate();
   const {
     webcam,

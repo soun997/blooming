@@ -40,7 +40,7 @@ async function createToken(sessionId: string) {
 
 // ================================
 
-export function useMeeting(isArtist: boolean, liveId: number) {
+export function useMeeting(isArtist: boolean, liveId: string | undefined) {
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
   const [prediction, setPrediction] = useState<Emotion[]>([]);
