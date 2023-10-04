@@ -45,7 +45,6 @@ public class MembershipRestTest extends RestEndToEndTest {
                 .oauth(new Oauth(AuthProvider.KAKAO, "1234567"))
                 .name("이지은")
                 .nickname("아이유")
-                .account("12345678")
                 .deleted(false)
                 .build());
         artist = artistSpringDataRepository.save(ArtistJpaEntity.builder()
@@ -133,6 +132,17 @@ public class MembershipRestTest extends RestEndToEndTest {
         RestAssured.given().log().all()
                 .header(AUTHORIZATION, getAccessToken())
                 .when().get("/api/v1/memberships/best")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("멤버십을 아티스트명으로 검색한다.")
+    void getMembershipByArtistNameContainsQuery() {
+        RestAssured.given().log().all()
+                .header(AUTHORIZATION, getAccessToken())
+                .queryParam("query", "이유")
+                .when().get("/api/v1/memberships/search")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }

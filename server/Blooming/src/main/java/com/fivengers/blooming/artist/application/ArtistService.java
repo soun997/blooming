@@ -8,6 +8,7 @@ import com.fivengers.blooming.artist.application.port.out.ArtistVideoPort;
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artist.domain.ArtistVideo;
 import com.fivengers.blooming.global.exception.artist.ArtistNotFoundException;
+import com.fivengers.blooming.global.exception.artist.InvalidArtistModifyRequestException;
 import com.fivengers.blooming.global.exception.member.MemberNotFoundException;
 import com.fivengers.blooming.member.application.port.out.MemberPort;
 import java.util.List;
@@ -45,7 +46,26 @@ public class ArtistService implements ArtistUseCase {
     }
 
     @Override
-    public Artist modify(ArtistModifyRequest request) {
-        return artistPort.update(request.toDomain());
+    public Artist searchByMemberId(Long memberId) {
+        return artistPort.findByMemberId(memberId).orElseThrow(ArtistNotFoundException::new);
+    }
+
+    @Override
+    public Artist modify(ArtistModifyRequest request, Long artistId, Long memberId) {
+        Artist artist = artistPort.findById(artistId).orElseThrow(ArtistNotFoundException::new);
+
+        if (artist.isSameMember(memberId)) {
+            artist.modify(request.stageName(),
+                    request.agency(),
+                    request.description(),
+                    request.profileImageUrl(),
+                    request.youtubeUrl(),
+                    request.fanCafeUrl(),
+                    request.snsUrl());
+
+            return artistPort.update(artist);
+        }
+
+        throw new InvalidArtistModifyRequestException();
     }
 }

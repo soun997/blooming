@@ -6,20 +6,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fivengers.blooming.artist.application.port.in.ArtistUseCase;
 import com.fivengers.blooming.artist.application.port.in.ArtistVideoUseCase;
-import com.fivengers.blooming.artist.application.port.in.dto.ArtistCreateRequest;
 import com.fivengers.blooming.artist.application.port.in.dto.ArtistModifyRequest;
-import com.fivengers.blooming.artist.application.port.in.dto.ArtistVideoCreateRequest;
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artist.domain.ArtistVideo;
 import com.fivengers.blooming.member.domain.AuthProvider;
@@ -53,7 +49,6 @@ class ArtistControllerTest extends RestDocsTest {
                 .oauthAccount("12434512")
                 .name("이지은")
                 .nickname("아이유")
-                .account("account")
                 .createdAt(now)
                 .modifiedAt(now)
                 .role(List.of(MemberRole.ROLE_USER))
@@ -153,7 +148,6 @@ class ArtistControllerTest extends RestDocsTest {
     @DisplayName("아티스트 정보를 수정한다.")
     void artistModify() throws Exception {
         ArtistModifyRequest request = new ArtistModifyRequest(
-                1L,
                 "아이유",
                 "EDAM 엔터테인먼트",
                 "아이유입니다.",
@@ -190,7 +184,7 @@ class ArtistControllerTest extends RestDocsTest {
                 .artist(artist)
                 .build();
 
-        given(artistUseCase.modify(any(ArtistModifyRequest.class)))
+        given(artistUseCase.modify(any(ArtistModifyRequest.class), any(Long.class), any(Long.class)))
                 .willReturn(artist);
         given(artistVideoUseCase.searchByArtistId(any(Long.class)))
                 .willReturn(List.of(artistVideo1, artistVideo2, artistVideo3));

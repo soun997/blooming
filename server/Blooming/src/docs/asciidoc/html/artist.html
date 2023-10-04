@@ -465,7 +465,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_3">Response</a></li>
 </ul>
 </li>
-<li><a href="#_artist_수정">Artist 수정</a>
+<li><a href="#_artist_수정_artist">Artist 수정 (Artist)</a>
 <ul class="sectlevel2">
 <li><a href="#_request_4">Request</a></li>
 <li><a href="#_response_4">Response</a></li>
@@ -512,7 +512,7 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 315
+Content-Length: 302
 
 {
   "status" : 200,
@@ -571,7 +571,7 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 540
+Content-Length: 468
 
 {
   "status" : 200,
@@ -583,13 +583,9 @@ Content-Length: 540
     "youtubeUrl" : "https://youtube.com/iu",
     "fanCafeUrl" : "https://cafe.daum.net/iu",
     "snsUrl" : "https://instagram.com/iu",
-    "artistVideo" : [ {
-      "videoUrl" : "https://youtube.com/iu1"
-    }, {
-      "videoUrl" : "https://youtube.com/iu2"
-    }, {
-      "videoUrl" : "https://youtube.com/iu3"
-    } ]
+    "artistVideo" : {
+      "videoUrl" : [ "https://youtube.com/iu1", "https://youtube.com/iu2", "https://youtube.com/iu3" ]
+    }
   }
 }</code></pre>
 </div>
@@ -606,7 +602,7 @@ Content-Length: 540
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/admin/artists?memberId=1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 385
+Content-Length: 373
 Host: j9a105.p.ssafy.io:8080
 
 {
@@ -624,24 +620,6 @@ Host: j9a105.p.ssafy.io:8080
 }</code></pre>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 ID</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="_response_3"><a class="link" href="#_response_3">Response</a></h3>
@@ -649,7 +627,7 @@ Host: j9a105.p.ssafy.io:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 540
+Content-Length: 468
 
 {
   "status" : 200,
@@ -661,13 +639,9 @@ Content-Length: 540
     "youtubeUrl" : "https://youtube.com/iu",
     "fanCafeUrl" : "https://cafe.daum.net/iu",
     "snsUrl" : "https://instagram.com/iu",
-    "artistVideo" : [ {
-      "videoUrl" : "https://youtube.com/iu1"
-    }, {
-      "videoUrl" : "https://youtube.com/iu2"
-    }, {
-      "videoUrl" : "https://youtube.com/iu3"
-    } ]
+    "artistVideo" : {
+      "videoUrl" : [ "https://youtube.com/iu1", "https://youtube.com/iu2", "https://youtube.com/iu3" ]
+    }
   }
 }</code></pre>
 </div>
@@ -676,7 +650,7 @@ Content-Length: 540
 </div>
 </div>
 <div class="sect1">
-<h2 id="_artist_수정"><a class="link" href="#_artist_수정">Artist 수정</a></h2>
+<h2 id="_artist_수정_artist"><a class="link" href="#_artist_수정_artist">Artist 수정 (Artist)</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_request_4"><a class="link" href="#_request_4">Request</a></h3>
@@ -684,11 +658,10 @@ Content-Length: 540
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/v1/artists/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 311
+Content-Length: 284
 Host: j9a105.p.ssafy.io:8080
 
 {
-  "artistId" : 1,
   "stageName" : "아이유",
   "agency" : "EDAM 엔터테인먼트",
   "description" : "아이유입니다.",
@@ -725,7 +698,7 @@ Host: j9a105.p.ssafy.io:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 540
+Content-Length: 468
 
 {
   "status" : 200,
@@ -737,13 +710,9 @@ Content-Length: 540
     "youtubeUrl" : "https://youtube.com/iu",
     "fanCafeUrl" : "https://cafe.daum.net/iu",
     "snsUrl" : "https://instagram.com/iu",
-    "artistVideo" : [ {
-      "videoUrl" : "https://youtube.com/iu1"
-    }, {
-      "videoUrl" : "https://youtube.com/iu2"
-    }, {
-      "videoUrl" : "https://youtube.com/iu3"
-    } ]
+    "artistVideo" : {
+      "videoUrl" : [ "https://youtube.com/iu1", "https://youtube.com/iu2", "https://youtube.com/iu3" ]
+    }
   }
 }</code></pre>
 </div>
@@ -791,7 +760,7 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 414
+Content-Length: 397
 
 {
   "status" : 200,
@@ -804,8 +773,8 @@ Content-Length: 414
       "introduction" : "많이많이 와주세용",
       "targetAmount" : 100000000,
       "fundingAmount" : 30000000,
-      "startedAt" : "2023-10-04T09:55:13.1836488",
-      "endedAt" : "2024-01-04T09:55:13.1836488"
+      "startedAt" : "2023-10-04T21:34:19.697608",
+      "endedAt" : "2024-01-04T21:34:19.697608"
     }
   }
 }</code></pre>
@@ -818,7 +787,7 @@ Content-Length: 414
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 308
+Content-Length: 293
 
 {
   "status" : 200,
@@ -882,7 +851,7 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 418
+Content-Length: 401
 
 {
   "status" : 200,
@@ -895,8 +864,8 @@ Content-Length: 418
       "introduction" : "많이많이 들어주세용",
       "targetAmount" : 100000000,
       "fundingAmount" : 30000000,
-      "startedAt" : "2023-10-04T09:55:13.0216535",
-      "endedAt" : "2024-01-04T09:55:13.0216535"
+      "startedAt" : "2023-10-04T21:34:19.625468",
+      "endedAt" : "2024-01-04T21:34:19.625468"
     }
   }
 }</code></pre>
@@ -909,7 +878,7 @@ Content-Length: 418
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 308
+Content-Length: 293
 
 {
   "status" : 200,
@@ -971,25 +940,30 @@ Host: j9a105.p.ssafy.io:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 332
+Content-Length: 437
 
 {
   "status" : 200,
   "results" : [ {
     "id" : 6,
-    "thumbnail" : "/profile1.png"
+    "thumbnail" : "/profile1.png",
+    "type" : "activity"
   }, {
     "id" : 7,
-    "thumbnail" : "/profile1.png"
+    "thumbnail" : "/profile1.png",
+    "type" : "concert"
   }, {
     "id" : 8,
-    "thumbnail" : "/profile1.png"
+    "thumbnail" : "/profile1.png",
+    "type" : "activity"
   }, {
     "id" : 9,
-    "thumbnail" : "/profile1.png"
+    "thumbnail" : "/profile1.png",
+    "type" : "concert"
   }, {
     "id" : 10,
-    "thumbnail" : "/profile1.png"
+    "thumbnail" : "/profile1.png",
+    "type" : "activity"
   } ]
 }</code></pre>
 </div>
@@ -1001,7 +975,7 @@ Content-Length: 332
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-10-04 09:54:20 +0900
+Last updated 2023-10-04 21:33:14 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

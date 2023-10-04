@@ -38,13 +38,11 @@ include::{snippets}/artist-details/http-response.adoc[]
 
 include::{snippets}/artist-create/http-request.adoc[]
 
-include::{snippets}/artist-create/query-parameters.adoc[]
-
 === Response
 
 include::{snippets}/artist-create/http-response.adoc[]
 
-== Artist 수정
+== Artist 수정 (Artist)
 
 === Request
 
