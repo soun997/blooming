@@ -706,5 +706,53 @@
         "profileImageUrl": "img/artistImage2.png"
       }
     }
+  },
+  "membership-admit": {
+    "results": {
+      "content": [
+        {
+          "id": 1,
+          "title": "아이유 (IU)",
+          "seasonStart": "2023-10-04T09:55:26.364699",
+          "seasonEnd": "2024-10-04T09:55:26.364699",
+          "purchaseStart": "2023-10-04T09:55:26.364699",
+          "purchaseEnd": "2023-11-04T09:55:26.364699",
+          "thumbnailUrl": "src/assets/images/iu-profile.jpg",
+          "applicationState": "신청",
+          "createdAt": "2023-10-04T09:55:26.364699",
+          "modifiedAt": "2023-10-04T09:55:26.364699",
+          "artist": {
+            "id": 1,
+            "profileImg": "src/assets/images/iu-profile.jpg",
+            "stageName": "아이유",
+            "desc": "아이유입니다.",
+            "youtubeUrl": ["https://youtube.com/iu"],
+            "fanCafeUrl": "https://cafe.daum.net/iu",
+            "snsUrl": "https://instagram.com/iu"
+          }
+        },
+        {
+          "id": 2,
+          "title": "아이유 (IU)22",
+          "seasonStart": "2023-10-04T09:55:26.364699",
+          "seasonEnd": "2024-10-04T09:55:26.364699",
+          "purchaseStart": "2023-10-04T09:55:26.364699",
+          "purchaseEnd": "2023-11-04T09:55:26.364699",
+          "thumbnailUrl": "src/assets/images/iu-profile.jpg",
+          "applicationState": "신청",
+          "createdAt": "2023-10-04T09:55:26.364699",
+          "modifiedAt": "2023-10-04T09:55:26.364699",
+          "artist": {
+            "id": 1,
+            "profileImg": "https://image.com/iu",
+            "stageName": "아이유",
+            "desc": "아이유입니다.",
+            "youtubeUrl": ["https://youtube.com/iu"],
+            "fanCafeUrl": "https://cafe.daum.net/iu",
+            "snsUrl": "https://instagram.com/iu"
+          }
+        }
+      ]
+    }
   }
 }

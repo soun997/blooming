@@ -1,4 +1,5 @@
 export interface ArtistRequestInfo {
+  id: number;
   stageName: string;
   agency: string;
   description: string;
