@@ -8,6 +8,7 @@ const msgStyle = {
   funcIn: 'color: indianred; font-weight: bold',
   setCalled: 'color: tomato; font-weight: bold',
   brown: 'color: sienna',
+  motion: 'color: coral; font-weight: bold',
 };
 
 const CONSOLE = {
@@ -37,6 +38,9 @@ const CONSOLE = {
   },
   setCalled: function (msg: string) {
     coloredMsg(msgStyle.setCalled, `set **$${msg}** called!`);
+  },
+  motion: function (msg: string) {
+    coloredMsg(msgStyle.motion, `[Model] ${msg}`);
   },
 };
 

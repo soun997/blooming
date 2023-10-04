@@ -22,11 +22,8 @@ import { getCookie } from './useLiveAuth';
 
 const OV = new OpenVidu();
 // const loggedInUserNickname = 'ksm';
-const baseURL = 'https://teachablemachine.withgoogle.com/models/HwtR6uvJk/';
-const modelURL = baseURL + 'model.json';
-const metadataURL = baseURL + 'metadata.json';
 
-async function createSession(sessionId: string) {
+async function createSession(sessionId: null | string) {
   const response = await axios.post(`/lives/sessions`, {
     customSessionId: sessionId,
   });
@@ -41,14 +38,17 @@ async function createToken(sessionId: string) {
   return response.data;
 }
 
-export function useMeeting(isArtist: boolean) {
+// ================================
+
+export function useMeeting(isArtist: boolean, liveId: number) {
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
   const [prediction, setPrediction] = useState<Emotion[]>([]);
 
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
-    mySessionId: getCookie(SESSION_ID),
+    mySessionId: null,
     myUserName: getCookie(LIVE_NICKNAME),
+    motionModelUrl: null,
     session: null,
     mainStreamManager: undefined,
     publisher: undefined,
@@ -68,6 +68,8 @@ export function useMeeting(isArtist: boolean) {
     mirror: true,
   });
 
+  // ============== [useState END] ==============
+
   const isTokenRequested = useRef(false);
 
   async function initWebcam() {
@@ -83,7 +85,7 @@ export function useMeeting(isArtist: boolean) {
 
   async function loop() {
     if (webcam) {
-      CONSOLE.info('loop 실행#)(*(');
+      // CONSOLE.motion('loop 실행');
       webcam.update();
       await predict();
       window.requestAnimationFrame(loop);
@@ -92,7 +94,7 @@ export function useMeeting(isArtist: boolean) {
 
   async function predict() {
     if (model && webcam) {
-      CONSOLE.info('predict- model 출력');
+      // CONSOLE.motion('predict- model 출력');
 
       const maxPredictions = model.getTotalClasses();
       const accumulatedPredictions: { [key: string]: number[] } = {};
@@ -132,9 +134,7 @@ export function useMeeting(isArtist: boolean) {
     }
   }
 
-  useEffect(() => {
-    // CONSOLE.info('나 업데이트중@!!!!');
-  }, [prediction]);
+  // ********** [START] INIT COMPONENT **********
 
   useEffect(() => {
     CONSOLE.info('세션을 시작합니다.');
@@ -143,32 +143,57 @@ export function useMeeting(isArtist: boolean) {
       session: OV.initSession(),
     }));
 
+    axios.post(`/lives/${liveId}/enter`).then(({ data }) => {
+      setMeetingInfo((prev) => ({
+        ...prev,
+        mySessionId: data.results.sessionId,
+        motionModelUrl: data.results.motionModelUrl,
+      }));
+    });
+  }, []);
+
+  // ********** [END] INIT COMPONENT **********
+
+
+  // ********** [useEffect] meetingInfo.motionModelUrl **********
+  useEffect(() => {
+    const modelURL = meetingInfo.motionModelUrl + 'model.json';
+    const metadataURL = meetingInfo.motionModelUrl + 'metadata.json';
+
     tmPose
       .load(modelURL, metadataURL)
       .then((model: tmtype.CustomPoseNet) => {
-        CONSOLE.info('load 완료');
-        console.log(model);
+        CONSOLE.motion('load 완료');
+        // console.log(model);
         setModel(model);
       })
       .catch((error: Error) => {
         CONSOLE.error('로드중 에러발생');
         console.log(error);
       });
-  }, []);
+  }, [meetingInfo.motionModelUrl]);
 
+  // ********** [useEffect] model **********
   useEffect(() => {
     if (model) {
-      CONSOLE.useEffectIn('model!!!!!!!');
+      // CONSOLE.useEffectIn('model!!!!!!!');
       initWebcam();
     }
   }, [model]);
 
+  // ********** [useEffect] webcam **********
   useEffect(() => {
     if (webcam) {
       loop();
     }
   }, [webcam]);
 
+  // useEffect(() => {
+  //   CONSOLE.info('나 업데이트중@!!!!');
+  // }, [prediction]);
+
+
+  // ********** [useEffect] videoOption **********
   useEffect(() => {
     CONSOLE.useEffectIn('MeetingPage_videoOption');
     const newPublisher = OV.initPublisher(undefined, videoOption);
@@ -182,6 +207,7 @@ export function useMeeting(isArtist: boolean) {
     }));
   }, [videoOption]);
 
+  // ********** [useEffect] meetingInfo **********
   useEffect(() => {
     if (meetingInfo.session && !isTokenRequested.current) {
       CONSOLE.info('서버에 토큰을 요청합니다.');
@@ -215,6 +241,9 @@ export function useMeeting(isArtist: boolean) {
       });
     }
   }, [meetingInfo]);
+
+
+  // ==================== Function Definitions ====================
 
   const handleCameraOnOff = ({ onMyCamera }: { onMyCamera: boolean }) => {
     setVideoOption((prevState) => ({
@@ -252,11 +281,12 @@ export function useMeeting(isArtist: boolean) {
     console.warn(exception);
   };
 
-  const getToken = async (newSessionId: string) => {
-    const sessionId = await createSession(newSessionId).catch((error) => {
+  const getToken = async (newSessionId: null | string) => {
+    const data = await createSession(newSessionId).catch((error) => {
       processError(error, '세션 생성 중 오류 발생!');
     });
-    return await createToken(sessionId).catch((error) => {
+    CONSOLE.info('create Seesion 결과 -->');
+    return await createToken(data.results.sessionId).catch((error) => {
       processError(error, '커넥션 생성 중 오류 발생!');
     });
   };

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import CONSOLE from '@utils/consoleColors';
 
 import axios from '@api/apiController';
 
@@ -30,7 +31,9 @@ import { getCookie, deleteCookie } from '@hooks/useLiveAuth';
 // const MeetingName = '나 김아무개 아티스트가 여는 콘서트다!';
 const MAX_EMOTIONS_COUNT = 20; // 최대 Emotion 갯수
 
-const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
+const MeetingPage = ({ isArtist, liveId }: { isArtist: boolean, liveId: number }) => {
+  CONSOLE.reRender("MeetingPage rendered!!!");
+  
   const navigate = useNavigate();
   const {
     webcam,
@@ -45,7 +48,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
     handleException,
     getToken,
     prediction,
-  } = useMeeting(isArtist);
+  } = useMeeting(isArtist, liveId);
   console.log('MEETINGINFO!!', meetingInfo);
   const [notArtistCamera, setNotArtistCamera] = useState<boolean>(false);
   const [onMyCamera, setMyCamera] = useState<boolean>(true);
