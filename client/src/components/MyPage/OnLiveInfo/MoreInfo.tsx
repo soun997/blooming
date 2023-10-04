@@ -35,11 +35,6 @@ const MoreInfo = ({ onRegisterLive }: MoreInfoProps) => {
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleUpload = () => {
-    const value = 'url-upload';
-    setThumbnail(value);
-  };
-
   const handleUploadClick = () => {
     // 파일 업로드 버튼 클릭 시 input 엘리먼트를 클릭
     if (inputRef.current) {
@@ -57,7 +52,6 @@ const MoreInfo = ({ onRegisterLive }: MoreInfoProps) => {
       try {
         const uploadedFileUrl = await uploadFile(
           selectedFile,
-          'YOUR_S3_BUCKET_NAME', // 아마존 S3 버킷 이름
           'uploads/' + selectedFile.name, // S3 내 파일 경로 및 이름
         );
 
@@ -65,7 +59,7 @@ const MoreInfo = ({ onRegisterLive }: MoreInfoProps) => {
         setUploadedFileName(selectedFile.name);
 
         // 업로드 성공 시 결과 전달
-        const isValid = true;
+        console.log('amazon link', uploadedFileUrl);
         setThumbnail(uploadedFileUrl);
       } catch (error) {
         setIsUploading(false);
