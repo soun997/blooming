@@ -30,6 +30,11 @@ export const LIVE_TITLE = 'LiveTitle';
 export const GENERAL = 'General';
 export const ADMIN = 'Admin';
 
+export const STATE_APPLY = '신청';
+export const STATE_APPROVAL = '승인';
+export const STATE_RETURN = '거절';
+export const STATE_CANCEL = '취소';
+
 export const POST_CATEGORY = {
   artistRegister: 'artistRegister',
   fundRegister: 'fundRegister',

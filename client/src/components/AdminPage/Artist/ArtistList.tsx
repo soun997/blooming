@@ -3,11 +3,17 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import Loading from '@components/Animation/Loading';
 import NoSearchResults from '@components/Search/NoSearchResults';
-import { APPROVE, INPROGRESS, REJECT } from '@components/common/constant';
+import {
+  APPROVE,
+  INPROGRESS,
+  REJECT,
+  STATE_APPROVAL,
+  STATE_RETURN,
+} from '@components/common/constant';
 import { ArtistAdmit } from '@type/AdminAdmit';
 import DetailModal from './DetailModal';
 
-import axiosTemp from '@api/apiControllerTemp';
+import axios from '@api/apiController';
 
 const ArtistList = () => {
   const [activeTab, setActiveTab] = useState(INPROGRESS); // 현재 활성 탭 상태
@@ -25,14 +31,34 @@ const ArtistList = () => {
     setArtistData(null);
   };
 
-  const handleApprove = () => {
-    // !승인 처리 로직 추가
-    handleModalClose();
+  const handleApprove = async () => {
+    const response = await axios.put(
+      `/admin/artist-applications/${selectedArtistData?.id}/states`,
+      {
+        applicationState: STATE_APPROVAL,
+      },
+    );
+
+    if (response) {
+      handleModalClose();
+    } else {
+      console.error('승인처리실패');
+    }
   };
 
-  const handleReject = () => {
-    // ! 거절 처리 로직 추가
-    handleModalClose();
+  const handleReject = async () => {
+    const response = await axios.put(
+      `/admin/artist-applications/${selectedArtistData?.id}/states`,
+      {
+        applicationState: STATE_RETURN,
+      },
+    );
+
+    if (response) {
+      handleModalClose();
+    } else {
+      console.error('거절처리실패');
+    }
   };
 
   // API 엔드포인트와 쿼리 키 설정
@@ -49,11 +75,11 @@ const ArtistList = () => {
     switch (tab) {
       //추후 변경
       case INPROGRESS:
-        return '/artist-admit';
+        return '/admin/artist-applications?state=APPLY';
       case APPROVE:
-        return '/artist-admit';
+        return '/admin/artist-applications?state=APPROVAL';
       case REJECT:
-        return '/artist-admit';
+        return '/admin/artist-applications?state=RETURN';
       default:
         throw new Error(`Invalid tab: ${tab}`);
     }
@@ -61,7 +87,7 @@ const ArtistList = () => {
 
   // 데이터를 가져오는 함수
   async function fetchArtistData(): Promise<ArtistAdmit[]> {
-    const response = await axiosTemp.get(apiEndpoint);
+    const response = await axios.get(apiEndpoint);
     console.log(response.data);
     return response.data.results.content;
   }

@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '@components/common/NavBar';
 import MembershipInterface from '@components/AdminPage/Membership/MembershipInterface';
 import FundingInterface from '@components/AdminPage/Funding/FundingInterface';
-import SettlementInterface from '@components/MyPage/MySettlementInfo/SettlementInterface';
 
 import { ReactComponent as ApplySvg } from '@assets/icons/diploma-certificate.svg';
 import ArtistInterface from '@components/AdminPage/Artist/ArtistInterface';
@@ -38,17 +37,12 @@ const AdminPage = () => {
               <ApplySvg />
               아티스트 승인
             </TabItem>
-            <TabItem $active={nowTab === 3} onClick={() => setNowTab(3)}>
-              <ApplySvg />
-              정산 승인
-            </TabItem>
           </Tabs>
         </LeftSection>
         <RightSection>
           {nowTab === 0 && <MembershipInterface />}
           {nowTab === 1 && <FundingInterface />}
           {nowTab === 2 && <ArtistInterface />}
-          {nowTab === 3 && <SettlementInterface />}
         </RightSection>
       </MyPageFrame>
     </>
