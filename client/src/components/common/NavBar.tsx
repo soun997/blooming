@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { deleteCookie, getCookie } from '@hooks/useAuth';
-import { ACCESS_KEY, ADMIN, ARTIST, GENERAL } from './constant';
+import { deleteAllCookies, deleteCookie, getCookie } from '@hooks/useAuth';
+import {
+  ACCESS_KEY,
+  ADMIN,
+  ARTIST,
+  GENERAL,
+  ROLE,
+  ROLE_ADMIN,
+  ROLE_ARTIST,
+  ROLE_USER,
+} from './constant';
 
 import { ReactComponent as UserSvg } from '@assets/icons/user-key.svg';
 import { ReactComponent as MyPageSvg } from '@assets/icons/account-mypage.svg';
@@ -34,10 +43,12 @@ const Navbar = ({
     const accessToken = getCookie(ACCESS_KEY);
     if (accessToken) {
       setLogin(true);
-      setUserNickname(accessToken.slice(0, 5));
+      setUserNickname(getCookie('Nickname'));
 
-      //!추후 수정
-      setQualification(ADMIN);
+      if (getCookie(ROLE) === ROLE_ADMIN) {
+        setUserNickname('관리자');
+      }
+      setQualification(getCookie(ROLE));
     }
   }, []);
   const openModal = () => {
@@ -118,14 +129,14 @@ const Navbar = ({
 
         {isDropdownOpen && isLogin && (
           <Dropdown onClick={(e) => e.stopPropagation()}>
-            {qualification === GENERAL && (
+            {qualification === ROLE_USER && (
               <DropdownItem onClick={() => navigate('/mypage')}>
                 <MyPageSvg />
                 마이페이지
               </DropdownItem>
             )}
 
-            {qualification === ARTIST && (
+            {qualification === ROLE_ARTIST && (
               <>
                 <DropdownItem onClick={() => navigate('/mypage')}>
                   <MyPageSvg />
@@ -137,7 +148,7 @@ const Navbar = ({
                 </DropdownItem>
               </>
             )}
-            {qualification === ADMIN && (
+            {qualification === ROLE_ADMIN && (
               <>
                 <DropdownItem onClick={() => navigate('/admin')}>
                   <MyPageSvg />
@@ -145,7 +156,7 @@ const Navbar = ({
                 </DropdownItem>
               </>
             )}
-            <DropdownItem onClick={() => deleteCookie(ACCESS_KEY)}>
+            <DropdownItem onClick={() => deleteAllCookies()}>
               <ModifSvg />
               로그아웃
             </DropdownItem>
