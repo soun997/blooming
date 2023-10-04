@@ -21,6 +21,7 @@ import LoginSuccess from '@pages/common/Login';
 import PrivateRoute from './PrivateRouter';
 import AdminRoute from './AdminRouter';
 import AdminPage from '@pages/MyPage/AdminPage';
+import AccessDeny from '@pages/common/AccessDeny';
 
 export default function Router() {
   return (
@@ -28,7 +29,7 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<MainPage />}></Route>
         <Route path="/login-success" element={<LoginSuccess />} />
-
+        <Route path="/access-denied" element={<AccessDeny />} />
         <Route element={<PrivateRoute />}>
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminPage />} />
