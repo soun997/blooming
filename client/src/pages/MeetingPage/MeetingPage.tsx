@@ -66,6 +66,7 @@ const MeetingPage = ({ isArtist }: { isArtist: boolean }) => {
       console.log('PREDICTION👩👩👩 : ', prediction);
 
       const max = findMaxEmotion(prediction);
+      CONSOLE.emoji(max.key)
       let newEmotion = '';
       if (max.key === EMOTION_LIST.SHAKE) {
         newEmotion = 'src/assets/reaction/heart.png';

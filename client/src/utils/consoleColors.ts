@@ -9,7 +9,8 @@ const msgStyle = {
   setCalled: 'color: tomato; font-weight: bold',
   brown: 'color: sienna',
   motion: 'color: coral; font-weight: bold',
-  axios: 'color: lightslategray; font-weight: bold'
+  axios: 'color: lightslategray; font-weight: bold',
+  emoji: 'color: orchid; font-weight: bold'
 };
 
 const CONSOLE = {
@@ -45,6 +46,9 @@ const CONSOLE = {
   },
   axios: function (msg: string) {
     coloredMsg(msgStyle.axios, `[Axios] ${msg}`);
+  },
+  emoji: function (msg: string) {
+    coloredMsg(msgStyle.emoji, `[Emoji] ${msg}`);
   },
 };
 
