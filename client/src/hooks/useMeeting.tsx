@@ -143,7 +143,9 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
       session: OV.initSession(),
     }));
 
-    axios.post(`/lives/${liveId}/enter`).then(({ data }) => {
+    axios.get(`/lives/${liveId}/enter`).then(({ data }) => {
+      CONSOLE.axios(`GET /lives/${liveId}/enter`);
+      console.log(data);
       setMeetingInfo((prev) => ({
         ...prev,
         mySessionId: data.results.sessionId,
@@ -153,7 +155,6 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
   }, []);
 
   // ********** [END] INIT COMPONENT **********
-
 
   // ********** [useEffect] meetingInfo.motionModelUrl **********
   useEffect(() => {
@@ -191,7 +192,6 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
   // useEffect(() => {
   //   CONSOLE.info('나 업데이트중@!!!!');
   // }, [prediction]);
-
 
   // ********** [useEffect] videoOption **********
   useEffect(() => {
@@ -240,8 +240,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
           });
       });
     }
-  }, [meetingInfo]);
-
+  }, [meetingInfo.mySessionId]);
 
   // ==================== Function Definitions ====================
 

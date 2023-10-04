@@ -9,6 +9,7 @@ const msgStyle = {
   setCalled: 'color: tomato; font-weight: bold',
   brown: 'color: sienna',
   motion: 'color: coral; font-weight: bold',
+  axios: 'color: lightslategray; font-weight: bold'
 };
 
 const CONSOLE = {
@@ -41,6 +42,9 @@ const CONSOLE = {
   },
   motion: function (msg: string) {
     coloredMsg(msgStyle.motion, `[Model] ${msg}`);
+  },
+  axios: function (msg: string) {
+    coloredMsg(msgStyle.axios, `[Axios] ${msg}`);
   },
 };
 
