@@ -3,7 +3,7 @@ export interface ArtistRequestInfo {
   agency: string;
   description: string;
   profileImageUrl: string;
-  youtubeUrl?: string[];
+  youtubeUrl?: string[] | string;
   fanCafeUrl: string;
   snsUrl: string;
 }

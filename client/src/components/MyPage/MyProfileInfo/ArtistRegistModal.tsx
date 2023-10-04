@@ -34,6 +34,7 @@ const ArtistRegistModal = ({
     fanCafeUrl: '',
     profileImageUrl: '',
     snsUrl: '',
+    youtubeUrl: '',
   });
 
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
@@ -94,7 +95,7 @@ const ArtistRegistModal = ({
   const handleRegister = () => {
     if (validArtistRegistInfo()) {
       // console.log(registInfo);
-      axios.post('/artist-regist', registInfo).then((res) => {
+      axios.post('/artist-applications', registInfo).then((res) => {
         // console.log(res.data);
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
       });
