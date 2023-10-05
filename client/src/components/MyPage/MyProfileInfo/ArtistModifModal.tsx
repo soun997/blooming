@@ -37,27 +37,13 @@ const ArtistModifModal = ({
     profileImageUrl: '',
     snsUrl: '',
     youtubeUrl: '',
-    artistVideo: { videoUrl: [] },
+    artistVideo: [
+      {
+        id: 1,
+        videoUrl: '',
+      },
+    ],
   });
-  const [artistVideoList, setArtistVideoList] = useState<string[]>(['']);
-
-  const handleInputChange = (index: number, value: string) => {
-    const newList = [...artistVideoList];
-    newList[index] = value;
-    setArtistVideoList(newList);
-  };
-
-  const handleAddInput = () => {
-    if (artistVideoList.length < 5) {
-      setArtistVideoList([...artistVideoList, '']);
-    }
-  };
-
-  const handleRemoveInput = (index: number) => {
-    const newList = [...artistVideoList];
-    newList.splice(index, 1);
-    setArtistVideoList(newList);
-  };
 
   const [validInputCheck, setValidInputCheck] = useState<ValidCheck>({
     validIdx: 0,
@@ -65,73 +51,61 @@ const ArtistModifModal = ({
     isValid: false,
   });
 
+  const [nowIdx, setNowIdx] = useState<number>(1);
+
   useEffect(() => {
     axiosTemp.get('artist-modif').then((res) => {
       const data = res.data;
-      registInfo.stageName = data.name;
-      registInfo.agency = data.agency;
-      registInfo.description = data.info;
-      registInfo.fanCafeUrl = data.fanCafeUrl;
-      registInfo.profileImageUrl = data.profileImageUrl;
-      registInfo.snsUrl = data.snsUrl;
+      setRegistInfo({
+        ...registInfo,
+        stageName: data.name,
+        agency: data.agency,
+        description: data.info,
+        fanCafeUrl: data.fanCafeUrl,
+        profileImageUrl: data.profileImageUrl,
+        snsUrl: data.snsUrl,
+        artistVideo: data.artistVideo,
+      });
+
+      if (data.artistVideo && data.artistVideo.length > 0) {
+        setNowIdx(data.artistVideo.slice(-1)[0].id);
+      }
     });
   }, []);
 
-  useEffect(() => {
-    if (validInputCheck.isValid) {
+  const handleInputChange = (index: number, value: string) => {
+    if (registInfo.artistVideo) {
       const updatedInfo = { ...registInfo };
-
-      switch (validInputCheck.validIdx) {
-        case 0:
-          updatedInfo.stageName = validInputCheck.validValue;
-          break;
-        case 1:
-          updatedInfo.agency = validInputCheck.validValue;
-          break;
-        case 2:
-          updatedInfo.description = validInputCheck.validValue;
-          break;
-        case 3:
-          updatedInfo.profileImageUrl = validInputCheck.validValue;
-          break;
-        case 4:
-          updatedInfo.youtubeUrl = validInputCheck.validValue;
-          break;
-        case 5:
-          updatedInfo.fanCafeUrl = validInputCheck.validValue;
-          break;
-        case 6:
-          updatedInfo.snsUrl = validInputCheck.validValue;
-          break;
-
-        default:
-          break;
-      }
-      // console.log(updatedInfo);
-      setRegistInfo(updatedInfo);
-    } else {
-      switch (validInputCheck.validIdx) {
-        case 0:
-          registInfo.stageName = '';
-          break;
-        case 1:
-          registInfo.agency = '';
-          break;
-        case 2:
-          registInfo.description = '';
-          break;
-        case 3:
-          registInfo.profileImageUrl = '';
-          break;
+      if (updatedInfo.artistVideo) {
+        updatedInfo.artistVideo[index].videoUrl = value;
+        setRegistInfo(updatedInfo);
+        console.log(updatedInfo.artistVideo);
       }
     }
-  }, [validInputCheck]);
+  };
+
+  const handleAddInput = () => {
+    const newVideo = {
+      id: nowIdx + 1,
+      videoUrl: '',
+    };
+    const updatedVideos = registInfo.artistVideo
+      ? [...registInfo.artistVideo, newVideo]
+      : [newVideo];
+
+    setRegistInfo({ ...registInfo, artistVideo: updatedVideos });
+    setNowIdx(nowIdx + 1);
+  };
+
+  const handleRemoveInput = (id: number) => {
+    const updatedVideos = registInfo.artistVideo?.filter(
+      (video) => video.id !== id,
+    );
+    setRegistInfo({ ...registInfo, artistVideo: updatedVideos });
+  };
 
   const handleModif = () => {
     if (validArtistRegistInfo()) {
-      if (registInfo.artistVideo) {
-        registInfo.artistVideo.videoUrl = artistVideoList;
-      }
       axios.post('/artist-regist', registInfo).then((res) => {
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
       });
@@ -203,27 +177,32 @@ const ArtistModifModal = ({
                 <div className="formlist">
                   <InputContainer>
                     <ContentTitle>더 많은 활동 링크가 있으신가요?</ContentTitle>
-                    {artistVideoList.map((input, index) => (
-                      <InputBox key={index}>
-                        <InputField
-                          placeholder="유튜브 링크를 입력해주세요"
-                          type="text"
-                          value={input}
-                          onChange={(e) =>
-                            handleInputChange(index, e.target.value)
-                          }
-                        />
-                        {artistVideoList.length > 1 && (
-                          <RemoveButton
-                            onClick={() => handleRemoveInput(index)}
-                          >
-                            삭제
-                            <CancelSvg />
-                          </RemoveButton>
-                        )}
-                      </InputBox>
-                    ))}
-                    {artistVideoList.length < 5 && (
+                    {registInfo.artistVideo ? (
+                      registInfo.artistVideo.map((video, index) => (
+                        <InputBox key={video.id}>
+                          <InputField
+                            placeholder="유튜브 링크를 입력해주세요"
+                            type="text"
+                            value={video.videoUrl}
+                            onChange={(e) =>
+                              handleInputChange(index, e.target.value)
+                            }
+                          />
+                          {registInfo.artistVideo && (
+                            <RemoveButton
+                              onClick={() => handleRemoveInput(video.id)}
+                            >
+                              삭제
+                              <CancelSvg />
+                            </RemoveButton>
+                          )}
+                        </InputBox>
+                      ))
+                    ) : (
+                      <></>
+                    )}
+                    {(!registInfo.artistVideo ||
+                      registInfo.artistVideo.length < 5) && (
                       <AddButton onClick={handleAddInput}>
                         <LinkSvg />
                         링크 추가
