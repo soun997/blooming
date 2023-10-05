@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class LiveQueryRepository extends QuerydslRepositorySupport {
+
     private final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
     private final QArtistJpaEntity artist = QArtistJpaEntity.artistJpaEntity;
     private final QLiveJpaEntity live = QLiveJpaEntity.liveJpaEntity;
@@ -113,7 +114,8 @@ public class LiveQueryRepository extends QuerydslRepositorySupport {
     public List<Long> findNftIdByMember(Long memberId) {
         return select(nftOwnerInfoEntity.nftJpaEntity.id)
                 .from(nftOwnerInfoEntity)
-                .where(nftOwnerInfoEntity.memberJpaEntity.id.eq(memberId))
+                .where(nftOwnerInfoEntity.owned.isTrue()
+                        .and(nftOwnerInfoEntity.memberJpaEntity.id.eq(memberId)))
                 .fetch();
     }
 
