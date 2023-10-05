@@ -50,4 +50,8 @@ public class Member {
     public void modify(String nickname) {
         this.nickname = nickname;
     }
+
+    public void authorizeArtist() {
+        role.add(MemberRole.ROLE_ARTIST);
+    }
 }
