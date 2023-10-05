@@ -4,13 +4,13 @@ import com.fivengers.blooming.config.security.oauth2.LoginUser;
 import com.fivengers.blooming.global.response.ApiResponse;
 import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipDetailsResponse;
 import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipListResponse;
+import com.fivengers.blooming.membership.adapter.in.web.dto.NftSaleDetailsResponse;
 import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipModifyRequest;
 import com.fivengers.blooming.membership.domain.Membership;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +33,7 @@ public class MembershipController {
     @GetMapping
     public ApiResponse<Page<MembershipListResponse>> membershipList(Pageable pageable) {
         Page<Membership> memberships = membershipUseCase.searchLatestSeasons(pageable);
-        ;
+
         return ApiResponse.ok(PageableExecutionUtils.getPage(memberships.stream()
                 .map(MembershipListResponse::from)
                 .toList(), pageable, memberships::getTotalElements));
@@ -43,7 +43,7 @@ public class MembershipController {
     public ApiResponse<Page<MembershipListResponse>> membershipListByOngoing(Pageable pageable) {
         Page<Membership> memberships = membershipUseCase.searchOngoing(pageable);
 
-        ;
+
         return ApiResponse.ok(PageableExecutionUtils.getPage(memberships.getContent().stream()
                 .map(MembershipListResponse::from)
                 .toList(), pageable, memberships::getTotalElements));
@@ -74,5 +74,12 @@ public class MembershipController {
             @AuthenticationPrincipal LoginUser loginUser) {
         return ApiResponse.ok(MembershipDetailsResponse.from(
                 membershipUseCase.modify(request, membershipId, loginUser.getMemberId())));
+    }
+
+    @GetMapping("/{membershipId}")
+    public ApiResponse<NftSaleDetailsResponse> nftSaleDetails(
+            @PathVariable Long membershipId) {
+        return ApiResponse.ok(NftSaleDetailsResponse.from(
+                membershipUseCase.searchByMembershipId(membershipId)));
     }
 }
