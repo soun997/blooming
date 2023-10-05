@@ -4,22 +4,29 @@ import { LiveInfo, ProcessInfo } from '@type/ProcessInfo';
 import { calculateDateDifference } from './EachRankBox';
 import ProgressBarFrame from '@components/Button/ProgressBar';
 import { ReactComponent as LiveSvg } from '@assets/icons/broadcast.svg';
-import axios from '@api/apiController';
-import {
-  setLiveNickName,
-  setLiveSessionId,
-  setLiveTitle,
-} from '@hooks/useLiveAuth';
+
 import { useNavigate } from 'react-router-dom';
-import { DebugDiv } from '@components/util/DebugComponent';
+import { ACTIVE, ARTIST, CONCERT } from '@components/common/constant';
 
 interface Props {
   data: ProcessInfo;
+  nowStat: string;
 }
-const ThumbnailEach: React.FC<Props> = ({ data }) => {
+const ThumbnailEach: React.FC<Props> = ({ data, nowStat }) => {
+  const navigate = useNavigate();
+
+  const handleNavigateDetail = () => {
+    if (nowStat === ARTIST) {
+      navigate(`/nft-detail/${data.id}`);
+    } else if (nowStat === ACTIVE) {
+      navigate(`/activity-detail/${data.id}`);
+    } else if (nowStat === CONCERT) {
+      navigate(`/concert-detail/${data.id}`);
+    }
+  };
   const leftDate = calculateDateDifference(new Date().toString(), data.endDate);
   return (
-    <EachFrame>
+    <EachFrame onClick={handleNavigateDetail}>
       <img
         src={data.profileImg ? data.profileImg : 'src/assets/images/nopic.jpg'}
       ></img>
@@ -43,11 +50,11 @@ const ThumbnailEach: React.FC<Props> = ({ data }) => {
 const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
   const navigate = useNavigate();
   const handleJoinLive = () => {
-    navigate(`/meeting/${data.id}`)
-  }
+    navigate(`/meeting/${data.id}`);
+  };
 
   return (
-    <EachFrame onClick={handleJoinLive} >
+    <EachFrame onClick={handleJoinLive}>
       <img
         src={
           data.artist.profileImageUrl
