@@ -13,6 +13,7 @@ import {
   STATE_APPLY,
   STATE_APPROVAL,
 } from '@components/common/constant';
+import { ImageData } from '@components/common/ImageData';
 
 interface Props {
   isArtist: boolean;
@@ -72,7 +73,7 @@ const Profile = ({ isArtist, profileInfo }: Props) => {
   return (
     <ProfileFrame>
       <ProfileImg>
-        <img src={profileInfo.profileImg} alt="profile" />
+        <img src={ImageData.defaultAvatar} alt="profile" />
       </ProfileImg>
       <ProfileName>
         {getCookie('Nickname')}
@@ -132,6 +133,7 @@ const ProfileImg = styled.div`
     width: 120px;
     height: 120px;
     object-fit: cover;
+    background-color: var(--background-color);
   }
 `;
 

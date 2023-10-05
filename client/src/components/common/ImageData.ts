@@ -5,6 +5,7 @@ import logoColor from '@assets/resourceImg/logofont-color.png';
 import logoWhite from '@assets/resourceImg/logofont-white.png';
 import logoBlack from '@assets/resourceImg/logofont.png';
 import noPicture from '@assets/images/nopic.jpg';
+import defaultAvatar from '@assets/images/peeps-avatar-alpha.png';
 
 export const ImageData = {
   kakaoLogin,
@@ -14,4 +15,5 @@ export const ImageData = {
   logoColor,
   logoWhite,
   noPicture,
+  defaultAvatar,
 };
