@@ -16,9 +16,11 @@ import {
   setLiveSessionId,
   setLiveTitle,
 } from '@hooks/useLiveAuth';
+import { getCookie } from '@hooks/useAuth';
+import { ROLE_ID } from '@components/common/constant';
 
 //추후 쿠키에서 가져옴
-const artistId = 1;
+const artistId = getCookie(ROLE_ID);
 
 const liveGenerate = async (
   title: string,

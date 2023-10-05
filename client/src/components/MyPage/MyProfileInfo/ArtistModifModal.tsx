@@ -51,22 +51,80 @@ const ArtistModifModal = ({
     isValid: false,
   });
 
+  useEffect(() => {
+    if (validInputCheck.isValid) {
+      const updatedInfo = { ...registInfo };
+
+      switch (validInputCheck.validIdx) {
+        case 0:
+          updatedInfo.stageName = validInputCheck.validValue;
+          break;
+        case 1:
+          updatedInfo.agency = validInputCheck.validValue;
+          break;
+        case 2:
+          updatedInfo.description = validInputCheck.validValue;
+          break;
+        case 3:
+          updatedInfo.profileImageUrl = validInputCheck.validValue;
+          break;
+        case 4:
+          updatedInfo.youtubeUrl = validInputCheck.validValue;
+          break;
+        case 5:
+          updatedInfo.fanCafeUrl = validInputCheck.validValue;
+          break;
+        case 6:
+          updatedInfo.snsUrl = validInputCheck.validValue;
+          break;
+
+        default:
+          break;
+      }
+      // console.log(updatedInfo);
+      setRegistInfo(updatedInfo);
+    } else {
+      switch (validInputCheck.validIdx) {
+        case 0:
+          registInfo.stageName = '';
+          break;
+        case 1:
+          registInfo.agency = '';
+          break;
+        case 2:
+          registInfo.description = '';
+          break;
+        case 3:
+          registInfo.profileImageUrl = '';
+          break;
+      }
+    }
+  }, [validInputCheck]);
+
   const [nowIdx, setNowIdx] = useState<number>(1);
 
   useEffect(() => {
     axios.get(`/artists/${getCookie(ROLE_ID)}`).then((res) => {
       const data = res.data.results;
-      setRegistInfo({
-        ...registInfo,
-        stageName: data.name,
-        agency: data.agency,
-        description: data.info,
-        fanCafeUrl: data.fanCafeUrl,
-        profileImageUrl: data.profileImageUrl,
-        snsUrl: data.snsUrl,
-        artistVideo: data.artistVideo,
-      });
-
+      // setRegistInfo({
+      //   ...registInfo,
+      //   stageName: data.stageName,
+      //   agency: data.agency,
+      //   description: data.info,
+      //   fanCafeUrl: data.fanCafeUrl,
+      //   profileImageUrl: data.profileImageUrl,
+      //   snsUrl: data.snsUrl,
+      //   artistVideo: data.artistVideo,
+      // });
+      console.log('data', data);
+      registInfo.stageName = data.stageName;
+      registInfo.agency = data.agency;
+      registInfo.description = data.description;
+      registInfo.fanCafeUrl = data.fanCafeUrl;
+      registInfo.profileImageUrl = data.profileImageUrl;
+      registInfo.snsUrl = data.snsUrl;
+      registInfo.artistVideo = data.artistVideo;
+      console.log(registInfo);
       if (data.artistVideo && data.artistVideo.length > 0) {
         setNowIdx(data.artistVideo.slice(-1)[0].id);
       }
@@ -105,6 +163,7 @@ const ArtistModifModal = ({
   };
 
   const handleModif = () => {
+    console.log(registInfo);
     if (validArtistRegistInfo()) {
       axios.put(`/artists/${getCookie(ROLE_ID)}`, registInfo).then((res) => {
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);

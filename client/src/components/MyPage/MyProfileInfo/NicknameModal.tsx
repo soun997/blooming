@@ -39,6 +39,8 @@ const NicknameModal = ({
       .then((res) => {
         console.log(res.data);
         setNickname(keyword);
+        closeModal();
+        window.location.reload();
       });
   };
 
