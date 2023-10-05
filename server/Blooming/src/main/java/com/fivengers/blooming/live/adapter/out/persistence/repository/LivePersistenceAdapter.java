@@ -182,7 +182,7 @@ public class LivePersistenceAdapter implements LivePort {
     }
 
     @Override
-    public List<Live> findLiveByNftPurchasedArtist(Long memberId) {
+    public List<Live> findLiveByNftPurchased(Long memberId) {
         // member가 구매한 NFT 리스트를 조회
         List<Long> puchasedNftIdList = liveQueryRepository.findNftIdByMember(memberId);
 

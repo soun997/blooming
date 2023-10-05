@@ -209,7 +209,7 @@ public class LiveService implements LiveSearchUseCase, LiveSessionUseCase, LiveA
 
     @Override
     public List<Live> searchLiveByNftPurchasedArtist(Long memberId) {
-        return livePort.findLiveByNftPurchasedArtist(memberId);
+        return livePort.findLiveByNftPurchased(memberId);
     }
 
 }
