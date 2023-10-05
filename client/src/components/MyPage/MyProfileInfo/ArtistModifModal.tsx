@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import axios from '@api/apiController';
-import axiosTemp from '@api/apiControllerTemp';
 
 import {
   isNonEmptyString,
@@ -17,7 +16,7 @@ import {
 } from '@components/AddFundPage/FormComponent';
 import { ValidCheck } from '@components/AddFundPage/ProjectInfo';
 import { ArtistRequestInfo } from '@type/ArtistRequest';
-import { POST_CATEGORY } from '@components/common/constant';
+import { POST_CATEGORY, ROLE_ID } from '@components/common/constant';
 import { ReactComponent as CancelSvg } from '@assets/icons/cancel.svg';
 import { ReactComponent as LinkSvg } from '@assets/icons/LinkIcon.svg';
 import { getCookie } from '@hooks/useAuth';
@@ -55,7 +54,7 @@ const ArtistModifModal = ({
   const [nowIdx, setNowIdx] = useState<number>(1);
 
   useEffect(() => {
-    axios.get(`/artists/${getCookie('RoleId')}`).then((res) => {
+    axios.get(`/artists/${getCookie(ROLE_ID)}`).then((res) => {
       const data = res.data.results;
       setRegistInfo({
         ...registInfo,
@@ -107,7 +106,7 @@ const ArtistModifModal = ({
 
   const handleModif = () => {
     if (validArtistRegistInfo()) {
-      axios.post('/artist-regist', registInfo).then((res) => {
+      axios.put(`/artists/${getCookie(ROLE_ID)}`, registInfo).then((res) => {
         navigate(`/post-success/${POST_CATEGORY.artistRegister}`);
       });
     } else {
