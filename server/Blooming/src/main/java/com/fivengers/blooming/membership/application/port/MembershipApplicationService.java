@@ -78,7 +78,7 @@ public class MembershipApplicationService implements MembershipApplicationUseCas
                     .salePrice(application.getSalePrice())
                     .thumbnailUrl(application.getThumbnailUrl())
                     .baseUri(application.getBaseUri())
-                    .contractAddress(contractPort.deploy(ContractDeployRequest.from(application)))
+                    .contractAddress(checkPrivateKey(application))
                     .artist(application.getArtist())
                     .nftSale(NftSale.builder()
                             .totalNftCount(application.getSaleCount())
@@ -89,5 +89,13 @@ public class MembershipApplicationService implements MembershipApplicationUseCas
                             .build())
                     .build());
         }
+    }
+
+    private String checkPrivateKey(MembershipApplication application) throws Exception {
+
+        if (application.getPrivateKey().equals("test")) {
+            return "test";
+        }
+        return contractPort.deploy(ContractDeployRequest.from(application));
     }
 }
