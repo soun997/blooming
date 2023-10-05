@@ -9,6 +9,7 @@ import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artist.domain.ArtistVideo;
 import com.fivengers.blooming.global.exception.artist.ArtistNotFoundException;
 import com.fivengers.blooming.global.exception.artist.InvalidArtistModifyRequestException;
+import com.fivengers.blooming.global.exception.artistvideo.ArtistVideoNotFoundException;
 import com.fivengers.blooming.global.exception.member.MemberNotFoundException;
 import com.fivengers.blooming.member.application.port.out.MemberPort;
 import java.util.List;
@@ -63,9 +64,22 @@ public class ArtistService implements ArtistUseCase {
                     request.fanCafeUrl(),
                     request.snsUrl());
 
+            modifyArtistVideos(request);
+
             return artistPort.update(artist);
         }
 
         throw new InvalidArtistModifyRequestException();
+    }
+
+    private List<ArtistVideo> modifyArtistVideos(ArtistModifyRequest request) {
+        return request.artistVideo().stream()
+                .map(video -> {
+                    ArtistVideo artistVideo = artistVideoPort.findById(video.id())
+                            .orElseThrow(ArtistVideoNotFoundException::new);
+                    artistVideo.modify(video.videoUrl());
+                    return artistVideoPort.update(artistVideo);
+                })
+                .toList();
     }
 }
