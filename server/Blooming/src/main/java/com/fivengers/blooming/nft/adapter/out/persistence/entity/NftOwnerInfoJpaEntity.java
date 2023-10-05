@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -32,12 +33,12 @@ public class NftOwnerInfoJpaEntity extends BaseTime {
     @ColumnDefault("false")
     private Boolean owned;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private MemberJpaEntity memberJpaEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nft_id")
+    @JoinColumn(name = "nft_id", nullable = false, unique = true)
     private NftJpaEntity nftJpaEntity;
 
     @Builder
