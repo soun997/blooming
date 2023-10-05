@@ -54,7 +54,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
 
   const [meetingInfo, setMeetingInfo] = useState<MeetingInfo>({
     mySessionId: null,
-    myUserName: getCookie(LIVE_NICKNAME),
+    myUserName: '',
     motionModelUrl: null,
     session: null,
     mainStreamManager: undefined,
@@ -162,18 +162,17 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
         liveUserName: meetingInfo.myUserName,
       },
       () => {
-        CONSOLE.socket("connected!!")
+        CONSOLE.socket('connected!!');
         emojiSUB(socketClient, setEmoji, meetingInfo.mySessionId);
-        errorSUB(socketClient, (error:any) => {
+        errorSUB(socketClient, (error: any) => {
           console.log(error);
         });
       },
-      (error:any) => {
-        console.log(error)
-      }
+      (error: any) => {
+        console.log(error);
+      },
     );
   };
-  
 
   // ==================== Socket Connect END ====================
 
@@ -196,6 +195,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
         ...prev,
         mySessionId: data.results.sessionId,
         motionModelUrl: data.results.motionModelUrl,
+        myUserName: data.results.liveUserName,
       }));
     });
   }, []);
@@ -267,7 +267,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
       getToken(meetingInfo.mySessionId).then((token) => {
         mySession
           .connect(token, {
-            clientData: getCookie(LIVE_NICKNAME),
+            clientData: meetingInfo.myUserName,
             isArtist: isArtist,
           })
           .then(async () => {
@@ -287,7 +287,7 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
       });
 
       // 3. 소켓 연결
-      socketConnectHandler()
+      socketConnectHandler();
     }
   }, [meetingInfo.mySessionId]);
 
@@ -375,6 +375,6 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
     initWebcam,
     emoji,
     setEmoji,
-    socketClient
+    socketClient,
   };
 }
