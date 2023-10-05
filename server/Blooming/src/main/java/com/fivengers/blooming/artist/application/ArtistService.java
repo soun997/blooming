@@ -86,7 +86,7 @@ public class ArtistService implements ArtistUseCase {
 
     private void updateArtistVideo(ArtistVideoUpdateRequest request, Artist artist,
             Map<Long, ArtistVideo> artistVideos) {
-        if (request.isNew()) {
+        if (request.newVideo()) {
             artistVideoPort.save(request.toDomain(artist));
             return;
         }

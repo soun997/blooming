@@ -3,12 +3,11 @@ package com.fivengers.blooming.artist.application.port.in.dto;
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.artist.domain.ArtistVideo;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record ArtistVideoUpdateRequest(@NotNull Long id,
+public record ArtistVideoUpdateRequest(Long id,
                                        @NotBlank String videoUrl) {
 
-    public boolean isNew() {
+    public boolean newVideo() {
         return this.id == null;
     }
 
