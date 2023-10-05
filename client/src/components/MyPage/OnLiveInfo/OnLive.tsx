@@ -72,7 +72,7 @@ const OnLive = () => {
         title,
         thumbnail
           ? thumbnail
-          : 'https://blooming-image.s3.ap-northeast-2.amazonaws.com/uploads/%EC%84%9C%EB%AA%85_%EA%B9%80%EC%88%98%EB%AF%BC.png',
+          : 'https://blooming-image.s3.ap-northeast-2.amazonaws.com/uploads/client/%EC%84%9C%EB%AA%85_%EA%B9%80%EC%88%98%EB%AF%BC.png',
       );
       console.log('live generate - ', response.sessionId, response.liveId);
       setSessionId(response.sessionId);

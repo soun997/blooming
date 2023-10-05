@@ -20,6 +20,7 @@ import { ArtistRequestInfo } from '@type/ArtistRequest';
 import { POST_CATEGORY } from '@components/common/constant';
 import { ReactComponent as CancelSvg } from '@assets/icons/cancel.svg';
 import { ReactComponent as LinkSvg } from '@assets/icons/LinkIcon.svg';
+import { getCookie } from '@hooks/useAuth';
 
 const ArtistModifModal = ({
   isOpen,
@@ -54,8 +55,8 @@ const ArtistModifModal = ({
   const [nowIdx, setNowIdx] = useState<number>(1);
 
   useEffect(() => {
-    axiosTemp.get('artist-modif').then((res) => {
-      const data = res.data;
+    axios.get(`/artists/${getCookie('RoleId')}`).then((res) => {
+      const data = res.data.results;
       setRegistInfo({
         ...registInfo,
         stageName: data.name,
