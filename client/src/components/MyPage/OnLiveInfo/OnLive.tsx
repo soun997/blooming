@@ -12,7 +12,6 @@ import { ReactComponent as ArrowSvg } from '@assets/icons/angle-right.svg';
 import axiosTemp from '@api/apiControllerTemp';
 import axios from '@api/apiController';
 import {
-  setLiveId,
   setLiveNickName,
   setLiveSessionId,
   setLiveTitle,
@@ -52,6 +51,7 @@ const OnLive = () => {
   const [isLiveAvailable, setLiveAvailable] = useState<boolean>(false);
   const [registLoading, setRegistLoading] = useState<boolean>(false);
   const [sessionId, setSessionId] = useState<string>('');
+  const [liveId, setLiveId] = useState<number>();
   const [artistName, setArtistName] = useState<string>('');
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const OnLive = () => {
       setSessionId(response.sessionId);
       setLiveSessionId(response.sessionId);
       setLiveId(response.liveId);
-      setLiveTitle(title);
+      // setLiveTitle(title);
       setArtistName('나중에바꿔야됨아티스트명'); //stageName response 에서 받아서 사용
     } catch (error) {
     } finally {
@@ -88,8 +88,8 @@ const OnLive = () => {
 
   const handleOnLive = () => {
     setLiveSessionId(sessionId);
-    setLiveNickName(artistName);
-    navigate(`/meeting-artist`);
+    // setLiveNickName(artistName);
+    navigate(`/meeting-artist/${liveId}`);
   };
 
   return (
