@@ -87,7 +87,11 @@ public class MembershipApplicationRestTest extends RestEndToEndTest {
                 now.plusYears(1),
                 now,
                 now.plusMonths(1),
-                "https://image.com/iu");
+                100,
+                1L,
+                "https://image.com/iu",
+                "https://blooming.com/base",
+                "123456789");
 
         RestAssured.given().log().all()
                 .header(AUTHORIZATION, getAccessToken(member))
