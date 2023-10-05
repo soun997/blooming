@@ -12,6 +12,6 @@ public record ArtistModifyRequest(@NotBlank String stageName,
                                   @NotNull String youtubeUrl,
                                   @NotNull String fanCafeUrl,
                                   @NotNull String snsUrl,
-                                  @Validated List<ArtistVideoModifyRequest> artistVideo) {
+                                  @Validated List<ArtistVideoUpdateRequest> artistVideo) {
 
 }

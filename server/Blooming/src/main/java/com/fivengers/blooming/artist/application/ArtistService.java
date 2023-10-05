@@ -3,6 +3,7 @@ package com.fivengers.blooming.artist.application;
 import com.fivengers.blooming.artist.application.port.in.ArtistUseCase;
 import com.fivengers.blooming.artist.application.port.in.dto.ArtistCreateRequest;
 import com.fivengers.blooming.artist.application.port.in.dto.ArtistModifyRequest;
+import com.fivengers.blooming.artist.application.port.in.dto.ArtistVideoUpdateRequest;
 import com.fivengers.blooming.artist.application.port.out.ArtistPort;
 import com.fivengers.blooming.artist.application.port.out.ArtistVideoPort;
 import com.fivengers.blooming.artist.domain.Artist;
@@ -64,7 +65,7 @@ public class ArtistService implements ArtistUseCase {
                     request.fanCafeUrl(),
                     request.snsUrl());
 
-            modifyArtistVideos(request);
+            updateArtistVideos(request, artist);
 
             return artistPort.update(artist);
         }
@@ -72,14 +73,20 @@ public class ArtistService implements ArtistUseCase {
         throw new InvalidArtistModifyRequestException();
     }
 
-    private List<ArtistVideo> modifyArtistVideos(ArtistModifyRequest request) {
+    private List<ArtistVideo> updateArtistVideos(ArtistModifyRequest request, Artist artist) {
         return request.artistVideo().stream()
-                .map(video -> {
-                    ArtistVideo artistVideo = artistVideoPort.findById(video.id())
-                            .orElseThrow(ArtistVideoNotFoundException::new);
-                    artistVideo.modify(video.videoUrl());
-                    return artistVideoPort.update(artistVideo);
-                })
+                .map(video -> updateArtistVideo(video, artist))
                 .toList();
+    }
+
+    private ArtistVideo updateArtistVideo(ArtistVideoUpdateRequest request, Artist artist) {
+        if (request.isNew()) {
+            return artistVideoPort.save(request.toDomain(artist));
+        }
+
+        ArtistVideo artistVideo = artistVideoPort.findById(request.id())
+                .orElseThrow(ArtistVideoNotFoundException::new);
+        artistVideo.modify(request.videoUrl());
+        return artistVideoPort.update(artistVideo);
     }
 }
