@@ -15,9 +15,11 @@ import com.fivengers.blooming.member.adapter.out.persistence.entity.MemberJpaEnt
 import com.fivengers.blooming.member.adapter.out.persistence.entity.Oauth;
 import com.fivengers.blooming.member.adapter.out.persistence.repository.MemberSpringDataRepository;
 import com.fivengers.blooming.member.domain.AuthProvider;
+import com.fivengers.blooming.member.domain.MemberRole;
 import com.fivengers.blooming.support.RestEndToEndTest;
 import io.restassured.RestAssured;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,12 +63,14 @@ public class LiveRestTest extends RestEndToEndTest {
                 .name("Aron")
                 .nickname("Aron")
                 .deleted(false)
+                .role(List.of(MemberRole.ROLE_USER))
                 .build());
         artistMember = memberSpringDataRepository.save(MemberJpaEntity.builder()
                 .oauth(new Oauth(AuthProvider.KAKAO, "1234567"))
                 .name("이지은")
                 .nickname("아이유")
                 .deleted(false)
+                .role(List.of(MemberRole.ROLE_USER))
                 .build());
         artist = artistSpringDataRepository.save(ArtistJpaEntity.builder()
                 .stageName("아이유")
