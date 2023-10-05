@@ -62,6 +62,13 @@ public class Live {
         return Objects.equals(artist.getMember().getId(), memberId);
     }
 
+    public String getLiveUserName(Long memberId) {
+        if (Objects.equals(artist.getMember().getId(), memberId)) {
+            return artist.getStageName();
+        }
+        return artist.getMember().getNickname();
+    }
+
     public void close() {
         endedAt = LocalDateTime.now();
     }
