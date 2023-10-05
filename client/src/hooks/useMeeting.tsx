@@ -25,6 +25,7 @@ const tmPose = window.tmPose;
 import * as tmtype from '@teachablemachine/pose';
 import { getCookie } from './useLiveAuth';
 import { EmojiMessage } from '@type/SocketEmoji';
+import { useNavigate } from 'react-router-dom';
 
 const OV = new OpenVidu();
 // const loggedInUserNickname = 'ksm';
@@ -47,6 +48,8 @@ async function createToken(sessionId: string) {
 // ================================
 
 export function useMeeting(isArtist: boolean, liveId: string | undefined) {
+  const navigate = useNavigate();
+
   const [model, setModel] = useState<tmtype.CustomPoseNet | null>(null);
   const [webcam, setWebcam] = useState<tmtype.Webcam | null>(null);
   const [prediction, setPrediction] = useState<Emotion[]>([]);
@@ -62,6 +65,8 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
     prevPublisher: undefined,
     subscribers: [],
     isArtist: isArtist,
+    meetingTitle: '',
+    liveId: -1,
   });
 
   const [videoOption, setVideoOption] = useState<PublisherProperties>({
@@ -188,16 +193,23 @@ export function useMeeting(isArtist: boolean, liveId: string | undefined) {
     }));
 
     // 2. 입장 정보 (motionModelUrl, liveId) 가져오기
-    axios.get(`/lives/${liveId}/enter`).then(({ data }) => {
-      CONSOLE.axios(`GET /lives/${liveId}/enter`);
-      console.log(data);
-      setMeetingInfo((prev) => ({
-        ...prev,
-        mySessionId: data.results.sessionId,
-        motionModelUrl: data.results.motionModelUrl,
-        myUserName: data.results.liveUserName,
-      }));
-    });
+    axios
+      .get(`/lives/${liveId}/enter`)
+      .then(({ data }) => {
+        CONSOLE.axios(`GET /lives/${liveId}/enter`);
+        console.log(data);
+        setMeetingInfo((prev) => ({
+          ...prev,
+          mySessionId: data.results.sessionId,
+          motionModelUrl: data.results.motionModelUrl,
+          myUserName: data.results.liveUserName,
+          liveId: Number(liveId),
+        }));
+      })
+      .catch((error) => {
+        alert('접근 권한이 없습니다.');
+        navigate('/live'); // 페이지 이동
+      });
   }, []);
 
   // ********** [END] INIT COMPONENT **********
