@@ -6,12 +6,13 @@ spring:
     password: ${DB_PASSWORD}
 
   jpa:
+    hibernate:
+      ddl-auto: validate
     show-sql: true
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
-    defer-datasource-initialization: true
 
   sql:
     init:
