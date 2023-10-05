@@ -19,7 +19,7 @@ import com.fivengers.blooming.membership.adapter.out.persistence.entity.Membersh
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.NftSaleJpaEntity;
 import com.fivengers.blooming.membership.adapter.out.persistence.repository.MembershipSpringDataRepository;
 import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftJpaEntity;
-import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftOwnerInfoEntity;
+import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftOwnerInfoJpaEntity;
 import com.fivengers.blooming.nft.adapter.out.persistence.repository.NftOwnerInfoSpringDataRepository;
 import com.fivengers.blooming.nft.adapter.out.persistence.repository.NftSpringDataRepository;
 import com.fivengers.blooming.support.RestEndToEndTest;
@@ -68,7 +68,7 @@ public class LiveRestTest extends RestEndToEndTest {
     MemberJpaEntity member1;
     MemberJpaEntity member2;
     NftJpaEntity nft;
-    NftOwnerInfoEntity nftOwnerInfo;
+    NftOwnerInfoJpaEntity nftOwnerInfo;
     MotionModelJpaEntity motionModelJpaEntity;
     MembershipJpaEntity membership;
     String sessionId;
@@ -163,7 +163,7 @@ public class LiveRestTest extends RestEndToEndTest {
                 .artist(artist1)
                 .membership(membership)
                 .build());
-        nftOwnerInfo = nftOwnerInfoSpringDataRepository.save(NftOwnerInfoEntity.builder()
+        nftOwnerInfo = nftOwnerInfoSpringDataRepository.save(NftOwnerInfoJpaEntity.builder()
                 .owned(true)
                 .memberJpaEntity(member1)
                 .nftJpaEntity(nft)

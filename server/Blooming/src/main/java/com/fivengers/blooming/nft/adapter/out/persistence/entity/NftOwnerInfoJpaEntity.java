@@ -21,7 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "nft_owner_info")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NftOwnerInfoEntity extends BaseTime {
+public class NftOwnerInfoJpaEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class NftOwnerInfoEntity extends BaseTime {
     private NftJpaEntity nftJpaEntity;
 
     @Builder
-    public NftOwnerInfoEntity(Long id, Boolean owned, MemberJpaEntity memberJpaEntity,
+    public NftOwnerInfoJpaEntity(Long id, Boolean owned, MemberJpaEntity memberJpaEntity,
             NftJpaEntity nftJpaEntity) {
         this.id = id;
         this.owned = owned;
