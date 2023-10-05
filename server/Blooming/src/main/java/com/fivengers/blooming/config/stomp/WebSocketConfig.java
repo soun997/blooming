@@ -19,14 +19,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Value("${client.url}")
     private String clientUrl;
-    @Value("${DOMAIN_URL}")
-    private String domainUrl;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.setErrorHandler(stompExceptionHandler)
                 .addEndpoint("/ws/blooming")
-                .setAllowedOriginPatterns(clientUrl, domainUrl)
+                .setAllowedOriginPatterns(clientUrl)
                 .withSockJS();
     }
 
