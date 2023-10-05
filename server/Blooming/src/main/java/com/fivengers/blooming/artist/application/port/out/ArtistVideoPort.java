@@ -10,4 +10,5 @@ public interface ArtistVideoPort {
     List<ArtistVideo> findByArtistId(Long artistId);
     ArtistVideo save(ArtistVideo artistVideo);
     ArtistVideo update(ArtistVideo artistVideo);
+    void deleteById(Long artistVideoId);
 }

@@ -40,6 +40,7 @@ public class ArtistVideoPersistenceAdapter implements ArtistVideoPort {
     }
 
     @Override
+    @Transactional
     public ArtistVideo update(ArtistVideo artistVideo) {
         ArtistVideoJpaEntity artistVideoJpaEntity = artistVideoSpringDataRepository
                 .findById(artistVideo.getId())
@@ -47,5 +48,13 @@ public class ArtistVideoPersistenceAdapter implements ArtistVideoPort {
 
         artistVideoJpaEntity.update(artistVideo);
         return artistVideoMapper.toDomain(artistVideoJpaEntity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long artistVideoId) {
+        artistVideoSpringDataRepository.findById(artistVideoId)
+                .orElseThrow(ArtistVideoNotFoundException::new)
+                .delete();
     }
 }

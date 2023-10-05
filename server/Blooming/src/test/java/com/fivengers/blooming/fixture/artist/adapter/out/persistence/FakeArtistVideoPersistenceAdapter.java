@@ -38,6 +38,11 @@ public class FakeArtistVideoPersistenceAdapter implements ArtistVideoPort {
     }
 
     @Override
+    public void deleteById(Long artistVideoId) {
+        store.remove(artistVideoId);
+    }
+
+    @Override
     public Optional<ArtistVideo> findById(Long artistVideoId) {
         return Optional.ofNullable(store.get(artistVideoId));
     }

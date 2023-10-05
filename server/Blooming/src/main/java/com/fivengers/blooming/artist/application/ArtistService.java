@@ -14,6 +14,8 @@ import com.fivengers.blooming.global.exception.artistvideo.ArtistVideoNotFoundEx
 import com.fivengers.blooming.global.exception.member.MemberNotFoundException;
 import com.fivengers.blooming.member.application.port.out.MemberPort;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -73,20 +75,29 @@ public class ArtistService implements ArtistUseCase {
         throw new InvalidArtistModifyRequestException();
     }
 
-    private List<ArtistVideo> updateArtistVideos(ArtistModifyRequest request, Artist artist) {
-        return request.artistVideo().stream()
-                .map(video -> updateArtistVideo(video, artist))
-                .toList();
+    private void updateArtistVideos(ArtistModifyRequest request, Artist artist) {
+        Map<Long, ArtistVideo> artistVideos = artistVideoPort.findByArtistId(artist.getId())
+                .stream()
+                .collect(Collectors.toMap(ArtistVideo::getId, video -> video));
+
+        request.artistVideo().forEach(video -> updateArtistVideo(video, artist, artistVideos));
+        artistVideos.keySet().forEach(artistVideoPort::deleteById);
     }
 
-    private ArtistVideo updateArtistVideo(ArtistVideoUpdateRequest request, Artist artist) {
+    private void updateArtistVideo(ArtistVideoUpdateRequest request, Artist artist,
+            Map<Long, ArtistVideo> artistVideos) {
         if (request.isNew()) {
-            return artistVideoPort.save(request.toDomain(artist));
+            artistVideoPort.save(request.toDomain(artist));
+            return;
         }
 
-        ArtistVideo artistVideo = artistVideoPort.findById(request.id())
-                .orElseThrow(ArtistVideoNotFoundException::new);
-        artistVideo.modify(request.videoUrl());
-        return artistVideoPort.update(artistVideo);
+        if (artistVideos.containsKey(request.id())) {
+            ArtistVideo artistVideo = artistVideos.remove(request.id());
+            artistVideo.modify(request.videoUrl());
+            artistVideoPort.update(artistVideo);
+            return;
+        }
+
+        throw new ArtistVideoNotFoundException();
     }
 }

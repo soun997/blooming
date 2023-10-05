@@ -51,4 +51,8 @@ public class ArtistVideoJpaEntity extends BaseTime {
     public void update(ArtistVideo artistVideo) {
         this.videoUrl = artistVideo.getVideoUrl();
     }
+
+    public void delete() {
+        this.deleted = true;
+    }
 }
