@@ -7,6 +7,7 @@ import { ReactComponent as LiveSvg } from '@assets/icons/broadcast.svg';
 
 import { useNavigate } from 'react-router-dom';
 import { ACTIVE, ARTIST, CONCERT } from '@components/common/constant';
+import { ImageData } from '@components/common/ImageData';
 
 interface Props {
   data: ProcessInfo;
@@ -27,9 +28,7 @@ const ThumbnailEach: React.FC<Props> = ({ data, nowStat }) => {
   const leftDate = calculateDateDifference(new Date().toString(), data.endDate);
   return (
     <EachFrame onClick={handleNavigateDetail}>
-      <img
-        src={data.profileImg ? data.profileImg : 'src/assets/images/nopic.jpg'}
-      ></img>
+      <img src={data.profileImg ? data.profileImg : ImageData.noPicture}></img>
       <Info>
         <div className="txtInfo">
           <div className="name">{data.title}</div>
@@ -59,7 +58,7 @@ const ThumbnailEachLive = ({ data }: { data: LiveInfo }) => {
         src={
           data.artist.profileImageUrl
             ? data.artist.profileImageUrl
-            : 'src/assets/images/nopic.jpg'
+            : ImageData.noPicture
         }
       ></img>
       <Info>
