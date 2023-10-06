@@ -2,11 +2,9 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 
 import axios from '@api/apiController';
-import axiosTemp from '@api/apiControllerTemp';
 import SearchBar from '@components/Search/SearchBar';
 import { MainTitle } from '@style/common';
-import TopRankList from '@components/ListPage/TopRankList';
-import { ResultList } from '@components/ListPage/ResultList';
+import { NFTResultList, ResultList } from '@components/ListPage/ResultList';
 import {
   ARTIST,
   FUNDING_PHRASES,
@@ -23,13 +21,14 @@ import useIntersect from '@hooks/IntersectionObserverHook';
 import Navbar from '@components/common/NavBar';
 import { ListFrame } from './ConcertList';
 import NoSearchResults from '@components/Search/NoSearchResults';
+import TopNFTList from '@components/ListPage/TopNFTList';
 
 const NFTList = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-  const [isToggled, setIsToggled] = useState(true);
+  const [isToggled, setIsToggled] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>(POPULAR);
   const [searchByKeyword, setSearchByKeyword] = useState<boolean>(false);
 
@@ -102,7 +101,7 @@ const NFTList = () => {
                 <NoSearchResults />
               </>
             ) : (
-              <ResultList
+              <NFTResultList
                 datas={scrollInfoForSearch.searchData}
                 nowStat={ARTIST}
               />
@@ -114,7 +113,7 @@ const NFTList = () => {
           </>
         ) : (
           <>
-            <TopRankList bestData={bestArtistData} nowStat={ARTIST} />
+            <TopNFTList bestData={bestArtistData} nowStat={ARTIST} />
             <NowToggle>
               <LeftSection>
                 <div className="toggleTitle">
@@ -148,7 +147,7 @@ const NFTList = () => {
                 <NoSearchResults />
               </>
             ) : (
-              <ResultList
+              <NFTResultList
                 datas={scrollInfoForDefault.searchData}
                 nowStat={ARTIST}
               />

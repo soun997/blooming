@@ -41,7 +41,7 @@ const FundingActivity: React.FC<Props> = ({
 
     axios
       // http://localhost:8080/api/v1
-      .post('http://localhost:8080/api/v1/payments/temp', requestBody)
+      .post('/payments/temp', requestBody)
       .then((response) => {
         console.log('결제 정보 전송 성공:', response.data);
         // console.log(`리퀘스트바디:${requestBody.amount}`);
@@ -306,13 +306,14 @@ const RateBox = styled.div`
 const FundingInfo = styled.div`
   display: flex;
   flex-direction: column;
-
+  width: 700px;
   .album_title {
     font-size: 25px;
     font-weight: 800;
     line-height: 25px;
     margin-top: 57px;
     margin-right: 45px;
+    height: 25px;
   }
 
   .album_desc {
@@ -321,6 +322,7 @@ const FundingInfo = styled.div`
     line-height: 30px;
     margin-top: 22px;
     margin-right: 45px;
+    height: 60px;
   }
 `;
 
@@ -330,8 +332,8 @@ const FundingBox = styled.div`
   .album_img {
     margin-right: 53px;
     align-self: center;
-    width: 35%;
-    height: 100%;
+    width: 400px;
+    height: 400px;
     object-fit: cover;
   }
 `;

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '@api/apiController';
+import styled from 'styled-components';
 // import axios from 'axios';
 import ArtistInfo from '@components/fundingDetail/ArtistInfo';
 import FundingActivity from '@components/fundingDetail/FundingActivity';
 import FundingDetailActivity from '@components/fundingDetail/FundingDetailActivity';
 import { activeDetail, pastActivity } from '@type/ActiveDetail';
+import { MainTitle } from '@style/common';
+import NavBar from '@components/common/NavBar';
 
 const initData: activeDetail = {
   artist: {
@@ -17,7 +20,7 @@ const initData: activeDetail = {
     fancafeUrl: '',
     snsUrl: '',
   },
-  activity: {
+  concert: {
     id: 0,
     albumImg: '',
     name: '',
@@ -97,29 +100,43 @@ const ActiveDetailPage = () => {
 
   return (
     <div>
+      <NavBar></NavBar>
       <br />
       <br />
-      <ArtistInfo artistData={data.artist} />
       <br />
       <br />
-      <FundingActivity
-        artistData={data.artist}
-        activityData={data.activity}
-        investmentData={data.investment}
-      />
-      <br />
-      <br />
-      <FundingDetailActivity
-        artistData={data.artist}
-        activityData={data.activity}
-        investmentData={data.investment}
-        pastActivitiesData={pastFundingdata}
-        viewCountData={data.viewCounts}
-      />
-      <br />
-      <br />
+      <ActivityDetailBox>
+        <MainTitle>
+          활동<div className="dot"></div>
+        </MainTitle>
+        <br />
+        <br />
+        <br />
+        <ArtistInfo artistData={data.artist} />
+        <br />
+        <br />
+        <FundingActivity
+          artistData={data.artist}
+          activityData={data.concert}
+          investmentData={data.investment}
+        />
+        <br />
+        <br />
+        <FundingDetailActivity
+          artistData={data.artist}
+          activityData={data.concert}
+          investmentData={data.investment}
+          pastActivitiesData={pastFundingdata}
+          viewCountData={data.viewCounts}
+        />
+        <br />
+        <br />
+      </ActivityDetailBox>
     </div>
   );
 };
 
+const ActivityDetailBox = styled.div`
+  margin: 0 -80px;
+`;
 export default ActiveDetailPage;

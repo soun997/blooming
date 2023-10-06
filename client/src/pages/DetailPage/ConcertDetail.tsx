@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '@api/apiController';
+import styled from 'styled-components';
 // import axios from 'axios';
 import ArtistInfo from '@components/fundingDetail/ArtistInfo';
 import Funding from '@components/fundingDetail/Funding';
 import FundingDetail from '@components/fundingDetail/FundingDetail';
 import { concertDetail, pastConcert } from '@type/ConcertDetail';
+import { MainTitle } from '@style/common';
+import NavBar from '@components/common/NavBar';
 
 const initData: concertDetail = {
   artist: {
@@ -97,29 +100,43 @@ const ConcertDetailPage = () => {
 
   return (
     <div>
+      <NavBar></NavBar>
       <br />
       <br />
-      <ArtistInfo artistData={data.artist} />
       <br />
       <br />
-      <Funding
-        artistData={data.artist}
-        concertData={data.concert}
-        investmentData={data.investment}
-      />
-      <br />
-      <br />
-      <FundingDetail
-        artistData={data.artist}
-        concertData={data.concert}
-        investmentData={data.investment}
-        pastConcertsData={pastFundingdata}
-        viewCountData={data.viewCounts}
-      />
-      <br />
-      <br />
+      <ConcertDetailBox>
+        <MainTitle>
+          콘서트<div className="dot"></div>
+        </MainTitle>
+        <br />
+        <br />
+        <br />
+        <ArtistInfo artistData={data.artist} />
+        <br />
+        <br />
+        <Funding
+          artistData={data.artist}
+          concertData={data.concert}
+          investmentData={data.investment}
+        />
+        <br />
+        <br />
+        <FundingDetail
+          artistData={data.artist}
+          concertData={data.concert}
+          investmentData={data.investment}
+          pastConcertsData={pastFundingdata}
+          viewCountData={data.viewCounts}
+        />
+        <br />
+        <br />
+      </ConcertDetailBox>
     </div>
   );
 };
 
+const ConcertDetailBox = styled.div`
+  margin: 0 -80px;
+`;
 export default ConcertDetailPage;

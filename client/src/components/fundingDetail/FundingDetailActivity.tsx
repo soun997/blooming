@@ -62,6 +62,7 @@ const FundingDetailActivity: React.FC<Props> = ({
   pastActivitiesData,
   viewCountData,
 }) => {
+  console.log(activityData);
   //그래프 관련
   const options = {
     responsive: true,
@@ -860,7 +861,7 @@ const TabBox = styled.div`
   position: sticky;
   top: 30px;
 
-  width: 960px;
+  width: 1120px;
   height: auto;
 
   border-bottom: 3px #c7c7c7 solid;
@@ -888,7 +889,7 @@ const TabBox = styled.div`
 const FundingDetailBox = styled.div`
   .funding_detail {
     top: 0px;
-    width: 960px;
+    width: 1120px;
     height: auto;
     position: sticky;
     z-index: 999;
