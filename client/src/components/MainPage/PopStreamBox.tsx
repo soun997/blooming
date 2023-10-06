@@ -31,7 +31,7 @@ const PopStreamBox = () => {
 
   const navigate = useNavigate();
   const goDetailPage = (index: number) => {
-    navigate(`live/${bestStreams[index].id}`);
+    navigate(`meeting/${bestStreams[index].id}`);
   };
 
   return (
