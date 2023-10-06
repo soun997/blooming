@@ -84,6 +84,9 @@ dependencies {
 
     // caver-java
     implementation 'com.klaytn.caver:core:1.10.2'
+
+    // prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.named('test') {
