@@ -52,7 +52,10 @@ public class LogAspect {
 
     private String toParametersString(String[] parameterNames, Object[] args) {
         return IntStream.range(0, parameterNames.length)
-                .mapToObj(i -> parameterNames[i] + "=" + args[i])
+                .mapToObj(i -> {
+                    String[] argument = args[i].toString().split("\\.");
+                    return parameterNames[i] + "=" + argument[argument.length - 1];
+                })
                 .collect(Collectors.joining(","));
     }
 
