@@ -42,10 +42,12 @@ jobs:
   dependency-submission:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./server/Blooming
     permissions:
       contents: write
+    defaults:
+      run:
+        working-directory: ./server/Blooming
+
 
     steps:
       - uses: actions/checkout@v4
