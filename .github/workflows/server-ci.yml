@@ -13,6 +13,17 @@ jobs:
       run:
         working-directory: ./server/Blooming
 
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -31,6 +42,20 @@ jobs:
         run: chmod +x gradlew
 
       - name: Test with Gradle Wrapper
+        env:
+          CLIENT_ENDPOINT: ${{ secrets.CLIENT_ENDPOINT }}
+          CLIENT_HOST: ${{ secrets.CLIENT_HOST }}
+          CLIENT_URL: ${{ secrets.CLIENT_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          NAVER_CLIENT_ID:  ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          OPENVIDU_SECRET: ${{ secrets.OPENVIDU_SECRET }}
+          OPENVIDU_URL: ${{ secrets.OPENVIDU_URL }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: ./gradlew clean test
 
       - name: Send Notification to Discord
