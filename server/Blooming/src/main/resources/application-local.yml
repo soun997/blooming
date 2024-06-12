@@ -1,78 +1,18 @@
 spring:
+  config:
+    activate:
+      on-profile: local
   jpa:
     hibernate:
       ddl-auto: create
-    open-in-view: false
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
-    defer-datasource-initialization: true
-
-  sql:
-    init:
-      mode: always
-
   h2:
     console:
       enabled: true
 
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id:
-            client-secret:
-            redirect-uri:
-            authorization-grant-type:
-            client-authentication-method:
-            client-name:
-          naver:
-            client-id:
-            client-secret:
-            redirect-uri:
-            authorization-grant-type:
-            scope:
-            client-name:
-          google:
-            client-id:
-            client-secret:
-            redirect-uri:
-            scope:
-        provider:
-          kakao:
-            authorization-uri:
-            token-uri:
-            user-info-uri:
-            user-name-attribute:
-          naver:
-            authorization-uri:
-            token-uri:
-            user-info-uri:
-            user-name-attribute:
-
-  cache:
-    type: redis
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info, prometheus
-
-openvidu:
-  url: ${OPENVIDU_URL}
-  secret: ${OPENVIDU_SECRET}
-
-client:
-  host: ${CLIENT_HOST}
-  url: ${CLIENT_URL}
-  endpoint: ${CLIENT_ENDPOINT}
-
-jwt:
-  access-header: Authorization
-  refresh-header: Refresh
-  secret:
+logging:
+  level:
+    com.fivengers.blooming: debug
