@@ -1,5 +1,6 @@
 package com.fivengers.blooming.global.aspect;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Aspect
@@ -53,6 +55,9 @@ public class LogAspect {
     private String toParametersString(String[] parameterNames, Object[] args) {
         return IntStream.range(0, parameterNames.length)
                 .mapToObj(i -> {
+                    if (Objects.isNull(args[i])) {
+                        return null;
+                    }
                     String[] argument = args[i].toString().split("\\.");
                     return parameterNames[i] + "=" + argument[argument.length - 1];
                 })
@@ -61,10 +66,17 @@ public class LogAspect {
 
     private void requestLogging(String className, String methodName, String arguments) {
         log.info("[REQUEST] {} -> {}({})",
-                className, methodName, arguments.equals("") ? "NONE" : arguments);
+                className, methodName, !StringUtils.hasText(arguments) ? "NONE" : arguments);
     }
 
     private void resultLogging(Object result, MethodSignature signature, StopWatch stopWatch) {
+        if (Objects.isNull(result)) {
+            log.info("[RESPONSE] {} -> {}, [TIME] = {}ms",
+                    signature.getMethod().getName(),
+                    null,
+                    stopWatch.getTotalTimeMillis());
+            return;
+        }
         log.info("[RESPONSE] {} -> {}, [TIME] = {}ms",
                 signature.getMethod().getName(),
                 result.getClass().getSimpleName(),

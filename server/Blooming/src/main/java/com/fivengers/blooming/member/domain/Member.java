@@ -3,12 +3,14 @@ package com.fivengers.blooming.member.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Getter
 public class Member {
+
     private Long id;
     private AuthProvider oauthProvider;
     private String oauthAccount;
@@ -16,17 +18,17 @@ public class Member {
     private String nickname;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<MemberRole> role;
+    private List<MemberRole> role = new ArrayList<>();
 
     @Builder
     public Member(Long id,
-                  AuthProvider oauthProvider,
-                  String oauthAccount,
-                  String name,
-                  String nickname,
-                  LocalDateTime createdAt,
-                  LocalDateTime modifiedAt,
-                  List<MemberRole> role) {
+            AuthProvider oauthProvider,
+            String oauthAccount,
+            String name,
+            String nickname,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt,
+            List<MemberRole> role) {
         this.id = id;
         this.oauthProvider = oauthProvider;
         this.oauthAccount = oauthAccount;
@@ -34,7 +36,9 @@ public class Member {
         this.nickname = nickname;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.role = new ArrayList<>(role);
+        if (Objects.nonNull(role)) {
+            this.role = new ArrayList<>(role);
+        }
     }
 
     public List<SimpleGrantedAuthority> getAuthority() {
