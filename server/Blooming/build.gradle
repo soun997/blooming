@@ -132,10 +132,10 @@ bootJar {
     from ("${asciidoctor.outputDir}/html5") {
         into 'BOOT-INF/classes/static/docs'
     }
-    finalizedBy('copyDocument')
+//    finalizedBy('copyDocument')
 }
 
-tasks.register('copyDocument', Copy) {
-    from file("build/docs/asciidoc")
-    into file("src/docs/asciidoc/html")
-}
+//tasks.register('copyDocument', Copy) {
+//    from file("build/docs/asciidoc")
+//    into file("src/docs/asciidoc/html")
+//}
