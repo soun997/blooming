@@ -3,14 +3,17 @@ name: Blooming Server CI with Gradle
 on:
   pull_request:
     branches: [ "main", "develop" ]
+    paths:
+      - server/Blooming
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./server/Blooming
     permissions:
       contents: read
+    defaults:
+      run:
+        working-directory: ./server/Blooming
 
     steps:
       - uses: actions/checkout@v4
