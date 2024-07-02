@@ -58,3 +58,10 @@ jwt:
   access-header: Authorization
   refresh-header: Refresh
   secret: ${JWT_SECRET}
+resource:
+  cdn:
+    domain: https://d2rbo6ogom8iks.cloudfront.net/blooming/
+    metadata: nft/json/
+    keystore: nft/keystore/
+klaytn:
+  wallet-private-key: ${WALLET_PRIVATE_KEY}

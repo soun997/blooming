@@ -36,18 +36,22 @@ const MembershipList = () => {
       const json = JSON.stringify({
         name: `${selectedNftData?.title} #${idx}`,
         description: `${selectedNftData?.description}`,
-        image: `${selectedNftData?.thumbnailUrl}`,
+        image: `${selectedNftData?.imageUrl}`,
         attributes: [
           {
-            trait_type: 'Unknown',
-            value: selectedNftData?.salePrice,
+            trait_type: '아티스트',
+            value: "소유니",
+          },
+          {
+            trait_type: "NFT 소개",
+            value: "마니마니 사주세용",
           },
         ],
       });
       try {
         const uploadedFileUrl = await uploadJson(
           new Blob([json], { type: 'application/json' }),
-          `uploads/nft/json/${selectedNftData?.title}/${idx}.json`, // S3 내 파일 경로 및 이름
+          `blooming/nft/json/${selectedNftData?.title}/${idx}.json`, // S3 내 파일 경로 및 이름
         );
         console.log(uploadedFileUrl);
       } catch (error) {
@@ -58,15 +62,18 @@ const MembershipList = () => {
   }
   
   const handleApprove = async () => {
+    await generateJson();
     const response = await axios.put(
-      `/admin/membership-applications/${selectedNftData?.id}/states`,
+      `/admin/membership-applications/${selectedNftData?.id}/modify-state`,
+      null,
       {
-        applicationState: STATE_APPROVAL,
+        params: {
+          "applicationState": "APPROVAL"
+        }
       },
     );
 
     if (response) {
-      await generateJson();
       handleModalClose();
     } else {
       console.error('승인처리실패');
@@ -158,7 +165,7 @@ const MembershipList = () => {
             {data?.map((nft, idx) => (
               <EachResultData key={idx} onClick={() => handleNftClick(nft)}>
                 <ThumbnailImg>
-                  <img src={nft.thumbnailUrl} />
+                  <img src={nft.imageUrl} />
                 </ThumbnailImg>
                 <TextInfo>
                   <div className="title">{nft.title}</div>

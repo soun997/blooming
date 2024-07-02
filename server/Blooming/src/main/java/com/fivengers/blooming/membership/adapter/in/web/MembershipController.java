@@ -2,7 +2,7 @@ package com.fivengers.blooming.membership.adapter.in.web;
 
 import com.fivengers.blooming.config.security.oauth2.LoginUser;
 import com.fivengers.blooming.global.response.ApiResponse;
-import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipDetailsResponse;
+import com.fivengers.blooming.admin.adapter.in.web.dto.MembershipDetailsResponse;
 import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipListResponse;
 import com.fivengers.blooming.membership.adapter.in.web.dto.NftSaleDetailsResponse;
 import com.fivengers.blooming.membership.application.port.in.MembershipUseCase;

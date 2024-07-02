@@ -30,9 +30,7 @@ const InitInfo: MembershipInfo = {
   purchaseEnd: '',
   saleCount: 0,
   salePrice: 0,
-  thumbnailUrl: '',
-  baseUri: '',
-  privateKey: '',
+  imageUrl: ''
 };
 
 const AddMembership = () => {
@@ -106,9 +104,6 @@ const AddMembership = () => {
       return {
         ...prevState,
         title: event.target.value,
-        baseUri: `https://${import.meta.env.VITE_BUCKET_NAME}.s3.${
-          import.meta.env.VITE_BUCKET_REGION
-        }.amazonaws.com/uploads/nft/json/${event.target.value}/`,
       };
     });
   };
@@ -119,30 +114,23 @@ const AddMembership = () => {
     });
   };
 
-  const handleSeasonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMembershipInfo((prevState) => {
-      return { ...prevState, season: event.target.value };
-    });
-  };
-
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setIsUploading(true);
-
       try {
         const uploadedFileUrl = await uploadFile(
           selectedFile,
-          'uploads/nft/image/' + selectedFile.name, // S3 내 파일 경로 및 이름
+          'nft/images/' + selectedFile.name, // S3 내 파일 경로 및 이름
         );
 
         setIsUploading(false);
         setNftImageName(selectedFile.name);
         setNftImageUrl(uploadedFileUrl);
         setMembershipInfo((prevState) => {
-          return { ...prevState, thumbnailUrl: uploadedFileUrl };
+          return { ...prevState, imageUrl: uploadedFileUrl };
         });
 
         // 업로드 성공 시 결과 전달
@@ -297,14 +285,14 @@ const AddMembership = () => {
             onChange={handleSalePriceChange}
           ></FormBox>
         </QuestionFrame>
-        <QuestionFrame>
+        {/* <QuestionFrame>
           <Subtitle>
             🔐보유하고 있는 Kaikas 지갑의 Private Key를 입력해주세요.
           </Subtitle>
           <Contents>
             <FormBox type="password" onChange={handleKeyChange}></FormBox>
           </Contents>
-        </QuestionFrame>
+        </QuestionFrame> */}
         <UploadButton 
           onClick={async () => {
             const res = await axios.post(

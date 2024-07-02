@@ -98,7 +98,10 @@ const NFTInfo: React.FC<Props> = ({ nftDetailData }) => {
                 </button>
               </CounterBtnBox>
               <PublishBtnBox>
-                <button className="publish_btn">발행하기</button>
+                <button 
+                  className="publish_btn">
+                    발행하기
+                </button>
               </PublishBtnBox>
             </BtnBox>
           </BuyNFT>

@@ -18,11 +18,7 @@ import com.fivengers.blooming.member.domain.AuthProvider;
 import com.fivengers.blooming.member.domain.MemberRole;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.MembershipJpaEntity;
 import com.fivengers.blooming.membership.adapter.out.persistence.entity.NftSaleJpaEntity;
-import com.fivengers.blooming.membership.adapter.out.persistence.repository.MembershipSpringDataRepository;
-import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftJpaEntity;
-import com.fivengers.blooming.nft.adapter.out.persistence.entity.NftOwnerInfoJpaEntity;
-import com.fivengers.blooming.nft.adapter.out.persistence.repository.NftOwnerInfoSpringDataRepository;
-import com.fivengers.blooming.nft.adapter.out.persistence.repository.NftSpringDataRepository;
+import com.fivengers.blooming.membership.adapter.out.persistence.repository.MembershipRepository;
 import com.fivengers.blooming.support.RestEndToEndTest;
 import io.restassured.RestAssured;
 import java.time.LocalDateTime;
@@ -50,13 +46,9 @@ public class LiveRestTest extends RestEndToEndTest {
     @Autowired
     MemberSpringDataRepository memberSpringDataRepository;
     @Autowired
-    MembershipSpringDataRepository membershipSpringDataRepository;
+    MembershipRepository membershipRepository;
     @Autowired
     MotionModelSpringDataRepository motionModelSpringDataRepository;
-    @Autowired
-    NftSpringDataRepository nftSpringDataRepository;
-    @Autowired
-    NftOwnerInfoSpringDataRepository nftOwnerInfoSpringDataRepository;
     @Autowired
     RedisTemplate<String, String> redisTemplate;
 
@@ -69,8 +61,6 @@ public class LiveRestTest extends RestEndToEndTest {
     MemberJpaEntity artistMember2;
     MemberJpaEntity member1;
     MemberJpaEntity member2;
-    NftJpaEntity nft;
-    NftOwnerInfoJpaEntity nftOwnerInfo;
     MotionModelJpaEntity motionModelJpaEntity;
     MembershipJpaEntity membership;
     String sessionId;
@@ -143,7 +133,7 @@ public class LiveRestTest extends RestEndToEndTest {
                 .endedAt(now)
                 .artistJpaEntity(artist1)
                 .build());
-        membership = membershipSpringDataRepository.save(MembershipJpaEntity.builder()
+        membership = membershipRepository.save(MembershipJpaEntity.builder()
                 .title("iu")
                 .symbol("IU")
                 .description("아이유 멤버십1")
@@ -152,34 +142,33 @@ public class LiveRestTest extends RestEndToEndTest {
                 .seasonEnd(now.plusMonths(1L))
                 .purchaseStart(now)
                 .purchaseEnd(now.plusMonths(1L))
-                .saleCount(0)
+                .saleCount(0L)
                 .salePrice(1L)
-                .thumbnailUrl("https://image.com")
-                .baseUri("https://base.com/")
+                .imageUrl("https://image.com")
                 .contractAddress("0x123456789")
                 .deleted(false)
                 .artistJpaEntity(artist1)
                 .nftSaleJpaEntity(NftSaleJpaEntity.builder()
-                        .totalNftCount(1)
-                        .soldNftCount(0)
+                        .totalNftCount(1L)
+                        .soldNftCount(0L)
                         .totalNftAmount(10000L)
                         .soldNftAmount(0L)
                         .deleted(false)
                         .build())
                 .build());
-        nft = nftSpringDataRepository.save(NftJpaEntity.builder()
-                .tokenId("token")
-                .symbol("symbol")
-                .contractAddress("contractAddress")
-                .deleted(false)
-                .artist(artist1)
-                .membership(membership)
-                .build());
-        nftOwnerInfo = nftOwnerInfoSpringDataRepository.save(NftOwnerInfoJpaEntity.builder()
-                .owned(true)
-                .memberJpaEntity(member1)
-                .nftJpaEntity(nft)
-                .build());
+//        nft = nftSpringDataRepository.save(NftJpaEntity.builder()
+//                .tokenId("token")
+//                .symbol("symbol")
+//                .contractAddress("contractAddress")
+//                .deleted(false)
+//                .artist(artist1)
+//                .membership(membership)
+//                .build());
+//        nftOwnerInfo = nftOwnerInfoSpringDataRepository.save(NftOwnerInfoJpaEntity.builder()
+//                .owned(true)
+//                .memberJpaEntity(member1)
+//                .nftJpaEntity(nft)
+//                .build());
         motionModelSpringDataRepository.save(MotionModelJpaEntity.builder()
                 .modelUrl("https://artistMotionModel.ai.com")
                 .deleted(false)
@@ -196,7 +185,8 @@ public class LiveRestTest extends RestEndToEndTest {
     @Test
     @DisplayName("아티스트가 라이브를 등록한다.")
     void 아티스트가_라이브를_등록한다() throws JsonProcessingException {
-        LiveCreateRequest request = new LiveCreateRequest("찹찹", artist1.getId(), "img/thumbnamil.png");
+        LiveCreateRequest request = new LiveCreateRequest("찹찹", artist1.getId(),
+                "img/thumbnamil.png");
         RestAssured.given()
                 .header(AUTHORIZATION, getAccessToken())
                 .body(toJson(request))
@@ -206,7 +196,7 @@ public class LiveRestTest extends RestEndToEndTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("results.title", response -> equalTo(request.liveTitle()))
                 .body("results.artist.id", response -> equalTo(request.artistId().intValue()))
-                .body("results.thumbnailUrl", response -> equalTo(request.thumbnailUrl()));
+                .body("results.imageUrl", response -> equalTo(request.thumbnailUrl()));
     }
 
     @Test
@@ -240,10 +230,13 @@ public class LiveRestTest extends RestEndToEndTest {
                 .body("results.id", response -> equalTo(1));
 
         SoftAssertions.assertSoftly(as -> {
-            as.assertThat(redisTemplate.opsForHash().hasKey(REDIS_LIVE_STREAMER_KEY, sessionId)).isFalse();
-            as.assertThat(redisTemplate.opsForZSet().score(REDIS_LIVE_VIEWER_COUNT_KEY, sessionId)).isNull();
+            as.assertThat(redisTemplate.opsForHash().hasKey(REDIS_LIVE_STREAMER_KEY, sessionId))
+                    .isFalse();
+            as.assertThat(redisTemplate.opsForZSet().score(REDIS_LIVE_VIEWER_COUNT_KEY, sessionId))
+                    .isNull();
         });
     }
+
     @Test
     @DisplayName("라이브를 종료할 권한이 없는 사용자가 라이브 종료 요청 시 에러가 발생한다.")
     void 라이브를_종료할_권한이_없는_사용자가_라이브_종료_요청_시_에러가_발생한다() {

@@ -9,7 +9,5 @@ export interface MembershipInfo {
     purchaseEnd: string;
     saleCount: number | string;
     salePrice: number | string;
-    thumbnailUrl: string;
-    baseUri: string;
-    privateKey: string;
+    imageUrl: string;
 }

@@ -1,22 +1,14 @@
 package com.fivengers.blooming.membership.application.port.in;
 
-import com.fivengers.blooming.membership.application.port.in.dto.MembershipApplicationModifyRequest;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipApplyRequest;
 import com.fivengers.blooming.membership.domain.MembershipApplication;
 import com.fivengers.blooming.membership.domain.MembershipApplicationState;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 public interface MembershipApplicationUseCase {
 
     MembershipApplication add(MembershipApplyRequest request, Long memberId);
 
-    MembershipApplication searchByMemberIdAndApplicationState(Long memberId,
-            MembershipApplicationState applicationState);
-
-    Page<MembershipApplication> searchAll(Pageable pageable,
-            MembershipApplicationState applicationState);
-
-    MembershipApplication modifyStateById(MembershipApplicationModifyRequest request,
-            Long applicationId) throws Exception;
+    List<MembershipApplication> searchAllByMemberIdAndApplicationState(
+            Long memberId, MembershipApplicationState applicationState);
 }

@@ -7,22 +7,23 @@ import lombok.Getter;
 @Getter
 public class NftSale {
 
-    private Long id;
-    private Integer totalNftCount;
-    private Integer soldNftCount;
+    private final Long id;
+    private Long totalNftCount;
+    private Long soldNftCount;
     private Long totalNftAmount;
     private Long soldNftAmount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     @Builder
-    public NftSale(Long id,
-                   Integer totalNftCount,
-                   Integer soldNftCount,
-                   Long totalNftAmount,
-                   Long soldNftAmount,
-                   LocalDateTime createdAt,
-                   LocalDateTime modifiedAt) {
+    public NftSale(
+            Long id,
+            Long totalNftCount,
+            Long soldNftCount,
+            Long totalNftAmount,
+            Long soldNftAmount,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt) {
         this.id = id;
         this.totalNftCount = totalNftCount;
         this.soldNftCount = soldNftCount;

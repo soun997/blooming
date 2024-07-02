@@ -13,10 +13,9 @@ public record MembershipCreateRequest(String title,
                                       LocalDateTime seasonEnd,
                                       LocalDateTime purchaseStart,
                                       LocalDateTime purchaseEnd,
-                                      Integer saleCount,
+                                      Long saleCount,
                                       Long salePrice,
-                                      String thumbnailUrl,
-                                      String baseUri,
+                                      String imageUrl,
                                       String contractAddress,
                                       Long artistId) {
 
@@ -32,13 +31,12 @@ public record MembershipCreateRequest(String title,
                 .purchaseEnd(purchaseEnd)
                 .saleCount(saleCount)
                 .salePrice(salePrice)
-                .thumbnailUrl(thumbnailUrl)
-                .baseUri(baseUri)
+                .imageUrl(imageUrl)
                 .contractAddress(contractAddress)
                 .artist(artist)
                 .nftSale(NftSale.builder()
-                        .totalNftCount(0)
-                        .soldNftCount(0)
+                        .totalNftCount(0L)
+                        .soldNftCount(0L)
                         .totalNftAmount(0L)
                         .soldNftAmount(0L)
                         .build())
