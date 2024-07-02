@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public record MembershipListResponse(Long id,
                                      String title,
                                      String description,
-                                     String thumbnailUri,
+                                     String imageUrl,
                                      LocalDateTime purchaseStart,
                                      LocalDateTime purchaseEnd,
                                      NftSaleResponse nftSale) {
@@ -19,7 +19,7 @@ public record MembershipListResponse(Long id,
                 .id(membership.getId())
                 .title(membership.getTitle())
                 .description(membership.getDescription())
-                .thumbnailUri(membership.getThumbnailUrl())
+                .imageUrl(membership.getImageUrl())
                 .purchaseStart(membership.getPurchaseStart())
                 .purchaseEnd(membership.getPurchaseEnd())
                 .nftSale(NftSaleResponse.from(membership.getNftSale()))

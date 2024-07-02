@@ -32,7 +32,7 @@ const DetailModal: React.FC<ModalProps> = ({
           </CloseButton>
         </ModalHeader>
         <ModalBody>
-          <ThumbnailImg src={data.thumbnailUrl} alt={data.title} />
+          <ThumbnailImg src={data.imageUrl} alt={data.title} />
           <InfoContainer>
             <InfoItem>
               <InfoLabel>시즌 기간 : </InfoLabel>

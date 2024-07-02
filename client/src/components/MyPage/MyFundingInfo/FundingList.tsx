@@ -88,7 +88,7 @@ const FundingList = () => {
           {data?.map((funding, idx) => (
             <EachResultData key={idx}>
               <ThumbnailImg>
-                <img src={funding.thumbnailUrl} />
+                <img src={funding.imageUrl} />
               </ThumbnailImg>
               <TextInfo>
                 <div className="title">{funding.title}</div>

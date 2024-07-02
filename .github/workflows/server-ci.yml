@@ -56,6 +56,7 @@ jobs:
           OPENVIDU_URL: ${{ secrets.OPENVIDU_URL }}
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
         run: ./gradlew clean test
 
       - name: Send Notification to Discord
