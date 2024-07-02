@@ -13,7 +13,7 @@ public record MembershipApplicationDetailsResponse(String title,
                                                    LocalDateTime seasonEnd,
                                                    LocalDateTime purchaseStart,
                                                    LocalDateTime purchaseEnd,
-                                                   String thumbnailUrl,
+                                                   String imageUrl,
                                                    MembershipApplicationState applicationState,
                                                    LocalDateTime createdAt,
                                                    LocalDateTime modifiedAt,
@@ -29,7 +29,7 @@ public record MembershipApplicationDetailsResponse(String title,
                 .seasonEnd(membershipApplication.getSeasonEnd())
                 .purchaseStart(membershipApplication.getPurchaseStart())
                 .purchaseEnd(membershipApplication.getPurchaseEnd())
-                .thumbnailUrl(membershipApplication.getThumbnailUrl())
+                .imageUrl(membershipApplication.getImageUrl())
                 .applicationState(membershipApplication.getApplicationState())
                 .createdAt(membershipApplication.getCreatedAt())
                 .modifiedAt(membershipApplication.getModifiedAt())

@@ -4,8 +4,8 @@ import com.fivengers.blooming.membership.domain.NftSale;
 import lombok.Builder;
 
 @Builder
-public record NftSaleResponse(Integer totalNftCount,
-                              Integer soldNftCount,
+public record NftSaleResponse(Long totalNftCount,
+                              Long soldNftCount,
                               Long totalNftAmount,
                               Long soldNftAmount) {
 

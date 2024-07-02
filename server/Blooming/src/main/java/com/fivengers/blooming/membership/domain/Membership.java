@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class Membership {
 
-    private Long id;
+    private final Long id;
     private String title;
     private String symbol;
     private String description;
@@ -17,10 +17,9 @@ public class Membership {
     private LocalDateTime seasonEnd;
     private LocalDateTime purchaseStart;
     private LocalDateTime purchaseEnd;
-    private Integer saleCount;
+    private Long saleCount;
     private Long salePrice;
-    private String thumbnailUrl;
-    private String baseUri;
+    private String imageUrl;
     private String contractAddress;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -29,23 +28,22 @@ public class Membership {
 
     @Builder
     public Membership(Long id,
-                      String title,
-                      String symbol,
-                      String description,
-                      Integer season,
-                      LocalDateTime seasonStart,
-                      LocalDateTime seasonEnd,
-                      LocalDateTime purchaseStart,
-                      LocalDateTime purchaseEnd,
-                      Integer saleCount,
-                      Long salePrice,
-                      String thumbnailUrl,
-                      String baseUri,
-                      String contractAddress,
-                      LocalDateTime createdAt,
-                      LocalDateTime modifiedAt,
-                      Artist artist,
-                      NftSale nftSale) {
+            String title,
+            String symbol,
+            String description,
+            Integer season,
+            LocalDateTime seasonStart,
+            LocalDateTime seasonEnd,
+            LocalDateTime purchaseStart,
+            LocalDateTime purchaseEnd,
+            Long saleCount,
+            Long salePrice,
+            String imageUrl,
+            String contractAddress,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt,
+            Artist artist,
+            NftSale nftSale) {
         this.id = id;
         this.title = title;
         this.symbol = symbol;
@@ -57,8 +55,7 @@ public class Membership {
         this.purchaseEnd = purchaseEnd;
         this.saleCount = saleCount;
         this.salePrice = salePrice;
-        this.thumbnailUrl = thumbnailUrl;
-        this.baseUri = baseUri;
+        this.imageUrl = imageUrl;
         this.contractAddress = contractAddress;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
@@ -67,19 +64,19 @@ public class Membership {
     }
 
     public void update(String title,
-                       String description,
-                       LocalDateTime seasonStart,
-                       LocalDateTime seasonEnd,
-                       LocalDateTime purchaseStart,
-                       LocalDateTime purchaseEnd,
-                       String thumbnailUrl) {
+            String description,
+            LocalDateTime seasonStart,
+            LocalDateTime seasonEnd,
+            LocalDateTime purchaseStart,
+            LocalDateTime purchaseEnd,
+            String thumbnailUrl) {
         this.title = title;
         this.description = description;
         this.seasonStart = seasonStart;
         this.seasonEnd = seasonEnd;
         this.purchaseStart = purchaseStart;
         this.purchaseEnd = purchaseEnd;
-        this.thumbnailUrl = thumbnailUrl;
+        this.imageUrl = thumbnailUrl;
     }
 
     public boolean isOwner(Long memberId) {

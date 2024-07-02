@@ -10,7 +10,7 @@ import com.fivengers.blooming.artist.application.port.in.dto.ArtistModifyRequest
 import com.fivengers.blooming.artist.domain.Artist;
 import com.fivengers.blooming.config.security.oauth2.LoginUser;
 import com.fivengers.blooming.global.response.ApiResponse;
-import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipDetailsResponse;
+import com.fivengers.blooming.admin.adapter.in.web.dto.MembershipDetailsResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

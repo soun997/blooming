@@ -3,11 +3,13 @@ package com.fivengers.blooming.membership.adapter.in.web;
 import com.fivengers.blooming.config.security.oauth2.LoginUser;
 import com.fivengers.blooming.global.response.ApiResponse;
 import com.fivengers.blooming.membership.adapter.in.web.dto.MembershipApplicationDetailsResponse;
+import com.fivengers.blooming.admin.adapter.in.web.dto.MembershipApplicationListResponse;
 import com.fivengers.blooming.membership.application.port.in.MembershipApplicationUseCase;
 import com.fivengers.blooming.membership.application.port.in.dto.MembershipApplyRequest;
 import com.fivengers.blooming.membership.domain.MembershipApplication;
 import com.fivengers.blooming.membership.domain.MembershipApplicationState;
 import com.fivengers.blooming.project.adapter.in.web.dto.ArtistResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -37,13 +39,16 @@ public class MembershipApplicationController {
     }
 
     @GetMapping("/me")
-    public ApiResponse<MembershipApplicationDetailsResponse> membershipApplicationMyDetails(
+    public ApiResponse<List<MembershipApplicationListResponse>> membershipApplicationMyList(
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestParam MembershipApplicationState state) {
-        MembershipApplication membershipApplication = membershipApplicationUseCase.searchByMemberIdAndApplicationState(
-                loginUser.getMemberId(), state);
 
-        return ApiResponse.ok(MembershipApplicationDetailsResponse.from(membershipApplication,
-                ArtistResponse.from(membershipApplication.getArtist())));
+        return ApiResponse.ok(
+                membershipApplicationUseCase.searchAllByMemberIdAndApplicationState(
+                                loginUser.getMemberId(), state).stream()
+                        .map(ma ->
+                                MembershipApplicationListResponse.from(
+                                        ma, ArtistResponse.from(ma.getArtist())))
+                        .toList());
     }
 }

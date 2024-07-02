@@ -39,6 +39,9 @@ public class MembershipApplicationJpaEntity extends BaseTime {
     private String description;
 
     @Column(nullable = false)
+    private Integer season;
+
+    @Column(nullable = false)
     private LocalDateTime seasonStart;
 
     @Column(nullable = false)
@@ -51,19 +54,13 @@ public class MembershipApplicationJpaEntity extends BaseTime {
     private LocalDateTime purchaseEnd;
 
     @Column(nullable = false)
-    private Integer saleCount;
+    private Long saleCount;
 
     @Column(nullable = false)
     private Long salePrice;
 
     @Column(nullable = false)
-    private String thumbnailUrl;
-
-    @Column(nullable = false)
-    private String baseUri;
-
-    @Column(nullable = false)
-    private String privateKey;
+    private String imageUrl;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -77,33 +74,32 @@ public class MembershipApplicationJpaEntity extends BaseTime {
     private ArtistJpaEntity artistJpaEntity;
 
     @Builder
-    public MembershipApplicationJpaEntity(Long id,
-                                          String title,
-                                          String description,
-                                          LocalDateTime seasonStart,
-                                          LocalDateTime seasonEnd,
-                                          LocalDateTime purchaseStart,
-                                          LocalDateTime purchaseEnd,
-                                          Integer saleCount,
-                                          Long salePrice,
-                                          String thumbnailUrl,
-                                          String baseUri,
-                                          String privateKey,
-                                          MembershipApplicationState applicationState,
-                                          Boolean deleted,
-                                          ArtistJpaEntity artistJpaEntity) {
+    public MembershipApplicationJpaEntity(
+            Long id,
+            String title,
+            String description,
+            Integer season,
+            LocalDateTime seasonStart,
+            LocalDateTime seasonEnd,
+            LocalDateTime purchaseStart,
+            LocalDateTime purchaseEnd,
+            Long saleCount,
+            Long salePrice,
+            String imageUrl,
+            MembershipApplicationState applicationState,
+            Boolean deleted,
+            ArtistJpaEntity artistJpaEntity) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.season = season;
         this.seasonStart = seasonStart;
         this.seasonEnd = seasonEnd;
         this.purchaseStart = purchaseStart;
         this.purchaseEnd = purchaseEnd;
         this.saleCount = saleCount;
         this.salePrice = salePrice;
-        this.thumbnailUrl = thumbnailUrl;
-        this.baseUri = baseUri;
-        this.privateKey = privateKey;
+        this.imageUrl = imageUrl;
         this.applicationState = applicationState;
         this.deleted = deleted;
         this.artistJpaEntity = artistJpaEntity;
@@ -116,7 +112,6 @@ public class MembershipApplicationJpaEntity extends BaseTime {
         this.seasonEnd = membershipApplication.getSeasonEnd();
         this.purchaseStart = membershipApplication.getPurchaseStart();
         this.purchaseEnd = membershipApplication.getPurchaseEnd();
-        this.thumbnailUrl = membershipApplication.getThumbnailUrl();
         this.applicationState = membershipApplication.getApplicationState();
     }
 }

@@ -239,11 +239,11 @@ class ArtistControllerTest extends RestDocsTest {
                 .artist(artist)
                 .build();
 
-        given(artistUseCase.modify(any(ArtistModifyRequest.class), any(Long.class), any(Long.class)))
+        given(artistUseCase.modify(any(ArtistModifyRequest.class), any(Long.class),
+                any(Long.class)))
                 .willReturn(artist);
         given(artistVideoUseCase.searchByArtistId(any(Long.class)))
                 .willReturn(List.of(artistVideo1, artistVideo2, artistVideo3));
-
 
         ResultActions perform = mockMvc.perform(put("/api/v1/artists/{artistId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -278,8 +278,8 @@ class ArtistControllerTest extends RestDocsTest {
                 .build();
         NftSale nftSale = NftSale.builder()
                 .id(1L)
-                .totalNftCount(1)
-                .soldNftCount(0)
+                .totalNftCount(1L)
+                .soldNftCount(0L)
                 .totalNftAmount(10000L)
                 .soldNftAmount(0L)
                 .createdAt(now)
@@ -294,7 +294,7 @@ class ArtistControllerTest extends RestDocsTest {
                 .seasonEnd(now.plusYears(1))
                 .purchaseStart(now)
                 .purchaseEnd(now.plusMonths(1))
-                .thumbnailUrl("https://image.com")
+                .imageUrl("https://image.com")
                 .createdAt(now)
                 .modifiedAt(now)
                 .artist(artist)

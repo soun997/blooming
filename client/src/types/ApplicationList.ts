@@ -1,7 +1,7 @@
 export interface NFTProcessApplication {
   membershipId: string;
   title: string;
-  thumbnailUrl: string;
+  imageUrl: string;
   seasonStart: string;
   seasonEnd: string;
   status: string;
@@ -9,7 +9,7 @@ export interface NFTProcessApplication {
 export interface FundingProcessApplication {
   fundingId: string;
   title: string;
-  thumbnailUrl: string;
+  imageUrl: string;
   startDate: string;
   endDate: string;
   status: string;

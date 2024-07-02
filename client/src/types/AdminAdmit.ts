@@ -14,7 +14,7 @@ export interface MembershipAdmit {
   purchaseEnd: string;
   saleCount: number;
   salePrice: number;
-  thumbnailUrl: string;
+  imageUrl: string;
   applicationState: string;
   createdAt: string;
   modifiedAt: string;

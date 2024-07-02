@@ -13,25 +13,22 @@ public record MembershipApplyRequest(@NotBlank String title,
                                      @NotNull LocalDateTime seasonEnd,
                                      @NotNull LocalDateTime purchaseStart,
                                      @NotNull LocalDateTime purchaseEnd,
-                                     @NotNull Integer saleCount,
+                                     @NotNull Long saleCount,
                                      @NotNull Long salePrice,
-                                     @NotNull String thumbnailUrl,
-                                     @NotNull String baseUri,
-                                     @NotNull String privateKey) {
+                                     @NotBlank String imageUrl) {
 
-    public MembershipApplication toDomain(Artist artist) {
+    public MembershipApplication toDomain(int season, Artist artist) {
         return MembershipApplication.builder()
                 .title(title)
                 .description(description)
+                .season(season)
                 .seasonStart(seasonStart)
                 .seasonEnd(seasonEnd)
                 .purchaseStart(purchaseStart)
                 .purchaseEnd(purchaseEnd)
                 .saleCount(saleCount)
                 .salePrice(salePrice)
-                .thumbnailUrl(thumbnailUrl)
-                .baseUri(baseUri)
-                .privateKey(privateKey)
+                .imageUrl(imageUrl)
                 .applicationState(MembershipApplicationState.APPLY)
                 .artist(artist)
                 .build();

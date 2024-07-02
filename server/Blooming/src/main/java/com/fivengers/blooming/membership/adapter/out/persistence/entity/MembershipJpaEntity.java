@@ -58,16 +58,13 @@ public class MembershipJpaEntity extends BaseTime {
     private LocalDateTime purchaseEnd;
 
     @Column(nullable = false)
-    private Integer saleCount;
+    private Long saleCount;
 
     @Column(nullable = false)
     private Long salePrice;
 
     @Column(nullable = false)
-    private String thumbnailUrl;
-
-    @Column(nullable = false)
-    private String baseUri;
+    private String imageUrl;
 
     @Column(nullable = false)
     private String contractAddress;
@@ -84,22 +81,21 @@ public class MembershipJpaEntity extends BaseTime {
 
     @Builder
     public MembershipJpaEntity(Long id,
-                               String title,
-                               String symbol,
-                               String description,
-                               Integer season,
-                               LocalDateTime seasonStart,
-                               LocalDateTime seasonEnd,
-                               LocalDateTime purchaseStart,
-                               LocalDateTime purchaseEnd,
-                               Integer saleCount,
-                               Long salePrice,
-                               String thumbnailUrl,
-                               String baseUri,
-                               String contractAddress,
-                               Boolean deleted,
-                               ArtistJpaEntity artistJpaEntity,
-                               NftSaleJpaEntity nftSaleJpaEntity) {
+            String title,
+            String symbol,
+            String description,
+            Integer season,
+            LocalDateTime seasonStart,
+            LocalDateTime seasonEnd,
+            LocalDateTime purchaseStart,
+            LocalDateTime purchaseEnd,
+            Long saleCount,
+            Long salePrice,
+            String imageUrl,
+            String contractAddress,
+            Boolean deleted,
+            ArtistJpaEntity artistJpaEntity,
+            NftSaleJpaEntity nftSaleJpaEntity) {
         this.id = id;
         this.title = title;
         this.symbol = symbol;
@@ -111,8 +107,7 @@ public class MembershipJpaEntity extends BaseTime {
         this.purchaseEnd = purchaseEnd;
         this.saleCount = saleCount;
         this.salePrice = salePrice;
-        this.thumbnailUrl = thumbnailUrl;
-        this.baseUri = baseUri;
+        this.imageUrl = imageUrl;
         this.contractAddress = contractAddress;
         this.deleted = deleted;
         this.artistJpaEntity = artistJpaEntity;
@@ -131,6 +126,6 @@ public class MembershipJpaEntity extends BaseTime {
         this.seasonEnd = membership.getSeasonEnd();
         this.purchaseStart = membership.getPurchaseStart();
         this.purchaseEnd = membership.getPurchaseEnd();
-        this.thumbnailUrl = membership.getThumbnailUrl();
+        this.imageUrl = membership.getImageUrl();
     }
 }

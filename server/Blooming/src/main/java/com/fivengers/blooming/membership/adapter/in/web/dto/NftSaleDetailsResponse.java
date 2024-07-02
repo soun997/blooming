@@ -8,10 +8,10 @@ import lombok.Builder;
 @Builder
 public record NftSaleDetailsResponse (Long id,
                                       String title,
-                                      String thumbnailUrl,
+                                      String imageUrl,
                                       String description,
                                       ArtistResponse artist,
-                                      Integer saleCount,
+                                      Long saleCount,
                                       NftSaleResponse nftSale,
                                       Long salePrice,
                                       LocalDateTime purchaseStart,
@@ -22,7 +22,7 @@ public record NftSaleDetailsResponse (Long id,
         return NftSaleDetailsResponse.builder()
                 .id(membership.getId())
                 .title(membership.getTitle())
-                .thumbnailUrl(membership.getThumbnailUrl())
+                .imageUrl(membership.getImageUrl())
                 .description(membership.getDescription())
                 .artist(ArtistResponse.from(membership.getArtist()))
                 .nftSale(NftSaleResponse.from(membership.getNftSale()))

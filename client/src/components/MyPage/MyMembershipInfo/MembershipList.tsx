@@ -45,7 +45,7 @@ const MembershipList = () => {
         return [];
       }
 
-      return response.data.applicationList;
+      return response.data.results;
     } catch (error) {
       console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
       return [];
@@ -90,7 +90,7 @@ const MembershipList = () => {
           {data?.map((nft, idx) => (
             <EachResultData key={idx}>
               <ThumbnailImg>
-                <img src={nft.thumbnailUrl} />
+                <img src={nft.imageUrl} />
               </ThumbnailImg>
               <TextInfo>
                 <div className="title">{nft.title}</div>
